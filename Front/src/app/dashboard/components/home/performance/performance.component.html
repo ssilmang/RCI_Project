@@ -1,0 +1,357 @@
+<style>
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    margin-left: 5px;
+  }
+</style>
+
+
+<div class="flex flex-col gap-2 w-[99.5%] h-[100%]">
+
+  <marquee class="w-full flex flex-col text-2xl gap-1 h-[10%] bg-orange-500 ml-1" direction="scroll">
+    <span *ngFor="let indicateur of indicateurs"><span class="dot"></span>
+      ({{indicateur.entite}}): {{indicateur.libelle}}
+    </span>
+  </marquee>
+
+  <div class="w-full h-[90%]">
+
+  <h1 class="text-[2rem] ml-7 text-[#FF7900] font-bold" >Performances</h1>
+
+  <div class="flex flex-col gap-4 shadow-sm shadow-[#242a30] w-full h-[90%] p-1">
+
+    <div class="w-full h-[20%] rounded flex flex-col gap-4">
+
+      <div class="w-full flex justify-end p-2">
+        <ng-container *ngIf="display==true">
+          <div class="flex gap-1 w-[20%]">
+            <i class="material-icons text-[#FF7900] mt-2">insert_drive_file</i>
+            <button (click)="exportToExcel()" class="font-bold underline text-[#FF7900] text-xl">
+              Exporter le tableau
+            </button>
+          </div>
+
+          <ng-container *ngIf="dayOfMonth >= 10 && role=='Admin'">
+            <button (click)="saveChanges()"
+              class="w-[10%] text-white text-center shadow-md shadow-[#242a30] ring-1 ring-[#FF7900] bg-[#FF7900] px-2 py-1 text-lg rounded-xl">
+              Publier
+            </button>
+          </ng-container>
+          <ng-container *ngIf="dayOfMonth <= 10 && role!='Admin'">
+            <button (click)="saveChanges()"
+              class="w-[10%] text-white text-center shadow-md shadow-[#242a30] ring-1 ring-[#FF7900] bg-[#FF7900] px-2 py-1 text-lg rounded-xl">
+              Enregistrer
+            </button>
+          </ng-container>
+
+        </ng-container>
+
+      </div>
+
+      <form [formGroup]="selects" class="w-full flex gap-14 justify-center h-[50%]">
+
+          <div class="flex gap-4">
+            <label class="text-xl ">Année</label>
+            <select formControlName="annee"
+              class="bg-white text-center outline-none select-option  h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex justify-center">
+              <option value="" disabled>filtrer une année</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+            </select>
+          </div>
+
+          <div class="flex gap-4">
+            <label class="text-xl ">Mois</label>
+            <select formControlName="periode"
+              class="bg-white text-center outline-none  h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex justify-center">
+              <option value="all">tous les mois</option>
+              <option value="first">De Janvier à Mars</option>
+              <option value="second">De Avril à Juin</option>
+              <option value="third">De Juillet à Septembre</option>
+              <option value="quart">D'Octobre à Décembre</option>
+              <option value="un">De Janvier à Juin</option>
+              <option value="dos">De Juillet à Décembre</option>
+
+            </select>
+          </div>
+
+          <div *ngIf="role!='Utilisateur'" class="flex gap-4">
+            <label class="text-xl ">Entité</label>
+            <select formControlName="entite"
+              class="bg-white outline-none text-center  h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex justify-center">
+              <option value="">filtrer par entité</option>
+              <ng-container *ngFor="let donnee of data">
+                <option *ngFor="let d of donnee.datas" [value]="d.entity">{{d.entity}}</option>
+              </ng-container>
+            </select>
+          </div>
+
+          <div class="flex gap-4">
+            <label class="text-xl ">Tendance</label>
+            <select formControlName="tendance"
+              class="bg-white outline-none text-center  h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex justify-center">
+              <option value="all">filtrer par tendance</option>
+              <option value="Forte">Forte</option>
+              <option value="Modérée">Modérée</option>
+              <option value="Basse">Basse</option>
+            </select>
+          </div>
+
+      </form>
+
+    </div>
+
+    <div class="h-[80%] flex justify-center items-center">
+
+      <div class="bg-white container w-full h-[100%] overflow-x-auto p-1">
+
+        <div [ngClass]="{'w-full': selectTrio !== 'all', 'w-[160%]': selectTrio === 'all'}"
+          class="h-full rounded-sm ring-1 ring-[#242a30] flex flex-col overflow-y-auto">
+
+          <div class="border-separate border sticky top-0 z-10 h-[12%] bg-[#FF7900] shadow-yellow-first
+                    shadow-sm border-y border-yellow-first w-[100%] flex justify-between text-gray-first font-bold">
+
+            <div class="flex w-[105%] flex-col text-md font-semibold">
+              <span class="mr-1 flex justify-end">Période</span>
+              <span class="ml-1 mt-[-5px]">Indicateurs</span>
+            </div>
+            <ng-container *ngIf="selectTrio=='first'">
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Jan-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Fév-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Mar-{{selectedYear}}</div>
+            </ng-container>
+            <ng-container *ngIf="selectTrio=='second'">
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Av-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Mai</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Juin-{{selectedYear}}</div>
+            </ng-container>
+            <ng-container *ngIf="selectTrio=='third'">
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Juil-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[41%] text-white">Aout-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Sept-{{selectedYear}}</div>
+            </ng-container>
+            <ng-container *ngIf="selectTrio=='quart'">
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Oct-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Nov-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Déc-{{selectedYear}}</div>
+            </ng-container>
+            <ng-container *ngIf="selectTrio=='un'">
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Jan-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Fév-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Mar-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Avr-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Mai-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Juin-{{selectedYear}}</div>
+            </ng-container>
+            <ng-container *ngIf="selectTrio=='dos'">
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Juil-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[41%] text-white">Aout-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[41%] text-white">Sept-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Oct-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Nov-{{selectedYear}}</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Déc-{{selectedYear}}</div>
+            </ng-container>
+            <ng-container *ngIf="selectTrio=='all'">
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Jan-2024</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Fév-2024</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Mar-2024</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Avr-2024</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Mai-2024</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Juin-2024</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Juil-2024</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[41%] text-white">Aout-2024</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Sept-2024</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Oct-2024</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Nov-2024</div>
+              <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Déc-2024</div>
+            </ng-container>
+            <div class="border-separate border flex justify-center items-center py-2 w-[40%] text-white">Objectif</div>
+            <div class="border-separate border text-center w-[40%] text-white">Taux d'atteinte
+            </div>
+            <div class="border-separate bg-gray-700 border flex justify-center items-center py-2 w-[40%] text-white">Tendance</div>
+            <div class="border-separate border flex justify-center items-center py-2 w-[99%]">Analyses /
+              Commentaires</div>
+            <div class="border-separate border flex justify-center items-center py-2 w-[99%]">Plans d'actions
+            </div>
+
+          </div>
+
+          <div class="w-full h-[100%]">
+            <ng-container *ngFor="let year of data | year:selectedYear">
+              <ng-container *ngFor="let item of year.datas | entity:selectedEntity">
+
+                <div class="rounded-sm w-[99.9%] h-[8%] bg-gray-700 text-white text-xl text-center">
+                  {{item.entity}}
+                </div>
+
+                <ng-container *ngFor="let i of item.data | tendance:selectedTendance">
+                  <div class="rounded-sm w-[100%] h-[25%] flex justify-between">
+                    <div class="border-separate p-2 border font-semibold bg-[#FF7900] w-full">
+                      {{ i.indicateur }}
+                    </div>
+                    <ng-container *ngIf="selectTrio=='first'">
+                      <input [disabled]="display==false || !i.enabled || !i.enabled" [ngModel]="i.janvier"
+                        (ngModelChange)="updateValue($event, 'janvier', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.fevrier"
+                        (ngModelChange)="updateValue($event, 'fevrier', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.mars"
+                        (ngModelChange)="updateValue($event, 'mars', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                    </ng-container>
+                    <ng-container *ngIf="selectTrio=='second'">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.avril"
+                        (ngModelChange)="updateValue($event, 'avril', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.mai"
+                        (ngModelChange)="updateValue($event, 'mai', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.juin"
+                        (ngModelChange)="updateValue($event, 'juin', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                    </ng-container>
+                    <ng-container *ngIf="selectTrio=='third'">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.juillet"
+                        (ngModelChange)="updateValue($event, 'juillet', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.aout"
+                        (ngModelChange)="updateValue($event, 'aout', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.septembre"
+                        (ngModelChange)="updateValue($event, 'septembre', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                    </ng-container>
+                    <ng-container *ngIf="selectTrio=='quart'">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.octobre"
+                        (ngModelChange)="updateValue($event, 'octobre', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.novembre"
+                        (ngModelChange)="updateValue($event, 'novembre', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.decembre"
+                        (ngModelChange)="updateValue($event, 'decembre', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                    </ng-container>
+                    <ng-container *ngIf="selectTrio=='un'">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.janvier"
+                        (ngModelChange)="updateValue($event, 'janvier', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.fevrier"
+                        (ngModelChange)="updateValue($event, 'fevrier', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.mars"
+                        (ngModelChange)="updateValue($event, 'mars', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.avril"
+                        (ngModelChange)="updateValue($event, 'avril', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.mai"
+                        (ngModelChange)="updateValue($event, 'mai', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.juin"
+                        (ngModelChange)="updateValue($event, 'juin', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                    </ng-container>
+                    <ng-container *ngIf="selectTrio=='dos'">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.juillet"
+                        (ngModelChange)="updateValue($event, 'juillet', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.aout"
+                        (ngModelChange)="updateValue($event, 'aout', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.septembre"
+                        (ngModelChange)="updateValue($event, 'septembre', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.octobre"
+                        (ngModelChange)="updateValue($event, 'octobre', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.novembre"
+                        (ngModelChange)="updateValue($event, 'novembre', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.decembre"
+                        (ngModelChange)="updateValue($event, 'decembre', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                    </ng-container>
+                    <ng-container *ngIf="selectTrio=='all'">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.janvier"
+                        (ngModelChange)="updateValue($event, 'janvier', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.fevrier"
+                        (ngModelChange)="updateValue($event, 'fevrier', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.mars"
+                        (ngModelChange)="updateValue($event, 'mars', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.avril"
+                        (ngModelChange)="updateValue($event, 'avril', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.mai"
+                        (ngModelChange)="updateValue($event, 'mai', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.juin"
+                        (ngModelChange)="updateValue($event, 'juin', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.juillet"
+                        (ngModelChange)="updateValue($event, 'juillet', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.aout"
+                        (ngModelChange)="updateValue($event, 'aout', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.septembre"
+                        (ngModelChange)="updateValue($event, 'septembre', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.octobre"
+                        (ngModelChange)="updateValue($event, 'octobre', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.novembre"
+                        (ngModelChange)="updateValue($event, 'novembre', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                      <input [disabled]="display==false || !i.enabled" [ngModel]="i.decembre"
+                        (ngModelChange)="updateValue($event, 'decembre', i, item)"
+                        class="text-xl outline-none border-separate border text-center w-[40%]">
+                    </ng-container>
+                    <input [disabled]="display==false || !i.enabled || up==false" [ngModel]="i.objectif"
+                      (ngModelChange)="updateValue($event, 'objectif', i, item)"
+                      class="text-xl outline-none border-separate border text-center w-[40%]">
+                    <input [disabled]="display==false || !i.enabled" [ngModel]="i.taux"
+                      (ngModelChange)="updateValue($event, 'taux', i, item)"
+                      class="text-xl outline-none border-separate border text-center w-[40%]">
+                    <div class="border-separate border flex justify-center items-center w-[40%]">
+                      <ng-container *ngIf="i.taux">
+                        <div *ngIf="+i.taux.replace('%', '') >= 100" class="rounded-full w-7 h-7 bg-green-500"></div>
+                        <div *ngIf="+i.taux.replace('%', '') >= 80 && +i.taux.replace('%', '') < 100"
+                          class="rounded-full w-7 h-7 bg-yellow-500"></div>
+                        <div *ngIf="+i.taux.replace('%', '') < 80" class="rounded-full w-7 h-7 bg-red-500"></div>
+                      </ng-container>
+                    </div>
+                    <div class="border-separate w-[99%]">
+                      <textarea [disabled]="display==false || !i.enabled" [ngModel]="i.analyse" (ngModelChange)="updateValue($event, 'analyse', i, item)"
+                        class="w-full p-1 h-[100%] outline-none resize-none border-2"></textarea>
+                    </div>
+                    <div class="border-separate w-[99%]">
+                      <textarea [disabled]="display==false || !i.enabled" [ngModel]="i.plan" (ngModelChange)="updateValue($event, 'plan', i, item)"
+                        class="w-full p-1 h-[100%] outline-none resize-none border-2"></textarea>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  </div>
+
+</div>

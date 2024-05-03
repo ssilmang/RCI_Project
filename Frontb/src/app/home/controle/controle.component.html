@@ -1,0 +1,124 @@
+<div class="flex flex-col gap-6 w-full h-[100%]">
+
+  <div class="flex justify-between p-2 w-full">
+    <h1 class="text-[2rem] ml-4 text-[#FF7900] font-bold">Controles</h1>
+
+    <form class="w-[9%]">
+      <span class="p-2 h-9 bg-[#FF663E] cursor-pointer shadow-md shadow-[#242a30] text-[white] text-lg rounded-lg flex justify-center items-center font-bold">+Controle</span>
+    </form>
+  </div>
+
+  <div class="w-[99%] h-[90%] overflow-y-auto m-1">
+
+    <div class="flex flex-col gap-5 p-1">
+      <ng-container >
+        <div
+          class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
+          <h1 class="text-xl font-semibold">one</h1>
+          <div class="w-28 h-3 flex gap-3 justify-center items-center">
+            <i class="material-icons cursor-pointer text-yellow-400">info</i>
+            <i
+              class="material-icons cursor-pointer text-green-400">edit</i>
+            <i
+              class="material-icons cursor-pointer text-red-600">delete</i>
+          </div>
+        </div>
+        <div
+          class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
+          <h1 class="text-xl font-semibold">two</h1>
+          <div class="w-28 h-3 flex gap-3 justify-center items-center">
+            <i class="material-icons cursor-pointer text-yellow-400">info</i>
+            <i class="material-icons cursor-pointer text-green-400">edit</i>
+            <i class="material-icons cursor-pointer text-red-600">delete</i>
+          </div>
+        </div>
+        <div
+          class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
+          <h1 class="text-xl font-semibold">three</h1>
+          <div class="w-28 h-3 flex gap-3 justify-center items-center">
+            <i class="material-icons cursor-pointer text-yellow-400">info</i>
+            <i class="material-icons cursor-pointer text-green-400">edit</i>
+            <i class="material-icons cursor-pointer text-red-600">delete</i>
+          </div>
+        </div>
+        <div
+          class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
+          <h1 class="text-xl font-semibold">four</h1>
+          <div class="w-28 h-3 flex gap-3 justify-center items-center">
+            <i class="material-icons cursor-pointer text-yellow-400">info</i>
+            <i class="material-icons cursor-pointer text-green-400">edit</i>
+            <i class="material-icons cursor-pointer text-red-600">delete</i>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- <div class="flex flex-col gap-5 p-1">
+      <div class="mt-36 flex justify-center items-center">
+        <h1 class="text-2xl text-[#FF663E]">Aucun indicateur ajouté</h1>
+      </div>
+    </div> -->
+
+  </div>
+
+
+  <!-------------------------------MODAL-------------------------------------->
+
+
+  <div class="absolute inset-0 z-50 mt-[-9rem] w-full h-[99%] bg-black bg-opacity-25" style="display: none;" id="indic">
+
+    <form
+      class="bg-white mt-20 ml-[30rem] p-1 w-[42%] h-[85%] flex flex-col gap-2 rounded-[6px] ring-2 ring-[#242a30]">
+
+      <div class="flex gap-36 w-full h-[15%] bg-[#FF7900]">
+        <h1
+          class="w-[40%] flex justify-center items-center underline ml-52 h-12 font-semibold text-white text-[1.8rem] whitespace-nowrap">
+          Ajout Controle
+        </h1>
+        <div
+          class="cursor-pointer w-[10px] h-[10px] text-white text-[22px] font-normal font-['Inter']">
+          X
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-6 m-2 h-[85%]">
+
+        <div class="flex flex-col gap-6 p-3">
+          <div class="flex flex-col gap-2">
+            <label class="font-normal text-xl font-['Inter']">Libellé</label>
+            <input
+              class="focus:border-[#009081] outline-none w-[100%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
+              placeholder="saisir le nom de l'indicateur" type="text">
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class=" text-xl font-normal font-['Inter']">Formule</label>
+            <textarea
+              class="focus:border-[#009081] outline-none w-[100%] h-36 p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
+              placeholder="Veuillez renseignez la formule de calcul de l'indiacteur..." id="comment-input"
+              name="comment-input" rows="4" cols="50"></textarea>
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class=" font-normal text-xl font-['Inter']">Entité</label>
+            <select
+              class="bg-white h-10 outline-none text-center  ring-1 ring-[#FF663E] rounded-lg shadow-md shadow-[#242a30] flex justify-center">
+              <option value="all">choisir une entité</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="w-full flex justify-center items-center h-[40px] ">
+          <div
+            class="cursor-pointer w-[22%] text-center bg-[#FF7900] rounded-[10px] h-[100%] text-white text-[25px] font-normal font-['Inter']">
+              Ajouter
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+
+
+</div>

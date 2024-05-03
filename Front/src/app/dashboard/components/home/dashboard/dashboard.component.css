@@ -1,0 +1,11 @@
+li {
+  cursor: pointer;
+}
+
+li:hover {
+  background-color: #6d6c6b;
+}
+
+li.selected {
+  background-color: #FF7900;
+}

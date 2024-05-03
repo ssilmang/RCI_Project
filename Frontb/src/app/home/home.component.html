@@ -1,0 +1,183 @@
+<div class="flex w-full h-screen relative">
+
+  <div class="w-[18%] h-[100%] shadow-2xl shadow-[#242a30] ring-1 ring-[#242a30]
+              flex flex-col gap-6 p-1">
+
+    <div class="w-full h-[30%] flex justify-between p-2">
+      <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-3">
+          <img class="w-32 h-32 rounded-full ml-7" src="./assets/me.jpg"
+            alt="freelance">
+        </div>
+        <div class="flex flex-col gap-2">
+          <h1 class="font-semibold text-xl">Elhadji Malick Ndao</h1>
+          <h3>
+            <span>{{role}} </span>
+            <!-- <span *ngIf="entite">| {{entite}}</span> -->
+          </h3>
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-6 h-6">
+        <i (click)="infoUser()" class="material-icons cursor-pointer text-[#FF7900]">account_box</i>
+        <i (click)="logout()" class="material-icons cursor-pointer text-[#FF7900]">exit_to_app</i>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-12 w-full h-[100%] p-2">
+
+      <div class="w-full flex flex-col gap-4">
+        <h1 class="text-[#FF7900] text-xl font-semibold">MENU PRINCIPAL</h1>
+
+        <div class="flex flex-col gap-4">
+          <div [routerLink]="['dashboard']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
+            <i class="material-icons text-[#FF7900]">bar_chart</i>
+            <span class="">Dashboard</span>
+          </div>
+          <div [routerLink]="['pilotage']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
+            <i class="material-icons text-[#FF7900]">trending_up</i>
+            <span>Pilotage Controles</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="w-full flex flex-col gap-4">
+        <h1 class="text-[#FF7900] text-xl font-semibold">Administration</h1>
+        <div [routerLink]="['parametrage1']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
+          <i class="material-icons text-[#FF7900]">layers</i>
+          <span>Directions & Poles</span>
+        </div>
+        <div [routerLink]="['parametrage2']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
+          <i class="material-icons text-[#FF7900]">layers</i>
+          <span>Départements & Services & Activités</span>
+        </div>
+        <div [routerLink]="['controles']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
+          <i class="material-icons text-[#FF7900]">layers</i>
+          <span>Controles</span>
+        </div>
+        <div [routerLink]="['utilisateurs']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
+          <i class="material-icons text-[#FF7900]">people</i>
+          <span>Utilisateurs</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="w-[82%] h-[100%] ring-1 ring-[#242a30] flex flex-col gap-1">
+
+    <div class="relative flex justify-between w-full h-[10%] bg-contain"
+      style="background-image: url('./assets/img/omea2.png'); background-size: 48%;">
+      <div class="w-[10%] h-[100%] flex justify-center items-center">
+        <img class="w-[30%] h-[55%]" src="./assets/img/Small_Logo.png" alt="logo">
+      </div>
+      <div class="w-[53%] flex justify-center items-center h-[100%] relative bg-black">
+        <div class="flex ml-48 flex-col gap-2">
+          <h1 class="text-xl font-semibold text-white">ARQ/RCI/PACI</h1>
+          <h1 class="text-lg text-[#FF7900]">Outil de pilotage des controles.</h1>
+        </div>
+        <div class="absolute mb-7 mr-32">
+          <img src="./assets/img/Logo-small-bottom.png" width="30" height="30" style="background-color: #FF7900;" />
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full h-[90%]">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+
+
+  <!-------------------------------MODAL---------------------------------------------->
+
+  <div class="absolute inset-0 z-50 w-[99.8%] p-4 h-[99.5%] bg-black bg-opacity-25" style="display: none;" id="entite">
+
+    <form
+      class="bg-white mt-12 ml-[17rem] w-[50%] h-[95%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
+
+      <div class="flex h-[10%] rounded-[6px] bg-[#FF7900]">
+        <h1
+          class="w-[40%] flex justify-center items-center underline p-2 h-12 font-semibold text-white text-[2rem] whitespace-nowrap">
+          Informations profil
+        </h1>
+      </div>
+
+      <div class="flex flex-col gap-8 m-2 h-[85%]">
+
+        <div class="flex flex-col gap-6 p-4">
+
+          <div class="flex gap-2">
+            <label class="w-[20%] font-normal text-lg font-['Inter']">Photo de profil</label>
+            <input type="file" (change)="onFileSelected($event)">
+          </div>
+
+          <div class="flex gap-2">
+            <label class="w-[20%] font-normal text-lg font-['Inter']">Nom complet</label>
+            <input
+              class="focus:border-[#009081] outline-none w-[50%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
+              type="text">
+          </div>
+
+          <div class="flex gap-2">
+            <label class="w-[20%] font-normal text-lg font-['Inter']">Email</label>
+            <input
+              class="focus:border-[#009081] outline-none w-[50%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
+              type="text">
+          </div>
+
+          <div class="flex gap-2">
+            <label class="w-[20%] font-normal text-lg font-['Inter']">Identifiant</label>
+            <input
+              class="focus:border-[#009081] outline-none w-[50%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
+              type="text">
+          </div>
+
+          <div class="flex gap-2">
+            <label class="w-[20%] font-normal text-lg font-['Inter']">Mot de passe</label>
+            <input placeholder="changez votre password ou ignorer ce champ"
+              class="focus:border-[#009081] outline-none w-[50%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
+              type="text">
+          </div>
+
+          <div class="flex gap-2">
+            <label class="w-[20%] font-normal text-lg font-['Inter']">Matricule</label>
+            <input
+              class="focus:border-[#009081] outline-none w-[50%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
+              type="text">
+          </div>
+
+          <!-- <div *ngIf="role!='Utilisateur'" class="flex gap-2">
+            <label class="w-[20%] font-normal text-lg font-['Inter']">Entité</label>
+            <select formControlName="entite"
+              class="focus:border-[#009081] outline-none w-[50%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]">
+              <option value="all">choisir une entité</option>
+              <ng-container *ngFor="let donnee of data">
+                <option *ngFor="let d of donnee.datas" [value]="d.entity">{{d.entity}}</option>
+              </ng-container>
+            </select>
+          </div> -->
+
+        </div>
+
+        <div class="flex gap-6 p-2">
+          <div (click)="closeMod()"
+            class="cursor-pointer w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
+            Fermer
+          </div>
+          <div (click)="updateUser()"
+            class="cursor-pointer w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
+            Modifier
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+
+
+
+</div>

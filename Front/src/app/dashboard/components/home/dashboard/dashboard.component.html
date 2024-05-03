@@ -1,0 +1,81 @@
+<div class="h-[100%] flex flex-col gap-2 w-[100%]">
+
+  <style>
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      border-radius: 50%;
+      margin-left: 5px;
+    }
+  </style>
+
+  <marquee class="w-ful gap-1 h-[10%] text-2xl bg-orange-500 ml-1" direction="scroll">
+    <span *ngFor="let indicateur of indicateurs"><span class="dot"></span>
+      ({{indicateur.entite}}): {{indicateur.libelle}}
+    </span>
+  </marquee>
+
+  <div class="flex justify-between h-[12%] p-2 w-full">
+    <div class="w-[40%] flex justify-between">
+      <h1 class="text-[2rem] ml-3 w-[35%] text-[#FF7900] font-bold">Dashboards</h1>
+      <button *ngIf="role!='Utilisateur'" (click)="exportToPowerPoint()" class="bg-[#FF7900] h-[70%] mt-1 w-[50%] text-white text-xl rounded-xl">exporter vers powerpoint</button>
+    </div>
+
+    <div *ngIf="role!='Utilisateur'" [formGroup]="selects" class="w-[45%] flex gap-4 mt-3 mr-2">
+      <select formControlName="entite" class="bg-white h-8 w-44 outline-none text-center text-lg font-semibold ring-1 ring-[#FF663E] rounded-lg shadow-md shadow-[#242a30] flex justify-center">
+        <option value="" disabled>choisir une entité</option>
+        <ng-container *ngFor="let donnee of datas">
+          <option *ngFor="let d of donnee.datas" [value]="d.entity">{{d.entity}}</option>
+        </ng-container>
+      </select>
+      <!-- <select formControlName="indicateur"
+        class="bg-white h-8 w-96 outline-none text-center text-lg font-semibold ring-1 ring-[#FF663E] rounded-lg shadow-md shadow-[#242a30] flex justify-center">
+        <option value="all">choisir un indicateur</option>
+        <option *ngFor="let d of data" [value]="d.indicateur">{{d.indicateur}}</option>
+      </select> -->
+
+      <!-- <select formControlName="indicateur" multiple
+        class="bg-white h-8 w-96 outline-none text-center text-lg font-semibold ring-1 ring-[#FF663E] rounded-lg shadow-md shadow-[#242a30] flex justify-center">
+        <option value="all">choisir un indicateur</option>
+        <option *ngFor="let d of data" [value]="d.indicateur">{{d.indicateur}}</option>
+      </select> -->
+
+      <h2 (click)="openModal()" class=" cursor-pointer bg-[#FF7900] h-[70%] p-1 text-center w-[35%] text-white text-xl rounded-xl">filtrer par indicateurs</h2>
+
+      <div id="cat" style="display: none;"
+        class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center">
+        <div class="h-[52%] ml-[28rem] mt-48 w-[50%] overflow-y-auto border-4 border-[#FF7900] bg-white">
+          <ul class="text-lg m-2 p-1">
+            <div class="flex justify-between">
+              <li (click)="toggleSelectAll()" [class.selected]="allSelected">choisir tous les indicateurs</li>
+              <span (click)="closeModal()" class="text-xl cursor-pointer text-[#FF7900]">X</span>
+            </div>
+
+            <li *ngFor="let d of data" [value]="d.indicateur" (click)="toggleSelection(d.indicateur)"
+              [class.selected]="selectedOptions.includes(d.indicateur)">{{d.indicateur}}</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- <mat-form-field appearance="fill" class="w-96">
+        <mat-label>Choisir un indicateur</mat-label>
+        <mat-select formControlName="indicateur" multiple>
+          <mat-option *ngFor="let d of data" [value]="d.indicateur">{{d.indicateur}}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+    </div>
+  </div>
+
+  <!-- <button (click)="downloadPdf()"
+    class="bg-[#FF7900] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold w-28 h-10" style="margin-top: 20px;margin-left: 20px;">
+    <ng-container>Imprimer</ng-container>
+  </button> -->
+
+  <div id="charts-container" class="overflow-y-auto h-[75.5%] shadow-sm shadow-[#242a30] w-full flex p-4 gap-14 flex-wrap">
+
+  </div>
+
+
+</div>

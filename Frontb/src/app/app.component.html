@@ -1,0 +1,43 @@
+<!-- <div class="flex flex-col gap-6 justify-center items-center">
+
+<ul class="border-4 border-yellow-500 p-2">
+  @for (user of users(); track user.id;) {
+  <li>
+    {{user.name}}
+    <input type="checkbox" [(ngModel)]="user.isActive" />
+    @if (user.isActive) {
+    <span> - {{user.additionalInfo}}</span>
+    }
+    <div>
+      @switch (user.status) {
+      @case ('active') {
+      <span>Statut: Actif</span>
+      }
+      @case ('inactive') {
+      <span>Statut: Inactif</span>
+      }
+      @default {
+      <span>Statut: Inconnu</span>
+      }
+      }
+    </div>
+  </li>
+  }
+
+  @empty {
+    <h1>hey you !!!</h1>
+  }
+
+</ul>
+
+<nav class="mt-4">
+  <ul class="flex gap-4">
+    <li class="text-lg rounded-full p-2 bg-yellow-700 text-white"><a routerLink="/first" routerLinkActive="active" ariaCurrentWhenActive="page">First Component</a></li>
+    <li class="text-lg rounded-full p-2 bg-yellow-700 text-white"><a routerLink="/second" routerLinkActive="active" ariaCurrentWhenActive="page">Second Component</a>
+    </li>
+  </ul>
+</nav> -->
+
+<router-outlet></router-outlet>
+
+<!-- </div> -->
