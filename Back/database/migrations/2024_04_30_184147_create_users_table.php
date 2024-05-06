@@ -1,5 +1,6 @@
 <?php
-
+use App\Models\Direction;
+use App\Models\Service;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,8 +14,12 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nom_ complet');
             $table->string('email')->unique();
+            $table->string('matricule')->unique();
+            $table->string('photo')->nullable();
+            $table->foreignIdFor(Direction::class)->constrained();
+            $table->foreignIdFor(Service::class)->constrained();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
