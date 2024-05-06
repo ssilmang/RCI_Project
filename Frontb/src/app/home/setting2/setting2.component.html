@@ -42,7 +42,7 @@
             </div>
 
             <div class="w-28 h-7 flex gap-2 justify-center items-center">
-              <i class="cursor-pointer material-icons text-green-600">edit</i>
+              <i (click)="editModal()" class="cursor-pointer material-icons text-green-600">edit</i>
               <i class="cursor-pointer material-icons text-red-600">delete</i>
             </div>
           </div>
@@ -87,7 +87,8 @@
       </div>
 
       <div class="flex justify-end">
-        <span class="text-[3rem] mr-6 w-[7%] h-[60%] bg-[#FF7900] flex justify-center items-center rounded-full text-white">+</span>
+        <span (click)="openModal()" class="cursor-pointer text-[3rem] mr-6 w-[7%] h-[60%] bg-[#FF7900] flex justify-center items-center rounded-full text-white">
+          +</span>
       </div>
 
     </div>
@@ -115,7 +116,7 @@
             class="bg-white outline-none w-[30%] p-1 h-9 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] flex text-center">
             <option value="0">filtrer par département</option>
           </select>
-          <button
+          <button (click)="openModal2()"
             class="bg-[#FF7900] w-[15%] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold h-9">
             + service
           </button>
@@ -128,7 +129,7 @@
           <h1 class="text-xl w-[90%] font-semibold">un</h1>
           <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
             <i class="material-icons cursor-pointer text-yellow-400">info</i>
-            <i class="material-icons cursor-pointer text-green-400">edit</i>
+            <i (click)="editModal2()" class="material-icons cursor-pointer text-green-400">edit</i>
             <i class="material-icons cursor-pointer text-red-600">delete</i>
           </div>
         </div>
@@ -162,7 +163,7 @@
               class="bg-white outline-none w-[30%] p-1 h-9 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] flex text-center">
               <option value="0">filtrer par département</option>
             </select>
-            <button
+            <button (click)="openModal3()"
               class="bg-[#FF7900] w-[15%] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold h-9">
               + activité
             </button>
@@ -175,7 +176,7 @@
             <h1 class="text-xl w-[90%] font-semibold">uno</h1>
             <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
               <i class="material-icons cursor-pointer text-yellow-400">info</i>
-              <i class="material-icons cursor-pointer text-green-400">edit</i>
+              <i (click)="editModal3()" class="material-icons cursor-pointer text-green-400">edit</i>
               <i class="material-icons cursor-pointer text-red-600">delete</i>
             </div>
           </div>
@@ -205,18 +206,76 @@
   <!--------------------------------------Modal---------------------------------------->
 
 
-  <div class="absolute inset-0 z-50 w-[99.8%] h-[99.5%] bg-black bg-opacity-25" style="display: none;" id="entite">
+  <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
+      style="display: none;" id="departement">
 
-    <form class="bg-white mt-10 ml-80 w-[50%] h-[72%] flex flex-col gap-4 rounded-[6px] ring-1 ring-[#242a30]">
+    <form class="mt-32 bg-white ml-[30rem] w-[45%] h-[65%] flex flex-col gap-2 rounded-[6px] ring-1 ring-[#242a30]">
 
-      <div class="flex h-[20%] gap-44 bg-[#FF7900]">
-        <h1
-          class="w-[40%] flex justify-center items-center underline ml-44 h-12 font-semibold text-white text-2xl font-['Inter'] whitespace-nowrap">
-          Ajout
+      <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
+        <h1 class="w-[42%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
+          {{title}}
         </h1>
-        <div class="cursor-pointer w-[10px] h-[10px] text-white text-[22px] font-normal font-['Inter']">
+        <span (click)="closeModal()"
+          class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
           X
+        </span>
+      </div>
+
+      <div class="flex flex-col gap-6 h-[85%]">
+
+        <div class="flex flex-col gap-6 p-2">
+
+          <div class="flex flex-col gap-1">
+            <label class="font-normal text-xl font-['Inter']">Libellé Département</label>
+            <input
+              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
+              placeholder="saisir le nom du département" type="text">
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="font-normal text-xl font-['Inter']">Direction</label>
+            <select
+              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              <option value="0">choisir une direction</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="font-normal text-xl font-['Inter']">Pole</label>
+            <select
+              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              <option value="0">choisir une pole</option>
+            </select>
+          </div>
+
         </div>
+
+        <div class="flex">
+          <div
+            class="cursor-pointer ml-6 w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
+            {{button}}
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
+      style="display: none;" id="service">
+
+    <form class="bg-white mt-32 ml-[30rem] w-[45%] h-[60%] flex flex-col gap-4 rounded-[6px] ring-1 ring-[#242a30]">
+
+      <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
+        <h1 class="w-[33%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
+          {{title2}}
+        </h1>
+        <span (click)="closeModal2()"
+          class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
+          X
+        </span>
       </div>
 
       <div class="flex flex-col gap-12 m-2 h-[85%]">
@@ -224,25 +283,26 @@
         <div class="flex flex-col gap-8 p-4">
 
           <div class="flex flex-col gap-2">
-            <label class=" font-normal text-xl font-['Inter']">Libellé Entité</label>
+            <label class="font-normal text-xl font-['Inter']">Libellé Service</label>
             <input
-              class="focus:border-[#009081] outline-none w-[100%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
-              placeholder="saisir le nom de le libellé" type="text" id="input1" name="input1">
+              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
+              placeholder="saisir le nom du service" type="text">
           </div>
 
           <div class="flex flex-col gap-2">
-            <label class=" font-normal text-xl font-['Inter']">SIGLE</label>
-            <input
-              class="focus:border-[#009081] outline-none w-[100%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
-              placeholder="saisir le sigle" type="text" id="input1" name="input1">
+            <label class="font-normal text-xl font-['Inter']">Département</label>
+            <select
+              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              <option value="0">choisir un departement</option>
+            </select>
           </div>
 
         </div>
 
-        <div class="flex justify-center items-center">
+        <div class="flex">
           <div
-            class="cursor-pointer w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
-            Ajouter
+            class="cursor-pointer ml-6 w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
+            {{button2}}
           </div>
         </div>
 
@@ -252,93 +312,53 @@
 
   </div>
 
-  <div class="absolute inset-0 z-50 w-[99.5%] h-[99%] bg-black bg-opacity-25" style="display: none;" id="indic">
+  <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center" style="display: none;"
+    id="activite">
 
-    <form class="bg-white mt-10 ml-80 w-[50%] h-[90%] flex flex-col gap-2 rounded-[6px] ring-1 ring-[#242a30]">
+    <form class="bg-white mt-32 ml-[30rem] w-[45%] h-[60%] flex flex-col gap-4 rounded-[6px] ring-1 ring-[#242a30]">
 
-      <div class="flex gap-36 w-full h-[20%] bg-[#FF7900]">
-        <h1
-          class="w-[40%] flex justify-center items-center underline ml-52 h-12 font-semibold text-white text-[1.8rem] whitespace-nowrap">
-          Add
+      <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
+        <h1 class="w-[33%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
+          {{title3}}
         </h1>
-        <div class="cursor-pointer w-[10px] h-[10px] text-white text-[22px] font-normal font-['Inter']">
+        <span (click)="closeModal3()"
+          class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
           X
-        </div>
+        </span>
       </div>
 
-      <div class="flex flex-col gap-6 m-2 h-[85%]">
+      <div class="flex flex-col gap-12 m-2 h-[85%]">
 
-        <div class="flex flex-col gap-6 p-3">
+        <div class="flex flex-col gap-8 p-4">
+
           <div class="flex flex-col gap-2">
-            <label class=" font-normal text-xl font-['Inter']">Libellé</label>
+            <label class="font-normal text-xl font-['Inter']">Libellé activité</label>
             <input
-              class="focus:border-[#009081] outline-none w-[100%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
-              placeholder="saisir le nom de l'indicateur" type="text" id="input1" name="input1">
+              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
+              placeholder="saisir le nom de l'activité" type="text">
           </div>
+
           <div class="flex flex-col gap-2">
-            <label class=" text-xl font-normal font-['Inter']">Formule</label>
-            <textarea
-              class="focus:border-[#009081] outline-none w-[100%] h-48 p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
-              placeholder="Veuillez renseignez la formule de calcul de l'indiacteur..." id="comment-input"
-              name="comment-input" rows="4" cols="50"></textarea>
+            <label class="font-normal text-xl font-['Inter']">Service</label>
+            <select
+              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              <option value="0">choisir un service</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="flex">
+          <div
+            class="cursor-pointer ml-6 w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
+            {{button3}}
           </div>
         </div>
 
-        <div class="w-full flex justify-center items-center h-[40px] ">
-          <div
-            class="cursor-pointer w-[22%] text-center bg-[#FF7900] rounded-[10px] h-[100%] text-white text-[25px] font-normal font-['Inter']">
-            Ajouter
-          </div>
-        </div>
       </div>
 
     </form>
 
   </div>
-
-  <div class="absolute inset-0 z-50 w-[99.5%] h-[99%] bg-black bg-opacity-25" style="display: none;" id="ind">
-
-    <form class="bg-white mt-10 ml-80 w-[50%] h-[90%] flex flex-col gap-2 rounded-[6px] ring-1 ring-[#242a30]">
-
-      <div class="flex gap-36 w-full h-[20%] bg-[#009081]">
-        <h1
-          class="w-[40%] flex justify-center items-center underline ml-52 h-12 font-semibold text-white text-[1.8rem] whitespace-nowrap">
-          Informations Indicateur
-        </h1>
-        <div class="cursor-pointer w-[10px] h-[10px] text-red-600 text-[22px] font-normal font-['Inter']">
-          X
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-6 m-2 h-[85%]">
-
-        <div class="flex flex-col gap-6 p-3">
-          <div class="flex flex-col gap-2">
-            <label class="text-[#009081] font-normal text-xl font-['Inter']">Libellé</label>
-            <input
-              class="focus:border-[#009081] outline-none w-[100%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#009081]"
-              placeholder="saisir le nom de l'indicateur" type="text" id="input1" name="input1">
-          </div>
-          <div class="flex flex-col gap-2">
-            <label class="text-[#009081] text-xl font-normal font-['Inter']">Formule</label>
-            <textarea
-              class="focus:border-[#009081] outline-none w-[100%] h-48 p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#009081]"
-              placeholder="Veuillez renseignez la formule de calcul de l'indiacteur..." id="comment-input"
-              name="comment-input" rows="4" cols="50"></textarea>
-          </div>
-        </div>
-
-        <div class="w-full flex justify-center items-center h-[40px] ">
-          <div
-            class="cursor-pointer w-[22%] text-center bg-[#FF7900] rounded-[10px] h-[100%] text-white text-[25px] font-normal font-['Inter']">
-            Fermer
-          </div>
-        </div>
-      </div>
-
-    </form>
-
-  </div>
-
 
 </div>
