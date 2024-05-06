@@ -4,7 +4,8 @@
     <h1 class="text-[2rem] ml-4 text-[#FF7900] font-bold">Controles</h1>
 
     <form class="w-[9%]">
-      <span class="p-2 h-9 bg-[#FF663E] cursor-pointer shadow-md shadow-[#242a30] text-[white] text-lg rounded-lg flex justify-center items-center font-bold">+Controle</span>
+      <span (click)="openModal()" class="p-2 h-9 bg-[#FF663E] cursor-pointer shadow-md shadow-[#242a30] text-[white] text-lg rounded-lg flex justify-center items-center font-bold">
+        +Controle</span>
     </form>
   </div>
 
@@ -17,7 +18,7 @@
           <h1 class="text-xl font-semibold">one</h1>
           <div class="w-28 h-3 flex gap-3 justify-center items-center">
             <i class="material-icons cursor-pointer text-yellow-400">info</i>
-            <i
+            <i (click)="editModal()"
               class="material-icons cursor-pointer text-green-400">edit</i>
             <i
               class="material-icons cursor-pointer text-red-600">delete</i>
@@ -65,53 +66,41 @@
   <!-------------------------------MODAL-------------------------------------->
 
 
-  <div class="absolute inset-0 z-50 mt-[-9rem] w-full h-[99%] bg-black bg-opacity-25" style="display: none;" id="indic">
+  <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
+      style="display: none;" id="controle">
 
-    <form
-      class="bg-white mt-20 ml-[30rem] p-1 w-[42%] h-[85%] flex flex-col gap-2 rounded-[6px] ring-2 ring-[#242a30]">
+    <form class="bg-white mt-36 ml-[30rem] w-[50%] h-[58%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
 
-      <div class="flex gap-36 w-full h-[15%] bg-[#FF7900]">
-        <h1
-          class="w-[40%] flex justify-center items-center underline ml-52 h-12 font-semibold text-white text-[1.8rem] whitespace-nowrap">
+      <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
+        <h1 class="w-[25%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
           Ajout Controle
         </h1>
-        <div
-          class="cursor-pointer w-[10px] h-[10px] text-white text-[22px] font-normal font-['Inter']">
+        <span (click)="closeModal()"
+          class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
           X
-        </div>
+        </span>
       </div>
 
-      <div class="flex flex-col gap-6 m-2 h-[85%]">
+      <div class="flex flex-col gap-14 h-[80%]">
 
         <div class="flex flex-col gap-6 p-3">
           <div class="flex flex-col gap-2">
-            <label class="font-normal text-xl font-['Inter']">Libellé</label>
+            <label class="font-normal text-xl font-['Inter']">Nom controle</label>
             <input
-              class="focus:border-[#009081] outline-none w-[100%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
-              placeholder="saisir le nom de l'indicateur" type="text">
+              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
+              placeholder="saisir le nom du controle" type="text">
           </div>
           <div class="flex flex-col gap-2">
-            <label class=" text-xl font-normal font-['Inter']">Formule</label>
-            <textarea
-              class="focus:border-[#009081] outline-none w-[100%] h-36 p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
-              placeholder="Veuillez renseignez la formule de calcul de l'indiacteur..." id="comment-input"
-              name="comment-input" rows="4" cols="50"></textarea>
+            <label class="font-normal text-xl font-['Inter']">Code controle</label>
+            <input
+              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
+              placeholder="saisir le code du controle" type="text">
           </div>
-          <div class="flex flex-col gap-2">
-            <label class=" font-normal text-xl font-['Inter']">Entité</label>
-            <select
-              class="bg-white h-10 outline-none text-center  ring-1 ring-[#FF663E] rounded-lg shadow-md shadow-[#242a30] flex justify-center">
-              <option value="all">choisir une entité</option>
-            </select>
-          </div>
-
         </div>
 
-        <div class="w-full flex justify-center items-center h-[40px] ">
-          <div
-            class="cursor-pointer w-[22%] text-center bg-[#FF7900] rounded-[10px] h-[100%] text-white text-[25px] font-normal font-['Inter']">
-              Ajouter
-          </div>
+        <div
+          class="cursor-pointer w-[15%] text-center bg-[#FF7900] rounded-[5px] ml-6 h-[12%] text-white text-[25px] font-normal">
+            {{btn}}
         </div>
       </div>
 
