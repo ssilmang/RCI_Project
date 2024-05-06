@@ -1,0 +1,35 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #000;
+  padding: 5px;
+  width: 14rem;
+  text-align: center;
+  overflow-y: auto;
+}
+
+/* tr {
+  height: auto;
+} */
+
+textarea{
+  height: 14rem;
+}
+
+.two{
+  white-space: normal;
+}
+
+.nice {
+  height: 14rem;
+}
+
+
+.scrollable {
+  overflow-x: auto;
+  white-space: nowrap;
+}
