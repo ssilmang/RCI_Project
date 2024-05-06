@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Activite extends Model
 {
     use HasFactory;
-    
+
     function FunctionName() : Returntype {
         
     }
