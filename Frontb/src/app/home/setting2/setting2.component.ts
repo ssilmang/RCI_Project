@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-setting2',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './setting2.component.html',
   styleUrl: './setting2.component.css'
 })
@@ -20,6 +21,49 @@ export class Setting2Component {
   button3!: string
   title3!: string
 
+  Departement!: FormGroup
+  Service!: FormGroup
+  Activite!: FormGroup
+
+
+  constructor(private fb: FormBuilder)
+  {
+    this.Departement=this.fb.group({
+      libelle: this.fb.control("Dept 1"),
+      direction: this.fb.control(0),
+      pole: this.fb.control(0),
+    });
+
+    this.Service=this.fb.group({
+      libelle: this.fb.control("Service 1"),
+      departement: this.fb.control(0),
+    });
+
+    this.Activite=this.fb.group({
+      libelle: this.fb.control("Service 1"),
+      service: this.fb.control(0),
+    });
+  }
+
+  ngOnInit()
+  {
+
+  }
+
+  addOrUpDept()
+  {
+    console.log(this.Departement.value);
+  }
+
+  addOrUpServ()
+  {
+    console.log(this.Service.value);
+  }
+
+  addOrUpAct()
+  {
+    console.log(this.Activite.value);
+  }
 
   selectActivite()
   {

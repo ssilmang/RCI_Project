@@ -1,6 +1,6 @@
 import { Component, Signal, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { FormGroup, FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 type UserType = {
@@ -14,7 +14,7 @@ type UserType = {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, CommonModule, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, FormsModule, CommonModule, RouterLink, RouterLinkActive, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

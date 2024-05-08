@@ -69,7 +69,7 @@
   <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
       style="display: none;" id="controle">
 
-    <form class="bg-white mt-36 ml-[30rem] w-[50%] h-[58%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
+    <form [formGroup]="controle" class="bg-white mt-36 ml-[30rem] w-[50%] h-[58%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
 
       <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
         <h1 class="w-[25%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
@@ -86,19 +86,19 @@
         <div class="flex flex-col gap-6 p-3">
           <div class="flex flex-col gap-2">
             <label class="font-normal text-xl font-['Inter']">Nom controle</label>
-            <input
+            <input formControlName="nom"
               class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
               placeholder="saisir le nom du controle" type="text">
           </div>
           <div class="flex flex-col gap-2">
             <label class="font-normal text-xl font-['Inter']">Code controle</label>
-            <input
+            <input formControlName="code"
               class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
               placeholder="saisir le code du controle" type="text">
           </div>
         </div>
 
-        <div
+        <div (click)="addOrUpCtrl()"
           class="cursor-pointer w-[15%] text-center bg-[#FF7900] rounded-[5px] ml-6 h-[12%] text-white text-[25px] font-normal">
             {{btn}}
         </div>
