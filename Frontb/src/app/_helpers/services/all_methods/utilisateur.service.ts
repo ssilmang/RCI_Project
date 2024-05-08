@@ -1,27 +1,33 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Utilisateur } from '../../interfaces/data';
+import { apiUrlEnv, uri } from '../../environnements/api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilisateurService {
 
+  apiUrl = apiUrlEnv.apiUrl;
+  uri = uri.utilisateur
+
   constructor(private http : HttpClient) { }
 
-  listResources<T>(apiUrl: string, uri: string): Observable<T[]> {
-    return this.http.get<T[]>(apiUrl + uri);
+  listResources(): Observable<Utilisateur[]> {
+    return this.http.get<Utilisateur[]>(this.apiUrl + this.uri.list);
   }
 
-  addResources<T>(apiUrl: string, uri: string, data: T): Observable<T> {
-    return this.http.post<T>(apiUrl + uri, data);
+  addResources(data: Utilisateur){
+    return this.http.post(this.apiUrl + this.uri.add, data);
   }
 
-  deleteResource<T>(apiUrl: string, uri: string, id: number): Observable<T> {
-    return this.http.delete<T>(apiUrl + uri + id);
+  deleteResource(id: number) {
+    return this.http.delete(this.apiUrl + this.uri.delete + id);
   }
 
-  updateResources<T>(apiUrl: string, uri: string, id: number, data: T): Observable<T> {
-    return this.http.put<T>(apiUrl + uri + id, data);
+  updateResources(id: number, data: Utilisateur) {
+    return this.http.put(this.apiUrl + this.uri.update + id, data);
   }
+
 }
