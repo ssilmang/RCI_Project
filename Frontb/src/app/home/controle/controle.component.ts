@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-controle',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './controle.component.html',
   styleUrl: './controle.component.css'
 })
@@ -12,12 +13,25 @@ export class ControleComponent {
   title!: string
   btn!: string
 
+  controle!: FormGroup
 
-  constructor()
-  {}
+
+  constructor(private fb: FormBuilder)
+  {
+    this.controle=this.fb.group({
+      nom: this.fb.control("Controle 1"),
+      code: this.fb.control("C1"),
+    });
+  }
 
   ngOnInit()
   {
+
+  }
+
+  addOrUpCtrl()
+  {
+    console.log(this.controle.value);
 
   }
 

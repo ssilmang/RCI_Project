@@ -209,7 +209,7 @@
   <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
       style="display: none;" id="departement">
 
-    <form class="mt-32 bg-white ml-[30rem] w-[45%] h-[65%] flex flex-col gap-2 rounded-[6px] ring-1 ring-[#242a30]">
+    <form [formGroup]="Departement" class="mt-32 bg-white ml-[30rem] w-[45%] h-[65%] flex flex-col gap-2 rounded-[6px] ring-1 ring-[#242a30]">
 
       <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
         <h1 class="w-[42%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
@@ -227,31 +227,31 @@
 
           <div class="flex flex-col gap-1">
             <label class="font-normal text-xl font-['Inter']">Libellé Département</label>
-            <input
+            <input formControlName="libelle"
               class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
               placeholder="saisir le nom du département" type="text">
           </div>
 
           <div class="flex flex-col gap-2">
             <label class="font-normal text-xl font-['Inter']">Direction</label>
-            <select
+            <select formControlName="direction"
               class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option value="0">choisir une direction</option>
+              <option value=0>choisir une direction</option>
             </select>
           </div>
 
           <div class="flex flex-col gap-2">
             <label class="font-normal text-xl font-['Inter']">Pole</label>
-            <select
+            <select formControlName="pole"
               class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option value="0">choisir une pole</option>
+              <option value=0>choisir une pole</option>
             </select>
           </div>
 
         </div>
 
         <div class="flex">
-          <div
+          <div (click)="addOrUpDept()"
             class="cursor-pointer ml-6 w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
             {{button}}
           </div>
@@ -266,7 +266,7 @@
   <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
       style="display: none;" id="service">
 
-    <form class="bg-white mt-32 ml-[30rem] w-[45%] h-[60%] flex flex-col gap-4 rounded-[6px] ring-1 ring-[#242a30]">
+    <form [formGroup]="Service" class="bg-white mt-32 ml-[30rem] w-[45%] h-[60%] flex flex-col gap-4 rounded-[6px] ring-1 ring-[#242a30]">
 
       <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
         <h1 class="w-[33%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
@@ -284,23 +284,23 @@
 
           <div class="flex flex-col gap-2">
             <label class="font-normal text-xl font-['Inter']">Libellé Service</label>
-            <input
+            <input formControlName="libelle"
               class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
               placeholder="saisir le nom du service" type="text">
           </div>
 
           <div class="flex flex-col gap-2">
             <label class="font-normal text-xl font-['Inter']">Département</label>
-            <select
+            <select formControlName="departement"
               class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option value="0">choisir un departement</option>
+              <option value=0>choisir un departement</option>
             </select>
           </div>
 
         </div>
 
         <div class="flex">
-          <div
+          <div (click)="addOrUpServ()"
             class="cursor-pointer ml-6 w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
             {{button2}}
           </div>
@@ -315,7 +315,7 @@
   <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center" style="display: none;"
     id="activite">
 
-    <form class="bg-white mt-32 ml-[30rem] w-[45%] h-[60%] flex flex-col gap-4 rounded-[6px] ring-1 ring-[#242a30]">
+    <form [formGroup]="Activite" class="bg-white mt-32 ml-[30rem] w-[45%] h-[60%] flex flex-col gap-4 rounded-[6px] ring-1 ring-[#242a30]">
 
       <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
         <h1 class="w-[33%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
@@ -333,14 +333,14 @@
 
           <div class="flex flex-col gap-2">
             <label class="font-normal text-xl font-['Inter']">Libellé activité</label>
-            <input
+            <input formControlName="libelle"
               class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
               placeholder="saisir le nom de l'activité" type="text">
           </div>
 
           <div class="flex flex-col gap-2">
             <label class="font-normal text-xl font-['Inter']">Service</label>
-            <select
+            <select formControlName="service"
               class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
               <option value="0">choisir un service</option>
             </select>
@@ -349,7 +349,7 @@
         </div>
 
         <div class="flex">
-          <div
+          <div (click)="addOrUpAct()"
             class="cursor-pointer ml-6 w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
             {{button3}}
           </div>

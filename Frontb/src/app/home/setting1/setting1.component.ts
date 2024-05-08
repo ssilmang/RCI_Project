@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-setting1',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './setting1.component.html',
   styleUrl: './setting1.component.css'
 })
@@ -13,15 +14,25 @@ export class Setting1Component {
   button!: string
   title: string = 'Modification pole'
 
+  Pole!: FormGroup
 
-  constructor()
-  {}
+  constructor(private fb: FormBuilder)
+  {
+    this.Pole=this.fb.group({
+      libelle: this.fb.control("Pole 1"),
+      direction: this.fb.control(0),
+    });
+  }
 
   ngOnInit()
   {
 
   }
 
+  addOrUpPole()
+  {
+    console.log(this.Pole.value);
+  }
 
   editDirec()
   {
