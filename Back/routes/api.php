@@ -1,10 +1,21 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PoleController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ActiviteController;
 use App\Http\Controllers\ControleController;
+use App\Http\Controllers\PilotageController;
+use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\UtilisateurController;
 
-Route::middleware('auth:api')->get('/user', function(Request $request) {
-    return $request->user(); // Retourne l'utilisateur connecté
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('/user', function(Request $request) {
+        return $request->user(); // Retourne l'utilisateur connecté
+    });
+
+    // Route de déconnexion protégée
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 // Définition de la route pour récupérer tous les utilisateurs
@@ -18,4 +29,30 @@ Route::post('/controle/create', [ControleController::class, 'store']);
 // Route::put('/controle/update', [ControleController::class, 'store']);
 Route::put('/controle/update/{id}', [ControleController::class, 'update']);
 Route::delete('/controle/delete/{id}', [ControleController::class, 'destroy']);
-//routes for poles//
+//routes for login//
+Route::post('/login',[AuthController::class,'login']);
+//routes for Activities//
+Route::get('/activite/all', [ActiviteController::class, 'index']);
+Route::post('/activite/create', [ActiviteController::class, 'store']);
+Route::put('/activite/update/{id}', [ActiviteController::class, 'update']);
+Route::delete('/activite/delete/{id}', [ActiviteController::class, 'destroy']);
+//route for Poles//
+Route::get('/pole/all', [PoleController::class, 'index']);
+Route::post('/pole/create', [PoleController::class, 'store']);
+Route::put('/pole/update/{id}', [PoleController::class, 'update']);
+Route::delete('/pole/delete/{id}', [PoleController::class, 'destroy']);
+//route for departement//
+Route::get('/departement/all', [DepartementController::class, 'index']);
+Route::post('/departement/create', [DepartementController::class, 'store']);
+Route::put('/departement/update/{id}', [DepartementController::class, 'update']);
+Route::delete('/departement/delete/{id}', [DepartementController::class, 'destroy']);
+//routes for service//
+Route::get('/service/all', [ServiceController::class, 'index']);
+Route::post('/service/create', [ServiceController::class, 'store']);
+Route::put('/service/update/{id}', [ServiceController::class, 'update']);
+Route::delete('/sevice/delete/{id}', [ServiceController::class, 'destroy']);
+//routes for pilotages//
+Route::get('/pilotage/all', [PilotageController::class, 'index']);
+Route::post('/pilotage/create', [PilotageController::class, 'store']);
+Route::put('/pilotage/update/{id}', [PilotageController::class, 'update']);
+Route::delete('/pilotage/delete/{id}', [PilotageController::class, 'destroy']);

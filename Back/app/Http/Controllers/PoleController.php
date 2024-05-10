@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pole;
 use Illuminate\Http\Request;
 
 class PoleController extends Controller
@@ -11,7 +12,8 @@ class PoleController extends Controller
      */
     public function index()
     {
-        //
+        $poles = Pole::with('direction')->get();
+        return response()->json($poles);
     }
 
     /**
@@ -27,9 +29,28 @@ class PoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+           
+            $validated = $request->validate([
+                'libelle' => 'required|string|max(255)', // Limite de caractères pour "libelle"
+                'direction_id' => 'required|exists:directions,id', // La direction doit exister
+            ]);
+    
+          
+            $pole = Pole::create($validated);
+    
+          
+            return response()->json([
+                'message' => 'Pôle créé avec succès!',
+                'data' => $pole, 
+            ], 201);
+        } catch (\Throwable $th) {
+            
+            return response()->json([
+                'error' => 'Une erreur est survenue : ' . $th->getMessage(),
+            ], 500);
+        }
     }
-
     /**
      * Display the specified resource.
      */
@@ -51,7 +72,36 @@ class PoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
+    try {
+      
+        $pole = Pole::find($id);
+
+        if (!$pole) {
+            
+            return response()->json(['error' => 'Pôle non trouvé'], 404);
+        }
+
+       
+        $validated = $request->validate([
+            'libelle' => 'required|string|max(255)', 
+            'direction_id' => 'required|exists:directions,id',
+        ]);
+
+        
+        $pole->update($validated);
+
+       
+        return response()->json([
+            'message' => 'Pôle mis à jour avec succès!',
+            'data' => $pole, 
+        ], 200);
+    } catch (\Throwable $th) {
+        
+        return response()->json([
+            'error' => 'Une erreur est survenue : ' . $th->getMessage(),
+        ], 500);
+    } 
     }
 
     /**
@@ -59,6 +109,16 @@ class PoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       
+        $pole = Pole::find($id);
+
+        if (!$pole) {
+            return response()->json(['error' => 'Pole non trouve'], 404);
+        }
+
+        $pole->delete();
+
+        return response()->json(['message' => 'Pole supprimer avec succes']);
     }
-}
+    }
+

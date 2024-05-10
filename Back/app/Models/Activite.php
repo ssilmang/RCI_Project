@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Activite extends Model
 {
     use HasFactory;
-
+    protected $fillable = ['libelle', 'service_id'];
     protected $hidden = [
         'updated_at',
         'created_at'
