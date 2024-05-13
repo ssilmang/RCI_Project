@@ -19,16 +19,14 @@ export interface Direction {
   libelle: string,
 }
 
-export interface Service {
-  id: number | null,
-  libelle: string,
-  departement_id: number,
-}
-
 export interface Controle {
 }
 
 export interface Departement {
+  id: number | null,
+  libelle: string,
+  direction_id: number,
+  pole_id: number,
 }
 
 export interface Pole {
@@ -37,7 +35,15 @@ export interface Pole {
   direction_id: number,
 }
 
+export interface Service {
+  id: number | null,
+  libelle: string,
+  departement_id: number,
+}
 
 export interface Activite {
+  id: number | null,
+  libelle: string,
+  service_id: number,
 }
 

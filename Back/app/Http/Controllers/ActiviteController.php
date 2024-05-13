@@ -12,16 +12,7 @@ class ActiviteController extends Controller
      */
     public function index()
     {
-        $activites = Activite::with('service')->get();
-        return response()->json($activites);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return Activite::all();
     }
 
     /**
@@ -29,42 +20,40 @@ class ActiviteController extends Controller
      */
     public function store(Request $request)
     {
-      
-    $validated = $request->validate([
-        'libelle' => 'required|string|max(255)', 
-        'service_id' => 'required|exists:services,id', 
-    ]);
+        try {
+            $p = Activite::where('libelle', $request->libelle)->first();
+            if ($p) {
+                return response()->json([
+                    'error' => 'Cet activité existe déjà!',
+                ]);
+            }
 
-    try {
-      
-        $activite = Activite::create($validated);
+            if ($request->libelle == null) {
+                return response()->json([
+                    'error' => 'Veuillez entrer un libellé valide!',
+                ]);
+            }
 
-        return response()->json([
-            'message' => 'L\'activité a été créée avec succès!',
-            'data' => $activite, 
-        ], 201);
-    } catch (\Throwable $th) {
-        
-        return response()->json([
-            'error' => 'Une erreur est survenue : ' . $th->getMessage(),
-        ], 500); // 
-    }
-    }
+            if ($request->service_id == null) {
+                return response()->json([
+                    'error' => 'Veuillez choisir un service!',
+                ]);
+            }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+            Activite::create([
+                'libelle' => $request->libelle,
+                'service_id' => $request->service_id
+            ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+            return response()->json([
+                'message' => "L'activité a été créée avec succès!",
+            ], 201);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => 'Une erreur est survenue : ' . $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -73,30 +62,45 @@ class ActiviteController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            
+
             $activite = Activite::find($id);
-    
+
             if (!$activite) {
-                
                 return response()->json(['error' => 'Activité non trouvée'], 404);
             }
-    
-           
-            $validated = $request->validate([
-                'libelle' => 'required|string|max(255)', 
-                'service_id' => 'required|exists:services,id', 
+
+            if ($activite->libelle != $request->libelle) {
+                $p = Activite::where('libelle', $request->libelle)->first();
+                if ($p) {
+                    return response()->json([
+                        'error' => 'Cet activité existe déjà!',
+                    ]);
+                }
+            }
+
+            if ($request->libelle == null) {
+                return response()->json([
+                    'error' => 'Veuillez entrer un libellé valide!',
+                ]);
+            }
+
+            if ($request->service_id == null) {
+                return response()->json([
+                    'error' => 'Veuillez choisir un service!',
+                ]);
+            }
+
+            $activite->update([
+                'libelle' => $request->libelle,
+                'service_id' => $request->service_id
             ]);
-    
-            
-            $activite->update($validated);
-    
-         
+
             return response()->json([
                 'message' => 'Activité mise à jour avec succès!',
-                'data' => $activite, 
+                'data' => $activite,
             ]);
+
         } catch (\Throwable $th) {
-           
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
             ], 500);
@@ -111,12 +115,12 @@ class ActiviteController extends Controller
         $activite = Activite::find($id);
 
         if (!$activite) {
-            return response()->json(['error' => 'activite non trouve'], 404);
+            return response()->json(['error' => 'Activite non trouvé!'], 404);
         }
 
         $activite->delete();
 
-        return response()->json(['message' => 'Activite supprimer avec succes']);
+        return response()->json(['message' => 'Activite supprimé avec succes!']);
     }
     }
 

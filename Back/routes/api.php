@@ -65,7 +65,7 @@ Route::delete('/departement/delete/{id}', [DepartementController::class, 'destro
 Route::get('/service/all', [ServiceController::class, 'index']);
 Route::post('/service/add', [ServiceController::class, 'store']);
 Route::put('/service/update/{id}', [ServiceController::class, 'update']);
-Route::delete('/sevice/delete/{id}', [ServiceController::class, 'destroy']);
+Route::delete('/service/delete/{id}', [ServiceController::class, 'destroy']);
 
 //routes for pilotages//
 Route::get('/pilotage/all', [PilotageController::class, 'index']);

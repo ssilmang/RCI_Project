@@ -13,7 +13,6 @@ import { DirectionPipe } from "../../_helpers/pipes/direction.pipe";
     standalone: true,
     templateUrl: './setting1.component.html',
     styleUrl: './setting1.component.css',
-    providers: [DirectionService],
     imports: [ReactiveFormsModule, FormsModule, SweetAlert2Module, DirectionPipe]
 })
 export class Setting1Component {

@@ -19,15 +19,15 @@ export class ServiceService {
     return this.http.get<Service[]>(this.apiUrl + this.uri.list);
   }
 
-  addResources(data: Service){
+  addResources(data: any){
     return this.http.post(this.apiUrl + this.uri.add, data);
   }
 
-  deleteResource(id: number) {
+  deleteResource(id: number|null) {
     return this.http.delete(this.apiUrl + this.uri.delete + id);
   }
 
-  updateResources(id: number, data: Service) {
+  updateResources(id: number|null, data: any) {
     return this.http.put(this.apiUrl + this.uri.update + id, data);
   }
 

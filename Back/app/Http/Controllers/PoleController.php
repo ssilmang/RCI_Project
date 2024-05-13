@@ -30,7 +30,7 @@ class PoleController extends Controller
 
             if ($request->libelle == null) {
                 return response()->json([
-                    'error' => 'Veuillez entrer un libellé valide',
+                    'error' => 'Veuillez entrer un libellé valide!',
                 ]);
             }
 
