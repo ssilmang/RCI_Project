@@ -12,53 +12,21 @@
   <div class="w-[99%] h-[90%] overflow-y-auto m-1">
 
     <div class="flex flex-col gap-5 p-1">
-      <ng-container >
-        <div
-          class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
-          <h1 class="text-xl font-semibold">one</h1>
+      @for (ctrl of controles(); track ctrl.id) {
+        <div class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
+          <h1 class="text-xl font-semibold">{{ctrl.nom}}</h1>
           <div class="w-28 h-3 flex gap-3 justify-center items-center">
-            <i class="material-icons cursor-pointer text-yellow-400">info</i>
-            <i (click)="editModal()"
+            <i (click)="info(ctrl)" class="material-icons cursor-pointer text-yellow-400">info</i>
+            <i (click)="editModal(ctrl)"
               class="material-icons cursor-pointer text-green-400">edit</i>
-            <i
-              class="material-icons cursor-pointer text-red-600">delete</i>
+            <i (click)="deleteCtrl(ctrl.id)" class="material-icons cursor-pointer text-red-600">delete</i>
           </div>
         </div>
-        <div
-          class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
-          <h1 class="text-xl font-semibold">two</h1>
-          <div class="w-28 h-3 flex gap-3 justify-center items-center">
-            <i class="material-icons cursor-pointer text-yellow-400">info</i>
-            <i class="material-icons cursor-pointer text-green-400">edit</i>
-            <i class="material-icons cursor-pointer text-red-600">delete</i>
-          </div>
-        </div>
-        <div
-          class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
-          <h1 class="text-xl font-semibold">three</h1>
-          <div class="w-28 h-3 flex gap-3 justify-center items-center">
-            <i class="material-icons cursor-pointer text-yellow-400">info</i>
-            <i class="material-icons cursor-pointer text-green-400">edit</i>
-            <i class="material-icons cursor-pointer text-red-600">delete</i>
-          </div>
-        </div>
-        <div
-          class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
-          <h1 class="text-xl font-semibold">four</h1>
-          <div class="w-28 h-3 flex gap-3 justify-center items-center">
-            <i class="material-icons cursor-pointer text-yellow-400">info</i>
-            <i class="material-icons cursor-pointer text-green-400">edit</i>
-            <i class="material-icons cursor-pointer text-red-600">delete</i>
-          </div>
-        </div>
-      </ng-container>
+      }
+      @empty {
+        <h1 class="text-2xl">Aucun controle trouvé</h1>
+      }
     </div>
-
-    <!-- <div class="flex flex-col gap-5 p-1">
-      <div class="mt-36 flex justify-center items-center">
-        <h1 class="text-2xl text-[#FF663E]">Aucun indicateur ajouté</h1>
-      </div>
-    </div> -->
 
   </div>
 
@@ -72,8 +40,8 @@
     <form [formGroup]="controle" class="bg-white mt-36 ml-[30rem] w-[50%] h-[58%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
 
       <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
-        <h1 class="w-[25%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
-          Ajout Controle
+        <h1 class="w-[35%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
+          {{titre}}
         </h1>
         <span (click)="closeModal()"
           class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">

@@ -98,7 +98,6 @@
         <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[12%] rounded-xl">
           <h1 class="text-xl w-[90%] font-semibold">{{service.libelle}}</h1>
           <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
-            <i class="material-icons cursor-pointer text-yellow-400">info</i>
             <i (click)="editModal2(service)" class="material-icons cursor-pointer text-green-400">edit</i>
             <i (click)="deleteServ(service.id)" class="material-icons cursor-pointer text-red-600">delete</i>
           </div>
@@ -135,7 +134,6 @@
             <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[12%] rounded-xl">
               <h1 class="text-xl w-[90%] font-semibold">{{activite.libelle}}</h1>
               <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
-                <i class="material-icons cursor-pointer text-yellow-400">info</i>
                 <i (click)="editModal3(activite)" class="material-icons cursor-pointer text-green-400">edit</i>
                 <i (click)="deleteAct(activite.id)" class="material-icons cursor-pointer text-red-600">delete</i>
               </div>

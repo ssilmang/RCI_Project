@@ -30,7 +30,6 @@ Route::delete('/utilisateur/delete/{id}', [UtilisateurController::class, 'destro
 //routers for controles
 Route::get('/controle/all', [ControleController::class, 'index']);
 Route::post('/controle/add', [ControleController::class, 'store']);
-// Route::put('/controle/update', [ControleController::class, 'store']);
 Route::put('/controle/update/{id}', [ControleController::class, 'update']);
 Route::delete('/controle/delete/{id}', [ControleController::class, 'destroy']);
 

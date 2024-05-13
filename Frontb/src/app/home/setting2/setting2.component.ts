@@ -154,6 +154,7 @@ export class Setting2Component {
       this.directions = signal(r)
     })
   }
+  
   getDepart()
   {
     this.depart.listResources().subscribe(r => {

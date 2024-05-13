@@ -4,9 +4,9 @@ export interface Data {
 export interface Utilisateur {
   id: number | null,
   nom_complet: string,
-  telephone: string,
-  adresse: string,
-  matricule: string,
+  telephone: string | null,
+  adresse: string | null,
+  matricule: string | null,
   email: string,
   password: string,
   direction_id: number,
@@ -20,6 +20,9 @@ export interface Direction {
 }
 
 export interface Controle {
+  id: number | null,
+  nom: string,
+  code: string,
 }
 
 export interface Departement {

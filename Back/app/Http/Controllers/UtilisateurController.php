@@ -12,8 +12,7 @@ class UtilisateurController extends Controller
      */
     public function index()
     {
-        $utilisateurs = User::all();
-        return response()->json($utilisateurs);
+        return User::all();
     }
 
     /**
@@ -47,7 +46,7 @@ class UtilisateurController extends Controller
             $utilisateur = User::create([
                 'nom_complet' => $request->nom_complet,
                 'telephone' => $request->telephone,
-                'adresse' => $request->adresse,
+                'addresse' => $request->addresse,
                 'matricule' => $request->matricule,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
@@ -99,7 +98,7 @@ class UtilisateurController extends Controller
             $utilisateur->update([
                 'nom_complet' => $request->nom_complet,
                 'telephone' => $request->telephone,
-                'adresse' => $request->adresse,
+                'addresse' => $request->addresse,
                 'matricule' => $request->matricule,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
