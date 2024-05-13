@@ -23,10 +23,6 @@ return new class extends Migration
             $table->string('preuve');
             // $table->string('fichier');
             $table->enum('fichier',[0,1]);
-           
-
-            
-
             $table->timestamps();
         });
     }

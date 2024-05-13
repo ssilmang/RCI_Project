@@ -8,10 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Controle extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'nom',
-        'code',
-    ];
+    protected $guarded = ['id'];
 
     protected $hidden = [
         'updated_at',

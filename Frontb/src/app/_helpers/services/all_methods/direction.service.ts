@@ -22,11 +22,11 @@ export class DirectionService {
     return this.http.post(this.apiUrl + this.uri.add, data);
   }
 
-  deleteResource(id: number) {
+  deleteResource(id: number|null) {
     return this.http.delete(this.apiUrl + this.uri.delete + id);
   }
 
-  updateResources(id: number, data: Direction) {
+  updateResources(id: number|null, data: Direction) {
     return this.http.put(this.apiUrl + this.uri.update + id, data);
   }
 

@@ -18,7 +18,7 @@ export class UtilisateurService {
     return this.http.get<Utilisateur[]>(this.apiUrl + this.uri.list);
   }
 
-  addResources(data: Utilisateur){
+  addResources(data: any){
     return this.http.post(this.apiUrl + this.uri.add, data);
   }
 
@@ -26,7 +26,7 @@ export class UtilisateurService {
     return this.http.delete(this.apiUrl + this.uri.delete + id);
   }
 
-  updateResources(id: number, data: Utilisateur) {
+  updateResources(id: number, data: any) {
     return this.http.put(this.apiUrl + this.uri.update + id, data);
   }
 

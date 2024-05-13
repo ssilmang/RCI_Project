@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Departement extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
 
     protected $hidden = [
         'updated_at',

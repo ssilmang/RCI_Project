@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Service extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
+
     protected $hidden = [
         'updated_at',
         'created_at'

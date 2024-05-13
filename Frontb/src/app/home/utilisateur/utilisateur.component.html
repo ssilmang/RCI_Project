@@ -74,7 +74,7 @@
               </td>
               <td class="px-6 py-2" class="flex p-2 gap-3 justify-center items-center">
                 <i (click)="editModal()" class="material-icons cursor-pointer text-yellow-600">edit</i>
-                <i class="material-icons cursor-pointer text-red-600">delete</i>
+                <i (click)="deleteModal()" class="material-icons cursor-pointer text-red-600">delete</i>
               </td>
             </tr>
           </tbody>
@@ -110,7 +110,7 @@
           <div class="grid gap-4 mb-4 grid-cols-2">
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom complet</label>
-              <input type="text" formControlName="nomComplet"
+              <input type="text" formControlName="nom_complet"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="saisir le nom complet" >
             </div>
@@ -147,14 +147,14 @@
 
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direction</label>
-              <select formControlName="direction"
+              <select formControlName="direction_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                 <option value=0>choisir une direction</option>
               </select>
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Service</label>
-              <select formControlName="service"
+              <select formControlName="service_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                 <option value=0>choisir une service</option>
               </select>

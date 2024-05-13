@@ -9,8 +9,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Pole extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
+
     public function direction()
     {
-        return $this->belongsTo(Direction::class); 
+        return $this->belongsTo(Direction::class);
     }
 }
