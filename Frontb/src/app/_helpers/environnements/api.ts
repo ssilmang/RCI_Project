@@ -12,7 +12,7 @@ const verbs = [
   'pole',
   'activite',
   'service',
-  'data',
+  'pilotage',
 ]
 
 export const uri = {

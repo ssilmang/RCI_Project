@@ -27,4 +27,10 @@ class Service extends Model
     {
         return $this->belongsTo(Departement::class);
     }
+
+    public function data()
+    {
+        return $this->hasMany(Pilotage::class);
+    }
+
 }

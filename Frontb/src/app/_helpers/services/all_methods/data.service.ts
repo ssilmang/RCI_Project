@@ -18,16 +18,16 @@ export class DataService {
     return this.http.get<Data[]>(this.apiUrl + this.uri.list);
   }
 
-  addResources(data: Data){
+  addResources(data: any){
     return this.http.post(this.apiUrl + this.uri.add, data);
   }
 
-  deleteResource(id: number) {
+  deleteResource(id: number | null) {
     return this.http.delete(this.apiUrl + this.uri.delete + id);
   }
 
-  updateResources(id: number, data: Data) {
+  updateResources(id: number | null, data: any) {
     return this.http.put(this.apiUrl + this.uri.update + id, data);
   }
-  
+
 }

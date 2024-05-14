@@ -13,11 +13,17 @@ class Departement extends Model
 
     protected $fillable = [
         'libelle',
-        'direction_id', 
+        'direction_id',
         'pole_id',
     ];
     protected $hidden = [
         'updated_at',
         'created_at'
     ];
+
+    public function data()
+    {
+        return $this->hasMany(Pilotage::class);
+    }
+
 }

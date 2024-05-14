@@ -13,8 +13,8 @@ class Pole extends Model
 
     protected $fillable = [
         'libelle',
-        'direction_id', 
-        
+        'direction_id',
+
     ];
 
     protected $guarded = ['id'];
@@ -24,4 +24,10 @@ class Pole extends Model
     {
         return $this->belongsTo(Direction::class);
     }
+
+    public function data()
+    {
+        return $this->hasMany(Pilotage::class);
+    }
+
 }

@@ -24,5 +24,10 @@ class Direction extends Model
     {
         return $this->hasMany(User::class);
     }
-    
+
+    public function data()
+    {
+        return $this->hasMany(Pilotage::class);
+    }
+
 }

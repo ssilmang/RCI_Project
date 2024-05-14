@@ -1,4 +1,20 @@
 export interface Data {
+  id: number | null,
+  controle_id: Controle,
+  direction_id: Direction,
+  pole_id: Pole,
+  departement_id: Departement,
+  service_id: Service,
+  activite_id: Activite,
+  code: string | null,
+  objectif: string | null,
+  risque_couvert: string | null,
+  user_id: Utilisateur,
+  periodicite: string | null,
+  exhaustivite: string | null,
+  preuve: string | null,
+  fichier: string | null
+  etat: boolean | null
 }
 
 export interface Utilisateur {

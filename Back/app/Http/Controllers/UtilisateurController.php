@@ -13,7 +13,6 @@ class UtilisateurController extends Controller
      */
     public function index()
     {
-        // return User::all();
         $users = User::all();
         return UtilisateurResource::collection($users);
     }
@@ -141,5 +140,5 @@ class UtilisateurController extends Controller
             ], 404);
         }
     }
-    
+
 }

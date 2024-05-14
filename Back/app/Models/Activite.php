@@ -21,9 +21,10 @@ class Activite extends Model
         'created_at'
     ];
 
+    public function data()
+    {
+        return $this->hasMany(Pilotage::class);
+    }
 
-    // function FunctionName() : Returntype {
-    //     // Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugiat quae nisi corporis veritatis ut. Exercitationem cumque excepturi architecto! In rem, quam excepturi iusto consequuntur voluptatum perferendis quaerat nostrum tenetur odit.
-    // }
 
 }

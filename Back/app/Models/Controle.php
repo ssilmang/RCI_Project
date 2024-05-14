@@ -16,4 +16,9 @@ class Controle extends Model
         'created_at'
     ];
 
+    public function data()
+    {
+        return $this->hasMany(Pilotage::class);
+    }
+
 }

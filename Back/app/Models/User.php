@@ -42,6 +42,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Service::class);
     }
 
+    public function data()
+    {
+        return $this->hasMany(Pilotage::class);
+    }
+
     protected function casts(): array
     {
         return [
