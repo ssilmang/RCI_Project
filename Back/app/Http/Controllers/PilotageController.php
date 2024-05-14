@@ -131,5 +131,25 @@ class PilotageController extends Controller
 
         return response()->json(['message' => 'Pilotage deleted successfully']);
     }
+    
+    public function restaurer($id)
+    {
+        
+        $pilotage =Pilotage::withTrashed()->find($id);
+
+        if ($pilotage) {
+           
+            $pilotage->restore();
+
+            return response()->json([
+                'message' => 'Le pilotage a été restaurée avec succès.',
+                'pilotage' => $activite
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Le pilotage n\'a pas été trouvée.',
+            ], 404);
+        }
+    }
     }
 

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('libelle');
             $table->foreignIdFor(Service::class)->constrained();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+
         });
     }
 
@@ -25,5 +27,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('activites');
+        Schema::dropIfExists('deleted_at');
     }
 };

@@ -122,4 +122,24 @@ class ServiceController extends Controller
 
         return response()->json(['message' => 'Service supprimé avec success!']);
     }
+    
+    public function restaurer($id)
+    {
+        
+        $service = Service::withTrashed()->find($id);
+
+        if ($service) {
+           
+            $service->restore();
+
+            return response()->json([
+                'message' => 'Le service a été restaurée avec succès.',
+                'service' => $service
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Le service n\'a pas été trouvée.',
+            ], 404);
+        }
+    }
 }

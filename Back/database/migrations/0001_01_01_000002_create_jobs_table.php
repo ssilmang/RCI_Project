@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('reserved_at')->nullable();
             $table->unsignedInteger('available_at');
             $table->unsignedInteger('created_at');
+            $table->timestamp('deleted_at')->nullable();
         });
 
         Schema::create('job_batches', function (Blueprint $table) {
@@ -53,5 +54,6 @@ return new class extends Migration
         Schema::dropIfExists('jobs');
         Schema::dropIfExists('job_batches');
         Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('deleted_at');
     }
 };

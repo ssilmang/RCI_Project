@@ -135,8 +135,33 @@ class DepartementController extends Controller
 
         $departement->delete();
 
+
+        return response()->json(['message' => 'Departement supprimer avec succes']);
+    }
+    
+    public function restaurer($id)
+    {
+        
+        $departement = Departemnt::withTrashed()->find($id);
+
+        if ($departement) {
+           
+            $departement->restore();
+
+            return response()->json([
+                'message' => 'Le departement a été restaurée avec succès.',
+                'departemnt' => $departement
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Le departement  n\'a pas été trouvée.',
+            ], 404);
+        }
+    }
+    
+
         return response()->json(['message' => 'Departement supprimé avec succes!']);
     }
 
-    }
+
 
