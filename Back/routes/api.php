@@ -51,7 +51,7 @@ Route::get('/service/all', [ServiceController::class, 'index']);
 Route::post('/service/create', [ServiceController::class, 'store']);
 Route::put('/service/update/{id}', [ServiceController::class, 'update']);
 Route::delete('/sevice/delete/{id}', [ServiceController::class, 'destroy']);
-//routes for pilotages//
+//routes for pilotages/hvibuihbihiohko/
 Route::get('/pilotage/all', [PilotageController::class, 'index']);
 Route::post('/pilotage/create', [PilotageController::class, 'store']);
 Route::put('/pilotage/update/{id}', [PilotageController::class, 'update']);
