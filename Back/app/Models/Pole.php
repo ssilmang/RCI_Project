@@ -10,13 +10,18 @@ class Pole extends Model
 {
     use SoftDeletes;
     use HasFactory;
+
     protected $fillable = [
         'libelle',
         'direction_id', 
         
     ];
+
+    protected $guarded = ['id'];
+
+
     public function direction()
     {
-        return $this->belongsTo(Direction::class); 
+        return $this->belongsTo(Direction::class);
     }
 }

@@ -2,6 +2,8 @@ import { Component, Signal, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { HttpClientModule } from '@angular/common/http';
 
 type UserType = {
   readonly id: number;
@@ -14,7 +16,7 @@ type UserType = {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, CommonModule, RouterLink, RouterLinkActive, ReactiveFormsModule],
+  imports: [RouterOutlet, FormsModule, SweetAlert2Module, CommonModule, RouterLink, RouterLinkActive, ReactiveFormsModule, HttpClientModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

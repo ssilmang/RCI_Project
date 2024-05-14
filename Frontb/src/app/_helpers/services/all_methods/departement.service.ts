@@ -16,18 +16,18 @@ export class DepartementService {
   constructor(private http : HttpClient) { }
 
   listResources(): Observable<Departement[]> {
-    return this.http.get<Departement[]>(this.apiUrl + this.uri);
+    return this.http.get<Departement[]>(this.apiUrl + this.uri.list);
   }
 
-  addResources(data: Departement){
+  addResources(data: any){
     return this.http.post(this.apiUrl + this.uri.add, data);
   }
 
-  deleteResource(id: number) {
+  deleteResource(id: number|null) {
     return this.http.delete(this.apiUrl + this.uri.delete + id);
   }
 
-  updateResources(id: number, data: Departement) {
+  updateResources(id: number|null, data: any) {
     return this.http.put(this.apiUrl + this.uri.update + id, data);
   }
 

@@ -9,6 +9,7 @@ class Pilotage extends Model
 {
     use SoftDeletes;
     use HasFactory;
+
     protected $fillable = [
         'controle_id',
         'objectif',
@@ -20,6 +21,7 @@ class Pilotage extends Model
         'fichier',
     ];
 
+    protected $guarded = ['id'];
     protected $hidden = [
         'updated_at',
         'created_at'

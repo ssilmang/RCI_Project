@@ -10,6 +10,8 @@ class Service extends Model
 {
     use SoftDeletes;
     use HasFactory;
+    protected $guarded = ['id'];
+
     protected $hidden = [
         'updated_at',
         'created_at'

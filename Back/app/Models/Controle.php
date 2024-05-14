@@ -9,10 +9,7 @@ class Controle extends Model
 {
     use SoftDeletes;
     use HasFactory;
-    protected $fillable = [
-        'nom',
-        'code',
-    ];
+    protected $guarded = ['id'];
 
     protected $hidden = [
         'updated_at',

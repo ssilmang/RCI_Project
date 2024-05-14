@@ -6,16 +6,18 @@
 
       <h1 class="text-[2rem] ml-3 text-[#FF7900] font-bold">Directions</h1>
 
-      <div class="flex gap-2">
-        <input
+      <form [formGroup]="direction">
+        <div class="flex gap-2">
+          <input formControlName="libelle"
           class="focus:border-[#009081] text-center w-44 h-10 text-xl shadow-md shadow-[#242a30] outline-none p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#009081]"
           placeholder="saisir le libellé" type="text">
 
-        <button
+          <button (click)="addOrUpDirection()"
           class="bg-[#FF7900] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold w-28 h-10">
           {{btn}}
         </button>
       </div>
+    </form>
 
     </div>
 
@@ -23,59 +25,26 @@
 
       <div class="w-[99%] flex flex-1 flex-wrap overflow-y-auto p-6 gap-6">
 
-        <ng-container >
-          <div
-            class="flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] ml-4 shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%]">
+        @for (direction of directions(); track direction.id;) {
+          <div class="flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] ml-4 shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%]">
 
             <div class="cursor-pointer text-lg text-[#009081] font-bold">
-              One
+              {{direction.libelle}}
             </div>
 
             <div class="w-28 h-7 flex gap-2 justify-center items-center">
-              <i (click)="editDirec()"
+              <i (click)="editDirec(direction)"
                 class="cursor-pointer material-icons text-green-600">edit</i>
-              <i
+              <i (click)="deleteDirec(direction.id)"
                 class="cursor-pointer material-icons text-red-600">delete</i>
             </div>
           </div>
-          <div
-            class="flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] ml-4 shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%]">
-
-            <div class="cursor-pointer text-lg text-[#009081] font-bold">
-              Two
-            </div>
-
-            <div class="w-28 h-7 flex gap-2 justify-center items-center">
-              <i class="cursor-pointer material-icons text-green-600">edit</i>
-              <i class="cursor-pointer material-icons text-red-600">delete</i>
-            </div>
+        }
+        @empty {
+          <div class="flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] ml-4 shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%]">
+            <h1>Aucune direction n'a été ajoutée</h1>
           </div>
-          <div
-            class="flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] ml-4 shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%]">
-
-            <div class="cursor-pointer text-lg text-[#009081] font-bold">
-              Three
-            </div>
-
-            <div class="w-28 h-7 flex gap-2 justify-center items-center">
-              <i class="cursor-pointer material-icons text-green-600">edit</i>
-              <i class="cursor-pointer material-icons text-red-600">delete</i>
-            </div>
-          </div>
-          <div
-            class="flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] ml-4 shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%]">
-
-            <div class="cursor-pointer text-lg text-[#009081] font-bold">
-              Four
-            </div>
-
-            <div class="w-28 h-7 flex gap-2 justify-center items-center">
-              <i class="cursor-pointer material-icons text-green-600">edit</i>
-              <i class="cursor-pointer material-icons text-red-600">delete</i>
-            </div>
-          </div>
-        </ng-container>
-
+        }
       </div>
 
     </div>
@@ -88,10 +57,13 @@
 
       <h1 class="text-[2rem] ml-3 text-[#FF7900] font-bold">Poles</h1>
 
-      <div class="flex justify-between w-[45%] mt-4">
-        <select
+      <div [formGroup]="select" class="flex justify-between w-[45%] mt-4">
+        <select formControlName="direction_id"
           class="bg-white w-[55%] outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] flex text-center">
-          <option value="0">filtrer par direction</option>
+          <option value=0>filtrer par direction</option>
+          @for (direction of directions(); track direction.id) {
+            <option [value]="direction.id">{{direction.libelle}}</option>
+          }
         </select>
         <button (click)="openModal()"
           class="bg-[#FF7900] w-[35%] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold h-8">
@@ -102,30 +74,20 @@
     </div>
 
     <div class="shadow-md shadow-[#242a30] rounded-sm flex flex-col h-[90%] w-full overflow-y-auto gap-5 p-1">
-      <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[12%] rounded-xl">
-        <h1 class="text-xl w-[90%] font-semibold">un</h1>
-        <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
-          <i class="material-icons cursor-pointer text-yellow-400">info</i>
-          <i (click)="editModal()" class="material-icons cursor-pointer text-green-400">edit</i>
-          <i class="material-icons cursor-pointer text-red-600">delete</i>
+      @for (pole of poles()|direction:selectedDirect; track pole.id) {
+        <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[12%] rounded-xl">
+          <h1 class="text-xl w-[90%] font-semibold">{{pole.libelle}}</h1>
+          <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
+            <i (click)="editModal(pole)" class="material-icons cursor-pointer text-green-400">edit</i>
+            <i (click)="deletePole(pole.id)" class="material-icons cursor-pointer text-red-600">delete</i>
+          </div>
         </div>
-      </div>
+      }
+      @empty {
       <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[12%] rounded-xl">
-        <h1 class="text-xl w-[90%] font-semibold">deux</h1>
-        <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
-          <i class="material-icons cursor-pointer text-yellow-400">info</i>
-          <i class="material-icons cursor-pointer text-green-400">edit</i>
-          <i class="material-icons cursor-pointer text-red-600">delete</i>
-        </div>
+        <h1>Aucun pole n'a été ajouté</h1>
       </div>
-      <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[12%] rounded-xl">
-        <h1 class="text-xl w-[90%] font-semibold">trois</h1>
-        <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
-          <i class="material-icons cursor-pointer text-yellow-400">info</i>
-          <i class="material-icons cursor-pointer text-green-400">edit</i>
-          <i class="material-icons cursor-pointer text-red-600">delete</i>
-        </div>
-      </div>
+      }
     </div>
 
   </div>
@@ -162,9 +124,12 @@
 
           <div class="flex flex-col gap-2">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direction</label>
-            <select formControlName="direction"
+            <select formControlName="direction_id"
               class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
               <option value="0">choisir une direction</option>
+              @for (direction of directions(); track direction.id) {
+                <option [value]='direction.id'>{{direction.libelle}}</option>
+              }
             </select>
           </div>
 

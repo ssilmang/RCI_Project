@@ -12,16 +12,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::with('departement')->get(); // Obtenir tous les services avec leurs départements
-        return response()->json($services);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return Service::all();
     }
 
     /**
@@ -30,21 +21,35 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         try {
-          
-            $validated = $request->validate([
-                'libelle' => 'required|string|max(255)',
-                'departement_id' => 'required|exists:departements,id', 
+            $p = Service::where('libelle', $request->libelle)->first();
+            if ($p) {
+                return response()->json([
+                    'error' => 'Cet service existe déjà!',
+                ]);
+            }
+
+            if ($request->libelle == null) {
+                return response()->json([
+                    'error' => 'Veuillez entrer un libellé valide!',
+                ]);
+            }
+
+            if ($request->departement_id == null) {
+                return response()->json([
+                    'error' => 'Veuillez choisir un departement!',
+                ]);
+            }
+
+            Service::create([
+                'libelle' => $request->libelle,
+                'departement_id' => $request->departement_id,
             ]);
-    
-          
-            $service = Service::create($validated);
-    
+
             return response()->json([
                 'message' => 'Service créé avec succès!',
-                'data' => $service,
             ], 201);
         } catch (\Throwable $th) {
-            
+
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
             ], 500);
@@ -52,50 +57,50 @@ class ServiceController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-       
+
     try {
-        
+
         $service = Service::find($id);
 
         if (!$service) {
-            
             return response()->json(['error' => 'Service non trouvé'], 404);
         }
 
-        $validated = $request->validate([
-            'libelle' => 'required|string|max(255)', 
-            'departement_id' => 'required|exists:departements,id', 
-        ]);
+        if ($service->libelle != $request->libelle) {
+            $p = Service::where('libelle', $request->libelle)->first();
+            if ($p) {
+                return response()->json([
+                    'error' => 'Cet service existe déjà!',
+                ]);
+            }
+        }
 
-      
-        $service->update($validated);
+        if ($request->libelle == null) {
+            return response()->json([
+                'error' => 'Veuillez entrer un libellé valide!',
+            ]);
+        }
+
+        if ($request->departement_id == null) {
+            return response()->json([
+                'error' => 'Veuillez choisir un departement!',
+            ]);
+        }
+
+        $service->update([
+            'libelle' => $request->libelle,
+            'departement_id' => $request->departement_id,
+        ]);
 
         return response()->json([
             'message' => 'Service mis à jour avec succès!',
-            'data' => $service, 
         ], 200);
+
     } catch (\Throwable $th) {
-      
         return response()->json([
             'error' => 'Une erreur est survenue : ' . $th->getMessage(),
         ], 500);
@@ -110,12 +115,12 @@ class ServiceController extends Controller
         $service = Service::find($id);
 
         if (!$service) {
-            return response()->json(['error' => 'Service not found'], 404);
+            return response()->json(['error' => 'Service not found!'], 404);
         }
 
         $service->delete();
 
-        return response()->json(['message' => 'Service deleted successfully']);
+        return response()->json(['message' => 'Service supprimé avec success!']);
     }
     
     public function restaurer($id)

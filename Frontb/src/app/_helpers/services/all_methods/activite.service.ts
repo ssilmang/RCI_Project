@@ -19,15 +19,15 @@ export class ActiviteService {
     return this.http.get<Activite[]>(this.apiUrl + this.uri.list);
   }
 
-  addResources(data: Activite){
+  addResources(data: any){
     return this.http.post(this.apiUrl + this.uri.add, data);
   }
 
-  deleteResource(id: number) {
+  deleteResource(id: number|null) {
     return this.http.delete(this.apiUrl + this.uri.delete + id);
   }
 
-  updateResources(id: number, data: Activite) {
+  updateResources(id: number|null, data: any) {
     return this.http.put(this.apiUrl + this.uri.update + id, data);
   }
 }

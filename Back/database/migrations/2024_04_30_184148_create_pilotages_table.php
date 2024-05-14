@@ -23,10 +23,6 @@ return new class extends Migration
             $table->string('preuve');
             $table->timestamp('deleted_at')->nullable();
             $table->enum('fichier',[0,1]);
-           
-
-            
-
             $table->timestamps();
         });
     }

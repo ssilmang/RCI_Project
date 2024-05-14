@@ -12,16 +12,7 @@ class DepartementController extends Controller
      */
     public function index()
     {
-        $departements = Departement::with(['direction', 'pole'])->get();
-        return response()->json($departements);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return Departement::all();
     }
 
     /**
@@ -29,45 +20,47 @@ class DepartementController extends Controller
      */
     public function store(Request $request)
     {
-       
-    try {
-     
-        $validated = $request->validate([
-            'libelle' => 'required|string|max(255)', 
-            'direction_id' => 'required|exists:directions,id',
-            'pole_id' => 'required|exists:poles,id', 
-        ]);
+        try {
+            $p = Departement::where('libelle', $request->libelle)->first();
+            if ($p) {
+                return response()->json([
+                    'error' => 'Ce departement existe déjà!',
+                ]);
+            }
+
+            if ($request->libelle == null) {
+                return response()->json([
+                    'error' => 'Veuillez entrer un libellé valide!',
+                ]);
+            }
+
+            if ($request->direction_id == null) {
+                return response()->json([
+                    'error' => 'Veuillez choisir une direction!',
+                ]);
+            }
+
+            if ($request->pole_id == null) {
+                return response()->json([
+                    'error' => 'Veuillez choisir un pole!',
+                ]);
+            }
+
+            Departement::create([
+                'libelle' => $request->libelle,
+                'direction_id' => $request->direction_id,
+                'pole_id' => $request->pole_id
+            ]);
 
 
-        $departement = Departement::create($validated);
-
-      
-        return response()->json([
-            'message' => 'Département créé avec succès!',
-            'data' => $departement, 
-        ], 201);
-    } catch (\Throwable $th) {
-        
-        return response()->json([
-            'error' => 'Une erreur est survenue : ' . $th->getMessage(),
-        ], 500);
-    }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+            return response()->json([
+                'message' => 'Département créé avec succès!',
+            ], 201);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => 'Une erreur est survenue : ' . $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -76,33 +69,56 @@ class DepartementController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-          
+
             $departement = Departement::find($id);
-    
+
             if (!$departement) {
-             
                 return response()->json(['error' => 'Département non trouvé'], 404);
             }
 
-            $validated = $request->validate([
-                'libelle' => 'required|string|max(255)', 
-                'direction_id' => 'required|exists:directions,id', 
-                'pole_id' => 'required|exists:poles,id', 
+            if ($departement->libelle != $request->libelle) {
+                $p = Departement::where('libelle', $request->libelle)->first();
+                if ($p) {
+                    return response()->json([
+                        'error' => 'Ce departement existe déjà!',
+                    ]);
+                }
+
+            }
+
+            if ($request->libelle == null) {
+                return response()->json([
+                    'error' => 'Veuillez entrer un libellé valide!',
+                ]);
+            }
+
+            if ($request->direction_id == null) {
+                return response()->json([
+                    'error' => 'Veuillez choisir une direction!',
+                ]);
+            }
+
+            if ($request->pole_id == null) {
+                return response()->json([
+                    'error' => 'Veuillez choisir un pole!',
+                ]);
+            }
+
+            $departement->update([
+                'libelle' => $request->libelle,
+                'direction_id' => $request->direction_id,
+                'pole_id' => $request->pole_id
             ]);
-    
-          
-            $departement->update($validated);
-    
-          
+
+
             return response()->json([
                 'message' => 'Département mis à jour avec succès!',
-                'data' => $departement, 
-            ], 200); 
+            ], 200);
         } catch (\Throwable $th) {
-            
+
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
-            ], 500); 
+            ], 500);
         }
     }
 
@@ -114,10 +130,11 @@ class DepartementController extends Controller
         $departement = Departement::find($id);
 
         if (!$departement) {
-            return response()->json(['error' => 'Departement non trouver'], 404);
+            return response()->json(['error' => 'Departement non trouvé!'], 404);
         }
 
         $departement->delete();
+
 
         return response()->json(['message' => 'Departement supprimer avec succes']);
     }
@@ -142,5 +159,9 @@ class DepartementController extends Controller
         }
     }
     
+
+        return response()->json(['message' => 'Departement supprimé avec succes!']);
     }
+
+
 

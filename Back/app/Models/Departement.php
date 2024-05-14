@@ -9,6 +9,7 @@ class Departement extends Model
 {
     use SoftDeletes;
     use HasFactory;
+    protected $guarded = ['id'];
 
     protected $fillable = [
         'libelle',
