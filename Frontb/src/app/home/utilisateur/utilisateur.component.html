@@ -65,7 +65,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (user of users() | direction:selectedDir | service:selectedServ; track user.id) {
+            @for (user of users() | direction2:selectedDir | service2:selectedServ; track user.id) {
               <tr class="bg-white">
                 <td class="px-6 py-4 text-center">
                   {{user.nom_complet}}
@@ -74,10 +74,10 @@
                   {{user.email}}
                 </td>
                 <td class="px-6 py-3 text-center">
-                  {{user.direction_id}}
+                  {{user.direction_id.libelle}}
                 </td>
                 <td class="px-6 py-3 text-center">
-                  {{user.service_id}}
+                  {{user.service_id.libelle}}
                 </td>
                 <td class="px-6 py-2" class="flex p-2 gap-3 justify-center items-center">
                   <i (click)="info(user)" class="material-icons cursor-pointer text-green-400">info</i>

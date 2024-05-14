@@ -8,12 +8,14 @@ import { DirectionService } from '../../_helpers/services/all_methods/direction.
 import { ServiceService } from '../../_helpers/services/all_methods/service.service';
 import { DirectionPipe } from '../../_helpers/pipes/direction.pipe';
 import { ServicePipe } from '../../_helpers/pipes/service.pipe';
+import { Direction2Pipe } from '../../_helpers/pipes/direction2.pipe';
+import { Service2Pipe } from '../../_helpers/pipes/service2.pipe';
 
 
 @Component({
   selector: 'app-utilisateur',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, SweetAlert2Module, DirectionPipe, ServicePipe],
+  imports: [FormsModule, ReactiveFormsModule, SweetAlert2Module, Direction2Pipe, Service2Pipe],
   templateUrl: './utilisateur.component.html',
   styleUrl: './utilisateur.component.css'
 })
@@ -74,9 +76,9 @@ export class UtilisateurComponent {
 
   getUsers()
   {
-    this.userService.listResources().subscribe(res => {
-      this.users = signal(res)
-      console.log(res);
+    this.userService.listResources().subscribe((res:any) => {
+      this.users = signal(res.data)
+      console.log(res.data);
     })
   }
 
@@ -197,8 +199,8 @@ export class UtilisateurComponent {
         matricule: user.matricule,
         email: user.email,
         password: user.password,
-        direction_id: user.direction_id,
-        service_id: user.service_id,
+        direction_id: user.direction_id.id,
+        service_id: user.service_id.id,
       }
       )
       modal.style.display = 'block';
@@ -219,10 +221,11 @@ export class UtilisateurComponent {
         matricule: user.matricule,
         email: user.email,
         password: user.password,
-        direction_id: user.direction_id,
-        service_id: user.service_id,
+        direction_id: user.direction_id.id,
+        service_id: user.service_id.id,
       }
       )
+      this.utilisateur.disable()
       modal.style.display = 'block';
     }
   }

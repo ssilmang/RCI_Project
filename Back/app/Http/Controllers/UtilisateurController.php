@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UtilisateurResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -12,7 +13,9 @@ class UtilisateurController extends Controller
      */
     public function index()
     {
-        return User::all();
+        // return User::all();
+        $users = User::all();
+        return UtilisateurResource::collection($users);
     }
 
     /**

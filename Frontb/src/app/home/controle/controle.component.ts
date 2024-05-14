@@ -4,12 +4,13 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { ControleService } from '../../_helpers/services/all_methods/controle.service';
 import { Controle } from '../../_helpers/interfaces/data';
 import Swal from 'sweetalert2'
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-controle',
   standalone: true,
-  imports: [ReactiveFormsModule, SweetAlert2Module, ],
+  imports: [ReactiveFormsModule, SweetAlert2Module, CommonModule],
   templateUrl: './controle.component.html',
   styleUrl: './controle.component.css'
 })
@@ -18,7 +19,11 @@ export class ControleComponent {
   titre!: string
   btn!: string
   id!: number | null
+  control: boolean = true
+  archive: boolean = false
+
   controles: Signal<Controle[]> = signal([])
+  archives: Signal<Controle[]> = signal([])
 
   controle!: FormGroup
 
@@ -112,6 +117,7 @@ export class ControleComponent {
         nom: ctrl.nom,
         code: ctrl.code
       })
+      this.controle.disable()
       modal.style.display = 'block';
     }
   }
@@ -165,6 +171,41 @@ export class ControleComponent {
   closeModal()
   {
     let modal = document.getElementById('controle');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  selectControle()
+  {
+    this.control = true;
+    this.archive = false
+  }
+
+  selectArchive()
+  {
+    this.control = false;
+    this.archive = true
+  }
+
+  info2(ctrl: any)
+  {
+    let modal = document.getElementById('archive');
+    if (modal) {
+      this.titre = 'Information controle'
+      this.btn = 'Fermer'
+      this.controle.patchValue({
+        nom: ctrl.nom,
+        code: ctrl.code
+      })
+      this.controle.disable()
+      modal.style.display = 'block';
+    }
+  }
+
+  closeModal2()
+  {
+    let modal = document.getElementById('archive');
     if (modal) {
       modal.style.display = 'none';
     }

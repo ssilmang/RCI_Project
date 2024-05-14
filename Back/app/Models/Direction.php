@@ -10,9 +10,15 @@ class Direction extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-    
+
     protected $hidden = [
         'updated_at',
         'created_at'
     ];
+
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
+    
 }

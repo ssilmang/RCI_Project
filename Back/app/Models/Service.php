@@ -16,8 +16,14 @@ class Service extends Model
         'created_at'
     ];
     protected $fillable = ['libelle', 'departement_id'];
+
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function departement()
     {
-        return $this->belongsTo(Departement::class); // Relation many-to-one
+        return $this->belongsTo(Departement::class);
     }
 }
