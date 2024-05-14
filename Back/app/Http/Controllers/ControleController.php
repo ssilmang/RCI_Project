@@ -12,7 +12,10 @@ class ControleController extends Controller
      */
     public function index()
     {
-        return Controle::all();
+        return [
+            'controles' => Controle::all(),
+            'archives' => Controle::onlyTrashed()->get()
+        ];
     }
 
     /**
@@ -74,23 +77,19 @@ class ControleController extends Controller
         $controle->delete();
         return response()->json(['message' => 'Le controle a été supprimé avec succès']);
     }
-    
+
     public function restaurer($id)
     {
-        
-        $activite = Controle::withTrashed()->find($id);
-
+        $controle = Controle::onlyTrashed()->find($id);
         if ($controle) {
-           
             $controle->restore();
-
             return response()->json([
-                'message' => 'Le controle a été restaurée avec succès.',
+                'message' => 'Le controle a été restauré avec succès!',
                 'controle' => $controle
             ]);
         } else {
             return response()->json([
-                'message' => 'Le controle n\'a pas été trouvée.',
+                'error' => 'Le controle n\'a pas été trouvé!',
             ], 404);
         }
     }

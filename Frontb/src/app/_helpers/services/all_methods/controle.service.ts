@@ -27,6 +27,10 @@ export class ControleService {
     return this.http.delete(this.apiUrl + this.uri.delete + id);
   }
 
+  restaureResource(id: number|null) {
+    return this.http.get(this.apiUrl + this.uri.restaurer + id);
+  }
+
   updateResources(id: number|null, data: any) {
     return this.http.put(this.apiUrl + this.uri.update + id, data);
   }

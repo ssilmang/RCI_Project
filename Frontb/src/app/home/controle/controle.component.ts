@@ -43,9 +43,10 @@ export class ControleComponent {
 
   getControles()
   {
-    this.ctrl.listResources().subscribe(r => {
-      this.controles = signal(r)
-      // console.log(r);
+    this.ctrl.listResources().subscribe((r:any) => {
+      this.controles = signal(r.controles)
+      this.archives = signal(r.archives)
+      // console.log(r.archives);
     })
   }
 
@@ -140,9 +141,9 @@ export class ControleComponent {
   deleteCtrl(id: number | null)
   {
     Swal.fire({
-      title: "Voulez-vous confirmer la suppression ?",
+      title: "Voulez-vous confirmer l'archivage ?",
       showDenyButton: true,
-      confirmButtonText: "Supprimer",
+      confirmButtonText: "Archiver",
       denyButtonText: `Annuler`
     }).then((result) => {
       if (result.isConfirmed) {
@@ -163,7 +164,38 @@ export class ControleComponent {
           }
         });
       }else if(result.isDenied) {
-        Swal.fire("La suppression a été annulée", "", "info");
+        Swal.fire("L'archivage a été annulée", "", "info");
+      }
+    });
+  }
+
+  restaureCtrl(id: number | null)
+  {
+    Swal.fire({
+      title: "Voulez-vous confirmer la restauration ?",
+      showDenyButton: true,
+      confirmButtonText: "Restaurer",
+      denyButtonText: `Annuler`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ctrl.restaureResource(id).subscribe((d:any) => {
+          if (d.message) {
+            this.getControles()
+            Swal.fire({
+              title: "Succes!",
+              text: d.message,
+              icon: "success"
+            });
+          }else if(d.error){
+            Swal.fire({
+              title: "Error!",
+              text: d.error,
+              icon: "error"
+            });
+          }
+        });
+      }else if(result.isDenied) {
+        Swal.fire("La restauration a été annulée", "", "info");
       }
     });
   }

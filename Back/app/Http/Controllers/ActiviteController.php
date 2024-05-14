@@ -125,11 +125,11 @@ class ActiviteController extends Controller
 
      public function restaurer($id)
     {
-        
+
         $activite = Activite::withTrashed()->find($id);
 
         if ($activite) {
-           
+
             $activite->restore();
 
             return response()->json([
@@ -138,7 +138,7 @@ class ActiviteController extends Controller
             ]);
         } else {
             return response()->json([
-                'message' => 'L\'activité n\'a pas été trouvée.',
+                'error' => 'L\'activité n\'a pas été trouvée.',
             ], 404);
         }
     }

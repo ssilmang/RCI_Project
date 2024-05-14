@@ -26,29 +26,34 @@ class DirectionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
+        try {
+            $p = Direction::where('libelle', $request->libelle)->first();
+            if ($p) {
+                return response()->json([
+                    'error' => 'Cette direction existe déjà!',
+                ]);
+            }
 
-    try {
-        if ($request->libelle == null) {
-           return response()->json([
-            'error' => 'Veuillez saisir un libellé valide!',
-           ]);
+            if ($request->libelle == null) {
+            return response()->json([
+                'error' => 'Veuillez saisir un libellé valide!',
+            ]);
+            }
+
+            Direction::create([
+                'libelle' => $request->libelle
+            ]);
+
+            return response()->json([
+                'message' => 'Direction créée avec succès!',
+            ], 201);
+        } catch (\Throwable $th) {
+
+            return response()->json([
+                'error' => 'Une erreur est survenue : ' . $th->getMessage(),
+            ], 500);
         }
-
-        Direction::create([
-            'libelle' => $request->libelle
-        ]);
-
-        return response()->json([
-            'message' => 'Direction créée avec succès!',
-        ], 201);
-    } catch (\Throwable $th) {
-
-        return response()->json([
-            'error' => 'Une erreur est survenue : ' . $th->getMessage(),
-        ], 500);
-    }
     }
 
     /**
@@ -61,6 +66,15 @@ class DirectionController extends Controller
 
         $direction = Direction::find($id);
 
+        if ($direction->libelle!=$request->libelle) {
+            $p = Direction::where('libelle', $request->libelle)->first();
+            if ($p) {
+                return response()->json([
+                    'error' => 'Cette direction existe déjà!',
+                ]);
+            }
+        }
+        
         if (!$direction) {
             return response()->json(['error' => 'Direction non trouvée'], 404);
         }
@@ -102,14 +116,13 @@ class DirectionController extends Controller
 
         return response()->json(['message' => 'Direction deleted successfully']);
     }
-    
+
     public function restaurer($id)
     {
-        
-        $activite = Direction::withTrashed()->find($id);
+        $direction = Direction::withTrashed()->find($id);
 
         if ($direction) {
-           
+
             $direction->restore();
 
             return response()->json([
@@ -118,15 +131,10 @@ class DirectionController extends Controller
             ]);
         } else {
             return response()->json([
-                'message' => 'La direction n\'a pas été trouvée.',
+                'error' => 'La direction n\'a pas été trouvée.',
             ], 404);
         }
-        return response()->json(['message' => 'Direction supprimé avec success']);
-    }
-
-        
-
     }
 
 
-
+}

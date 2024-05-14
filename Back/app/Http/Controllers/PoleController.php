@@ -105,7 +105,6 @@ class PoleController extends Controller
      */
     public function destroy(string $id)
     {
-
         $pole = Pole::find($id);
 
         if (!$pole) {
@@ -116,23 +115,22 @@ class PoleController extends Controller
 
         return response()->json(['message' => 'Pole supprimé avec succes!']);
     }
-    
+
     public function restaurer($id)
     {
-        
         $pole = Pole::withTrashed()->find($id);
 
         if ($pole) {
-           
+
             $pole->restore();
 
             return response()->json([
-                'message' => 'Le pole a été restaurée avec succès.',
+                'message' => 'Le pole a été restaurée avec succès!',
                 'pole' => $pole
             ]);
         } else {
             return response()->json([
-                'message' => 'Len\'a pas été trouvée.',
+                'error' => 'Le pole n\'a pas été trouvé!',
             ], 404);
         }
     }

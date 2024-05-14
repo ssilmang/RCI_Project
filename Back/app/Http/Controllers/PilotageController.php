@@ -12,7 +12,7 @@ class PilotageController extends Controller
      */
     public function index()
     {
-        $pilotages = Pilotage::with(['controle', 'user'])->get(); 
+        $pilotages = Pilotage::with(['controle', 'user'])->get();
         return response()->json($pilotages);
     }
 
@@ -30,28 +30,28 @@ class PilotageController extends Controller
     public function store(Request $request)
     {
         try {
-            
+
             $validated = $request->validate([
-                'controle_id' => 'required|exists:controles,id', 
-                'objectif' => 'required|string', 
-                'risque_couvert' => 'required|string', 
+                'controle_id' => 'required|exists:controles,id',
+                'objectif' => 'required|string',
+                'risque_couvert' => 'required|string',
                 'user_id' => 'required|exists:users,id',
-                'periodicite' => 'required|string', 
-                'exhaustivite' => 'required|string', 
+                'periodicite' => 'required|string',
+                'exhaustivite' => 'required|string',
                 'preuve' => 'required|string',
-                'fichier' => 'required|in:0,1', 
+                'fichier' => 'required|in:0,1',
             ]);
-    
-           
+
+
             $pilotage = Pilotage::create($validated);
-    
-           
+
+
             return response()->json([
                 'message' => 'Pilotage créé avec succès!',
                 'data' => $pilotage,
             ], 201);
         } catch (\Throwable $th) {
-         
+
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
             ], 500);
@@ -79,29 +79,29 @@ class PilotageController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       
+
     try {
-      
+
         $pilotage = Pilotage::find($id);
 
         if (!$pilotage) {
-            
+
             return response()->json(['error' => 'Pilotage non trouvé'], 404);
         }
 
 
         $validated = $request->validate([
-            'controle_id' => 'required|exists:controles,id', 
-            'objectif' => 'required|string', 
-            'risque_couvert' => 'required|string', 
-            'user_id' => 'required|exists:users,id', 
-            'periodicite' => 'required|string', 
-            'exhaustivite' => 'required|string', 
+            'controle_id' => 'required|exists:controles,id',
+            'objectif' => 'required|string',
+            'risque_couvert' => 'required|string',
+            'user_id' => 'required|exists:users,id',
+            'periodicite' => 'required|string',
+            'exhaustivite' => 'required|string',
             'preuve' => 'required|string',
-            'fichier' => 'required|in:0,1', 
+            'fichier' => 'required|in:0,1',
         ]);
 
-        
+
         $pilotage->update($validated);
 
         return response()->json([
@@ -109,7 +109,7 @@ class PilotageController extends Controller
             'data' => $pilotage,
         ], 200);
     } catch (\Throwable $th) {
-        
+
         return response()->json([
             'error' => 'Une erreur est surveneedfeue : ' . $th->getMessage(),
         ], 500);
@@ -131,23 +131,23 @@ class PilotageController extends Controller
 
         return response()->json(['message' => 'Pilotage deleted successfully']);
     }
-    
+
     public function restaurer($id)
     {
-        
+
         $pilotage =Pilotage::withTrashed()->find($id);
 
         if ($pilotage) {
-           
+
             $pilotage->restore();
 
             return response()->json([
                 'message' => 'Le pilotage a été restaurée avec succès.',
-                'pilotage' => $activite
+                'pilotage' => $pilotage
             ]);
         } else {
             return response()->json([
-                'message' => 'Le pilotage n\'a pas été trouvée.',
+                'error' => 'Le pilotage n\'a pas été trouvée.',
             ], 404);
         }
     }

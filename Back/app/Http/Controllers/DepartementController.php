@@ -138,14 +138,14 @@ class DepartementController extends Controller
 
         return response()->json(['message' => 'Departement supprimer avec succes']);
     }
-    
+
     public function restaurer($id)
     {
-        
-        $departement = Departemnt::withTrashed()->find($id);
+
+        $departement = Departement::withTrashed()->find($id);
 
         if ($departement) {
-           
+
             $departement->restore();
 
             return response()->json([
@@ -154,13 +154,12 @@ class DepartementController extends Controller
             ]);
         } else {
             return response()->json([
-                'message' => 'Le departement  n\'a pas été trouvée.',
+                'error' => 'Le departement  n\'a pas été trouvée.',
             ], 404);
         }
     }
-    
 
-        return response()->json(['message' => 'Departement supprimé avec succes!']);
+
     }
 
 

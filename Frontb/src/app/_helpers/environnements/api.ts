@@ -22,6 +22,7 @@ export const uri = {
     add : `${verbs[0]}/add`,
     update :`${verbs[0]}/update/`,
     delete : `${verbs[0]}/delete/`,
+    restaurer : `${verbs[0]}/restaurer/`,
   },
 
   controle : {
@@ -29,6 +30,7 @@ export const uri = {
     add : `${verbs[1]}/add`,
     update :`${verbs[1]}/update/`,
     delete : `${verbs[1]}/delete/`,
+    restaurer : `${verbs[1]}/restaurer/`,
   },
 
   direction : {
@@ -36,6 +38,7 @@ export const uri = {
     add : `${verbs[2]}/add`,
     update :`${verbs[2]}/update/`,
     delete : `${verbs[2]}/delete/`,
+    restaurer : `${verbs[2]}/restaurer/`,
   },
 
   departement : {
@@ -43,6 +46,7 @@ export const uri = {
     add : `${verbs[3]}/add`,
     update :`${verbs[3]}/update/`,
     delete : `${verbs[3]}/delete/`,
+    restaurer : `${verbs[3]}/restaurer/`,
   },
 
   pole : {
@@ -50,6 +54,7 @@ export const uri = {
     add : `${verbs[4]}/add`,
     update :`${verbs[4]}/update/`,
     delete : `${verbs[4]}/delete/`,
+    restaurer : `${verbs[4]}/restaurer/`,
   },
 
   activite : {
@@ -57,6 +62,7 @@ export const uri = {
     add : `${verbs[5]}/add`,
     update :`${verbs[5]}/update/`,
     delete : `${verbs[5]}/delete/`,
+    restaurer : `${verbs[5]}/restaurer/`,
   },
 
   service : {
@@ -64,6 +70,7 @@ export const uri = {
     add : `${verbs[6]}/add`,
     update :`${verbs[6]}/update/`,
     delete : `${verbs[6]}/delete/`,
+    restaurer : `${verbs[6]}/restaurer/`,
   },
 
   data : {
@@ -71,6 +78,7 @@ export const uri = {
     add : `${verbs[7]}/add`,
     update :`${verbs[7]}/update/`,
     delete : `${verbs[7]}/delete/`,
+    restaurer : `${verbs[7]}/restaurer/`,
   }
 
 

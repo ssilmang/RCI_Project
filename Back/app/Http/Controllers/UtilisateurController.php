@@ -128,21 +128,18 @@ class UtilisateurController extends Controller
 
     public function restaurer($id)
     {
-
         $user = User::withTrashed()->find($id);
-
         if ($user) {
-
             $user->restore();
-
             return response()->json([
-                'message' => 'L\'utilisateur a été restaurée avec succès.',
+                'message' => 'L\'utilisateur a été restauré avec succès!',
                 'utilisateur' => $user
             ]);
         } else {
             return response()->json([
-                'message' => 'L\'utilisateur n\'a pas été trouvée.',
+                'error' => 'L\'utilisateur n\'a pas été trouvé!',
             ], 404);
         }
     }
+    
 }
