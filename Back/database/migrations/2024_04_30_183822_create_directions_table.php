@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('libelle');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+
         });
     }
 
@@ -24,5 +26,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('directions');
+        Schema::dropIfExists('deleted_at');
     }
 };

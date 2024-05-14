@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignIdFor(Direction::class)->constrained();
             $table->foreignIdFor(Pole::class)->constrained();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+
         });
     }
 
@@ -27,5 +29,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('departements');
+        Schema::dropIfExists('deleted_at');
     }
 };

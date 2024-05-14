@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('periodicite');
             $table->string('exhaustivite');
             $table->string('preuve');
-            // $table->string('fichier');
+            $table->timestamp('deleted_at')->nullable();
             $table->enum('fichier',[0,1]);
            
 
@@ -37,5 +37,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('pilotages');
+        Schema::dropIfExists('deleted_at');
     }
 };

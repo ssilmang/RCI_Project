@@ -117,4 +117,24 @@ class UtilisateurController extends Controller
          $utilisateur->delete();
          return response()->json(['message' => 'Utilisateur supprimé avec succès!']);
     }
+    
+    public function restaurer($id)
+    {
+        
+        $user = User::withTrashed()->find($id);
+
+        if ($user) {
+           
+            $user->restore();
+
+            return response()->json([
+                'message' => 'L\'utilisateur a été restaurée avec succès.',
+                'utilisateur' => $user
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'L\'utilisateur n\'a pas été trouvée.',
+            ], 404);
+        }
+    }
 }

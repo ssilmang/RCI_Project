@@ -56,3 +56,16 @@ Route::get('/pilotage/all', [PilotageController::class, 'index']);
 Route::post('/pilotage/create', [PilotageController::class, 'store']);
 Route::put('/pilotage/update/{id}', [PilotageController::class, 'update']);
 Route::delete('/pilotage/delete/{id}', [PilotageController::class, 'destroy']);
+// routes for desarchivage//
+Route::post('/activites/{id}/restaurer', [ActiviteController::class, 'restaurer']);
+Route::post('/pilotage/{id}/restaurer', [PilotageController::class, 'restaurer']);
+Route::post('/service/{id}/restaurer', [ServiceController::class, 'restaurer']);
+Route::post('/departement/{id}/restaurer', [DepartementController::class, 'restaurer']);
+Route::post('/pole/{id}/restaurer', [PoleController::class, 'restaurer']);
+Route::post('/controle/{id}/restaurer', [ControleController::class, 'restaurer']);
+Route::post('/utilisateur/{id}/restaurer', [UtilisateurController::class, 'restaurer']);
+
+
+
+
+

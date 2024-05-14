@@ -4,13 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiToken;
 class User extends Authenticatable implements JWTSubject
 {
+    use SoftDeletes;
     use HasFactory, Notifiable;
 
     /**
@@ -22,9 +23,9 @@ class User extends Authenticatable implements JWTSubject
         'nom_complet',
         'email',
         'password',
-        'matricule', // Nouveau champ autorisé
-        'direction_id', // Nouveau champ autorisé
-        'service_id', // Nouveau champ autorisé
+        'matricule', 
+        'direction_id',
+        'service_id', 
     ];
 
     /**

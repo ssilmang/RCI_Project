@@ -100,4 +100,24 @@ class ControleController extends Controller
         $controle->delete(); 
         return response()->json(['message' => 'Le controle a été supprimé avec succès']); 
     }
+    
+    public function restaurer($id)
+    {
+        
+        $activite = Controle::withTrashed()->find($id);
+
+        if ($controle) {
+           
+            $controle->restore();
+
+            return response()->json([
+                'message' => 'Le controle a été restaurée avec succès.',
+                'controle' => $controle
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Le controle n\'a pas été trouvée.',
+            ], 404);
+        }
+    }
 }

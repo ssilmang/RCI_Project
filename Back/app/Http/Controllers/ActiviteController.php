@@ -118,5 +118,25 @@ class ActiviteController extends Controller
 
         return response()->json(['message' => 'Activite supprimer avec succes']);
     }
+
+     public function restaurer($id)
+    {
+        
+        $activite = Activite::withTrashed()->find($id);
+
+        if ($activite) {
+           
+            $activite->restore();
+
+            return response()->json([
+                'message' => 'L\'activité a été restaurée avec succès.',
+                'activite' => $activite
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'L\'activité n\'a pas été trouvée.',
+            ], 404);
+        }
+    }
     }
 

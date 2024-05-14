@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('nom');
             $table->string('code');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+
         });
     }
 
@@ -24,6 +26,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('deleted_at');
         Schema::dropIfExists('controles');
     }
 };

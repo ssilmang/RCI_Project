@@ -119,5 +119,25 @@ class DirectionController extends Controller
 
         return response()->json(['message' => 'Direction deleted successfully']);
     }
+    
+    public function restaurer($id)
+    {
+        
+        $activite = Direction::withTrashed()->find($id);
+
+        if ($direction) {
+           
+            $direction->restore();
+
+            return response()->json([
+                'message' => 'La direction a été restaurée avec succès.',
+                'direction' => $direction
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'La direction n\'a pas été trouvée.',
+            ], 404);
+        }
+    }
     }
 
