@@ -14,11 +14,11 @@
 
   <div class="flex flex-col shadow-md shadow-[#242a30] overflow-x-auto h-[91%] p-1">
 
-    <div class="w-full h-[20%] rounded gap-10 flex justify-center items-center">
+    <div [formGroup]="select" class="w-full h-[20%] rounded gap-10 flex justify-center items-center">
 
       <div class="flex gap-4">
         <label class="text-xl">Direction</label>
-        <select
+        <select formControlName="direction_id"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex text-center">
           <option value=0>filtrer par direction</option>
           @for (direction of directions(); track direction.id) {
@@ -29,7 +29,7 @@
 
       <div class="flex gap-4">
         <label class="text-xl">Département</label>
-        <select
+        <select formControlName="departement_id"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex text-center">
           <option value=0>filtrer par département</option>
           @for (departement of departements(); track departement.id) {
@@ -40,17 +40,17 @@
 
       <div class="flex gap-4">
         <label class="text-xl">Couverture</label>
-        <select
+        <select formControlName="couverture"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex text-center">
           <option value=0>filtrer par couverture</option>
-          <option value=1>Exhaustivité</option>
-          <option value=2>Non exhaustivité</option>
+          <option value='Exhaustivité'>Exhaustivité</option>
+          <option value='Non exhaustivité'>Non exhaustivité</option>
         </select>
       </div>
 
       <div class="flex gap-4">
         <label class="text-xl">Porteur</label>
-        <select
+        <select formControlName="user_id"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex text-center">
           <option value=0>filtrer par porteur</option>
           @for (user of users(); track user.id) {
@@ -116,7 +116,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (data of datas(); track data.id) {
+            @for (data of datas() | direction2:selectedDir |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser; track data.id) {
               <tr class="bg-white nice h-[10rem]">
                 <td class="nice">
                   {{data.direction_id.libelle}}
@@ -295,8 +295,8 @@
               <select formControlName="exhaustivite"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                 <option value=0>choisir une couverture</option>
-                <option value=1>Exhaustivité</option>
-                <option value=2>Non exhaustivité</option>
+                <option value='Exhaustivité'>Exhaustivité</option>
+                <option value='Non exhaustivité'>Non exhaustivité</option>
               </select>
             </div>
             <div class="col-span-2 sm:col-span-1">

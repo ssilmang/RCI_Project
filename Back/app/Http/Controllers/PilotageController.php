@@ -27,25 +27,21 @@ class PilotageController extends Controller
                 return response()->json([
                     'error' => 'Veuillez choisir le porteur!']);
             }
-
             if (!$request->controle_id || $request->controle_id == null) {
                 return response()->json([
                     'error' => 'Veuillez choisir le controle!'
                 ]);
             }
-
             if (!$request->direction_id || $request->direction_id == null) {
                 return response()->json([
                     'error' => 'Veuillez choisir la direction!'
                 ]);
             }
-
             if (!$request->preuve || $request->preuve == null) {
                 return response()->json([
                     'error' => 'Veuillez renseigner la preuve demandée!'
                 ]);
             }
-
             if (!$request->objectif || $request->objectif == null) {
                 return response()->json([
                     'error' => "Veuillez renseigner l'objectif du controle!"

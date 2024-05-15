@@ -12,12 +12,16 @@ import { ServiceService } from '../../_helpers/services/all_methods/service.serv
 import { ActiviteService } from '../../_helpers/services/all_methods/activite.service';
 import { UtilisateurService } from '../../_helpers/services/all_methods/utilisateur.service';
 import Swal from 'sweetalert2'
+import { Direction2Pipe } from '../../_helpers/pipes/direction2.pipe';
+import { Departement2Pipe } from '../../_helpers/pipes/departement2.pipe';
+import { CouverturePipe } from '../../_helpers/pipes/couverture.pipe';
+import { PorteurPipe } from '../../_helpers/pipes/porteur.pipe';
 
 
 @Component({
   selector: 'app-pilotage',
   standalone: true,
-  imports: [ReactiveFormsModule, SweetAlert2Module, CommonModule],
+  imports: [ReactiveFormsModule, SweetAlert2Module, CommonModule, Direction2Pipe, Departement2Pipe, CouverturePipe, PorteurPipe],
   templateUrl: './pilotage.component.html',
   styleUrl: './pilotage.component.css'
 })
@@ -27,6 +31,10 @@ export class PilotageComponent {
   btn: string = 'Ajouter'
   ctrls: Controle[] = [];
   id!: number | null
+  selectedDir: number = 0
+  selectedDept: number = 0
+  selectedCouv: number = 0
+  selectedUser: number = 0
 
   datas: Signal<Data[]> = signal([])
   controles: Signal<Controle[]> = signal([])
@@ -38,6 +46,7 @@ export class PilotageComponent {
   users: Signal<Utilisateur[]> = signal([])
 
   Data!: FormGroup
+  select!: FormGroup
 
   constructor(
     private data: DataService,
@@ -71,6 +80,34 @@ export class PilotageComponent {
       let code = this.ctrls.filter((c:any) => c.id == d)[0]
       this.Data.patchValue({code: code.code})
     })
+
+    this.select = this.fb.group({
+      direction_id: this.fb.control(0),
+      departement_id: this.fb.control(0),
+      couverture: this.fb.control(0),
+      user_id: this.fb.control(0),
+    });
+
+    this.select.get('direction_id')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedDir = res
+    })
+
+    this.select.get('departement_id')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedDept = res
+    })
+
+    this.select.get('user_id')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedUser = res
+    })
+
+    this.select.get('couverture')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedCouv = res
+    })
+
   }
 
   ngOnInit() {
