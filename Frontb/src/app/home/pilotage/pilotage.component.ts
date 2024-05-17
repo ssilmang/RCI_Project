@@ -16,6 +16,8 @@ import { Direction2Pipe } from '../../_helpers/pipes/direction2.pipe';
 import { Departement2Pipe } from '../../_helpers/pipes/departement2.pipe';
 import { CouverturePipe } from '../../_helpers/pipes/couverture.pipe';
 import { PorteurPipe } from '../../_helpers/pipes/porteur.pipe';
+import * as ExcelJS from 'exceljs';
+import * as FileSaver from 'file-saver';
 
 
 @Component({
@@ -36,6 +38,7 @@ export class PilotageComponent {
   selectedCouv: number = 0
   selectedUser: number = 0
 
+  toExp: any[] = [];
   datas: Signal<Data[]> = signal([])
   controles: Signal<Controle[]> = signal([])
   directions: Signal<Direction[]> = signal([])
@@ -133,7 +136,8 @@ export class PilotageComponent {
   {
     this.data.listResources().subscribe((res:any)=>{
       this.datas = signal(res.data);
-      console.log(res.data);
+      // console.log(res.data);
+      this.toExp = res.data
     })
   }
 
@@ -334,6 +338,68 @@ export class PilotageComponent {
       modal.style.display = 'none';
       this.Data.enable()
     }
+  }
+
+  exportExcel() {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Sheet 1');
+
+    worksheet.columns = [
+      { header: 'Direction', key: 'direction', width: 20 },
+      { header: 'Pôle', key: 'pole', width: 20 },
+      { header: 'Département', key: 'departement', width: 20 },
+      { header: 'Service', key: 'service', width: 20 },
+      { header: 'Activité', key: 'activite', width: 20 },
+      { header: 'Code', key: 'code', width: 15 },
+      { header: 'Contrôle', key: 'controle', width: 30 },
+      { header: 'Objectif', key: 'objectif', width: 30 },
+      { header: 'Risque Couvert', key: 'risque', width: 30 },
+      { header: 'Porteur', key: 'porteur', width: 20 },
+      { header: 'Périodicité', key: 'periodicite', width: 15 },
+      { header: 'Exhaustivité', key: 'exhaustivite', width: 15 },
+      { header: 'Preuve', key: 'preuve', width: 30 },
+    ];
+
+    worksheet.getRow(1).eachCell((cell) => {
+      cell.font = { name: 'Arial', size: 12, bold: true, color: { argb: 'FFFFFF' } }; // Texte en blanc
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF7900' }
+      };
+      cell.alignment = { vertical: 'middle', horizontal: 'center' };
+    });
+
+    this.toExp.forEach((data: any) => {
+      const row = worksheet.addRow({
+        direction: data.direction_id.libelle,
+        pole: data.pole_id.libelle,
+        departement: data.departement_id.libelle,
+        service: data.service_id.libelle,
+        activite: data.activite_id.libelle,
+        code: data.code,
+        controle: data.controle_id.nom,
+        objectif: data.objectif,
+        risque: data.risque_couvert,
+        porteur: data.user_id.nom_complet,
+        periodicite: data.periodicite,
+        exhaustivite: data.exhaustivite,
+        preuve: data.preuve,
+      });
+
+      row.eachCell((cell) => {
+        cell.alignment = { wrapText: true, vertical: 'middle', horizontal: 'left' };
+      });
+
+      const lineHeight = 80;
+      row.height = lineHeight;
+    });
+
+
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      FileSaver.saveAs(blob, 'ExportedData.xlsx');
+    });
   }
 
 }

@@ -3,9 +3,14 @@
   <div class="flex justify-between">
     <h1 class="text-[2rem] ml-7 text-[#FF7900] font-bold">Pilotage Controle</h1>
 
-    <div class="flex justify-center items-center mt-4">
+    <div class="flex justify-between w-[25%] mt-4">
+      <button (click)="exportExcel()"
+        class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
+        exporter vers excel
+      </button>
+
       <button (click)="openModal()"
-        class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold w-full h-10">
+        class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
         + controle
       </button>
     </div>
