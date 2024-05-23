@@ -8,6 +8,7 @@ import { UtilisateurComponent } from './home/utilisateur/utilisateur.component';
 import { Setting1Component } from './home/setting1/setting1.component';
 import { Setting2Component } from './home/setting2/setting2.component';
 import { ControleComponent } from './home/controle/controle.component';
+import { RisqueComponent } from './home/risque/risque.component';
 
 
 export const routes: Routes = [
@@ -21,6 +22,7 @@ export const routes: Routes = [
       { path: 'parametrage1', component: Setting1Component },
       { path: 'parametrage2', component: Setting2Component },
       { path: 'controles', component: ControleComponent },
+      { path: 'risques', component: RisqueComponent },
       { path: 'utilisateurs', component: UtilisateurComponent },
     ]
    },

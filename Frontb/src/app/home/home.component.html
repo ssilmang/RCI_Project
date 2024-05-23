@@ -4,12 +4,12 @@
               flex flex-col gap-6 p-1">
 
     <div class="w-full h-[30%] flex justify-between p-2">
-      <div class="flex flex-col gap-2">
-        <div class="flex flex-col gap-3">
-          <img class="w-20 h-20 rounded-full ml-7" src="./assets/me.jpg"
+      <div class="flex flex-col gap-2 items-center">
+        <div class="flex flex-col gap-3  justify-center items-center">
+          <img class="w-14 h-14 ring-2 ring-[#FF7900] rounded-full ml-7" src="./assets/me.jpg"
             alt="freelance">
         </div>
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2 ">
           <h1 class="font-semibold text-xl">Elhadji Malick Ndao</h1>
           <h3>
             <span>{{role}} </span>
@@ -36,7 +36,7 @@
           </div>
           <div [routerLink]="['pilotage']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
             <i class="material-icons text-[#FF7900]">trending_up</i>
-            <span>Pilotage Controles</span>
+            <span>Controles</span>
           </div>
         </div>
 
@@ -52,9 +52,9 @@
           <i class="material-icons text-[#FF7900]">layers</i>
           <span>Départements & Services & Activités</span>
         </div>
-        <div [routerLink]="['controles']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
+        <div [routerLink]="['risques']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
           <i class="material-icons text-[#FF7900]">layers</i>
-          <span>Controles</span>
+          <span>Risques</span>
         </div>
         <div [routerLink]="['utilisateurs']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
           <i class="material-icons text-[#FF7900]">people</i>

@@ -13,6 +13,7 @@ const verbs = [
   'activite',
   'service',
   'pilotage',
+  'risque'
 ]
 
 export const uri = {
@@ -31,6 +32,14 @@ export const uri = {
     update :`${verbs[1]}/update/`,
     delete : `${verbs[1]}/delete/`,
     restaurer : `${verbs[1]}/restaurer/`,
+  },
+
+  risque : {
+    list : `${verbs[8]}/all`,
+    add : `${verbs[8]}/add`,
+    update :`${verbs[8]}/update/`,
+    delete : `${verbs[8]}/delete/`,
+    restaurer : `${verbs[8]}/restaurer/`,
   },
 
   direction : {

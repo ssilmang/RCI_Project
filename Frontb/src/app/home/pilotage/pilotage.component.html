@@ -1,7 +1,7 @@
 <div class="flex flex-col relative gap-4 w-full h-[100%]">
 
   <div class="flex justify-between">
-    <h1 class="text-[2rem] ml-7 text-[#FF7900] font-bold">Pilotage Controle</h1>
+    <h1 class="text-[2rem] ml-7 text-[#FF7900] font-bold">Controles</h1>
 
     <div class="flex justify-between w-[25%] mt-4">
       <button (click)="exportExcel()"
@@ -19,12 +19,12 @@
 
   <div class="flex flex-col shadow-md shadow-[#242a30] overflow-x-auto h-[91%] p-1">
 
-    <div [formGroup]="select" class="w-full h-[20%] rounded gap-10 flex justify-center items-center">
+    <div [formGroup]="select" class="w-full h-[15%] overflow-x-auto rounded gap-10 flex p-1">
 
       <div class="flex gap-4">
         <label class="text-xl">Direction</label>
         <select formControlName="direction_id"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex text-center">
+          class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30 flex text-center">
           <option value=0>filtrer par direction</option>
           @for (direction of directions(); track direction.id) {
             <option [value]="direction.id">{{direction.libelle}}</option>
@@ -35,7 +35,7 @@
       <div class="flex gap-4">
         <label class="text-xl">Département</label>
         <select formControlName="departement_id"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex text-center">
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
           <option value=0>filtrer par département</option>
           @for (departement of departements(); track departement.id) {
             <option [value]="departement.id">{{departement.libelle}}</option>
@@ -44,9 +44,64 @@
       </div>
 
       <div class="flex gap-4">
+        <label class="text-xl">Pole</label>
+        <select formControlName="pole_id"
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
+          <option value=0>filtrer par pole</option>
+          @for (pole of poles(); track pole.id) {
+            <option [value]="pole.id">{{pole.libelle}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="flex gap-4">
+        <label class="text-xl">Service</label>
+        <select formControlName="service_id"
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
+          <option value=0>filtrer par service</option>
+          @for (service of services(); track service.id) {
+          <option [value]="service.id">{{service.libelle}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="flex gap-4">
+        <label class="text-xl">Activite</label>
+        <select formControlName="activite_id"
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
+          <option value=0>filtrer par activité</option>
+          @for (activite of activites(); track activite.id) {
+          <option [value]="activite.id">{{activite.libelle}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="flex gap-4">
+        <label class="text-xl">Controle</label>
+        <select formControlName="controle"
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
+          <option value=0>filtrer par controle</option>
+          @for (controle of controles(); track controle.id) {
+          <option [value]="controle.nom">{{controle.nom}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="flex gap-4">
+        <label class="text-xl">Risque</label>
+        <select formControlName="risque_id"
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
+          <option value=0>filtrer par risque</option>
+          @for (risque of risques(); track risque.id) {
+          <option [value]="risque.id">{{risque.libelle}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="flex gap-4">
         <label class="text-xl">Couverture</label>
         <select formControlName="couverture"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex text-center">
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
           <option value=0>filtrer par couverture</option>
           <option value='Exhaustivité'>Exhaustivité</option>
           <option value='Non exhaustivité'>Non exhaustivité</option>
@@ -56,7 +111,7 @@
       <div class="flex gap-4">
         <label class="text-xl">Porteur</label>
         <select formControlName="user_id"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex text-center">
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
           <option value=0>filtrer par porteur</option>
           @for (user of users(); track user.id) {
             <option [value]="user.id">{{user.nom_complet}}</option>
@@ -64,113 +119,189 @@
         </select>
       </div>
 
+      <div class="flex gap-4">
+        <label class="text-xl">Periodicite</label>
+        <select formControlName="periodicite"
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
+          <option value=0>filtrer par periodicite</option>
+          <option value="one">Journalier</option>
+        </select>
+      </div>
+
+      <div class="flex gap-4">
+        <label class="text-xl">Couverture</label>
+        <select formControlName="couverture"
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
+          <option value=0>filtrer par couverture</option>
+          <option value="one">Exhaustive</option>
+          <option value="two">Non Exhaustive</option>
+        </select>
+      </div>
+
+      <div class="flex gap-4">
+        <label class="text-xl">Status</label>
+        <select formControlName="status"
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
+          <option value=0>filtrer par status</option>
+          <option value="one">Fait</option>
+          <option value="two">Non fait</option>
+        </select>
+      </div>
+
+      <div class="flex gap-4">
+        <label class="text-xl">Validation</label>
+        <select formControlName="validate"
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
+          <option value=0>filtrer par etat</option>
+          <option value="one">Validée</option>
+          <option value="two">Non validée</option>
+        </select>
+      </div>
+
     </div>
 
-    <div class="container shadow-md shadow-[#242a30] overflow-y-auto h-[100%] p-1">
+    <div class="container shadow-md w-full shadow-[#242a30] overflow-y-auto h-[100%] p-1">
 
-      <div class="relative shadow-md shadow-[#242a30] overflow-y-auto">
+      <div class="relative shadow-md w-full shadow-[#242a30] overflow-y-auto">
 
-        <table class="scrollable">
+        <table class="w-full">
           <thead class="text-white bg-[#FF7900]">
             <tr>
-              <th class="">
-                Direction
+              <th>
+                <div>Direction</div>
               </th>
-              <th class="">
-                Pole
+              <th>
+                <div>Pole</div>
               </th>
-              <th class="">
-                Département
+              <th>
+                <div>Département</div>
               </th>
-              <th class="">
-                Service concerné
+              <th>
+                <div>Service concerné</div>
               </th>
-              <th class="">
-                Activité
+              <th>
+                <div>Activité</div>
               </th>
-              <th class="">
-                Code
+              <th>
+                <div>Code</div>
               </th>
-              <th class="">
-                Nom du contrôle
+              <th>
+                <div>Nom du contrôle</div>
               </th>
-              <th class="">
-                Objectif du contrôle
+              <th>
+                <div>Descriptif</div>
               </th>
-              <th class="">
-                Risque couvert
+              <th>
+                <div>Objectif du contrôle</div>
               </th>
-              <th class="">
-                Porteur
+              <th>
+                <div>Risque couvert</div>
               </th>
-              <th class="">
-                Périodicité
+              <th>
+                <div>Porteur</div>
               </th>
-              <th class="">
-                Couverture
+              <th>
+                <div>Périodicité</div>
               </th>
-              <th class="">
-                Preuves demandées
+              <th>
+                <div>Couverture</div>
               </th>
-              <th class="">
-                Fichiers preuves
+              <th>
+                <div>Preuves demandées</div>
               </th>
-              <th class="">
-                Actions
+              <th>
+                <div>Fichiers preuves</div>
+              </th>
+              <th>
+                <div>Commentaires</div>
+              </th>
+              <th>
+                <div>Status</div>
+              </th>
+              <th>
+                <div>Etat</div>
+              </th>
+              <th>
+                <div>Date d'ajout</div>
+              </th>
+              <th>
+                <div>Date d'archive</div>
+              </th>
+              <th>
+                <div>Actions</div>
               </th>
             </tr>
           </thead>
           <tbody>
             @for (data of datas() | direction2:selectedDir |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser; track data.id) {
-              <tr class="bg-white nice h-[10rem]">
-                <td class="nice">
-                  {{data.direction_id.libelle}}
+              <tr class="bg-white">
+                <td>
+                  <div>{{data.direction_id.libelle}}</div>
                 </td>
-                <td class="nice">
-                  {{data.pole_id.libelle}}
+                <td>
+                  <div>{{data.pole_id.libelle}}</div>
                 </td>
-                <td class="nice">
-                  {{data.departement_id.libelle}}
+                <td>
+                  <div>{{data.departement_id.libelle}}</div>
                 </td>
-                <td class="two">
-                  {{data.service_id.libelle}}
+                <td>
+                  <div>{{data.service_id.libelle}}</div>
                 </td>
-                <td class="two">
-                  {{data.activite_id.libelle}}
+                <td>
+                  <div>{{data.activite_id.libelle}}</div>
                 </td>
-                <td class="two">
-                  {{data.code}}
+                <td>
+                  <div>{{data.code}}</div>
                 </td>
-                <td class="">
-                  <textarea
-                    readonly>{{data.controle_id.nom}}</textarea>
+                <td>
+                  <div><textarea readonly> {{data.controle_id.nom}} </textarea></div>
                 </td>
-                <td class="">
-                  <textarea
-                    readonly>{{data.objectif}}</textarea>
+                <td>
+                  <div><textarea readonly> S’assurer de la conformité de Sonatel par rapport aux normes auxquelles elle est certifiée et mettre en place une organisation efficace et optimale S’assurer de la conformité de Sonatel par rapport aux normes auxquelles elle est certifiée et mettre en place une organisation efficace et optimale
+                  </textarea></div>
                 </td>
-                <td class="">
-                  <textarea readonly>{{data.risque_couvert}}</textarea>
+                <td>
+                  <div><textarea readonly>{{data.objectif}} </textarea></div>
                 </td>
-                <td class="two">
-                  {{data.user_id.nom_complet}}
+                <td>
+                  <div>{{data.risque_couvert}}</div>
                 </td>
-                <td class="nice">
-                  {{data.periodicite}}
+                <td>
+                  <div>{{data.user_id.nom_complet}}</div>
                 </td>
-                <td class="nice">
-                  {{data.exhaustivite}}
+                <td>
+                  <div>{{data.periodicite}}</div>
                 </td>
-                <td class="two">
-                  {{data.preuve}}
+                <td>
+                  <div>{{data.exhaustivite}}</div>
                 </td>
-                <td class="">
-                  <a target="_blank" href="/assets/fichiers/preuve 1.pdf"><i class="material-icons">attach_file</i>{{data.fichier}}</a>
+                <td>
+                  <div><textarea readonly>{{data.preuve}}</textarea></div>
                 </td>
-                <td class="">
-                  <i (click)="info(data)" class="material-icons cursor-pointer text-green-400">info</i>
-                  <i (click)="editModal(data)" class="material-icons cursor-pointer text-yellow-600">edit</i>
-                  <i (click)="deleteD(data.id)" class="material-icons cursor-pointer text-red-600">delete</i>
+                <td>
+                  <div><a target="_blank" href="/assets/fichiers/preuve 1.pdf"><i class="material-icons">attach_file</i>Name of file</a></div>
+                </td>
+                <td>
+                  <div><textarea readonly> Commentaires 1 </textarea></div>
+                </td>
+                <td>
+                  <div>Non applicable</div>
+                </td>
+                <td>
+                  <div>Validée</div>
+                </td>
+                <td>
+                  <div>28-04-2002</div>
+                </td>
+                <td>
+                  <div>28-04-2002</div>
+                </td>
+                <td>
+                  <div class="flex gap-4">
+                    <i (click)="editModal(data)" class="material-icons cursor-pointer text-yellow-600">edit</i>
+                    <i (click)="deleteD(data.id)" class="material-icons cursor-pointer text-red-600">archive</i>
+                    <i class="material-icons cursor-pointer text-green-600">check_circle</i>
+                  </div>
                 </td>
               </tr>
             }
@@ -206,13 +337,16 @@
           <div class="grid gap-4 mb-4 grid-cols-2">
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom controle</label>
-              <select formControlName="controle_id"
+              <input type="text" formControlName="nom"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="nom du controle">
+              <!-- <select formControlName="controle_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                 <option value=0>choisir une controle</option>
                 @for (ctrl of controles(); track ctrl.id) {
                   <option [value]="ctrl.id">{{ctrl.nom}}</option>
                 }
-              </select>
+              </select> -->
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Code controle</label>
@@ -221,12 +355,30 @@
                 placeholder="code du controle">
             </div>
             <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Objectif</label>
-              <textarea formControlName="objectif" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Risque</label>
+              <select formControlName="risque_id"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option value=0>choisir un risque</option>
+                @for (risque of risques(); track risque.id) {
+                <option [value]="risque.id">{{risque.libelle}}</option>
+                }
+              </select>
             </div>
             <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Risque</label>
-              <textarea formControlName="risque_couvert" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descriptif</label>
+              <input type="text" formControlName="descriptif"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="descriptif du controle">
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Objectif</label>
+              <textarea formControlName="objectif"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Commentaire</label>
+              <textarea formControlName="commentaire"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Porteur</label>

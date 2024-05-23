@@ -41,6 +41,11 @@ export interface Controle {
   code: string,
 }
 
+export interface Risque {
+  id: number | null,
+  libelle: string,
+}
+
 export interface Departement {
   id: number | null,
   libelle: string,

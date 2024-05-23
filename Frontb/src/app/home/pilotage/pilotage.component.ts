@@ -3,13 +3,14 @@ import { Component, Signal, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { DataService } from '../../_helpers/services/all_methods/data.service';
-import { Activite, Controle, Data, Departement, Direction, Pole, Service, Utilisateur } from '../../_helpers/interfaces/data';
+import { Activite, Controle, Data, Departement, Direction, Pole, Service, Utilisateur, Risque } from '../../_helpers/interfaces/data';
 import { ControleService } from '../../_helpers/services/all_methods/controle.service';
 import { DepartementService } from '../../_helpers/services/all_methods/departement.service';
 import { DirectionService } from '../../_helpers/services/all_methods/direction.service';
 import { PoleService } from '../../_helpers/services/all_methods/pole.service';
 import { ServiceService } from '../../_helpers/services/all_methods/service.service';
 import { ActiviteService } from '../../_helpers/services/all_methods/activite.service';
+import { RisqueService } from '../../_helpers/services/all_methods/risque.service';
 import { UtilisateurService } from '../../_helpers/services/all_methods/utilisateur.service';
 import Swal from 'sweetalert2'
 import { Direction2Pipe } from '../../_helpers/pipes/direction2.pipe';
@@ -47,6 +48,7 @@ export class PilotageComponent {
   services: Signal<Service[]> = signal([])
   activites: Signal<Activite[]> = signal([])
   users: Signal<Utilisateur[]> = signal([])
+  risques: Signal<Risque[]> = signal([])
 
   Data!: FormGroup
   select!: FormGroup
@@ -55,6 +57,7 @@ export class PilotageComponent {
     private data: DataService,
     private fb: FormBuilder,
     private ctrl: ControleService,
+    private risk: RisqueService,
     private depart: DepartementService,
     private dirService: DirectionService,
     private poleService: PoleService,
@@ -63,15 +66,17 @@ export class PilotageComponent {
     private userService: UtilisateurService,
   ) {
     this.Data = this.fb.group({
-      controle_id: this.fb.control(0),
+      nom: this.fb.control('Control 1'),
+      code: this.fb.control('Code 1'),
       direction_id: this.fb.control(1),
       pole_id: this.fb.control(1),
       departement_id: this.fb.control(1),
       service_id: this.fb.control(1),
       activite_id: this.fb.control(1),
-      code: this.fb.control(''),
       objectif: this.fb.control('O1'),
-      risque_couvert: this.fb.control('R1'),
+      descriptif: this.fb.control('D1'),
+      commentaire: this.fb.control('C1'),
+      risque_id: this.fb.control(0),
       user_id: this.fb.control(1),
       periodicite: this.fb.control('saisir la périodicité'),
       exhaustivite: this.fb.control(1),
@@ -87,8 +92,16 @@ export class PilotageComponent {
     this.select = this.fb.group({
       direction_id: this.fb.control(0),
       departement_id: this.fb.control(0),
-      couverture: this.fb.control(0),
+      pole_id: this.fb.control(0),
+      service_id: this.fb.control(0),
+      activite_id: this.fb.control(0),
+      controle: this.fb.control(0),
+      risque_id: this.fb.control(0),
       user_id: this.fb.control(0),
+      periodicite: this.fb.control(0),
+      couverture: this.fb.control(0),
+      status: this.fb.control(0),
+      validate: this.fb.control(0),
     });
 
     this.select.get('direction_id')?.valueChanges.subscribe(res=>{
@@ -122,6 +135,7 @@ export class PilotageComponent {
     this.getActivites()
     this.getServices()
     this.getUsers()
+    this.getRisques()
   }
 
   getUsers()
@@ -183,6 +197,15 @@ export class PilotageComponent {
     this.ctrl.listResources().subscribe((r:any) => {
       this.controles = signal(r.controles)
       this.ctrls = r.controles
+      // console.log(r.controles);
+    })
+  }
+
+  getRisques()
+  {
+    this.risk.listResources().subscribe((r:any) => {
+      this.risques = signal(r.risques)
+      // this.ctrls = r.controles
       // console.log(r.controles);
     })
   }

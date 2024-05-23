@@ -2,7 +2,7 @@ import { Component, Signal, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { ControleService } from '../../_helpers/services/all_methods/controle.service';
-import { Controle } from '../../_helpers/interfaces/data';
+import { Activite, Controle, Data, Departement, Direction, Pole, Service, Utilisateur } from '../../_helpers/interfaces/data';
 import Swal from 'sweetalert2'
 import { CommonModule } from '@angular/common';
 
@@ -24,16 +24,34 @@ export class ControleComponent {
 
   controles: Signal<Controle[]> = signal([])
   archives: Signal<Controle[]> = signal([])
+  directions: Signal<Direction[]> = signal([])
+  poles: Signal<Pole[]> = signal([])
+  departements: Signal<Departement[]> = signal([])
+  services: Signal<Service[]> = signal([])
+  activites: Signal<Activite[]> = signal([])
+  users: Signal<Utilisateur[]> = signal([])
 
   controle!: FormGroup
 
 
   constructor(private fb: FormBuilder, private ctrl: ControleService)
   {
-    this.controle=this.fb.group({
-      nom: this.fb.control("Controle 1"),
-      code: this.fb.control("C1"),
-    });
+    this.controle = this.fb.group({
+      controle_id: this.fb.control(0),
+      direction_id: this.fb.control(1),
+      pole_id: this.fb.control(1),
+      departement_id: this.fb.control(1),
+      service_id: this.fb.control(1),
+      activite_id: this.fb.control(1),
+      code: this.fb.control(''),
+      objectif: this.fb.control('O1'),
+      risque_couvert: this.fb.control('R1'),
+      user_id: this.fb.control(1),
+      periodicite: this.fb.control('saisir la périodicité'),
+      exhaustivite: this.fb.control(1),
+      preuve: this.fb.control('P1'),
+      fichier: this.fb.control('')
+    })
   }
 
   ngOnInit()
