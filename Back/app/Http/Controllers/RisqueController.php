@@ -33,7 +33,7 @@ class RisqueController extends Controller
             $p = Risque::where('libelle', $request->libelle)->first();
             if ($p) {
                 return response()->json([
-                    'error' => 'Cet risques existe déjà!',
+                    'error' => 'Cet Risques existe déjà!',
                 ]);
             }
 
@@ -48,7 +48,7 @@ class RisqueController extends Controller
             ]);
 
             return response()->json([
-                'message' => "Le risque a été créée avec succès!",
+                'message' => "Le Risque a été crée avec succès!",
             ], 201);
 
         } catch (\Throwable $th) {
@@ -91,7 +91,7 @@ class RisqueController extends Controller
                 $p = Risque::where('libelle', $request->libelle)->first();
                 if ($p) {
                     return response()->json([
-                        'error' => 'Cet risque existe déjà!',
+                        'error' => 'Cet Risque existe déjà!',
                     ]);
                 }
             }
