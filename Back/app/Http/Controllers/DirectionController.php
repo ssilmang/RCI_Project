@@ -134,7 +134,13 @@ class DirectionController extends Controller
                 'error' => 'La direction n\'a pas été trouvée.',
             ], 404);
         }
+
+        return response()->json(['message' => 'Direction supprimé avec success']);
+    }
+
+        //xsrycvbn,lkmjlhkgfdsq<zsedrftgyhujiokplmkjhgfcx//
+
     }
 
 
-}
+
