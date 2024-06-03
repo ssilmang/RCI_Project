@@ -15,14 +15,13 @@ th {
 }
 
 td>div {
-  height: 12rem;
+  height: 8rem;
   width: 12rem;
   padding: 7px;
   box-sizing: border-box;
-  /* overflow-y: auto; */
-  /* display: flex;
+  display: flex;
   justify-content: center;
-  align-items: center; */
+  align-items: center;
 }
 
 textarea {

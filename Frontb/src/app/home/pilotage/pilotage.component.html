@@ -139,10 +139,10 @@
       </div>
 
       <div class="flex gap-4">
-        <label class="text-xl">Status</label>
-        <select formControlName="status"
+        <label class="text-xl">Statut</label>
+        <select formControlName="statut"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
-          <option value=0>filtrer par status</option>
+          <option value=0>filtrer par statut</option>
           <option value="one">Fait</option>
           <option value="two">Non fait</option>
         </select>
@@ -166,7 +166,7 @@
 
         <table class="w-full">
           <thead class="text-white bg-[#FF7900]">
-            <tr>
+            <tr class="text-lg font-semibold">
               <th>
                 <div>Direction</div>
               </th>
@@ -216,7 +216,7 @@
                 <div>Commentaires</div>
               </th>
               <th>
-                <div>Status</div>
+                <div>Statut</div>
               </th>
               <th>
                 <div>Etat</div>
@@ -282,7 +282,7 @@
                   <div><a target="_blank" href="/assets/fichiers/preuve 1.pdf"><i class="material-icons">attach_file</i>Name of file</a></div>
                 </td>
                 <td>
-                  <div><textarea readonly> Commentaires 1 </textarea></div>
+                  <div><textarea readonly>Commentaires 1 Commentaires 1 </textarea></div>
                 </td>
                 <td>
                   <div>Non applicable</div>
@@ -319,6 +319,7 @@
       style="display: none;" id="modal">
     <div class="mt-20 ml-[24rem] w-[60%] h-[100%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
       <div class="relative bg-white h-[88%] rounded-lg shadow dark:bg-gray-700">
+
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t bg-[#FF7900]">
           <h3 class="text-2xl font-semibold text-white">
             {{title}}
@@ -333,6 +334,7 @@
             <span class="sr-only">Close modal</span>
           </button>
         </div>
+
         <form [formGroup]="Data" class="p-4 md:p-5 overflow-y-auto h-[87%]">
           <div class="grid gap-4 mb-4 grid-cols-2">
             <div class="col-span-2 sm:col-span-1">
@@ -400,7 +402,6 @@
                 }
               </select>
             </div>
-
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pole</label>
               <select formControlName="pole_id"

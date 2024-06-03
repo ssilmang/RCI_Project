@@ -100,7 +100,7 @@ export class PilotageComponent {
       user_id: this.fb.control(0),
       periodicite: this.fb.control(0),
       couverture: this.fb.control(0),
-      status: this.fb.control(0),
+      statut: this.fb.control(0),
       validate: this.fb.control(0),
     });
 
