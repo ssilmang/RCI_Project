@@ -44,45 +44,45 @@ class ControleController extends Controller
                 'preuve' => 'required|string',
                 'fichiers' => 'file|mimes:pdf|max:2048',
             ]);
-        
+
             if ($request->hasFile('fichiers')) {
                 $pdfContent = file_get_contents($request->file('fichiers')->getRealPath());
                 $validated['fichiers'] = $pdfContent;
             }
-        
+
             // Vérification de l'existence d'un contrôle similaire
             $existingControl = Controle::where([
                 'direction_id' => $request->direction_id,
                 'nom' => $request->nom,
                 // Ajoutez d'autres critères de recherche si nécessaire
             ])->first();
-        
+
             if ($existingControl) {
                 return response()->json([
                     'error' => 'Un contrôle similaire existe déjà.',
                 ], 400);
             }
-        
+
             // Création du contrôle s'il n'existe pas déjà
             $pilotage = Controle::create($validated);
-        
+
             return response()->json([
                 'message' => 'Contrôle créé avec succès!',
             ], 201);
-        
+
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
             ], 500);
         }
-        
+
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id){
+    public function update(Request $request, $id){
         try {
             $pilotage = Controle::find($id);
 
@@ -95,8 +95,6 @@ class ControleController extends Controller
                     'error' => 'Veuillez choisir le porteur!'
                 ]);
             }
-
-            
 
             if (!$request->direction_id || $request->direction_id == null) {
                 return response()->json([
@@ -151,50 +149,49 @@ class ControleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         $pilotage = Controle::find($id);
 
         if (!$pilotage) {
-            return response()->json(['error' => 'controle not found'], 404);
+            return response()->json(['error' => 'Controle not found!'], 404);
         }
 
         $pilotage->delete();
 
-        return response()->json(['message' => 'controle deleted successfully']);
+        return response()->json(['message' => 'Controle deleted successfully!']);
     }
 
     public function restaurer($id)
     {
         $pilotage =Controle::onlyTrashed()->find($id);
         if ($pilotage) {
-
             $pilotage->restore();
-
             return response()->json([
-                'message' => 'Le controle a été restaurée avec succès.',
+                'message' => 'Le controle a été restauré avec succès!',
                 'controle' => $pilotage
             ]);
+
         } else {
             return response()->json([
-                'error' => 'Le controle n\'a pas été trouvée.',
+                'error' => 'Le controle n\'a pas été trouvé!',
             ], 404);
         }
     }
 
- public function viewPdf($id)
-{
-    $pilotage = Controle::findOrFail($id);
-    $pdfContent = $pilotage->fichier;
-    return response($pdfContent)
-        ->header('Content-Type', 'application/pdf')
-        ->header('Content-Disposition', 'inline; filename="file.pdf"');
-}
+    // public function viewPdf($id)
+    // {
+    //     $pilotage = Controle::findOrFail($id);
+    //     $pdfContent = $pilotage->fichier;
+    //     return response($pdfContent)
+    //     ->header('Content-Type', 'application/pdf')
+    //     ->header('Content-Disposition', 'inline; filename="file.pdf"');
+    // }
 
-public function exportPDF()
-{
-    $pdf = PDF::loadView('export-pdf', $data);
-    return $pdf->download('exported-pdf.pdf');
-}
-    }
+    // public function exportPDF()
+    // {
+    //     $pdf = PDF::loadView('export-pdf', $data);
+    //     return $pdf->download('exported-pdf.pdf');
+    // }
 
+}
