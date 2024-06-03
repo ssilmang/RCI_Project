@@ -33,8 +33,6 @@ class Controle extends Model
         return $this->belongsTo(Service::class);
     }
 
-   
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -53,6 +51,11 @@ class Controle extends Model
     public function pole()
     {
         return $this->belongsTo(Pole::class);
+    }
+
+    public function risque()
+    {
+        return $this->belongsTo(Risque::class);
     }
 
 

@@ -27,44 +27,33 @@ class ControleController extends Controller
     public function store(Request $request)
     {
         try {
-            $validated = $request->validate([
-                'objectif' => 'required|string',
-                'nom' => 'required|string',
-                'code' => 'required|string',
-                'commentaire' => 'required|string',
-                'description' => 'required|string',
-                'risque_couvert' => 'required|string',
-                'user_id' => 'required|exists:users,id',
-                'activite_id' => 'required|exists:activites,id',
-                'service_id' => 'required|exists:services,id',
-                'departement_id' => 'required|exists:departements,id',
-                'direction_id' => 'required|exists:directions,id',
-                'periodicite' => 'required|string',
-                'exhaustivite' => 'required|string',
-                'preuve' => 'required|string',
-                'fichiers' => 'file|mimes:pdf|max:2048',
-            ]);
+            // if ($request->hasFile('fichiers')) {
+            //     $pdfContent = file_get_contents($request->file('fichiers')->getRealPath());
+            //     $validated['fichiers'] = $pdfContent;
+            // }
 
-            if ($request->hasFile('fichiers')) {
-                $pdfContent = file_get_contents($request->file('fichiers')->getRealPath());
-                $validated['fichiers'] = $pdfContent;
-            }
-
-            // Vérification de l'existence d'un contrôle similaire
-            $existingControl = Controle::where([
-                'direction_id' => $request->direction_id,
+            Controle::create([
+                'code' => $request->code,
+                'objectif' => $request->objectif,
+                'periodicite' => $request->periodicite,
+                'exhaustivite' => $request->exhaustivite,
+                'preuve' => $request->preuve,
+                'etat' => $request->etat,
+                'fichier' => $request->fichier,
                 'nom' => $request->nom,
-                // Ajoutez d'autres critères de recherche si nécessaire
-            ])->first();
-
-            if ($existingControl) {
-                return response()->json([
-                    'error' => 'Un contrôle similaire existe déjà.',
-                ], 400);
-            }
-
-            // Création du contrôle s'il n'existe pas déjà
-            $pilotage = Controle::create($validated);
+                'commentaire' => $request->commentaire,
+                'descriptif' => $request->descriptif,
+                'date_ajout' => now(),
+                'archived_at' => $request->archived_at,
+                'risque_id' => $request->risque_id,
+                'direction_id' => $request->direction_id,
+                'service_id' => $request->service_id,
+                'pole_id' => $request->pole_id,
+                'activite_id' => $request->activite_id,
+                'departement_id' => $request->departement_id,
+                'user_id' => $request->user_id,
+                'validate' => 'non validé'
+            ]);
 
             return response()->json([
                 'message' => 'Contrôle créé avec succès!',

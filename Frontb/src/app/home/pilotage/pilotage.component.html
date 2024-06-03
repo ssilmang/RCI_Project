@@ -17,9 +17,9 @@
 
   </div>
 
-  <div class="flex flex-col shadow-md shadow-[#242a30] overflow-x-auto h-[91%] p-1">
+  <div class="flex flex-col shadow-sm gap-2 overflow-x-auto h-[91%] p-1">
 
-    <div [formGroup]="select" class="w-full h-[15%] overflow-x-auto rounded gap-10 flex p-1">
+    <div [formGroup]="select" class="w-full h-[15%] shadow-md  overflow-x-auto rounded gap-10 flex p-1">
 
       <div class="flex gap-4">
         <label class="text-xl">Direction</label>
@@ -160,11 +160,11 @@
 
     </div>
 
-    <div class="container shadow-md w-full shadow-[#242a30] overflow-y-auto h-[100%] p-1">
+    <div class="container shadow-lg w-full overflow-y-auto h-[100%] p-1">
 
-      <div class="relative shadow-md w-full shadow-[#242a30] overflow-y-auto">
+      <div class="relative shadow-md w-full overflow-y-auto">
 
-        <table class="w-full">
+        <table class="w-full shadow-lg">
           <thead class="text-white bg-[#FF7900]">
             <tr class="text-lg font-semibold">
               <th>
@@ -207,13 +207,13 @@
                 <div>Couverture</div>
               </th>
               <th>
-                <div>Preuves demandées</div>
+                <div>Preuve demandée</div>
               </th>
               <th>
-                <div>Fichiers preuves</div>
+                <div>Fichier preuve</div>
               </th>
               <th>
-                <div>Commentaires</div>
+                <div>Commentaire</div>
               </th>
               <th>
                 <div>Statut</div>
@@ -225,10 +225,7 @@
                 <div>Date d'ajout</div>
               </th>
               <th>
-                <div>Date d'archive</div>
-              </th>
-              <th>
-                <div>Actions</div>
+                <div>Action</div>
               </th>
             </tr>
           </thead>
@@ -254,17 +251,16 @@
                   <div>{{data.code}}</div>
                 </td>
                 <td>
-                  <div><textarea readonly> {{data.controle_id.nom}} </textarea></div>
+                  <div><textarea readonly>{{data.nom}}</textarea></div>
                 </td>
                 <td>
-                  <div><textarea readonly> S’assurer de la conformité de Sonatel par rapport aux normes auxquelles elle est certifiée et mettre en place une organisation efficace et optimale S’assurer de la conformité de Sonatel par rapport aux normes auxquelles elle est certifiée et mettre en place une organisation efficace et optimale
-                  </textarea></div>
+                  <div><textarea readonly>{{data.descriptif}}</textarea></div>
                 </td>
                 <td>
-                  <div><textarea readonly>{{data.objectif}} </textarea></div>
+                  <div><textarea readonly>{{data.objectif}}</textarea></div>
                 </td>
                 <td>
-                  <div>{{data.risque_couvert}}</div>
+                  <div>{{data.risque_id.libelle}}</div>
                 </td>
                 <td>
                   <div>{{data.user_id.nom_complet}}</div>
@@ -282,23 +278,23 @@
                   <div><a target="_blank" href="/assets/fichiers/preuve 1.pdf"><i class="material-icons">attach_file</i>Name of file</a></div>
                 </td>
                 <td>
-                  <div><textarea readonly>Commentaires 1 Commentaires 1 </textarea></div>
+                  <div><textarea readonly>{{data.commentaire}}</textarea></div>
                 </td>
                 <td>
-                  <div>Non applicable</div>
+                  <div>{{data.etat}}</div>
                 </td>
                 <td>
-                  <div>Validée</div>
+                  <div>
+                    {{data.validate}}
+                  </div>
                 </td>
                 <td>
-                  <div>28-04-2002</div>
+                  <div>{{data.date_ajout}}</div>
                 </td>
                 <td>
-                  <div>28-04-2002</div>
-                </td>
-                <td>
-                  <div class="flex gap-4">
-                    <i (click)="editModal(data)" class="material-icons cursor-pointer text-yellow-600">edit</i>
+                  <div class="flex gap-2">
+                    <i (click)="info(data)" class="material-icons cursor-pointer text-gray-600">visibility</i>
+                    <i (click)="editModal(data)" class="material-icons cursor-pointer text-yellow-400">edit</i>
                     <i (click)="deleteD(data.id)" class="material-icons cursor-pointer text-red-600">archive</i>
                     <i class="material-icons cursor-pointer text-green-600">check_circle</i>
                   </div>
@@ -382,7 +378,7 @@
               <textarea formControlName="commentaire"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
             </div>
-            <div class="col-span-2 sm:col-span-1">
+            <div class="col-span-2 mt-4 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Porteur</label>
               <select formControlName="user_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
@@ -392,7 +388,7 @@
                 }
               </select>
             </div>
-            <div class="col-span-2 sm:col-span-1">
+            <div class="col-span-2 mt-4 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direction</label>
               <select formControlName="direction_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
@@ -467,6 +463,15 @@
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichiers preuves</label>
               <input type="file" formControlName="fichier"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Etat</label>
+              <select formControlName="etat"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option value='none'>choisir un etat</option>
+                <option value='Applicable'>Applicable</option>
+                <option value='Fait'>Fait</option>
+              </select>
             </div>
           </div>
           <button (click)="addOrUp()"

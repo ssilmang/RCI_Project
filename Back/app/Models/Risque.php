@@ -11,4 +11,15 @@ class Risque extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = ['libelle'];
+
+    protected $hidden = [
+        'updated_at',
+        'created_at'
+    ];
+    
+    public function data()
+    {
+        return $this->hasMany(Controle::class);
+    }
+
 }

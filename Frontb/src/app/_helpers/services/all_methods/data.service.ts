@@ -10,7 +10,7 @@ import { apiUrlEnv, uri } from '../../environnements/api';
 export class DataService {
 
   apiUrl = apiUrlEnv.apiUrl;
-  uri = uri.data
+  uri = uri.controle
 
   constructor(private http : HttpClient) { }
 

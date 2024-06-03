@@ -79,9 +79,10 @@ export class PilotageComponent {
       risque_id: this.fb.control(0),
       user_id: this.fb.control(1),
       periodicite: this.fb.control('saisir la périodicité'),
-      exhaustivite: this.fb.control(1),
+      exhaustivite: this.fb.control(0),
       preuve: this.fb.control('P1'),
-      fichier: this.fb.control('')
+      fichier: this.fb.control(''),
+      etat: this.fb.control('none')
     })
 
     this.Data.get('controle_id')?.valueChanges.subscribe((d)=>{
@@ -209,7 +210,6 @@ export class PilotageComponent {
       // console.log(r.controles);
     })
   }
-
 
   addOrUp()
   {
@@ -376,11 +376,16 @@ export class PilotageComponent {
       { header: 'Code', key: 'code', width: 15 },
       { header: 'Contrôle', key: 'controle', width: 30 },
       { header: 'Objectif', key: 'objectif', width: 30 },
+      { header: 'Descriptif', key: 'descriptif', width: 30 },
       { header: 'Risque Couvert', key: 'risque', width: 30 },
       { header: 'Porteur', key: 'porteur', width: 20 },
       { header: 'Périodicité', key: 'periodicite', width: 15 },
       { header: 'Exhaustivité', key: 'exhaustivite', width: 15 },
       { header: 'Preuve', key: 'preuve', width: 30 },
+      { header: 'Commentaire', key: 'commentaire', width: 30 },
+      { header: 'Statut', key: 'statut', width: 30 },
+      { header: 'Etat', key: 'etat', width: 30 },
+      { header: 'Date ajout', key: 'date_ajout', width: 30 },
     ];
 
     worksheet.getRow(1).eachCell((cell) => {
@@ -401,13 +406,19 @@ export class PilotageComponent {
         service: data.service_id.libelle,
         activite: data.activite_id.libelle,
         code: data.code,
-        controle: data.controle_id.nom,
+        controle: data.nom,
         objectif: data.objectif,
-        risque: data.risque_couvert,
+        descriptif: data.descriptif,
+        risque: data.risque_id.libelle,
         porteur: data.user_id.nom_complet,
         periodicite: data.periodicite,
         exhaustivite: data.exhaustivite,
         preuve: data.preuve,
+        commentaire: data.commentaire,
+        statut: data.validate,
+        etat: data.etat,
+        date_ajout: data.date_ajout,
+
       });
 
       row.eachCell((cell) => {

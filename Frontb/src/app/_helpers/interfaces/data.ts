@@ -1,20 +1,25 @@
 export interface Data {
   id: number | null,
-  controle_id: Controle,
-  direction_id: Direction,
-  pole_id: Pole,
-  departement_id: Departement,
-  service_id: Service,
-  activite_id: Activite,
-  code: string | null,
   objectif: string | null,
-  risque_couvert: string | null,
   user_id: Utilisateur,
+  activite_id: Activite,
+  service_id: Service,
+  departement_id: Departement,
+  direction_id: Direction,
   periodicite: string | null,
   exhaustivite: string | null,
   preuve: string | null,
+  nom : string | null,
+  code: string | null,
+  commentaire: string | null,
+  descriptif: string | null,
+  date_ajout: Date | null,
+  archived_at: Date | null,
   fichier: string | null
+  risque_id: string | null,
+  validate: string | null,
   etat: boolean | null
+  pole_id: Pole,
 }
 
 export interface Utilisateur {

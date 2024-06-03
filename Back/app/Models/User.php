@@ -44,7 +44,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function data()
     {
-        return $this->hasMany(Pilotage::class);
+        return $this->hasMany(Controle::class);
     }
 
     protected function casts(): array

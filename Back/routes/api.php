@@ -84,8 +84,6 @@ Route::delete('/controle/delete/{id}', [ControleController::class, 'destroy']);
 // Route::get('/export-pdf', [PilotageController::class,'exportPDF']);
 
 
-
-
 Route::get('/activites/restaurer/{id}', [ActiviteController::class, 'restaurer']);
 // Route::get('/pilotage/restaurer/{id}', [PilotageController::class, 'restaurer']);
 Route::get('/service/restaurer/{id}', [ServiceController::class, 'restaurer']);
