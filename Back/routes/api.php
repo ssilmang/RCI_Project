@@ -1,15 +1,16 @@
 <?php
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PoleController;
+use App\Http\Controllers\RisqueController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ActiviteController;
 use App\Http\Controllers\ControleController;
 use App\Http\Controllers\PilotageController;
-use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\DirectionController;
+use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\UtilisateurController;
-use Illuminate\Http\Request;
 
 
 Route::group(['middleware' => 'auth:api'], function() {
@@ -27,11 +28,11 @@ Route::post('/utilisateur/add', [UtilisateurController::class, 'store']);
 Route::put('/utilisateur/update/{id}', [UtilisateurController::class, 'update']);
 Route::delete('/utilisateur/delete/{id}', [UtilisateurController::class, 'destroy']);
 
-//routers for controles
-Route::get('/controle/all', [ControleController::class, 'index']);
-Route::post('/controle/add', [ControleController::class, 'store']);
-Route::put('/controle/update/{id}', [ControleController::class, 'update']);
-Route::delete('/controle/delete/{id}', [ControleController::class, 'destroy']);
+//routers for risques//
+Route::get('/risque/all', [RisqueController::class, 'index']);
+Route::post('/risque/add', [RisqueController::class, 'store']);
+Route::put('/risque/update/{id}', [RisqueController::class, 'update']);
+Route::delete('/risque/delete/{id}', [RisqueController::class, 'destroy']);
 
 //routes for login//
 Route::post('/login',[AuthController::class,'login']);
@@ -67,13 +68,28 @@ Route::put('/service/update/{id}', [ServiceController::class, 'update']);
 Route::delete('/sevice/delete/{id}', [ServiceController::class, 'destroy']);
 Route::delete('/service/delete/{id}', [ServiceController::class, 'destroy']);
 
-//routes for pilotages//
-Route::get('/pilotage/all', [PilotageController::class, 'index']);
-Route::post('/pilotage/add', [PilotageController::class, 'store']);
-Route::put('/pilotage/update/{id}', [PilotageController::class, 'update']);
-Route::delete('/pilotage/delete/{id}', [PilotageController::class, 'destroy']);
+//routes for controle//
+Route::get('/controle/all', [ControleController::class, 'index']);
+Route::post('/controle/add', [ControleController::class, 'store']);
+Route::put('/controle/update/{id}', [ControleController::class, 'update']);
+Route::delete('/controle/delete/{id}', [ControleController::class, 'destroy']);
 
 // routes for desarchivage//
+
+Route::post('/activites/{id}/restaurer', [ActiviteController::class, 'restaurer']);
+Route::post('/controle/{id}/restaurer', [PilotageController::class, 'restaurer']);
+Route::post('/service/{id}/restaurer', [ServiceController::class, 'restaurer']);
+Route::post('/departement/{id}/restaurer', [DepartementController::class, 'restaurer']);
+Route::post('/pole/{id}/restaurer', [PoleController::class, 'restaurer']);
+Route::post('/risque/{id}/restaurer', [ControleController::class, 'restaurer']);
+Route::post('/utilisateur/{id}/restaurer', [UtilisateurController::class, 'restaurer']);
+// routes for fichier telecharger et enregiosdtrer dans la base de donnee//
+Route::get('/view-pdf/{id}', [PilotageController::class,'viewPdf']);
+Route::get('/export-pdf', [PilotageController::class,'exportPDF']);
+
+
+
+
 Route::get('/activites/restaurer/{id}', [ActiviteController::class, 'restaurer']);
 Route::get('/pilotage/restaurer/{id}', [PilotageController::class, 'restaurer']);
 Route::get('/service/restaurer/{id}', [ServiceController::class, 'restaurer']);
@@ -81,4 +97,5 @@ Route::get('/departement/restaurer/{id}', [DepartementController::class, 'restau
 Route::get('/pole/restaurer/{id}', [PoleController::class, 'restaurer']);
 Route::get('/controle/restaurer/{id}', [ControleController::class, 'restaurer']);
 Route::get('/utilisateur/restaurer/{id}', [UtilisateurController::class, 'restaurer']);
+
 

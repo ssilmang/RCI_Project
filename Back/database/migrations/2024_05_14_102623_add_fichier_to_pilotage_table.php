@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('telephone')->nullable();
-            $table->string('addresse')->nullable();
+        Schema::table('controles', function (Blueprint $table) {
+            $table->binary('fichiers')->nullable();
         });
     }
 
@@ -22,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            Schema::dropIfExists('telephone');
-            Schema::dropIfExists('addresse');
+        Schema::table('controles', function (Blueprint $table) {
+            //
         });
     }
 };

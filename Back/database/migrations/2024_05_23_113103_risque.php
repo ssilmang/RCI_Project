@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('controles', function (Blueprint $table) {
+        Schema::create('risques', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('code');
-            $table->timestamps();
-            $table->timestamp('deleted_at')->nullable();
+            $table->string('libelle');
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->nullable();
+            
 
         });
     }
@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('risques');
         Schema::dropIfExists('deleted_at');
-        Schema::dropIfExists('controles');
     }
 };

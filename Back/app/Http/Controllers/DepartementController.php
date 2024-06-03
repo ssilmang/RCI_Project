@@ -157,10 +157,15 @@ class DepartementController extends Controller
                 'error' => 'Le departement  n\'a pas été trouvée.',
             ], 404);
         }
+
+      return response()->json(['message' => 'Departement supprimé avec succes!']);
+
+    }
+
     }
 
 
-    }
+
 
 
 

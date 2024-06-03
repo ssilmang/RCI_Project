@@ -2,9 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Pole;
+use App\Models\User;
+use App\Models\Service;
+use App\Models\Activite;
+use App\Models\Direction;
+use App\Models\Departement;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Controle extends Model
 {
     use SoftDeletes;
@@ -16,9 +23,37 @@ class Controle extends Model
         'created_at'
     ];
 
-    public function data()
+    public function direction()
     {
-        return $this->hasMany(Pilotage::class);
+        return $this->belongsTo(Direction::class);
     }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
+
+   
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function departement()
+    {
+        return $this->belongsTo(Departement::class);
+    }
+
+    public function activite()
+    {
+        return $this->belongsTo(Activite::class);
+    }
+
+    public function pole()
+    {
+        return $this->belongsTo(Pole::class);
+    }
+
 
 }
