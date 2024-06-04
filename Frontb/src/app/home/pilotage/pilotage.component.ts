@@ -32,7 +32,7 @@ import { ValidatePipe } from '../../_helpers/pipes/validate.pipe';
 @Component({
   selector: 'app-pilotage',
   standalone: true,
-  imports: [ReactiveFormsModule, SweetAlert2Module, StatutPipe, ValidatePipe, PeriodicitePipe, RisquePipe, ControlePipe, CommonModule, ActivitePipe, Direction2Pipe, Departement2Pipe, CouverturePipe, PorteurPipe, PolectrlPipe, Service2Pipe],
+  imports: [CommonModule, ReactiveFormsModule, SweetAlert2Module, StatutPipe, ValidatePipe, PeriodicitePipe, RisquePipe, ControlePipe, CommonModule, ActivitePipe, Direction2Pipe, Departement2Pipe, CouverturePipe, PorteurPipe, PolectrlPipe, Service2Pipe],
   templateUrl: './pilotage.component.html',
   styleUrl: './pilotage.component.css'
 })
@@ -55,10 +55,14 @@ export class PilotageComponent {
   selectedStat: number = 0
   selectedVal: number = 0
 
+  control: boolean = true
+  archive: boolean = false
+  hoveredIcon: string | null = null;
 
   toExp: any[] = [];
   datas: Signal<Data[]> = signal([])
   controles: Signal<Controle[]> = signal([])
+  archives: Signal<Controle[]> = signal([])
   directions: Signal<Direction[]> = signal([])
   poles: Signal<Pole[]> = signal([])
   departements: Signal<Departement[]> = signal([])
@@ -207,9 +211,10 @@ export class PilotageComponent {
   getData()
   {
     this.data.listResources().subscribe((res:any)=>{
-      this.datas = signal(res.data);
+      this.datas = signal(res.controles);
+      this.archives = signal(res.archives);
       this.toExp = res.data
-      console.log(res.data);
+      console.log(res);
     })
   }
 
@@ -266,6 +271,18 @@ export class PilotageComponent {
       // this.ctrls = r.controles
       // console.log(r.controles);
     })
+  }
+
+  selectControle()
+  {
+    this.control = true;
+    this.archive = false
+  }
+
+  selectArchive()
+  {
+    this.control = false;
+    this.archive = true
   }
 
   addOrUp()
@@ -332,24 +349,27 @@ export class PilotageComponent {
     if (modal) {
       this.title = 'Modification control'
       this.btn = 'Modifier'
+      modal.style.display = 'block';
       this.id = data.id
       this.Data.patchValue({
-        controle_id: data.controle_id.id,
+        nom: data.nom,
         direction_id: data.direction_id.id,
         pole_id: data.pole_id.id,
         departement_id: data.departement_id.id,
         service_id: data.service_id.id,
         activite_id: data.activite_id.id,
         code: data.code,
+        commentaire: data.commentaire,
+        descriptif: data.descriptif,
         objectif: data.objectif,
-        risque_couvert: data.risque_couvert,
+        risque_id: data.risque_id.id,
         user_id: data.user_id.id,
         periodicite: data.periodicite,
         exhaustivite: data.exhaustivite,
         preuve: data.preuve,
-        fichier: data.fichier
+        fichier: data.fichier,
+        etat: data.etat,
       })
-      modal.style.display = 'block';
     }
   }
 
@@ -360,20 +380,23 @@ export class PilotageComponent {
       this.title = 'Information control'
       this.btn = 'Fermer'
       this.Data.patchValue({
-        controle_id: data.controle_id.id,
+        nom: data.nom,
         direction_id: data.direction_id.id,
         pole_id: data.pole_id.id,
         departement_id: data.departement_id.id,
         service_id: data.service_id.id,
         activite_id: data.activite_id.id,
         code: data.code,
+        commentaire: data.commentaire,
+        descriptif: data.descriptif,
         objectif: data.objectif,
-        risque_couvert: data.risque_couvert,
+        risque_id: data.risque_id.id,
         user_id: data.user_id.id,
         periodicite: data.periodicite,
         exhaustivite: data.exhaustivite,
         preuve: data.preuve,
-        fichier: data.fichier
+        fichier: data.fichier,
+        etat: data.etat,
       })
       this.Data.disable()
       modal.style.display = 'block';
@@ -407,6 +430,68 @@ export class PilotageComponent {
         });
       }else if(result.isDenied) {
         Swal.fire("L'archivage a été annulée", "", "info");
+      }
+    });
+  }
+
+  desarchiver(id: number | null)
+  {
+    Swal.fire({
+      title: "Voulez-vous confirmer le désarchivage ?",
+      showDenyButton: true,
+      confirmButtonText: "Désarchiver",
+      denyButtonText: `Annuler`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.data.desarchiverResource(id).subscribe((d:any) => {
+          if (d.message) {
+            this.getData()
+            Swal.fire({
+              title: "Succes!",
+              text: d.message,
+              icon: "success"
+            });
+          }else if(d.error){
+            Swal.fire({
+              title: "Error!",
+              text: d.error,
+              icon: "error"
+            });
+          }
+        });
+      }else if(result.isDenied) {
+        Swal.fire("Le désarchivage a été annulée", "", "info");
+      }
+    });
+  }
+
+  validate(id: number | null)
+  {
+    Swal.fire({
+      title: "Voulez-vous confirmer la validation?",
+      showDenyButton: true,
+      confirmButtonText: "Valider",
+      denyButtonText: `Annuler`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.data.validateResource(id).subscribe((d:any) => {
+          if (d.message) {
+            this.getData()
+            Swal.fire({
+              title: "Succes!",
+              text: d.message,
+              icon: "success"
+            });
+          }else if(d.error){
+            Swal.fire({
+              title: "Error!",
+              text: d.error,
+              icon: "error"
+            });
+          }
+        });
+      }else if(result.isDenied) {
+        Swal.fire("La validation a été annulée", "", "info");
       }
     });
   }

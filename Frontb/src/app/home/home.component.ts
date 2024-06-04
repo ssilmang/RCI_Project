@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -5,13 +6,13 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterOutlet, RouterLinkActive, RouterLink],
+  imports: [RouterOutlet, RouterLinkActive, RouterLink, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
 
-   role!: string;
+  role!: string;
   use!: any;
   user!: string;
   identifiant!: string
@@ -20,6 +21,8 @@ export class HomeComponent {
   data!: any
   name: string = ''
   img: string = ''
+  hoveredIcon: string | null = null;
+
   // image!: any
 
   // userForm!: FormGroup

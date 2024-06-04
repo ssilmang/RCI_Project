@@ -29,5 +29,17 @@ export class DataService {
   updateResources(id: number | null, data: any) {
     return this.http.put(this.apiUrl + this.uri.update + id, data);
   }
+  
+  restaureResource(id: number|null) {
+    return this.http.get(this.apiUrl + this.uri.restaurer + id);
+  }
+
+  validateResource(id: number|null) {
+    return this.http.get(this.apiUrl + this.uri.validated + id);
+  }
+
+  desarchiverResource(id: number|null) {
+    return this.http.get(this.apiUrl + this.uri.restaurer + id);
+  }
 
 }

@@ -19,9 +19,16 @@
       </div>
 
       <div class="flex gap-3 mt-6 h-6">
-        <i (click)="infoUser()" class="material-icons cursor-pointer text-[#FF7900]">account_box</i>
-        <i (click)="logout()" class="material-icons cursor-pointer text-[#FF7900]">exit_to_app</i>
+        <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'account_box'" (mouseleave)="hoveredIcon = null">
+          <i (click)="infoUser()" class="material-icons cursor-pointer text-[#FF7900]">account_box</i>
+          <div class="tooltip" *ngIf="hoveredIcon === 'account_box'">Voir mes informations personnelles</div>
+        </div>
+        <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'exit_to_app'" (mouseleave)="hoveredIcon = null">
+          <i (click)="logout()" class="material-icons cursor-pointer text-[#FF7900]">exit_to_app</i>
+          <div class="tooltip" *ngIf="hoveredIcon === 'exit_to_app'">Se déconnecter</div>
+        </div>
       </div>
+
     </div>
 
     <div class="flex flex-col gap-12 w-full h-[100%] p-2">

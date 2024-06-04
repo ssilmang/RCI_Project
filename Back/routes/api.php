@@ -74,6 +74,8 @@ Route::get('/controle/all', [ControleController::class, 'index']);
 Route::post('/controle/add', [ControleController::class, 'store']);
 Route::put('/controle/update/{id}', [ControleController::class, 'update']);
 Route::delete('/controle/delete/{id}', [ControleController::class, 'destroy']);
+Route::get('/controle/restaurer/{id}', [ControleController::class, 'restaurer']);
+Route::get('/controle/validated/{id}', [ControleController::class, 'validated']);
 
 // routes for desarchivage//
 
@@ -89,7 +91,6 @@ Route::get('/activites/restaurer/{id}', [ActiviteController::class, 'restaurer']
 Route::get('/service/restaurer/{id}', [ServiceController::class, 'restaurer']);
 Route::get('/departement/restaurer/{id}', [DepartementController::class, 'restaurer']);
 Route::get('/pole/restaurer/{id}', [PoleController::class, 'restaurer']);
-Route::get('/controle/restaurer/{id}', [ControleController::class, 'restaurer']);
 Route::get('/utilisateur/restaurer/{id}', [UtilisateurController::class, 'restaurer']);
 
 

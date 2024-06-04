@@ -1,19 +1,26 @@
 <div class="flex flex-col relative gap-4 w-full h-[100%]">
 
   <div class="flex justify-between">
-    <h1 class="text-[2rem] ml-7 text-[#FF7900] font-bold">Controles</h1>
-
-    <div class="flex justify-between w-[25%] mt-4">
-      <button (click)="exportExcel()"
-        class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
-        exporter vers excel
-      </button>
-
-      <button (click)="openModal()"
-        class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
-        + controle
-      </button>
+    <div class="flex gap-8 w-[30%]">
+      <h1 (click)="selectControle()" class="cursor-pointer text-[2rem] ml-4 font-bold"
+      [ngClass]="{'one':control}">Controles</h1>
+      <h1 (click)="selectArchive()" class="cursor-pointer text-[2rem] ml-4 font-bold"
+      [ngClass]="{'one':archive}">Archives</h1>
     </div>
+
+    @if (control) {
+      <div class="flex justify-between w-[25%] mt-4">
+        <button (click)="exportExcel()"
+          class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
+          exporter vers excel
+        </button>
+  
+        <button (click)="openModal()"
+          class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
+          + controle
+        </button>
+      </div>
+    }
 
   </div>
 
@@ -219,7 +226,12 @@
                 <div>Etat</div>
               </th>
               <th>
-                <div>Date d'ajout</div>
+                @if (control) {
+                  <div>Date d'ajout</div>
+                }
+                @if (archive) {
+                  <div>Date d'archive</div>
+                }
               </th>
               <th>
                 <div>Action</div>
@@ -227,7 +239,96 @@
             </tr>
           </thead>
           <tbody>
-            @for (data of datas() | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id) {
+            @if (control) {
+              @for (data of datas() | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id) {
+                <tr class="bg-white">
+                  <td>
+                    <div>{{data.direction_id.libelle}}</div>
+                  </td>
+                  <td>
+                    <div>{{data.pole_id.libelle}}</div>
+                  </td>
+                  <td>
+                    <div>{{data.departement_id.libelle}}</div>
+                  </td>
+                  <td>
+                    <div>{{data.service_id.libelle}}</div>
+                  </td>
+                  <td>
+                    <div>{{data.activite_id.libelle}}</div>
+                  </td>
+                  <td>
+                    <div>{{data.code}}</div>
+                  </td>
+                  <td>
+                    <div><textarea readonly>{{data.nom}}</textarea></div>
+                  </td>
+                  <td>
+                    <div><textarea readonly>{{data.descriptif}}</textarea></div>
+                  </td>
+                  <td>
+                    <div><textarea readonly>{{data.objectif}}</textarea></div>
+                  </td>
+                  <td>
+                    <div>{{data.risque_id.libelle}}</div>
+                  </td>
+                  <td>
+                    <div>{{data.user_id.nom_complet}}</div>
+                  </td>
+                  <td>
+                    <div>{{data.periodicite}}</div>
+                  </td>
+                  <td>
+                    <div>{{data.exhaustivite}}</div>
+                  </td>
+                  <td>
+                    <div><textarea readonly>{{data.preuve}}</textarea></div>
+                  </td>
+                  <td>
+                    <div><a target="_blank" href="/assets/fichiers/preuve 1.pdf"><i class="material-icons">attach_file</i>Name of file</a></div>
+                  </td>
+                  <td>
+                    <div><textarea readonly>{{data.commentaire}}</textarea></div>
+                  </td>
+                  <td>
+                    <div>{{data.etat}}</div>
+                  </td>
+                  <td>
+                    <div>
+                      {{data.validate}}
+                    </div>
+                  </td>
+                  <td>
+                    <div>{{data.date_ajout}}</div>
+                  </td>
+                  <td>
+                    <div class="flex gap-2">
+                      <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'visibility'" (mouseleave)="hoveredIcon = null">
+                        <i (click)="info(data)" class="material-icons cursor-pointer text-gray-600">visibility</i>
+                        <div class="tooltip" *ngIf="hoveredIcon === 'visibility'">voir fiche control</div>
+                      </div>
+                      <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'edit'" (mouseleave)="hoveredIcon = null">
+                        <i (click)="editModal(data)" class="material-icons cursor-pointer text-yellow-400">edit</i>
+                        <div class="tooltip" *ngIf="hoveredIcon === 'edit'">editer le control</div>
+                      </div>
+                      <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'archive'" (mouseleave)="hoveredIcon = null">
+                        <i (click)="deleteD(data.id)" class="material-icons cursor-pointer text-red-600">archive</i>
+                        <div class="tooltip" *ngIf="hoveredIcon === 'archive'">Archiver le control</div>
+                      </div>
+                      <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'check_circle'" (mouseleave)="hoveredIcon = null">
+                        <i (click)="validate(data.id)" class="material-icons cursor-pointer text-green-600">check_circle</i>
+                        <div class="tooltip" *ngIf="hoveredIcon === 'check_circle'">valider le control</div>
+                      </div>
+                    </div>
+
+                  </td>
+                </tr>
+              }
+            }
+            @if (archive) {
+              @for (data of archives() | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal
+              |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv
+              |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id) {
               <tr class="bg-white">
                 <td>
                   <div>{{data.direction_id.libelle}}</div>
@@ -272,7 +373,8 @@
                   <div><textarea readonly>{{data.preuve}}</textarea></div>
                 </td>
                 <td>
-                  <div><a target="_blank" href="/assets/fichiers/preuve 1.pdf"><i class="material-icons">attach_file</i>Name of file</a></div>
+                  <div><a target="_blank" href="/assets/fichiers/preuve 1.pdf"><i class="material-icons">attach_file</i>Name of
+                      file</a></div>
                 </td>
                 <td>
                   <div><textarea readonly>{{data.commentaire}}</textarea></div>
@@ -286,17 +388,16 @@
                   </div>
                 </td>
                 <td>
-                  <div>{{data.date_ajout}}</div>
+                  <div>{{data.archived_at}}</div>
                 </td>
                 <td>
                   <div class="flex gap-2">
                     <i (click)="info(data)" class="material-icons cursor-pointer text-gray-600">visibility</i>
-                    <i (click)="editModal(data)" class="material-icons cursor-pointer text-yellow-400">edit</i>
-                    <i (click)="deleteD(data.id)" class="material-icons cursor-pointer text-red-600">archive</i>
-                    <i class="material-icons cursor-pointer text-green-600">check_circle</i>
+                    <i (click)="desarchiver(data.id)" class="material-icons cursor-pointer text-red-600">archive</i>
                   </div>
                 </td>
               </tr>
+              }
             }
           </tbody>
         </table>
@@ -468,6 +569,7 @@
                 <option value='none'>choisir un etat</option>
                 <option value='Applicable'>Applicable</option>
                 <option value='Fait'>Fait</option>
+                <option value='Non fait'>Non fait</option>
               </select>
             </div>
           </div>

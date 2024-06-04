@@ -3,7 +3,6 @@ export const apiUrlEnv = {
   apiUrl : 'http://127.0.0.1:8000/api/'
 }
 
-
 const verbs = [
   'utilisateur',
   'controle',
@@ -32,6 +31,7 @@ export const uri = {
     update :`${verbs[1]}/update/`,
     delete : `${verbs[1]}/delete/`,
     restaurer : `${verbs[1]}/restaurer/`,
+    validated : `${verbs[1]}/validated/`,
   },
 
   risque : {
