@@ -19,8 +19,8 @@ export class RisqueComponent {
   titre!: string
   btn!: string
   id!: number | null
-  risk: boolean = true
-  archive: boolean = false
+  risk!: boolean
+  archive!: boolean
 
   risque!: FormGroup
 
@@ -36,15 +36,20 @@ export class RisqueComponent {
 
   ngOnInit()
   {
-
+    this.selectRisk()
+    this.getRisques()
   }
 
   getRisques()
   {
-
+    this.riskk.listResources().subscribe((r:any) => {
+      this.risques = signal(r.risques)
+      this.archives = signal(r.archives)
+      // console.log(r);
+    })
   }
 
-  selectControle()
+  selectRisk()
   {
     this.risk = true;
     this.archive = false
@@ -76,7 +81,125 @@ export class RisqueComponent {
 
   addOrUpRisk()
   {
+    if (this.btn == 'Ajouter') {
+      this.riskk.addResources(this.risque.value).subscribe((d:any)=>{
+        // console.log(d);
+        if (d.message) {
+          this.getRisques()
+          this.risque.reset()
+          this.closeModal()
+          Swal.fire({
+            title: "Succes!",
+            text: d.message,
+            icon: "success"
+          });
+        }else if(d.error){
+          Swal.fire({
+            title: "Error!",
+            text: d.error,
+            icon: "error"
+          });
+        }
+      })
+    }else if(this.btn == 'Modifier'){
+      this.riskk.updateResources(this.id, this.risque.value).subscribe((d:any)=>{
+        // console.log(d);
+        if (d.message) {
+          this.getRisques()
+          this.risque.reset()
+          this.closeModal()
+          Swal.fire({
+            title: "Succes!",
+            text: d.message,
+            icon: "success"
+          });
+        }else if(d.error){
+          Swal.fire({
+            title: "Error!",
+            text: d.error,
+            icon: "error"
+          });
+        }
+      })
+    }else{
+      this.closeModal()
+    }
+  }
 
+  editModal(risk: any)
+  {
+    let modal = document.getElementById('risk');
+    if (modal) {
+      this.titre = 'Modification risque'
+      this.btn = 'Modifier'
+      this.id = risk.id
+      this.risque.patchValue({
+        libelle: risk.libelle
+      })
+      modal.style.display = 'block';
+    }
+  }
+
+  deleteRisk(id: number | null)
+  {
+    Swal.fire({
+      title: "Voulez-vous confirmer l'archivage ?",
+      showDenyButton: true,
+      confirmButtonText: "Archiver",
+      denyButtonText: `Annuler`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.riskk.deleteResource(id).subscribe((d:any) => {
+          if (d.message) {
+            this.getRisques()
+            Swal.fire({
+              title: "Succes!",
+              text: d.message,
+              icon: "success"
+            });
+          }else if(d.error){
+            Swal.fire({
+              title: "Error!",
+              text: d.error,
+              icon: "error"
+            });
+          }
+        });
+      }else if(result.isDenied) {
+        Swal.fire("L'archivage a été annulée", "", "info");
+      }
+    });
+  }
+
+  unarchive(id: number | null)
+  {
+    Swal.fire({
+      title: "Voulez-vous confirmer la restauration ?",
+      showDenyButton: true,
+      confirmButtonText: "Restaurer",
+      denyButtonText: `Annuler`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.riskk.restaureResource(id).subscribe((d:any) => {
+          if (d.message) {
+            this.getRisques()
+            Swal.fire({
+              title: "Succes!",
+              text: d.message,
+              icon: "success"
+            });
+          }else if(d.error){
+            Swal.fire({
+              title: "Error!",
+              text: d.error,
+              icon: "error"
+            });
+          }
+        });
+      }else if(result.isDenied) {
+        Swal.fire("La restauration a été annulée", "", "info");
+      }
+    });
   }
 
 }

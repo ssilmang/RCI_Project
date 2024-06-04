@@ -154,12 +154,12 @@ export class Setting2Component {
       this.directions = signal(r)
     })
   }
-  
+
   getDepart()
   {
     this.depart.listResources().subscribe(r => {
       this.departements = signal(r)
-      // console.log(r);
+      console.log(r);
     })
   }
 

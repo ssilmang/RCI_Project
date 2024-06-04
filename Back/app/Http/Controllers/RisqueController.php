@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DataResource;
 use App\Models\Risque;
 use Illuminate\Http\Request;
 
@@ -12,16 +13,11 @@ class RisqueController extends Controller
      */
     public function index()
     {
-        $risques = Risque::all();
-        return DataResource::collection($risques);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        // return Risque::all();
+        return response()->json([
+            'risques' => Risque::all(),
+            'archives' => Risque::onlyTrashed()->get()
+        ]);
     }
 
     /**
@@ -33,7 +29,7 @@ class RisqueController extends Controller
             $p = Risque::where('libelle', $request->libelle)->first();
             if ($p) {
                 return response()->json([
-                    'error' => 'Cet Risques existe déjà!',
+                    'error' => 'Cet risque existe déjà!',
                 ]);
             }
 
@@ -48,7 +44,7 @@ class RisqueController extends Controller
             ]);
 
             return response()->json([
-                'message' => "Le Risque a été crée avec succès!",
+                'message' => "Le risque a été crée avec succès!",
             ], 201);
 
         } catch (\Throwable $th) {
@@ -59,39 +55,22 @@ class RisqueController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Risque $risque)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Risque $risque)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Risque $risque)
+    public function update(Request $request, $id)
     {
         try {
-
             $risque = Risque::find($id);
 
             if (!$risque) {
-                return response()->json(['error' => 'Risque non trouvée'], 404);
+                return response()->json(['error' => 'Risque non trouvé!'], 404);
             }
 
             if ($risque->libelle != $request->libelle) {
                 $p = Risque::where('libelle', $request->libelle)->first();
                 if ($p) {
                     return response()->json([
-                        'error' => 'Cet Risque existe déjà!',
+                        'error' => 'Cet risque existe déjà!',
                     ]);
                 }
             }
@@ -102,15 +81,13 @@ class RisqueController extends Controller
                 ]);
             }
 
-            
-
             $risque->update([
                 'libelle' => $request->libelle,
-    
+
             ]);
 
             return response()->json([
-                'message' => 'Activité mise à jour avec succès!',
+                'message' => 'Le risque est mise à jour avec succès!',
                 'data' => $risque,
             ]);
 
@@ -124,7 +101,7 @@ class RisqueController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Risque $risque)
+    public function destroy($id)
     {
         $risque = Risque::find($id);
 
@@ -136,24 +113,22 @@ class RisqueController extends Controller
 
         return response()->json(['message' => 'Risque supprimé avec succes!']);
     }
-    
+
     public function restaurer($id)
     {
-
-        $risque = Risque::withTrashed()->find($id);
+        $risque = Risque::onlyTrashed()->find($id);
 
         if ($risque ) {
-
             $risque ->restore();
-
             return response()->json([
-                'message' => 'Le risque a été restaurée avec succès.',
-                'risque' => $risque 
+                'message' => 'Le risque a été restauré avec succès!',
+                'risque' => $risque
             ]);
         } else {
             return response()->json([
-                'error' => 'Le risque n\'a pas été trouvée.',
+                'error' => 'Le risque n\'a pas été trouvé!',
             ], 404);
         }
     }
+
 }

@@ -23,7 +23,7 @@ class Activite extends Model
 
     public function data()
     {
-        return $this->hasMany(Pilotage::class);
+        return $this->hasMany(Controle::class);
     }
 
 

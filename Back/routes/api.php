@@ -33,6 +33,7 @@ Route::get('/risque/all', [RisqueController::class, 'index']);
 Route::post('/risque/add', [RisqueController::class, 'store']);
 Route::put('/risque/update/{id}', [RisqueController::class, 'update']);
 Route::delete('/risque/delete/{id}', [RisqueController::class, 'destroy']);
+Route::get('/risque/restaurer/{id}', [RisqueController::class, 'restaurer']);
 
 //routes for login//
 Route::post('/login',[AuthController::class,'login']);
@@ -76,22 +77,15 @@ Route::delete('/controle/delete/{id}', [ControleController::class, 'destroy']);
 
 // routes for desarchivage//
 
-Route::post('/activites/{id}/restaurer', [ActiviteController::class, 'restaurer']);
-Route::post('/controle/{id}/restaurer', [PilotageController::class, 'restaurer']);
-Route::post('/service/{id}/restaurer', [ServiceController::class, 'restaurer']);
-Route::post('/departement/{id}/restaurer', [DepartementController::class, 'restaurer']);
-Route::post('/pole/{id}/restaurer', [PoleController::class, 'restaurer']);
-Route::post('/risque/{id}/restaurer', [ControleController::class, 'restaurer']);
-Route::post('/utilisateur/{id}/restaurer', [UtilisateurController::class, 'restaurer']);
+// Route::post('/controle/{id}/restaurer', [PilotageController::class, 'restaurer']);
+
 // routes for fichier telecharger et enregiosdtrer dans la base de donnee//
-Route::get('/view-pdf/{id}', [PilotageController::class,'viewPdf']);
-Route::get('/export-pdf', [PilotageController::class,'exportPDF']);
-
-
+// Route::get('/view-pdf/{id}', [PilotageController::class,'viewPdf']);
+// Route::get('/export-pdf', [PilotageController::class,'exportPDF']);
 
 
 Route::get('/activites/restaurer/{id}', [ActiviteController::class, 'restaurer']);
-Route::get('/pilotage/restaurer/{id}', [PilotageController::class, 'restaurer']);
+// Route::get('/pilotage/restaurer/{id}', [PilotageController::class, 'restaurer']);
 Route::get('/service/restaurer/{id}', [ServiceController::class, 'restaurer']);
 Route::get('/departement/restaurer/{id}', [DepartementController::class, 'restaurer']);
 Route::get('/pole/restaurer/{id}', [PoleController::class, 'restaurer']);
