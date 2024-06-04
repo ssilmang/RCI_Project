@@ -12,7 +12,7 @@
       @if (risk) {
       <span (click)="openModal()"
         class="p-2 h-9 bg-[#FF663E] cursor-pointer shadow-md shadow-[#242a30] text-[white] text-lg rounded-lg flex justify-center items-center font-bold">
-        +risque
+          <i class="fas fa-plus"></i> Risque
       </span>
       }
     </form>
@@ -71,9 +71,10 @@
           {{titre}}
         </h1>
         <span (click)="closeModal()"
-          class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
-          X
-        </span>
+      class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
+      <i class="fas fa-times"></i>
+</span>
+
       </div>
 
       <div class="flex flex-col gap-14 h-[80%]">
