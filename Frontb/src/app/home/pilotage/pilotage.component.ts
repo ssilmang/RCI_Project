@@ -19,12 +19,20 @@ import { CouverturePipe } from '../../_helpers/pipes/couverture.pipe';
 import { PorteurPipe } from '../../_helpers/pipes/porteur.pipe';
 import * as ExcelJS from 'exceljs';
 import * as FileSaver from 'file-saver';
+import { PolectrlPipe } from '../../_helpers/pipes/polectrl.pipe';
+import { Service2Pipe } from '../../_helpers/pipes/service2.pipe';
+import { ActivitePipe } from '../../_helpers/pipes/activite.pipe';
+import { ControlePipe } from '../../_helpers/pipes/controle.pipe';
+import { RisquePipe } from '../../_helpers/pipes/risque.pipe';
+import { PeriodicitePipe } from '../../_helpers/pipes/periodicite.pipe';
+import { StatutPipe } from '../../_helpers/pipes/statut.pipe';
+import { ValidatePipe } from '../../_helpers/pipes/validate.pipe';
 
 
 @Component({
   selector: 'app-pilotage',
   standalone: true,
-  imports: [ReactiveFormsModule, SweetAlert2Module, CommonModule, Direction2Pipe, Departement2Pipe, CouverturePipe, PorteurPipe],
+  imports: [ReactiveFormsModule, SweetAlert2Module, StatutPipe, ValidatePipe, PeriodicitePipe, RisquePipe, ControlePipe, CommonModule, ActivitePipe, Direction2Pipe, Departement2Pipe, CouverturePipe, PorteurPipe, PolectrlPipe, Service2Pipe],
   templateUrl: './pilotage.component.html',
   styleUrl: './pilotage.component.css'
 })
@@ -38,6 +46,15 @@ export class PilotageComponent {
   selectedDept: number = 0
   selectedCouv: number = 0
   selectedUser: number = 0
+  selectedPole: number = 0
+  selectedServ: number = 0
+  selectedAct: number = 0
+  selectedCtrl: number = 0
+  selectedRisk: number = 0
+  selectedPrd: number = 0
+  selectedStat: number = 0
+  selectedVal: number = 0
+
 
   toExp: any[] = [];
   datas: Signal<Data[]> = signal([])
@@ -96,7 +113,7 @@ export class PilotageComponent {
       pole_id: this.fb.control(0),
       service_id: this.fb.control(0),
       activite_id: this.fb.control(0),
-      controle: this.fb.control(0),
+      nom: this.fb.control(0),
       risque_id: this.fb.control(0),
       user_id: this.fb.control(0),
       periodicite: this.fb.control(0),
@@ -104,6 +121,11 @@ export class PilotageComponent {
       statut: this.fb.control(0),
       validate: this.fb.control(0),
     });
+
+    this.select.get('nom')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedCtrl = res
+    })
 
     this.select.get('direction_id')?.valueChanges.subscribe(res=>{
       // console.log(res);
@@ -115,6 +137,26 @@ export class PilotageComponent {
       this.selectedDept = res
     })
 
+    this.select.get('pole_id')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedPole = res
+    })
+
+    this.select.get('service_id')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedServ = res
+    })
+
+    this.select.get('activite_id')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedAct = res
+    })
+
+    this.select.get('risque_id')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedRisk = res
+    })
+
     this.select.get('user_id')?.valueChanges.subscribe(res=>{
       // console.log(res);
       this.selectedUser = res
@@ -123,6 +165,21 @@ export class PilotageComponent {
     this.select.get('couverture')?.valueChanges.subscribe(res=>{
       // console.log(res);
       this.selectedCouv = res
+    })
+
+    this.select.get('periodicite')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedPrd = res
+    })
+
+    this.select.get('statut')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedStat = res
+    })
+
+    this.select.get('validate')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedVal = res
     })
 
   }
@@ -151,8 +208,8 @@ export class PilotageComponent {
   {
     this.data.listResources().subscribe((res:any)=>{
       this.datas = signal(res.data);
-      // console.log(res.data);
       this.toExp = res.data
+      console.log(res.data);
     })
   }
 

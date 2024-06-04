@@ -78,12 +78,16 @@
 
       <div class="flex gap-4">
         <label class="text-xl">Controle</label>
-        <select formControlName="controle"
+        <select formControlName="nom"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
           <option value=0>filtrer par controle</option>
-          @for (controle of controles(); track controle.id) {
+          <option value="Control 1">Control 1</option>
+          <option value="Control 2">Control 2</option>
+          <option value="Control 3">Control 3</option>
+
+          <!-- @for (controle of controles(); track controle.id) {
           <option [value]="controle.nom">{{controle.nom}}</option>
-          }
+          } -->
         </select>
       </div>
 
@@ -124,17 +128,9 @@
         <select formControlName="periodicite"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
           <option value=0>filtrer par periodicite</option>
-          <option value="one">Journalier</option>
-        </select>
-      </div>
-
-      <div class="flex gap-4">
-        <label class="text-xl">Couverture</label>
-        <select formControlName="couverture"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
-          <option value=0>filtrer par couverture</option>
-          <option value="one">Exhaustive</option>
-          <option value="two">Non Exhaustive</option>
+          <option value="journalière">journalière</option>
+          <option value="mensuelle">mensuelle</option>
+          <option value="annuelle">annuelle</option>
         </select>
       </div>
 
@@ -143,8 +139,9 @@
         <select formControlName="statut"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
           <option value=0>filtrer par statut</option>
-          <option value="one">Fait</option>
-          <option value="two">Non fait</option>
+          <option value="Fait">Fait</option>
+          <option value="Non fait">Non fait</option>
+          <option value="Applicable">Applicable</option>
         </select>
       </div>
 
@@ -153,8 +150,8 @@
         <select formControlName="validate"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
           <option value=0>filtrer par etat</option>
-          <option value="one">Validée</option>
-          <option value="two">Non validée</option>
+          <option value="Validée">Validée</option>
+          <option value="Non validée">Non validée</option>
         </select>
       </div>
 
@@ -230,7 +227,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (data of datas() | direction2:selectedDir |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser; track data.id) {
+            @for (data of datas() | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id) {
               <tr class="bg-white">
                 <td>
                   <div>{{data.direction_id.libelle}}</div>
