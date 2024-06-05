@@ -58,6 +58,12 @@ export class PilotageComponent {
   control: boolean = true
   archive: boolean = false
   hoveredIcon: string | null = null;
+  selectedFile: any;
+  display: boolean = false
+  file: any
+
+  formData: FormData = new FormData();
+  formData2: FormData = new FormData();
 
   toExp: any[] = [];
   datas: Signal<Data[]> = signal([])
@@ -102,7 +108,6 @@ export class PilotageComponent {
       periodicite: this.fb.control('saisir la périodicité'),
       exhaustivite: this.fb.control(0),
       preuve: this.fb.control('P1'),
-      fichier: this.fb.control(''),
       etat: this.fb.control('none')
     })
 
@@ -214,7 +219,7 @@ export class PilotageComponent {
       this.datas = signal(res.controles);
       this.archives = signal(res.archives);
       this.toExp = res.data
-      console.log(res);
+      // console.log(res);
     })
   }
 
@@ -285,11 +290,36 @@ export class PilotageComponent {
     this.archive = true
   }
 
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
   addOrUp()
   {
     // console.log(this.Data.value);
     if (this.btn == 'Ajouter') {
-      this.data.addResources(this.Data.value).subscribe((d:any)=>{
+      this.formData.append('code', this.Data.get('code')?.value);
+      this.formData.append('objectif', this.Data.get('objectif')?.value);
+      this.formData.append('periodicite', this.Data.get('periodicite')?.value);
+      this.formData.append('exhaustivite', this.Data.get('exhaustivite')?.value);
+      this.formData.append('preuve', this.Data.get('preuve')?.value);
+      this.formData.append('etat', this.Data.get('etat')?.value);
+      this.formData.append('nom', this.Data.get('nom')?.value);
+      this.formData.append('commentaire', this.Data.get('commentaire')?.value);
+      this.formData.append('descriptif', this.Data.get('descriptif')?.value);
+      this.formData.append('risque_id', this.Data.get('risque_id')?.value);
+      this.formData.append('direction_id', this.Data.get('direction_id')?.value);
+      this.formData.append('service_id', this.Data.get('service_id')?.value);
+      this.formData.append('pole_id', this.Data.get('pole_id')?.value);
+      this.formData.append('activite_id', this.Data.get('activite_id')?.value);
+      this.formData.append('departement_id', this.Data.get('departement_id')?.value);
+      this.formData.append('user_id', this.Data.get('user_id')?.value);
+      this.formData.append('fichier', this.selectedFile);
+
+      this.data.addResources(this.formData).subscribe((d:any)=>{
         // console.log(d);
         if (d.message) {
           this.getData()
@@ -309,8 +339,30 @@ export class PilotageComponent {
         }
       })
     }else if(this.btn == 'Modifier'){
-      this.data.updateResources(this.id, this.Data.value).subscribe((d:any)=>{
-        // console.log(d);
+      this.formData.append('code', this.Data.get('code')?.value);
+      this.formData.append('objectif', this.Data.get('objectif')?.value);
+      this.formData.append('periodicite', this.Data.get('periodicite')?.value);
+      this.formData.append('exhaustivite', this.Data.get('exhaustivite')?.value);
+      this.formData.append('preuve', this.Data.get('preuve')?.value);
+      this.formData.append('etat', this.Data.get('etat')?.value);
+      this.formData.append('nom', this.Data.get('nom')?.value);
+      this.formData.append('commentaire', this.Data.get('commentaire')?.value);
+      this.formData.append('descriptif', this.Data.get('descriptif')?.value);
+      this.formData.append('risque_id', this.Data.get('risque_id')?.value);
+      this.formData.append('direction_id', this.Data.get('direction_id')?.value);
+      this.formData.append('service_id', this.Data.get('service_id')?.value);
+      this.formData.append('pole_id', this.Data.get('pole_id')?.value);
+      this.formData.append('activite_id', this.Data.get('activite_id')?.value);
+      this.formData.append('departement_id', this.Data.get('departement_id')?.value);
+      this.formData.append('user_id', this.Data.get('user_id')?.value);
+      this.formData.append('fichier', this.selectedFile);
+
+      this.formData.forEach((value, key) => {
+        console.log(key, value);
+      });
+      
+      this.data.updateResources(this.id, this.formData).subscribe((d:any)=>{
+        console.log(d);
         if (d.message) {
           this.getData()
           this.Data.reset()
@@ -367,7 +419,7 @@ export class PilotageComponent {
         periodicite: data.periodicite,
         exhaustivite: data.exhaustivite,
         preuve: data.preuve,
-        fichier: data.fichier,
+        // fichier: data.fichier,
         etat: data.etat,
       })
     }
@@ -377,8 +429,10 @@ export class PilotageComponent {
   {
     let modal = document.getElementById('modal');
     if (modal) {
+      this.display = true
       this.title = 'Information control'
       this.btn = 'Fermer'
+      this.file = 'http://localhost:8000/storage/'+data.fichier
       this.Data.patchValue({
         nom: data.nom,
         direction_id: data.direction_id.id,
@@ -395,9 +449,9 @@ export class PilotageComponent {
         periodicite: data.periodicite,
         exhaustivite: data.exhaustivite,
         preuve: data.preuve,
-        fichier: data.fichier,
         etat: data.etat,
       })
+
       this.Data.disable()
       modal.style.display = 'block';
     }
@@ -496,12 +550,44 @@ export class PilotageComponent {
     });
   }
 
+  invalidate(id: number | null)
+  {
+    Swal.fire({
+      title: "Voulez-vous annuler la validation?",
+      showDenyButton: true,
+      confirmButtonText: "Dévalider",
+      denyButtonText: `Annuler`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.data.invalidateResource(id).subscribe((d:any) => {
+          if (d.message) {
+            this.getData()
+            Swal.fire({
+              title: "Succes!",
+              text: d.message,
+              icon: "success"
+            });
+          }else if(d.error){
+            Swal.fire({
+              title: "Error!",
+              text: d.error,
+              icon: "error"
+            });
+          }
+        });
+      }else if(result.isDenied) {
+        Swal.fire("La dévalidation a été annulée", "", "info");
+      }
+    });
+  }
+
   closeModal()
   {
     let modal = document.getElementById('modal');
     if (modal) {
       modal.style.display = 'none';
       this.Data.enable()
+      this.display = false
     }
   }
 
