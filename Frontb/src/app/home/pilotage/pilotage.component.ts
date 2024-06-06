@@ -57,7 +57,7 @@ export class PilotageComponent {
 
   control: boolean = true
   archive: boolean = false
-  hoveredIcon: string | null = null;
+  hoveredIcon: { [id: number]: string | null } = {};
   selectedFile: any;
   display: boolean = false
   file: any
@@ -83,7 +83,7 @@ export class PilotageComponent {
   constructor(
     private data: DataService,
     private fb: FormBuilder,
-    private ctrl: ControleService,
+    // private ctrl: ControleService,
     private risk: RisqueService,
     private depart: DepartementService,
     private dirService: DirectionService,
@@ -195,7 +195,7 @@ export class PilotageComponent {
 
   ngOnInit() {
     this.getData()
-    this.getControles()
+    // this.getControles()
     this.getDepart()
     this.getDirections()
     this.getPoles()
@@ -260,14 +260,14 @@ export class PilotageComponent {
     })
   }
 
-  getControles()
-  {
-    this.ctrl.listResources().subscribe((r:any) => {
-      this.controles = signal(r.controles)
-      this.ctrls = r.controles
-      // console.log(r.controles);
-    })
-  }
+  // getControles()
+  // {
+  //   this.ctrl.listResources().subscribe((r:any) => {
+  //     this.controles = signal(r.controles)
+  //     this.ctrls = r.controles
+  //     // console.log(r.controles);
+  //   })
+  // }
 
   getRisques()
   {
@@ -360,7 +360,7 @@ export class PilotageComponent {
       this.formData.forEach((value, key) => {
         console.log(key, value);
       });
-      
+
       this.data.updateResources(this.id, this.formData).subscribe((d:any)=>{
         console.log(d);
         if (d.message) {
@@ -579,6 +579,14 @@ export class PilotageComponent {
         Swal.fire("La dévalidation a été annulée", "", "info");
       }
     });
+  }
+
+  setHoveredIcon(id: number, icon: string) {
+    this.hoveredIcon[id] = icon;
+  }
+
+  clearHoveredIcon(id: number) {
+    this.hoveredIcon[id] = null;
   }
 
   closeModal()

@@ -240,7 +240,7 @@
           </thead>
           <tbody>
             @if (control) {
-              @for (data of datas() | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id) {
+              @for (data of datas() | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id;) {
                 <tr class="bg-white">
                   <td>
                     <div>{{data.direction_id.libelle}}</div>
@@ -303,32 +303,30 @@
                   </td>
                   <td>
                     <div class="flex gap-2">
-                      <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'visibility'" (mouseleave)="hoveredIcon = null">
+                      <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'visibility')"
+                        (mouseleave)="clearHoveredIcon(data.id)">
                         <i (click)="info(data)" class="material-icons cursor-pointer text-gray-600">visibility</i>
-                        <div class="tooltip" *ngIf="hoveredIcon === 'visibility'">voir fiche control</div>
+                        <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'visibility'">voir fiche control</div>
                       </div>
-                      <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'edit'" (mouseleave)="hoveredIcon = null">
+                      <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'edit')" (mouseleave)="clearHoveredIcon(data.id)">
                         <i (click)="editModal(data)" class="material-icons cursor-pointer text-yellow-400">edit</i>
-                        <div class="tooltip" *ngIf="hoveredIcon === 'edit'">editer le control</div>
+                        <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'edit'">editer le control</div>
                       </div>
-                      <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'archive'" (mouseleave)="hoveredIcon = null">
+                      <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'archive')" (mouseleave)="clearHoveredIcon(data.id)">
                         <i (click)="deleteD(data.id)" class="material-icons cursor-pointer text-orange-600">archive</i>
-                        <div class="tooltip" *ngIf="hoveredIcon === 'archive'">Archiver le control</div>
+                        <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'archive'">Archiver le control</div>
                       </div>
-                      @if (data.validate=='non validé') {
-                        <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'check_circle'" (mouseleave)="hoveredIcon = null">
-                          <i (click)="validate(data.id)" class="material-icons cursor-pointer text-green-600">check_circle</i>
-                          <div class="tooltip" *ngIf="hoveredIcon === 'check_circle'">valider le control</div>
-                        </div>
-                      }
-                      @if (data.validate=='Validé') {
-                        <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'cancel'" (mouseleave)="hoveredIcon = null">
-                          <i (click)="invalidate(data.id)" class="material-icons cursor-pointer text-red-600">cancel</i>
-                          <div class="tooltip" *ngIf="hoveredIcon === 'cancel'">dévalider le control</div>
-                        </div>
-                      }
+                      <div class="icon-wrapper" *ngIf="data.validate === 'Non validé'"
+                        (mouseenter)="setHoveredIcon(data.id, 'check_circle')" (mouseleave)="clearHoveredIcon(data.id)">
+                        <i (click)="validate(data.id)" class="material-icons cursor-pointer text-green-600">check_circle</i>
+                        <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'check_circle'">valider le control</div>
+                      </div>
+                      <div class="icon-wrapper" *ngIf="data.validate === 'Validé'" (mouseenter)="setHoveredIcon(data.id, 'cancel')"
+                        (mouseleave)="clearHoveredIcon(data.id)">
+                        <i (click)="invalidate(data.id)" class="material-icons cursor-pointer text-red-600">cancel</i>
+                        <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'cancel'">dévalider le control</div>
+                      </div>
                     </div>
-
                   </td>
                 </tr>
               }
@@ -400,8 +398,15 @@
                 </td>
                 <td>
                   <div class="flex gap-2">
-                    <i (click)="info(data)" class="material-icons cursor-pointer text-gray-600">visibility</i>
-                    <i (click)="desarchiver(data.id)" class="material-icons cursor-pointer text-red-600">archive</i>
+                    <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'visibility')" (mouseleave)="clearHoveredIcon(data.id)">
+                      <i (click)="info(data)" class="material-icons cursor-pointer text-gray-600">visibility</i>
+                      <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'visibility'">voir fiche control</div>
+                    </div>
+                    <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'archive')" (mouseleave)="clearHoveredIcon(data.id)">
+                      <i (click)="desarchiver(data.id)" class="material-icons cursor-pointer text-orange-600">unarchive</i>
+                      <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'archive'">Désarchiver le control</div>
+                    </div>
+                    <!-- <i (click)="desarchiver(data.id)" class="material-icons cursor-pointer text-red-600">archive</i> -->
                   </div>
                 </td>
               </tr>

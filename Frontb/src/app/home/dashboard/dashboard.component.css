@@ -1,0 +1,40 @@
+.card:hover {
+  transform: scale(1.08);
+}
+
+.card {
+  transition: transform 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.card.selected {
+  transform: scale(1.05);
+  border-bottom: 4px solid #000;
+}
+
+.card.bg-blue-100.selected {
+  border-color: blue;
+}
+
+.card.bg-green-100.selected {
+  border-color: green;
+}
+
+.card.bg-red-100.selected {
+  border-color: red;
+}
+
+.card.bg-yellow-100.selected {
+  border-color: yellow;
+}
+
+.card.bg-gray-100.selected {
+  border-color: gray;
+}
+
+.card.bg-purple-100.selected {
+  border-color: purple;
+}
+
+.card.bg-orange-100.selected {
+  border-color: orange;
+}
