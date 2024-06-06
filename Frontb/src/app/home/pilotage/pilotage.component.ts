@@ -218,15 +218,14 @@ export class PilotageComponent {
         // console.log(this.toExp);
         let ctrls = res.controles.filter((c:any) => c.direction_id.libelle == direction)
         let directId = ctrls[0].direction_id.id
-        console.log(directId);
+        // console.log(directId);
         let et: string | number = 0
         let val: string | number = 0
 
         if(etat == 'totalValidated')
         {
           val = 'Validé'
-        }
-        else if(etat == 'totalNonValidated')
+        }else if(etat == 'totalNonValidated')
         {
           val = 'Non validé'
         }else if(etat == 'totalDone')
@@ -267,7 +266,7 @@ export class PilotageComponent {
       this.datas = signal(res.controles);
       this.archives = signal(res.archives);
       this.toExp = res.controles
-      console.log(this.toExp);
+      // console.log(this.toExp);
     })
   }
 

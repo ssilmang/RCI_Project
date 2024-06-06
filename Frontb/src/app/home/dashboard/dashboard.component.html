@@ -16,48 +16,50 @@
     </div>
   </div>
 
-  <div class="w-[99%] h-[90%] shadow-md shadow-[#242a30] flex flex-col gap-3 overflow-y-auto m-1">
+  <div class="w-[99%] h-[95%] shadow-md shadow-[#242a30] flex flex-col gap-3 overflow-y-auto m-1">
 
-  <div class="w-full h-[30%] flex gap-4 p-4 overflow-x-auto shadow-xl">
-    <div class="card bg-blue-100 p-4 rounded-lg shadow-md flex-1 min-w-[200px] cursor-pointer"
-      [class.selected]="selectedCard === 'totalControls'" (click)="selectCard('totalControls')">
-      <h3 class="text-xl font-bold">Total Contrôles</h3>
-      <p class="text-2xl">{{ totalControls }}</p>
+    <div class="w-full h-[32%] flex gap-4 p-2 overflow-x-auto shadow-xl">
+      <div class="card bg-blue-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+        [class.selected]="selectedCard === 'totalControls'" (click)="selectCard('totalControls')">
+        <h3 class="text-xl font-bold">Contrôles Totals</h3>
+        <p class="text-2xl">{{ totalControls }}</p>
+      </div>
+      <div class="card bg-green-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+        [class.selected]="selectedCard === 'totalValidated'" (click)="selectCard('totalValidated')">
+        <h3 class="text-xl font-bold">Contrôles Validés</h3>
+        <p class="text-2xl">{{ totalValidated }}</p>
+      </div>
+      <div class="card bg-red-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+        [class.selected]="selectedCard === 'totalNonValidated'" (click)="selectCard('totalNonValidated')">
+        <h3 class="text-xl font-bold">Contrôles Non Validés</h3>
+        <p class="text-2xl">{{ totalNonValidated }}</p>
+      </div>
+      <div class="card bg-yellow-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+        [class.selected]="selectedCard === 'totalDone'" (click)="selectCard('totalDone')">
+        <h3 class="text-xl font-bold">Contrôles Faits</h3>
+        <p class="text-2xl">{{ totalDone }}</p>
+      </div>
+      <div class="card bg-gray-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+        [class.selected]="selectedCard === 'totalNotDone'" (click)="selectCard('totalNotDone')">
+        <h3 class="text-xl font-bold">Contrôles Non Faits</h3>
+        <p class="text-2xl">{{ totalNotDone }}</p>
+      </div>
+      <div class="card bg-purple-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+        [class.selected]="selectedCard === 'totalApplicable'" (click)="selectCard('totalApplicable')">
+        <h3 class="text-xl font-bold">Contrôles Applicables</h3>
+        <p class="text-2xl">{{ totalApplicable }}</p>
+      </div>
+      <div class="card bg-orange-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+        [class.selected]="selectedCard === 'totalNonApplicable'" (click)="selectCard('totalNonApplicable')">
+        <h3 class="text-xl font-bold">Contrôles Non Applicables</h3>
+        <p class="text-2xl">{{ totalNonApplicable }}</p>
+      </div>
     </div>
-    <div class="card bg-green-100 p-4 rounded-lg shadow-md flex-1 min-w-[200px] cursor-pointer"
-      [class.selected]="selectedCard === 'totalValidated'" (click)="selectCard('totalValidated')">
-      <h3 class="text-xl font-bold">Total Validé</h3>
-      <p class="text-2xl">{{ totalValidated }}</p>
-    </div>
-    <div class="card bg-red-100 p-4 rounded-lg shadow-md flex-1 min-w-[200px] cursor-pointer"
-      [class.selected]="selectedCard === 'totalNonValidated'" (click)="selectCard('totalNonValidated')">
-      <h3 class="text-xl font-bold">Total Non Validé</h3>
-      <p class="text-2xl">{{ totalNonValidated }}</p>
-    </div>
-    <div class="card bg-yellow-100 p-4 rounded-lg shadow-md flex-1 min-w-[200px] cursor-pointer"
-      [class.selected]="selectedCard === 'totalDone'" (click)="selectCard('totalDone')">
-      <h3 class="text-xl font-bold">Total Fait</h3>
-      <p class="text-2xl">{{ totalDone }}</p>
-    </div>
-    <div class="card bg-gray-100 p-4 rounded-lg shadow-md flex-1 min-w-[200px] cursor-pointer"
-      [class.selected]="selectedCard === 'totalNotDone'" (click)="selectCard('totalNotDone')">
-      <h3 class="text-xl font-bold">Total Non Fait</h3>
-      <p class="text-2xl">{{ totalNotDone }}</p>
-    </div>
-    <div class="card bg-purple-100 p-4 rounded-lg shadow-md flex-1 min-w-[200px] cursor-pointer"
-      [class.selected]="selectedCard === 'totalApplicable'" (click)="selectCard('totalApplicable')">
-      <h3 class="text-xl font-bold">Total Applicable</h3>
-      <p class="text-2xl">{{ totalApplicable }}</p>
-    </div>
-    <div class="card bg-orange-100 p-4 rounded-lg shadow-md flex-1 min-w-[200px] cursor-pointer"
-      [class.selected]="selectedCard === 'totalNonApplicable'" (click)="selectCard('totalNonApplicable')">
-      <h3 class="text-xl font-bold">Total Non Applicable</h3>
-      <p class="text-2xl">{{ totalNonApplicable }}</p>
-    </div>
-  </div>
 
-  <div class="w-full h-[75%] flex gap-8 shadow-md">
-
+  <div class="chart-container w-full h-[75%] flex gap-8 shadow-md">
+    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+      [legend]="barChartLegend" [plugins]="barChartPlugins" [type]="barChartType">
+    </canvas>
   </div>
 
   </div>

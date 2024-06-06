@@ -8,12 +8,15 @@ import { DirectionService } from '../../_helpers/services/all_methods/direction.
 import { DataService } from '../../_helpers/services/all_methods/data.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartOptions } from 'chart.js';
+// import { Label } from 'ng2-charts';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [ReactiveFormsModule, SweetAlert2Module, CommonModule],
+  imports: [ReactiveFormsModule, SweetAlert2Module, CommonModule, BaseChartDirective],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -26,6 +29,16 @@ export class DashboardComponent {
   totalApplicable: number = 0;
   totalNonApplicable: number = 0;
   controls: any
+
+  public barChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  public barChartLabels: any[] = ['Fait', 'Non Fait', 'Applicable', 'Non Applicable'];
+  public barChartType: any = 'bar';
+  public barChartLegend = true;
+  public barChartPlugins = [];
+
+  public barChartData: any[] = []
 
   selectedCard: string | null = null;
 
@@ -61,6 +74,14 @@ export class DashboardComponent {
       this.totalApplicable = this.controls.filter((d:any) => d.etat === 'Applicable').length;
       this.totalNonApplicable = this.controls.filter((d:any) => d.etat === 'Non applicable').length;
 
+      this.barChartData = [
+        { 
+          data: [this.totalDone, this.totalNotDone, this.totalApplicable, this.totalNonApplicable], 
+          label: 'Nombre de contrôles',
+          backgroundColor: ['green', 'red', 'blue', 'yellow']
+        }
+      ];
+
     })
   }
 
@@ -68,6 +89,9 @@ export class DashboardComponent {
   {
     this.getDirections()
     this.getData()
+
+    localStorage.removeItem('direction')
+    localStorage.removeItem('etat')
   }
 
   getData()
@@ -91,9 +115,6 @@ export class DashboardComponent {
     this.selectedCard = card;
     if (this.direction != 'Direction' && this.totalControls > 0) {
       // console.log(card, this.direction);
-      localStorage.setItem('direction', JSON.stringify(this.direction))
-      localStorage.setItem('etat', JSON.stringify(card))
-
       Swal.fire({
         title: "Voulez-vous voir les contrôles associés ?",
         showDenyButton: true,
@@ -101,13 +122,19 @@ export class DashboardComponent {
         denyButtonText: `Annuler`
       }).then((result) => {
         if (result.isConfirmed) {
-
+          localStorage.setItem('direction', JSON.stringify(this.direction))
+          localStorage.setItem('etat', JSON.stringify(card))
           this.router.navigate(['accueil/pilotage']);
         } else if (result.isDenied) {
           Swal.fire("L'action a été annulée", "", "info");
         }
       });
     }
+  }
+
+  graph()
+  {
+    
   }
 
 }

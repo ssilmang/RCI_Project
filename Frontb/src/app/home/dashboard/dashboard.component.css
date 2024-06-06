@@ -38,3 +38,9 @@
 .card.bg-orange-100.selected {
   border-color: orange;
 }
+
+.chart-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
