@@ -36,7 +36,7 @@ return new class extends Migration
             $table->timestamp('archived_at')->nullable();
             $table->enum('validate',['true','fals']);
             $table->timestamp('deleted_at')->nullable();
-            $table->binary('fichier')->nullable();
+            $table->string('fichier')->nullable();
             $table->timestamps();
         });
     }

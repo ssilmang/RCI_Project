@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 15 mai 2024 à 10:16
+-- Généré le : jeu. 06 juin 2024 à 12:44
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -41,9 +41,8 @@ CREATE TABLE `activites` (
 --
 
 INSERT INTO `activites` (`id`, `libelle`, `service_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Activité 1', 1, '2024-05-14 09:51:40', '2024-05-14 09:51:40', NULL),
-(2, 'Activité 2', 1, '2024-05-14 09:51:48', '2024-05-14 09:51:48', NULL),
-(3, 'Activité 3', 2, '2024-05-14 09:51:56', '2024-05-14 09:51:56', NULL);
+(1, 'A1', 1, '2024-06-03 12:27:47', '2024-06-03 12:27:47', NULL),
+(2, 'A2', 1, '2024-06-03 12:27:54', '2024-06-03 12:27:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -77,24 +76,43 @@ CREATE TABLE `cache_locks` (
 
 CREATE TABLE `controles` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `objectif` varchar(255) NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `activite_id` bigint(20) UNSIGNED NOT NULL,
+  `service_id` bigint(20) UNSIGNED NOT NULL,
+  `departement_id` bigint(20) UNSIGNED NOT NULL,
+  `direction_id` bigint(20) UNSIGNED NOT NULL,
+  `periodicite` varchar(255) NOT NULL,
+  `exhaustivite` varchar(255) NOT NULL,
+  `preuve` varchar(255) NOT NULL,
   `nom` varchar(255) NOT NULL,
   `code` varchar(255) NOT NULL,
+  `commentaire` varchar(255) NOT NULL,
+  `descriptif` varchar(255) NOT NULL,
+  `date_ajout` timestamp NULL DEFAULT NULL,
+  `archived_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `fichier` blob DEFAULT NULL,
+  `risque_id` bigint(20) UNSIGNED NOT NULL,
+  `etat` varchar(255) DEFAULT NULL,
+  `pole_id` bigint(20) UNSIGNED NOT NULL,
+  `validate` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `controles`
 --
 
-INSERT INTO `controles` (`id`, `nom`, `code`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Controle 1', 'C1', '2024-05-14 09:52:14', '2024-05-14 10:12:11', NULL),
-(2, 'Controle 2', 'C2', '2024-05-14 09:52:20', '2024-05-14 09:53:00', '2024-05-14 09:53:00'),
-(3, 'Controle 3', 'C3', '2024-05-14 09:52:31', '2024-05-14 09:52:31', NULL),
-(4, 'Controle 4', 'C4', '2024-05-14 09:52:40', '2024-05-14 10:12:18', NULL),
-(5, 'Controle 5', 'C5', '2024-05-14 09:52:48', '2024-05-14 10:12:22', NULL),
-(6, 'Controle 6', 'C6', '2024-05-14 09:52:55', '2024-05-14 10:01:51', '2024-05-14 10:01:51');
+INSERT INTO `controles` (`id`, `objectif`, `user_id`, `activite_id`, `service_id`, `departement_id`, `direction_id`, `periodicite`, `exhaustivite`, `preuve`, `nom`, `code`, `commentaire`, `descriptif`, `date_ajout`, `archived_at`, `deleted_at`, `created_at`, `updated_at`, `fichier`, `risque_id`, `etat`, `pole_id`, `validate`) VALUES
+(7, 'test', 1, 1, 1, 1, 1, 'annuelle', 'Exhaustivité', 'preuve de tous', 'Control 1', '8', 'bismillah', 'desccc', '2024-06-05 10:23:36', NULL, NULL, '2024-06-05 10:23:36', '2024-06-06 10:41:38', 0x66696368696572732f37703154514735435a4b324c463272795a6564457461655167457a7364524b52327638414969514d2e706466, 1, 'Fait', 1, 'Non validé'),
+(8, 'test', 1, 1, 1, 1, 2, 'annuelle', 'Exhaustivité', 'preuve de tous mounan', 'Control 1', '8', 'bismillah', 'desccc', '2024-06-05 10:35:10', NULL, NULL, '2024-06-05 10:35:10', '2024-06-06 09:43:35', 0x66696368696572732f54346c34574f3832447441323371613733343764466a67426d4b4951734d374165413556594365452e646f6378, 1, 'Non fait', 1, 'Non validé'),
+(9, 'test', 1, 1, 1, 1, 2, 'annuelle', 'Exhaustivité', 'preuve de tous mounan', 'Control 1', '8', 'bismillah', 'desccc', '2024-06-05 10:35:57', '2024-06-05 12:42:15', NULL, '2024-06-05 10:35:57', '2024-06-05 16:47:16', 0x66696368696572732f714676444636545969786e4d6a7356673041744b526355367671795361536c353531506d624952752e747874, 1, 'Non fait', 1, 'Validé'),
+(10, 'O1', 1, 1, 1, 1, 1, 'Annuelle', 'Exhaustivité', 'P1', 'Control 1', 'Code 1', 'C1', 'D1', '2024-06-05 10:49:05', NULL, NULL, '2024-06-05 10:49:05', '2024-06-06 10:25:25', 0x66696368696572732f6a4d6f526d5336547963714e54694e794939754568337a724f6f4965635a487945367a346e6b49472e706466, 3, 'Applicable', 1, 'Validé'),
+(11, 'O1', 1, 1, 1, 1, 1, 'Annuelle', 'Non exhaustivité', 'P1', 'Control 1', 'Code 1', 'C1', 'D1', '2024-06-05 10:49:53', NULL, NULL, '2024-06-05 10:49:53', '2024-06-06 09:22:58', 0x66696368696572732f4f3357627066487a38433641584d6546356e6d6e3355704c4452366c5556587a70353566495958332e786c7378, 1, 'Fait', 1, 'Non validé'),
+(12, 'O1', 1, 1, 1, 1, 1, 'Annuelle', 'Non exhaustivité', 'P1', 'Control 1', 'Code 1', 'C1', 'D1', '2024-06-05 10:51:00', '2024-06-06 08:14:49', NULL, '2024-06-05 10:51:00', '2024-06-06 08:17:05', 0x66696368696572732f4a527a4b4b6f756b3767795154534d455548466c5436496d37466e666c797141776746334c7550552e786c7378, 1, 'Non fait', 1, 'Non validé'),
+(13, 'test', 1, 1, 1, 1, 1, 'annuelle', 'Exhaustivité', 'preuve de tous mounan', 'Control 2', '8', 'bismillah', 'desccc', '2024-06-05 13:30:16', NULL, NULL, '2024-06-05 13:30:16', '2024-06-05 13:30:16', 0x66696368696572732f6b6b4745754465646c796b7776707468317952614e41385063757831794c6947626e7333774b674c2e706466, 3, 'Fait', 1, 'Non validé');
 
 -- --------------------------------------------------------
 
@@ -117,9 +135,8 @@ CREATE TABLE `departements` (
 --
 
 INSERT INTO `departements` (`id`, `libelle`, `direction_id`, `pole_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Departement 1', 1, 1, '2024-05-14 09:50:14', '2024-05-14 09:50:14', NULL),
-(2, 'Departement 2', 1, 1, '2024-05-14 09:50:26', '2024-05-14 09:50:26', NULL),
-(3, 'Departement 3', 2, 4, '2024-05-14 09:50:36', '2024-05-14 09:50:36', NULL);
+(1, 'Dept 1', 1, 1, '2024-06-03 12:27:08', '2024-06-03 12:27:08', NULL),
+(2, 'Dept 2', 1, 2, '2024-06-03 12:27:21', '2024-06-03 12:27:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -140,9 +157,9 @@ CREATE TABLE `directions` (
 --
 
 INSERT INTO `directions` (`id`, `libelle`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Direction 1', '2024-05-14 09:46:00', '2024-05-14 09:46:00', NULL),
-(2, 'Direction 2', '2024-05-14 09:46:07', '2024-05-14 09:46:07', NULL),
-(3, 'Direction 3', '2024-05-14 09:46:12', '2024-05-14 09:48:37', '2024-05-14 09:48:37');
+(1, 'D1', '2024-06-03 12:26:06', '2024-06-03 12:26:48', NULL),
+(2, 'D2', '2024-06-03 12:26:12', '2024-06-03 12:26:12', NULL),
+(3, 'D3', '2024-06-03 12:26:17', '2024-06-03 12:26:17', NULL);
 
 -- --------------------------------------------------------
 
@@ -213,19 +230,30 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(12, '0001_01_01_000001_create_cache_table', 1),
-(13, '0001_01_01_000002_create_jobs_table', 1),
-(14, '2024_04_30_183822_create_directions_table', 1),
-(15, '2024_04_30_183840_create_poles_table', 1),
-(16, '2024_04_30_183910_create_departements_table', 1),
-(17, '2024_04_30_183931_create_services_table', 1),
-(18, '2024_04_30_183959_create_activites_table', 1),
-(19, '2024_04_30_184100_create_controles_table', 1),
-(20, '2024_04_30_184147_create_users_table', 1),
-(21, '2024_04_30_184148_create_pilotages_table', 1),
-(22, '2024_05_13_153652_add_phone_number_to_users_table', 1),
-(23, '2024_05_14_102624_update_fichier_nullable_in_pilotages_table', 2),
-(24, '2024_05_14_134943_update_fichier_nullable_in_pilotages_table', 3);
+(1, '0001_01_01_000001_create_cache_table', 1),
+(2, '0001_01_01_000002_create_jobs_table', 1),
+(3, '2024_04_30_183822_create_directions_table', 1),
+(4, '2024_04_30_183840_create_poles_table', 1),
+(5, '2024_04_30_183910_create_departements_table', 1),
+(6, '2024_04_30_183931_create_services_table', 1),
+(7, '2024_04_30_183959_create_activites_table', 1),
+(8, '2024_04_30_184147_create_users_table', 1),
+(9, '2024_04_30_184148_create_controle_table', 1),
+(10, '2024_05_13_153652_add_phone_number_to_users_table', 1),
+(11, '2024_05_14_102623_add_fichier_to_pilotage_table', 1),
+(12, '2024_05_14_102624_update_fichier_nullable_in_pilotages_table', 1),
+(13, '2024_05_23_113103_risque', 1),
+(14, '2024_06_03_124311_add_deleted_at_to_risque_table', 2),
+(15, '2024_06_03_131501_modify_controles_table', 3),
+(16, '2024_06_03_131853_modify_controles_table', 4),
+(17, '2024_06_03_132928_modify_controles_table', 5),
+(18, '2024_06_03_133517_modify_validate_enum_values_in_controles_table', 6),
+(19, '2024_06_03_133714_modify_validate_enum_values_in_controles_table', 7),
+(20, '2024_06_03_133805_modify_validate_enum_values_in_controles_table', 8),
+(21, '2024_06_03_133945_modify_validate_enum_values_in_controles_table', 9),
+(22, '2024_06_03_134558_modify_validate_enum_values_in_controles_table', 10),
+(23, '2024_06_03_150638_modify_validate_enum_values_in_controles_table', 11),
+(24, '2024_06_03_150710_modify_validate_enum_values_in_controles_table', 12);
 
 -- --------------------------------------------------------
 
@@ -238,43 +266,6 @@ CREATE TABLE `password_reset_tokens` (
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `pilotages`
---
-
-CREATE TABLE `pilotages` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `controle_id` bigint(20) UNSIGNED NOT NULL,
-  `objectif` varchar(255) NOT NULL,
-  `risque_couvert` varchar(255) NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `periodicite` varchar(255) NOT NULL,
-  `exhaustivite` varchar(255) NOT NULL,
-  `preuve` varchar(255) NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  `fichier` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `direction_id` bigint(20) UNSIGNED NOT NULL,
-  `departement_id` bigint(20) UNSIGNED NOT NULL,
-  `service_id` bigint(20) UNSIGNED NOT NULL,
-  `activite_id` bigint(20) UNSIGNED NOT NULL,
-  `pole_id` bigint(20) UNSIGNED NOT NULL,
-  `code` varchar(255) NOT NULL,
-  `etat` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `pilotages`
---
-
-INSERT INTO `pilotages` (`id`, `controle_id`, `objectif`, `risque_couvert`, `user_id`, `periodicite`, `exhaustivite`, `preuve`, `deleted_at`, `fichier`, `created_at`, `updated_at`, `direction_id`, `departement_id`, `service_id`, `activite_id`, `pole_id`, `code`, `etat`) VALUES
-(3, 4, 'O1', 'R1', 1, 'saisir la périodicité', '1', 'P1', NULL, NULL, '2024-05-14 14:19:18', '2024-05-14 14:27:29', 1, 1, 1, 1, 1, 'C4', 0),
-(4, 1, 'O2', 'R2', 2, 'P2', '2', 'P2', NULL, NULL, '2024-05-14 14:20:06', '2024-05-14 14:20:06', 2, 2, 2, 2, 2, 'C1', 0),
-(5, 5, 'O5', 'R5', 1, 'P5', '1', 'P5', NULL, NULL, '2024-05-14 14:28:05', '2024-05-14 14:28:05', 1, 3, 3, 3, 3, 'C5', 0);
 
 -- --------------------------------------------------------
 
@@ -296,10 +287,33 @@ CREATE TABLE `poles` (
 --
 
 INSERT INTO `poles` (`id`, `libelle`, `direction_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Pole 1', 1, '2024-05-14 09:48:55', '2024-05-14 09:48:55', NULL),
-(2, 'Pole 2', 1, '2024-05-14 09:49:03', '2024-05-14 09:49:03', NULL),
-(3, 'Pole 3', 1, '2024-05-14 09:49:12', '2024-05-14 09:49:37', NULL),
-(4, 'Pole 4', 2, '2024-05-14 09:49:21', '2024-05-14 09:49:21', NULL);
+(1, 'Pole 1', 1, '2024-06-03 12:26:24', '2024-06-03 12:26:24', NULL),
+(2, 'Pole 2', 1, '2024-06-03 12:26:35', '2024-06-03 12:26:35', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `risques`
+--
+
+CREATE TABLE `risques` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `libelle` varchar(255) NOT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `risques`
+--
+
+INSERT INTO `risques` (`id`, `libelle`, `updated_at`, `created_at`, `deleted_at`) VALUES
+(1, 'Risque 1', '2024-06-03 12:59:59', '2024-06-03 12:35:24', NULL),
+(2, 'Risque 2', '2024-06-03 13:00:12', '2024-06-03 12:35:38', NULL),
+(3, 'Risque 3', '2024-06-03 13:00:18', '2024-06-03 12:35:49', NULL),
+(4, 'Risque 4', '2024-06-03 13:07:06', '2024-06-03 12:35:56', '2024-06-03 13:07:06'),
+(5, 'Risque 4', '2024-06-04 13:19:16', '2024-06-04 13:19:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -321,9 +335,8 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `libelle`, `departement_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Service 1', 1, '2024-05-14 09:50:49', '2024-05-14 09:50:49', NULL),
-(2, 'Service 2', 1, '2024-05-14 09:50:59', '2024-05-14 09:50:59', NULL),
-(3, 'Service 3', 2, '2024-05-14 09:51:09', '2024-05-14 09:51:09', NULL);
+(1, 'S1', 1, '2024-06-03 12:27:31', '2024-06-03 12:27:31', NULL),
+(2, 'S2', 1, '2024-06-03 12:27:38', '2024-06-03 12:27:38', NULL);
 
 -- --------------------------------------------------------
 
@@ -369,8 +382,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nom_complet`, `email`, `matricule`, `photo`, `direction_id`, `service_id`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `telephone`, `addresse`) VALUES
-(1, 'Elhadji Malick Ndao', 'ndaoelhadji973@gmail.com', '17UUD', NULL, 1, 1, NULL, '$2y$12$QRy9n91vekjreX5cx9MJtumFaPzQvNEIhrN34XlgW84yrcAwVmsK2', NULL, '2024-05-14 09:53:29', '2024-05-14 09:53:29', NULL, '783845870', 'Grand Yoff'),
-(2, 'Sadio Faye', 'sadio@gmail.com', 'AT67', NULL, 2, 2, NULL, '$2y$12$ejRbxyQhDacz5xG3lQz7euvYuSnjXV/YKbqNZuQXQejdO7m4RKXR6', NULL, '2024-05-14 09:53:56', '2024-05-14 09:53:56', NULL, '707453877', 'Golf');
+(1, 'Elhadji Malick Ndao', 'ndaoelhadji973@gmail.com', '17UUD', NULL, 1, 1, NULL, '$2y$12$YWm4N/Yd5E77QvCg/NggSeiHhxa8LtWuMPueJd4xtMuzYkTg38mry', NULL, '2024-06-03 12:28:21', '2024-06-03 12:28:21', NULL, '783845870', 'Grand Yoff'),
+(2, 'Sadio Faye', 'sadio@gmail.com', '28jh', NULL, 1, 2, NULL, '$2y$12$TC6M/BPAJI9zf64TD.yyNOyoOrzfS5CkjhGojL3.v7lCO3DrwT8AG', NULL, '2024-06-03 12:28:55', '2024-06-03 12:28:55', NULL, '704859933', 'Golf');
 
 --
 -- Index pour les tables déchargées
@@ -399,7 +412,14 @@ ALTER TABLE `cache_locks`
 -- Index pour la table `controles`
 --
 ALTER TABLE `controles`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `controles_user_id_foreign` (`user_id`),
+  ADD KEY `controles_activite_id_foreign` (`activite_id`),
+  ADD KEY `controles_service_id_foreign` (`service_id`),
+  ADD KEY `controles_departement_id_foreign` (`departement_id`),
+  ADD KEY `controles_direction_id_foreign` (`direction_id`),
+  ADD KEY `controles_risque_id_foreign` (`risque_id`),
+  ADD KEY `controles_pole_id_foreign` (`pole_id`);
 
 --
 -- Index pour la table `departements`
@@ -448,24 +468,17 @@ ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
--- Index pour la table `pilotages`
---
-ALTER TABLE `pilotages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `pilotages_controle_id_foreign` (`controle_id`),
-  ADD KEY `pilotages_user_id_foreign` (`user_id`),
-  ADD KEY `pilotages_direction_id_foreign` (`direction_id`),
-  ADD KEY `pilotages_departement_id_foreign` (`departement_id`),
-  ADD KEY `pilotages_service_id_foreign` (`service_id`),
-  ADD KEY `pilotages_activite_id_foreign` (`activite_id`),
-  ADD KEY `pilotages_pole_id_foreign` (`pole_id`);
-
---
 -- Index pour la table `poles`
 --
 ALTER TABLE `poles`
   ADD PRIMARY KEY (`id`),
   ADD KEY `poles_direction_id_foreign` (`direction_id`);
+
+--
+-- Index pour la table `risques`
+--
+ALTER TABLE `risques`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `services`
@@ -500,19 +513,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `activites`
 --
 ALTER TABLE `activites`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `controles`
 --
 ALTER TABLE `controles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `departements`
 --
 ALTER TABLE `departements`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `directions`
@@ -539,22 +552,22 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT pour la table `pilotages`
---
-ALTER TABLE `pilotages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
 -- AUTO_INCREMENT pour la table `poles`
 --
 ALTER TABLE `poles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `risques`
+--
+ALTER TABLE `risques`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `users`
@@ -573,23 +586,23 @@ ALTER TABLE `activites`
   ADD CONSTRAINT `activites_service_id_foreign` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`);
 
 --
+-- Contraintes pour la table `controles`
+--
+ALTER TABLE `controles`
+  ADD CONSTRAINT `controles_activite_id_foreign` FOREIGN KEY (`activite_id`) REFERENCES `activites` (`id`),
+  ADD CONSTRAINT `controles_departement_id_foreign` FOREIGN KEY (`departement_id`) REFERENCES `departements` (`id`),
+  ADD CONSTRAINT `controles_direction_id_foreign` FOREIGN KEY (`direction_id`) REFERENCES `directions` (`id`),
+  ADD CONSTRAINT `controles_pole_id_foreign` FOREIGN KEY (`pole_id`) REFERENCES `poles` (`id`),
+  ADD CONSTRAINT `controles_risque_id_foreign` FOREIGN KEY (`risque_id`) REFERENCES `risques` (`id`),
+  ADD CONSTRAINT `controles_service_id_foreign` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`),
+  ADD CONSTRAINT `controles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
 -- Contraintes pour la table `departements`
 --
 ALTER TABLE `departements`
   ADD CONSTRAINT `departements_direction_id_foreign` FOREIGN KEY (`direction_id`) REFERENCES `directions` (`id`),
   ADD CONSTRAINT `departements_pole_id_foreign` FOREIGN KEY (`pole_id`) REFERENCES `poles` (`id`);
-
---
--- Contraintes pour la table `pilotages`
---
-ALTER TABLE `pilotages`
-  ADD CONSTRAINT `pilotages_activite_id_foreign` FOREIGN KEY (`activite_id`) REFERENCES `activites` (`id`),
-  ADD CONSTRAINT `pilotages_controle_id_foreign` FOREIGN KEY (`controle_id`) REFERENCES `controles` (`id`),
-  ADD CONSTRAINT `pilotages_departement_id_foreign` FOREIGN KEY (`departement_id`) REFERENCES `departements` (`id`),
-  ADD CONSTRAINT `pilotages_direction_id_foreign` FOREIGN KEY (`direction_id`) REFERENCES `directions` (`id`),
-  ADD CONSTRAINT `pilotages_pole_id_foreign` FOREIGN KEY (`pole_id`) REFERENCES `poles` (`id`),
-  ADD CONSTRAINT `pilotages_service_id_foreign` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`),
-  ADD CONSTRAINT `pilotages_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Contraintes pour la table `poles`
