@@ -78,7 +78,7 @@ export class LoginComponent {
 
   login()
   {
-    this.router.navigateByUrl('/accueil/utilisateurs')
+    this.router.navigateByUrl('/accueil/dashboard')
     // const data = this.loginForm.value;
     // console.log(data);
     // let user = { 'name': 'Elzo Ndao', 'role': 'admin' }

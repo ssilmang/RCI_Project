@@ -18,13 +18,14 @@ import { Router } from '@angular/router';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  totalControls!: number;
-  totalValidated: number = 5;
-  totalNonValidated: number = 30;
+  totalControls: number = 0;
+  totalValidated: number = 0;
+  totalNonValidated: number = 0;
   totalDone: number = 0;
-  totalNotDone: number = 2;
+  totalNotDone: number = 0;
   totalApplicable: number = 0;
-  totalNonApplicable: number = 6;
+  totalNonApplicable: number = 0;
+  controls: any
 
   selectedCard: string | null = null;
 
@@ -33,6 +34,7 @@ export class DashboardComponent {
   selectForm!: FormGroup
 
   directions: Signal<Direction[]> = signal([])
+  ctrls: Data[] = [];
   datas: Signal<Data[]> = signal([])
 
 
@@ -49,6 +51,16 @@ export class DashboardComponent {
     this.selectForm.get('direction')?.valueChanges.subscribe(res=>{
       // console.log(res);
       this.direction = res
+      console.log(this.ctrls);
+      this.controls = this.ctrls.filter((c:any) => c.direction_id.libelle == res)
+      this.totalControls = this.controls.length
+      this.totalValidated = this.controls.filter((d:any) => d.validate === 'Validé').length;
+      this.totalNonValidated = this.controls.filter((d:any) => d.validate === 'Non validé').length;
+      this.totalDone = this.controls.filter((d:any) => d.etat === 'Fait').length;
+      this.totalNotDone = this.controls.filter((d:any) => d.etat === 'Non fait').length;
+      this.totalApplicable = this.controls.filter((d:any) => d.etat === 'Applicable').length;
+      this.totalNonApplicable = this.controls.filter((d:any) => d.etat === 'Non applicable').length;
+
     })
   }
 
@@ -62,14 +74,8 @@ export class DashboardComponent {
   {
     this.data.listResources().subscribe((res:any)=>{
       this.datas = signal(res.controles);
-      console.log(res.controles);
-      this.totalControls = res.controles.length
-      this.totalValidated = res.controles.filter((d:any) => d.validate === 'Validé').length;
-      this.totalNonValidated = res.controles.filter((d:any) => d.validate === 'Non validé').length;
-      this.totalDone = res.controles.filter((d:any) => d.etat === 'Fait').length;
-      this.totalNotDone = res.controles.filter((d:any) => d.etat === 'Non fait').length;
-      this.totalApplicable = res.controles.filter((d:any) => d.etat === 'Applicable').length;
-      this.totalNonApplicable = res.controles.filter((d:any) => d.etat === 'Non applicable').length;
+      this.ctrls = res.controles
+      // console.log(res.controles);
     })
   }
 
@@ -83,20 +89,25 @@ export class DashboardComponent {
 
   selectCard(card: string) {
     this.selectedCard = card;
+    if (this.direction != 'Direction' && this.totalControls > 0) {
+      // console.log(card, this.direction);
+      localStorage.setItem('direction', JSON.stringify(this.direction))
+      localStorage.setItem('etat', JSON.stringify(card))
 
-    Swal.fire({
-      title: "Voulez-vous voir les contrôles associés ?",
-      showDenyButton: true,
-      confirmButtonText: "Oui",
-      denyButtonText: `Annuler`
-    }).then((result) => {
-      if (result.isConfirmed) {
+      Swal.fire({
+        title: "Voulez-vous voir les contrôles associés ?",
+        showDenyButton: true,
+        confirmButtonText: "Oui",
+        denyButtonText: `Annuler`
+      }).then((result) => {
+        if (result.isConfirmed) {
 
-        this.router.navigate(['accueil/pilotage']);
-      } else if (result.isDenied) {
-        Swal.fire("L'action a été annulée", "", "info");
-      }
-    });
+          this.router.navigate(['accueil/pilotage']);
+        } else if (result.isDenied) {
+          Swal.fire("L'action a été annulée", "", "info");
+        }
+      });
+    }
   }
 
 }

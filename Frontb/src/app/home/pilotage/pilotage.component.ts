@@ -203,6 +203,54 @@ export class PilotageComponent {
     this.getServices()
     this.getUsers()
     this.getRisques()
+
+    let direct = localStorage.getItem('direction')
+    let direction = JSON.parse(direct!)
+    // console.log(direction);
+
+    let card = localStorage.getItem('etat')
+    let etat = JSON.parse(card!)
+    // console.log(etat);
+
+    if (direction && etat) {
+      this.data.listResources().subscribe((res:any)=>{
+        // this.toExp = res.controles
+        // console.log(this.toExp);
+        let ctrls = res.controles.filter((c:any) => c.direction_id.libelle == direction)
+        let directId = ctrls[0].direction_id.id
+        console.log(directId);
+        let et: string | number = 0
+        let val: string | number = 0
+
+        if(etat == 'totalValidated')
+        {
+          val = 'Validé'
+        }
+        else if(etat == 'totalNonValidated')
+        {
+          val = 'Non validé'
+        }else if(etat == 'totalDone')
+        {
+          et = 'Fait'
+        }else if(etat == 'totalNotDone')
+        {
+          et = 'Non fait'
+        }else if(etat == 'totalApplicable')
+        {
+          et = 'Applicable'
+        }else if(etat == 'totalNonApplicable')
+        {
+          et = 'Non applicable'
+        }
+
+        this.select.patchValue({
+          direction_id: directId,
+          statut: et,
+          validate: val
+        })
+      })
+    }
+
   }
 
   getUsers()
@@ -218,8 +266,8 @@ export class PilotageComponent {
     this.data.listResources().subscribe((res:any)=>{
       this.datas = signal(res.controles);
       this.archives = signal(res.archives);
-      this.toExp = res.data
-      // console.log(res);
+      this.toExp = res.controles
+      console.log(this.toExp);
     })
   }
 
