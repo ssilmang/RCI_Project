@@ -33,19 +33,14 @@ export class DashboardComponent {
   public barChartOptions: ChartOptions = {
     responsive: true,
   };
-  public barChartLabels: any[] = ['Fait', 'Non Fait', 'Applicable', 'Non Applicable'];
+  public barChartLabels: any[] = ['Total', 'Fait', 'Non Fait', 'Applicable', 'Non Applicable'];
   public barChartType: any = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [];
-
   public barChartData: any[] = []
-
   selectedCard: string | null = null;
-
   direction: string = 'Direction'
-
   selectForm!: FormGroup
-
   directions: Signal<Direction[]> = signal([])
   ctrls: Data[] = [];
   datas: Signal<Data[]> = signal([])
@@ -76,9 +71,9 @@ export class DashboardComponent {
 
       this.barChartData = [
         { 
-          data: [this.totalDone, this.totalNotDone, this.totalApplicable, this.totalNonApplicable], 
+          data: [this.totalControls, this.totalDone, this.totalNotDone, this.totalApplicable, this.totalNonApplicable], 
           label: 'Nombre de contrôles',
-          backgroundColor: ['green', 'red', 'blue', 'yellow']
+          backgroundColor: ['blue', 'yellow', 'gray', 'purple', 'orange']
         }
       ];
 

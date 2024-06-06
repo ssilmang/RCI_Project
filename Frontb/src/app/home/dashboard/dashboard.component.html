@@ -24,16 +24,6 @@
         <h3 class="text-xl font-bold">Contrôles Totals</h3>
         <p class="text-2xl">{{ totalControls }}</p>
       </div>
-      <div class="card bg-green-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
-        [class.selected]="selectedCard === 'totalValidated'" (click)="selectCard('totalValidated')">
-        <h3 class="text-xl font-bold">Contrôles Validés</h3>
-        <p class="text-2xl">{{ totalValidated }}</p>
-      </div>
-      <div class="card bg-red-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
-        [class.selected]="selectedCard === 'totalNonValidated'" (click)="selectCard('totalNonValidated')">
-        <h3 class="text-xl font-bold">Contrôles Non Validés</h3>
-        <p class="text-2xl">{{ totalNonValidated }}</p>
-      </div>
       <div class="card bg-yellow-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
         [class.selected]="selectedCard === 'totalDone'" (click)="selectCard('totalDone')">
         <h3 class="text-xl font-bold">Contrôles Faits</h3>
@@ -53,6 +43,16 @@
         [class.selected]="selectedCard === 'totalNonApplicable'" (click)="selectCard('totalNonApplicable')">
         <h3 class="text-xl font-bold">Contrôles Non Applicables</h3>
         <p class="text-2xl">{{ totalNonApplicable }}</p>
+      </div>
+      <div class="card bg-green-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+        [class.selected]="selectedCard === 'totalValidated'" (click)="selectCard('totalValidated')">
+        <h3 class="text-xl font-bold">Contrôles Validés</h3>
+        <p class="text-2xl">{{ totalValidated }}</p>
+      </div>
+      <div class="card bg-red-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+        [class.selected]="selectedCard === 'totalNonValidated'" (click)="selectCard('totalNonValidated')">
+        <h3 class="text-xl font-bold">Contrôles Non Validés</h3>
+        <p class="text-2xl">{{ totalNonValidated }}</p>
       </div>
     </div>
 
