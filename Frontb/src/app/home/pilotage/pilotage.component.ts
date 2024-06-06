@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { Component, Signal, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
@@ -403,7 +403,9 @@ export class PilotageComponent {
       this.formData.append('activite_id', this.Data.get('activite_id')?.value);
       this.formData.append('departement_id', this.Data.get('departement_id')?.value);
       this.formData.append('user_id', this.Data.get('user_id')?.value);
-      this.formData.append('fichier', this.selectedFile);
+      if (this.selectedFile) {
+        this.formData.append('fichier', this.selectedFile);
+      }
 
       this.formData.forEach((value, key) => {
         console.log(key, value);
@@ -644,6 +646,7 @@ export class PilotageComponent {
       modal.style.display = 'none';
       this.Data.enable()
       this.display = false
+      this.selectedFile = undefined;
     }
   }
 

@@ -133,7 +133,6 @@ class ControleController extends Controller
 
             if ($request->hasFile('fichier')) {
                 $filePath = $request->file('fichier')->store('fichiers', 'public');
-            }
 
           $pilotage->update([
               'code' => $request->code,
@@ -155,6 +154,27 @@ class ControleController extends Controller
               'departement_id' => $request->departement_id,
               'user_id' => $request->user_id,
           ]);
+        }else{
+                $pilotage->update([
+                    'code' => $request->code,
+                    'objectif' => $request->objectif,
+                    'periodicite' => $request->periodicite,
+                    'exhaustivite' => $request->exhaustivite,
+                    'preuve' => $request->preuve,
+                    'etat' => $request->etat,
+                    'nom' => $request->nom,
+                    'commentaire' => $request->commentaire,
+                    'descriptif' => $request->descriptif,
+                    'archived_at' => $request->archived_at,
+                    'risque_id' => $request->risque_id,
+                    'direction_id' => $request->direction_id,
+                    'service_id' => $request->service_id,
+                    'pole_id' => $request->pole_id,
+                    'activite_id' => $request->activite_id,
+                    'departement_id' => $request->departement_id,
+                    'user_id' => $request->user_id,
+                ]);
+        }
 
           return response()->json([
               'message' => 'Controle mise à jour avec succès!',
