@@ -28,6 +28,8 @@ export class DashboardComponent {
   totalNotDone: number = 0;
   totalApplicable: number = 0;
   totalNonApplicable: number = 0;
+  totalExhaustivite: number = 0;
+  totalNoExhaustivite: number = 0;
   controls: any
 
   public barChartOptions: ChartOptions = {
@@ -68,6 +70,8 @@ export class DashboardComponent {
       this.totalNotDone = this.controls.filter((d:any) => d.etat === 'Non fait').length;
       this.totalApplicable = this.controls.filter((d:any) => d.etat === 'Applicable').length;
       this.totalNonApplicable = this.controls.filter((d:any) => d.etat === 'Non applicable').length;
+      this.totalExhaustivite = this.controls.filter((d:any) => d.exhaustivite === 'Exhaustivité').length;
+      this.totalNoExhaustivite = this.controls.filter((d:any) => d.exhaustivite === 'Non exhaustivité').length;
 
       this.barChartData = [
         { 
@@ -125,11 +129,6 @@ export class DashboardComponent {
         }
       });
     }
-  }
-
-  graph()
-  {
-    
   }
 
 }

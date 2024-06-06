@@ -54,6 +54,16 @@
         <h3 class="text-xl font-bold">Contrôles Non Validés</h3>
         <p class="text-2xl">{{ totalNonValidated }}</p>
       </div>
+      <div class="card bg-pink-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+        [class.selected]="selectedCard === 'totalExhaustivite'" (click)="selectCard('totalExhaustivite')">
+        <h3 class="text-xl font-bold">Contrôles Exhaustives</h3>
+        <p class="text-2xl">{{ totalExhaustivite }}</p>
+      </div>
+      <div class="card bg-yel-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+        [class.selected]="selectedCard === 'totalNoExhaustivite'" (click)="selectCard('totalNoExhaustivite')">
+        <h3 class="text-xl font-bold">Contrôles Non Exhaustives</h3>
+        <p class="text-2xl">{{ totalNoExhaustivite }}</p>
+      </div>
     </div>
 
   <div class="chart-container w-full h-[75%] flex gap-8 shadow-md">

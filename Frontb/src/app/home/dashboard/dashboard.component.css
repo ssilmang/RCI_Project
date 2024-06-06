@@ -39,6 +39,14 @@
   border-color: orange;
 }
 
+.card.bg-pink-100.selected {
+  border-color: pink;
+}
+
+.card.bg-yel-100.selected {
+  border-color: rgb(74, 77, 10);
+}
+
 .chart-container {
   width: 100%;
   height: 100%;
