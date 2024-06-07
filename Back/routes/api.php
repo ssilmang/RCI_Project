@@ -72,19 +72,21 @@ Route::delete('/service/delete/{id}', [ServiceController::class, 'destroy']);
 //routes for controle//
 Route::get('/controle/all', [ControleController::class, 'index']);
 Route::post('/controle/add', [ControleController::class, 'store']);
-Route::put('/controle/update/{id}', [ControleController::class, 'update']);
+Route::post('/controle/update/{id}', [ControleController::class, 'update']);
 Route::delete('/controle/delete/{id}', [ControleController::class, 'destroy']);
 Route::get('/controle/restaurer/{id}', [ControleController::class, 'restaurer']);
 Route::get('/controle/validated/{id}', [ControleController::class, 'validated']);
+Route::get('/controle/invalidated/{id}', [ControleController::class, 'invalidated']);
 
 // routes for desarchivage//
 
 // Route::post('/controle/{id}/restaurer', [PilotageController::class, 'restaurer']);
 
 // routes for fichier telecharger et enregiosdtrer dans la base de donnee//
-// Route::get('/view-pdf/{id}', [PilotageController::class,'viewPdf']);
-// Route::get('/export-pdf', [PilotageController::class,'exportPDF']);
+Route::get('/view-pdf/{id}', [ControleController::class,'viewPdf']);
+Route::get('/export-pdf', [ControleController::class,'exportPDF']);
 
+Route::post('/controle/addFile', [ControleController::class, 'downloadFile']);
 
 Route::get('/activites/restaurer/{id}', [ActiviteController::class, 'restaurer']);
 // Route::get('/pilotage/restaurer/{id}', [PilotageController::class, 'restaurer']);

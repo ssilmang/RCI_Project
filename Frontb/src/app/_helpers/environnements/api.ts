@@ -32,6 +32,7 @@ export const uri = {
     delete : `${verbs[1]}/delete/`,
     restaurer : `${verbs[1]}/restaurer/`,
     validated : `${verbs[1]}/validated/`,
+    invalidated : `${verbs[1]}/invalidated/`,
   },
 
   risque : {

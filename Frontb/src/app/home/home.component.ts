@@ -148,7 +148,7 @@ export class HomeComponent {
     //   text: "Vous avez été déconnecté. A bientot !",
     //   icon: "success"
     // });
-    // localStorage.clear();
+    localStorage.clear();
   }
 
 }

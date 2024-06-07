@@ -26,8 +26,8 @@ export class DataService {
     return this.http.delete(this.apiUrl + this.uri.delete + id);
   }
 
-  updateResources(id: number | null, data: any) {
-    return this.http.put(this.apiUrl + this.uri.update + id, data);
+  updateResources(id: number | null, formData: any) {
+    return this.http.post(this.apiUrl + this.uri.update + id, formData);
   }
   
   restaureResource(id: number|null) {
@@ -36,6 +36,10 @@ export class DataService {
 
   validateResource(id: number|null) {
     return this.http.get(this.apiUrl + this.uri.validated + id);
+  }
+
+  invalidateResource(id: number|null) {
+    return this.http.get(this.apiUrl + this.uri.invalidated + id);
   }
 
   desarchiverResource(id: number|null) {

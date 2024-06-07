@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use PDF;
-
-
+// use PDF;
 use App\Http\Resources\DataResource;
-
 use App\Models\Controle;
 use Illuminate\Http\Request;
 
@@ -59,6 +56,10 @@ class ControleController extends Controller
                 ]);
             }
 
+            if ($request->hasFile('fichier')) {
+                $filePath = $request->file('fichier')->store('fichiers', 'public');
+            }
+
             Controle::create([
                 'code' => $request->code,
                 'objectif' => $request->objectif,
@@ -66,12 +67,10 @@ class ControleController extends Controller
                 'exhaustivite' => $request->exhaustivite,
                 'preuve' => $request->preuve,
                 'etat' => $request->etat,
-                'fichier' => $request->fichier,
                 'nom' => $request->nom,
                 'commentaire' => $request->commentaire,
                 'descriptif' => $request->descriptif,
                 'date_ajout' => now(),
-                'archived_at' => $request->archived_at,
                 'risque_id' => $request->risque_id,
                 'direction_id' => $request->direction_id,
                 'service_id' => $request->service_id,
@@ -79,7 +78,8 @@ class ControleController extends Controller
                 'activite_id' => $request->activite_id,
                 'departement_id' => $request->departement_id,
                 'user_id' => $request->user_id,
-                'validate' => 'non validé'
+                'validate' => 'non validé',
+                'fichier' => $filePath
             ]);
 
             return response()->json([
@@ -99,36 +99,40 @@ class ControleController extends Controller
      */
     public function update(Request $request, $id){
       try {
-          $pilotage = Controle::find($id);
+        $pilotage = Controle::find($id);
+        // return $request;
 
-          if (!$pilotage) {
-              return response()->json(['error' => 'Controle non trouvé!'], 404);
-          }
-          if (!$request->user_id || $request->user_id == null) {
-              return response()->json([
-                'error' => 'Veuillez choisir le porteur!'
-              ]);
-          }
-          if (!$request->direction_id || $request->direction_id == null) {
-              return response()->json([
-                'error' => 'Veuillez choisir la direction!'
-              ]);
-          }
-          if (!$request->preuve || $request->preuve == null) {
-              return response()->json([
-                  'error' => 'Veuillez renseigner la preuve demandée!'
-              ]);
-          }
-          if (!$request->objectif || $request->objectif == null) {
-              return response()->json([
-                  'error' => "Veuillez renseigner l'objectif du controle!"
-              ]);
-          }
-          if (!$request->nom || $request->nom == null) {
-              return response()->json([
-                  'error' => "Veuillez renseigner le nom du controle!"
-              ]);
-          }
+        if (!$pilotage) {
+            return response()->json(['error' => 'Controle non trouvé!'], 404);
+        }
+        if (!$request->user_id || $request->user_id == null) {
+            return response()->json([
+            'error' => 'Veuillez choisir le porteur!'
+            ]);
+        }
+        if (!$request->direction_id || $request->direction_id == null) {
+            return response()->json([
+            'error' => 'Veuillez choisir la direction!'
+            ]);
+        }
+        if (!$request->preuve || $request->preuve == null) {
+            return response()->json([
+                'error' => 'Veuillez renseigner la preuve demandée!'
+            ]);
+        }
+        if (!$request->objectif || $request->objectif == null) {
+            return response()->json([
+                'error' => "Veuillez renseigner l'objectif du controle!"
+            ]);
+        }
+        if (!$request->nom || $request->nom == null) {
+            return response()->json([
+                'error' => "Veuillez renseigner le nom du controle!"
+            ]);
+        }
+
+        if ($request->hasFile('fichier')) {
+            $filePath = $request->file('fichier')->store('fichiers', 'public');
 
           $pilotage->update([
               'code' => $request->code,
@@ -137,11 +141,10 @@ class ControleController extends Controller
               'exhaustivite' => $request->exhaustivite,
               'preuve' => $request->preuve,
               'etat' => $request->etat,
-              'fichier' => $request->fichier,
+              'fichier' => $filePath,
               'nom' => $request->nom,
               'commentaire' => $request->commentaire,
               'descriptif' => $request->descriptif,
-              // 'date_ajout' => now(),
               'archived_at' => $request->archived_at,
               'risque_id' => $request->risque_id,
               'direction_id' => $request->direction_id,
@@ -151,10 +154,31 @@ class ControleController extends Controller
               'departement_id' => $request->departement_id,
               'user_id' => $request->user_id,
           ]);
+        }else{
+            $pilotage->update([
+                'code' => $request->code,
+                'objectif' => $request->objectif,
+                'periodicite' => $request->periodicite,
+                'exhaustivite' => $request->exhaustivite,
+                'preuve' => $request->preuve,
+                'etat' => $request->etat,
+                'nom' => $request->nom,
+                'commentaire' => $request->commentaire,
+                'descriptif' => $request->descriptif,
+                'archived_at' => $request->archived_at,
+                'risque_id' => $request->risque_id,
+                'direction_id' => $request->direction_id,
+                'service_id' => $request->service_id,
+                'pole_id' => $request->pole_id,
+                'activite_id' => $request->activite_id,
+                'departement_id' => $request->departement_id,
+                'user_id' => $request->user_id,
+            ]);
+        }
 
-          return response()->json([
-              'message' => 'Controle mise à jour avec succès!',
-          ], 200);
+        return response()->json([
+            'message' => 'Controle mise à jour avec succès!',
+        ], 200);
 
       } catch (\Throwable $th) {
           return response()->json([
@@ -176,7 +200,7 @@ class ControleController extends Controller
         $pilotage->update([
             'archived_at' => now()
         ]);
-        
+
         $pilotage->delete();
 
         return response()->json(['message' => 'Controle deleted successfully!']);
@@ -203,7 +227,7 @@ class ControleController extends Controller
     {
         $pilotage =Controle::find($id);
         if ($pilotage) {
-            $pilotage->validate = 'Validée';
+            $pilotage->validate = 'Validé';
             $pilotage->save();
 
             return response()->json([
@@ -215,6 +239,43 @@ class ControleController extends Controller
             return response()->json([
                 'error' => 'Le controle n\'a pas été trouvé!',
             ], 404);
+        }
+    }
+
+    public function invalidated($id)
+    {
+        $pilotage = Controle::find($id);
+        if ($pilotage) {
+            $pilotage->validate = 'Non validé';
+            $pilotage->save();
+
+            return response()->json([
+                'message' => 'Le controle a été validé avec succès!',
+                'controle' => $pilotage
+            ]);
+        } else {
+            return response()->json([
+                'error' => 'Le controle n\'a pas été trouvé!',
+            ], 404);
+        }
+    }
+
+    public function downloadFile(Request $request)
+    {
+        try {
+            $path = $request->file('file')->store('files', 'public');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Avatar uploaded successfully.',
+                'path' => $path
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'There was an error uploading the avatar.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 

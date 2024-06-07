@@ -14,7 +14,7 @@
           class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
           exporter vers excel
         </button>
-  
+
         <button (click)="openModal()"
           class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
           + controle
@@ -149,6 +149,7 @@
           <option value="Fait">Fait</option>
           <option value="Non fait">Non fait</option>
           <option value="Applicable">Applicable</option>
+          <option value="Non applicable">Non applicable</option>
         </select>
       </div>
 
@@ -157,8 +158,8 @@
         <select formControlName="validate"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
           <option value=0>filtrer par etat</option>
-          <option value="Validée">Validée</option>
-          <option value="Non validée">Non validée</option>
+          <option value="Validé">Validé</option>
+          <option value="Non validé">Non validé</option>
         </select>
       </div>
 
@@ -240,7 +241,7 @@
           </thead>
           <tbody>
             @if (control) {
-              @for (data of datas() | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id) {
+              @for (data of datas() | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id;) {
                 <tr class="bg-white">
                   <td>
                     <div>{{data.direction_id.libelle}}</div>
@@ -285,7 +286,7 @@
                     <div><textarea readonly>{{data.preuve}}</textarea></div>
                   </td>
                   <td>
-                    <div><a target="_blank" href="/assets/fichiers/preuve 1.pdf"><i class="material-icons">attach_file</i>Name of file</a></div>
+                    <div><a target="_blank" [href]="'http://localhost:8000/storage/'+data.fichier"><i class="material-icons">attach_file</i>Fichier Preuve</a></div>
                   </td>
                   <td>
                     <div><textarea readonly>{{data.commentaire}}</textarea></div>
@@ -303,24 +304,30 @@
                   </td>
                   <td>
                     <div class="flex gap-2">
-                      <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'visibility'" (mouseleave)="hoveredIcon = null">
+                      <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'visibility')"
+                        (mouseleave)="clearHoveredIcon(data.id)">
                         <i (click)="info(data)" class="material-icons cursor-pointer text-gray-600">visibility</i>
-                        <div class="tooltip" *ngIf="hoveredIcon === 'visibility'">voir fiche control</div>
+                        <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'visibility'">voir fiche control</div>
                       </div>
-                      <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'edit'" (mouseleave)="hoveredIcon = null">
+                      <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'edit')" (mouseleave)="clearHoveredIcon(data.id)">
                         <i (click)="editModal(data)" class="material-icons cursor-pointer text-yellow-400">edit</i>
-                        <div class="tooltip" *ngIf="hoveredIcon === 'edit'">editer le control</div>
+                        <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'edit'">editer le control</div>
                       </div>
-                      <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'archive'" (mouseleave)="hoveredIcon = null">
-                        <i (click)="deleteD(data.id)" class="material-icons cursor-pointer text-red-600">archive</i>
-                        <div class="tooltip" *ngIf="hoveredIcon === 'archive'">Archiver le control</div>
+                      <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'archive')" (mouseleave)="clearHoveredIcon(data.id)">
+                        <i (click)="deleteD(data.id)" class="material-icons cursor-pointer text-orange-600">archive</i>
+                        <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'archive'">Archiver le control</div>
                       </div>
-                      <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'check_circle'" (mouseleave)="hoveredIcon = null">
+                      <div class="icon-wrapper" *ngIf="data.validate === 'Non validé'"
+                        (mouseenter)="setHoveredIcon(data.id, 'check_circle')" (mouseleave)="clearHoveredIcon(data.id)">
                         <i (click)="validate(data.id)" class="material-icons cursor-pointer text-green-600">check_circle</i>
-                        <div class="tooltip" *ngIf="hoveredIcon === 'check_circle'">valider le control</div>
+                        <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'check_circle'">valider le control</div>
+                      </div>
+                      <div class="icon-wrapper" *ngIf="data.validate === 'Validé'" (mouseenter)="setHoveredIcon(data.id, 'cancel')"
+                        (mouseleave)="clearHoveredIcon(data.id)">
+                        <i (click)="invalidate(data.id)" class="material-icons cursor-pointer text-red-600">cancel</i>
+                        <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'cancel'">dévalider le control</div>
                       </div>
                     </div>
-
                   </td>
                 </tr>
               }
@@ -392,8 +399,15 @@
                 </td>
                 <td>
                   <div class="flex gap-2">
-                    <i (click)="info(data)" class="material-icons cursor-pointer text-gray-600">visibility</i>
-                    <i (click)="desarchiver(data.id)" class="material-icons cursor-pointer text-red-600">archive</i>
+                    <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'visibility')" (mouseleave)="clearHoveredIcon(data.id)">
+                      <i (click)="info(data)" class="material-icons cursor-pointer text-gray-600">visibility</i>
+                      <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'visibility'">voir fiche control</div>
+                    </div>
+                    <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'archive')" (mouseleave)="clearHoveredIcon(data.id)">
+                      <i (click)="desarchiver(data.id)" class="material-icons cursor-pointer text-orange-600">unarchive</i>
+                      <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'archive'">Désarchiver le control</div>
+                    </div>
+                    <!-- <i (click)="desarchiver(data.id)" class="material-icons cursor-pointer text-red-600">archive</i> -->
                   </div>
                 </td>
               </tr>
@@ -558,9 +572,15 @@
                 placeholder="saisir la preuve demandée">
             </div>
             <div class="col-span-2 sm:col-span-1">
+              @if (display==false) {
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichiers preuves</label>
-              <input type="file" formControlName="fichier"
+              <input type="file" (change)="onFileSelected($event)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              }
+              @if (display==true) {
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichier preuve</label>
+                <a target="_blank" [href]="file" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 cursor-pointer">afficher le fichier de preuve</a>
+              }
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Etat</label>
