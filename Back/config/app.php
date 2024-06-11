@@ -127,12 +127,20 @@ return [
         /*
          * Package Service Providers...
          */
-        Maatwebsite\Excel\ExcelServiceProvider::class,
-    ],
+        Maatwebsite\Excel\ExcelServiceProvider::class,     
+    Illuminate\Filesystem\FilesystemServiceProvider::class,
+    Illuminate\Auth\AuthServiceProvider::class,
+    Illuminate\Cache\CacheServiceProvider::class,
+],
+
+  
 
     'aliases' => [
         
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'File' => Illuminate\Support\Facades\File::class,
+        'Cache' => Illuminate\Support\Facades\Cache::class,
+        'Auth' => Illuminate\Support\Facades\Auth::class,
     ]
     
 
