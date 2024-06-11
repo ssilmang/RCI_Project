@@ -194,6 +194,17 @@ export class PilotageComponent {
   }
 
   ngOnInit() {
+
+     this.getData()
+    // this.getControles()
+    // this.getDepart()
+    // this.getDirections()
+    // this.getPoles()
+    // this.getActivites()
+    // this.getServices()
+    // this.getUsers()
+    // this.getRisques()
+
     this.getData()
     // this.getControles()
     this.getDepart()
@@ -249,6 +260,7 @@ export class PilotageComponent {
         })
       })
     }
+
 
   }
 

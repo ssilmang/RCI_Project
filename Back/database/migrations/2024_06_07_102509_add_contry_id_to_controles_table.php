@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('controles', function (Blueprint $table) {
-            $table->dropColumn('fichier');
-
+            $table->unsignedBigInteger('contry_id')->after('id')->nullable();            
+            $table->foreign('contry_id')->references('id')->on('contrys')->onDelete('cascade');
         });
     }
 
@@ -23,7 +23,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('controles', function (Blueprint $table) {
-            //
-        });
+      
+             $table->dropForeign(['contry_id']);
+
+             
+             $table->dropColumn('contry_id');
+         });
+       
     }
 };

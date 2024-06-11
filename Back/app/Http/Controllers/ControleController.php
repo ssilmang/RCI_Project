@@ -288,10 +288,10 @@ class ControleController extends Controller
     //     ->header('Content-Disposition', 'inline; filename="file.pdf"');
     // }
 
-    // public function exportPDF()
-    // {
-    //     $pdf = PDF::loadView('export-pdf', $data);
-    //     return $pdf->download('exported-pdf.pdf');
-    // }
+    public function exportPDF()
+    {
+        $pdf = PDF::loadView('export-pdf', $data);
+        return $pdf->download('exported-pdf.pdf');
+    }
 
 }

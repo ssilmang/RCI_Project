@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('controles', function (Blueprint $table) {
-            $table->renameColumn('fichiers', 'fichier');
+        Schema::create('contrys', function (Blueprint $table) {
+            $table->id();
+            $table->string('libelle');
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->nullable();
+            
+
         });
     }
 
@@ -21,8 +26,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('controles', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('contrys');
+        Schema::dropIfExists('deleted_at');
     }
 };
