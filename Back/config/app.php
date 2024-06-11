@@ -128,17 +128,20 @@ return [
         /*
          * Package Service Providers...
          */
-        Illuminate\Auth\AuthServiceProvider::class,
-        Illuminate\Filesystem\FilesystemServiceProvider::class,
-        Illuminate\Cache\CacheServiceProvider::class,
-        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-
         // Maatwebsite\Excel\ExcelServiceProvider::class,
-    ],
+    Illuminate\Filesystem\FilesystemServiceProvider::class,
+    Illuminate\Auth\AuthServiceProvider::class,
+    Illuminate\Cache\CacheServiceProvider::class,
+],
+
+
 
     'aliases' => [
-        'Auth' => Illuminate\Support\Facades\Auth::class,
+
         // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'File' => Illuminate\Support\Facades\File::class,
+        'Cache' => Illuminate\Support\Facades\Cache::class,
+        'Auth' => Illuminate\Support\Facades\Auth::class,
     ]
 
 

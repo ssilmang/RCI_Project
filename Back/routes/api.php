@@ -3,6 +3,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PoleController;
+use App\Http\Controllers\ContryController;
 use App\Http\Controllers\RisqueController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ActiviteController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\PilotageController;
 use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\UtilisateurController;
+use App\Http\Controllers\TypeControleController;
 
 
 Route::group(['middleware' => 'auth:api'], function() {
@@ -95,3 +97,14 @@ Route::get('/departement/restaurer/{id}', [DepartementController::class, 'restau
 Route::get('/pole/restaurer/{id}', [PoleController::class, 'restaurer']);
 Route::get('/utilisateur/restaurer/{id}', [UtilisateurController::class, 'restaurer']);
 
+//route type de controle
+Route::get('/typeControle/all', [TypeControleController::class, 'index']);
+Route::post('/typeControle/add', [TypeControleController::class, 'store']);
+Route::put('/typeControle/update/{id}', [TypeControleController::class, 'update']);
+Route::delete('/typeControle/delete/{id}', [TypeControleController::class, 'destroy']);
+
+//routes for country//
+Route::get('/country/all', [ContryController::class, 'index']);
+Route::post('/country/add', [ContryController::class, 'store']);
+Route::put('/country/update/{id}', [ContryController::class, 'update']);
+Route::delete('/country/delete/{id}', [ContryController::class, 'destroy']);
