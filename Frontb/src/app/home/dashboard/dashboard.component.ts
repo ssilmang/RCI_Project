@@ -114,20 +114,23 @@ export class DashboardComponent {
     this.selectedCard = card;
     if (this.direction != 'Direction' && this.totalControls > 0) {
       // console.log(card, this.direction);
-      Swal.fire({
-        title: "Voulez-vous voir les contrôles associés ?",
-        showDenyButton: true,
-        confirmButtonText: "Oui",
-        denyButtonText: `Annuler`
-      }).then((result) => {
-        if (result.isConfirmed) {
-          localStorage.setItem('direction', JSON.stringify(this.direction))
-          localStorage.setItem('etat', JSON.stringify(card))
-          this.router.navigate(['accueil/pilotage']);
-        } else if (result.isDenied) {
-          Swal.fire("L'action a été annulée", "", "info");
-        }
-      });
+      localStorage.setItem('direction', JSON.stringify(this.direction))
+      localStorage.setItem('etat', JSON.stringify(card))
+      this.router.navigate(['accueil/pilotage']);
+      // Swal.fire({
+      //   title: "Voulez-vous voir les contrôles associés ?",
+      //   showDenyButton: true,
+      //   confirmButtonText: "Oui",
+      //   denyButtonText: `Annuler`
+      // }).then((result) => {
+      //   if (result.isConfirmed) {
+      //     localStorage.setItem('direction', JSON.stringify(this.direction))
+      //     localStorage.setItem('etat', JSON.stringify(card))
+      //     this.router.navigate(['accueil/pilotage']);
+      //   } else if (result.isDenied) {
+      //     Swal.fire("L'action a été annulée", "", "info");
+      //   }
+      // });
     }
   }
 
