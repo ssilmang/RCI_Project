@@ -40,6 +40,7 @@ return [
     */
 
     'debug' => (bool) env('APP_DEBUG', false),
+    'default' => env('CACHE_DRIVER', 'file'),
 
     /*
     |--------------------------------------------------------------------------
@@ -122,18 +123,23 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-    
+
     'providers' => [
         /*
          * Package Service Providers...
          */
-        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Illuminate\Auth\AuthServiceProvider::class,
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+        Illuminate\Cache\CacheServiceProvider::class,
+        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+
+        // Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     'aliases' => [
-        
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Auth' => Illuminate\Support\Facades\Auth::class,
+        // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ]
-    
+
 
 ];

@@ -95,4 +95,3 @@ Route::get('/departement/restaurer/{id}', [DepartementController::class, 'restau
 Route::get('/pole/restaurer/{id}', [PoleController::class, 'restaurer']);
 Route::get('/utilisateur/restaurer/{id}', [UtilisateurController::class, 'restaurer']);
 
-
