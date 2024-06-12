@@ -125,23 +125,43 @@ return [
     ],
 
     'providers' => [
-        /*
-         * Package Service Providers...
-         */
         // Maatwebsite\Excel\ExcelServiceProvider::class,
-    Illuminate\Filesystem\FilesystemServiceProvider::class,
-    Illuminate\Auth\AuthServiceProvider::class,
-    Illuminate\Cache\CacheServiceProvider::class,
-],
-
+        Illuminate\Broadcasting\BroadcastServiceProvider::class,
+        Illuminate\Bus\BusServiceProvider::class,
+        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+        Illuminate\Cookie\CookieServiceProvider::class,
+        Illuminate\Database\DatabaseServiceProvider::class,
+        Illuminate\Encryption\EncryptionServiceProvider::class,
+        Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+        Illuminate\Hashing\HashServiceProvider::class,
+        Illuminate\Mail\MailServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
+        Illuminate\Pagination\PaginationServiceProvider::class,
+        Illuminate\Pipeline\PipelineServiceProvider::class,
+        Illuminate\Queue\QueueServiceProvider::class,
+        Illuminate\Redis\RedisServiceProvider::class,
+        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+        Illuminate\Session\SessionServiceProvider::class,
+        Illuminate\Translation\TranslationServiceProvider::class,
+        Illuminate\Validation\ValidationServiceProvider::class,
+        Illuminate\View\ViewServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+        Illuminate\Auth\AuthServiceProvider::class,
+        Illuminate\Cache\CacheServiceProvider::class,
+    ],
 
 
     'aliases' => [
 
         // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'DB' => Illuminate\Support\Facades\DB::class,
         'File' => Illuminate\Support\Facades\File::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
+        'Password' => Illuminate\Support\Facades\Password::class,
+        'Route' => Illuminate\Support\Facades\Route::class,
     ]
 
 

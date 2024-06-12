@@ -15,6 +15,7 @@ use App\Http\Controllers\UtilisateurController;
 use App\Http\Controllers\TypeControleController;
 
 
+
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('/user', function(Request $request) {
         return $request->user(); // Retourne l'utilisateur connecté
