@@ -95,4 +95,9 @@ Route::get('/departement/restaurer/{id}', [DepartementController::class, 'restau
 Route::get('/pole/restaurer/{id}', [PoleController::class, 'restaurer']);
 Route::get('/utilisateur/restaurer/{id}', [UtilisateurController::class, 'restaurer']);
 
+//importation excel//
 
+Route::get('/file-import',[ControleController::class,
+'importView'])->name('import-view'); 
+Route::post('/import',[ControleController::class,
+'import'])->name('import'); 

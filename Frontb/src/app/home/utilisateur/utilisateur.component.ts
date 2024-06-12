@@ -50,14 +50,20 @@ export class UtilisateurComponent {
       password: this.fb.control("elzondao"),
       direction_id: this.fb.control(0),
       service_id: this.fb.control(0),
+      contry_id: this.fb.control(0),
     });
 
     this.select = this.fb.group({
       direction_id: this.fb.control(0),
       service_id: this.fb.control(0),
+      contry_id: this.fb.control(0),
     });
 
     this.select.get('direction_id')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedDir = res
+    })
+    this.select.get('contry_id')?.valueChanges.subscribe(res=>{
       // console.log(res);
       this.selectedDir = res
     })
