@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('telephone')->nullable();
-            $table->string('addresse')->nullable();
+        Schema::create('typecontroles', function (Blueprint $table) {
+            $table->id();
+            $table->string('libelle');
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -22,9 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            Schema::dropIfExists('telephone');
-            Schema::dropIfExists('addresse');
-        });
+        Schema::dropIfExists('type_controles');
+        Schema::dropIfExists('deleted_at');
     }
 };

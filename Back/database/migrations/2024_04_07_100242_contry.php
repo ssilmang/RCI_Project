@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Pole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('controles', function (Blueprint $table) {
-            $table->string('etat')->nullable();
-            $table->foreignIdFor(Pole::class)->constrained();
+        Schema::create('contrys', function (Blueprint $table) {
+            $table->id();
+            $table->string('libelle');
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -23,8 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('controles', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('contrys');
+        Schema::dropIfExists('deleted_at');
     }
 };

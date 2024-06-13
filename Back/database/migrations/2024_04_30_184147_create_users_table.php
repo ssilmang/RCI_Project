@@ -1,4 +1,6 @@
 <?php
+
+use App\Models\Contry;
 use App\Models\Direction;
 use App\Models\Service;
 use Illuminate\Database\Migrations\Migration;
@@ -18,14 +20,21 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('matricule')->unique();
             $table->string('photo')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('addresse')->nullable();
             $table->foreignIdFor(Direction::class)->constrained();
             $table->foreignIdFor(Service::class)->constrained();
+            $table->unsignedBigInteger('pays_id')->nullable();
+            $table->foreign('pays_id')
+                ->references('id')
+                ->on('contrys')
+                ->onDelete('cascade');
+
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
-
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

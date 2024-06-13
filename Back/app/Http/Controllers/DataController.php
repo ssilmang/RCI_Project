@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Data;
+
 use Illuminate\Http\Request;
+
+use App\Http\Requests\StoreDataRequest;
+use App\Http\Requests\UpdateDataRequest;
 
 class DataController extends Controller
 {
@@ -26,40 +30,30 @@ class DataController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
-    {
-        //
-    }
+{}
+    
 
     /**
      * Display the specified resource.
      */
-    public function show(Data $data)
-    {
-        //
-    }
+   
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Data $data)
-    {
-        //
-    }
+   
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Data $data)
-    {
-        //
-    }
+
+    
+    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Data $data)
-    {
-        //
-    }
+   
 }

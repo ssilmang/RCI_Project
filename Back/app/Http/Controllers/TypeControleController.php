@@ -14,17 +14,8 @@ class TypeControleController extends Controller
     public function index()
     {
         return response()->json([
-            'type_controle' => Type_Controle::all(),
-            'archives' => Type_Controle::onlyTrashed()->get()
+            'data' => Type_Controle::all()
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -32,7 +23,7 @@ class TypeControleController extends Controller
      */
     public function store(Request $request)
     {
-       
+
         try {
             $p = Type_Controle::where('libelle', $request->libelle)->first();
             if ($p) {
@@ -60,22 +51,6 @@ class TypeControleController extends Controller
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
             ], 500);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Type_Controle $type_Controle)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Type_Controle $type_Controle)
-    {
-        //
     }
 
     /**
@@ -107,7 +82,6 @@ class TypeControleController extends Controller
 
             $type_controle->update([
                 'libelle' => $request->libelle,
-
             ]);
 
             return response()->json([
@@ -127,18 +101,14 @@ class TypeControleController extends Controller
      */
     public function destroy($id)
     {
-        
         $type_controle = Type_Controle::find($id);
-
         if (!$type_controle) {
             return response()->json(['error' => 'type_controle non trouvé!'], 404);
         }
-
         $type_controle->delete();
-
         return response()->json(['message' => 'type_controle supprimé avec succes!']);
     }
-    
+
     public function restaurer($id)
     {
         $type_controle = Type_Controle::onlyTrashed()->find($id);

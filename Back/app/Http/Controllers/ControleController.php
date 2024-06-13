@@ -260,38 +260,4 @@ class ControleController extends Controller
         }
     }
 
-    public function downloadFile(Request $request)
-    {
-        try {
-            $path = $request->file('file')->store('files', 'public');
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Avatar uploaded successfully.',
-                'path' => $path
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'There was an error uploading the avatar.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    // public function viewPdf($id)
-    // {
-    //     $pilotage = Controle::findOrFail($id);
-    //     $pdfContent = $pilotage->fichier;
-    //     return response($pdfContent)
-    //     ->header('Content-Type', 'application/pdf')
-    //     ->header('Content-Disposition', 'inline; filename="file.pdf"');
-    // }
-
-    public function exportPDF()
-    {
-        $pdf = PDF::loadView('export-pdf', $data);
-        return $pdf->download('exported-pdf.pdf');
-    }
-
 }

@@ -14,24 +14,12 @@ class ContryController extends Controller
     {
         return response()->json([
             'pays' => Contry::all(),
-            'archives' => Contry::onlyTrashed()->get()
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-      
+
         try {
             $p =Contry::where('libelle', $request->libelle)->first();
             if ($p) {
@@ -59,22 +47,6 @@ class ContryController extends Controller
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
             ], 500);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Contry $contry)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Contry $contry)
-    {
-        //
     }
 
     /**
@@ -106,11 +78,10 @@ class ContryController extends Controller
 
             $contry->update([
                 'libelle' => $request->libelle,
-
             ]);
 
             return response()->json([
-                'message' => 'Le type de controle est mise à jour avec succès!',
+                'message' => 'Le pays est mise à jour avec succès!',
                 'data' => $contry,
             ]);
 
@@ -124,9 +95,9 @@ class ContryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Contry $contry)
+    public function destroy($id)
     {
-         
+
         $contry = Contry::find($id);
 
         if (!$contry) {
