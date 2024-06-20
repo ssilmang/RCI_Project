@@ -9,6 +9,8 @@ import { Setting1Component } from './home/setting1/setting1.component';
 import { Setting2Component } from './home/setting2/setting2.component';
 import { ControleComponent } from './home/controle/controle.component';
 import { RisqueComponent } from './home/risque/risque.component';
+import { PaysComponent } from './home/pays/pays.component';
+import { TypeControleComponent } from './home/type-controle/type-controle.component';
 
 
 export const routes: Routes = [
@@ -24,6 +26,10 @@ export const routes: Routes = [
       { path: 'controles', component: ControleComponent },
       { path: 'risques', component: RisqueComponent },
       { path: 'utilisateurs', component: UtilisateurComponent },
+      { path: 'pays', component: PaysComponent },
+      { path: 'typecontrole', component: TypeControleComponent  },
+
+
     ]
    },
   { path: '**', component: PagenotefoundComponent }

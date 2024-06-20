@@ -12,7 +12,9 @@ const verbs = [
   'activite',
   'service',
   'pilotage',
-  'risque'
+  'risque',
+  'contry',
+  'typecontrole'
 ]
 
 export const uri = {
@@ -89,7 +91,21 @@ export const uri = {
     update :`${verbs[7]}/update/`,
     delete : `${verbs[7]}/delete/`,
     restaurer : `${verbs[7]}/restaurer/`,
-  }
+  },
+  contry : {
+    list : `${verbs[8]}/all`,
+    add : `${verbs[8]}/add`,
+    update :`${verbs[8]}/update/`,
+    delete : `${verbs[8]}/delete/`,
+    restaurer : `${verbs[8]}/restaurer/`,
+  },
+  typecontrole: {
+    list : `${verbs[9]}/all`,
+    add : `${verbs[9]}/add`,
+    update :`${verbs[9]}/update/`,
+    delete : `${verbs[9]}/delete/`,
+    restaurer : `${verbs[9]}/restaurer/`,
+  },
 
 
 }

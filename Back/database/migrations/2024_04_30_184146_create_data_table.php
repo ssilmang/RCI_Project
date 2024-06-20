@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Controle;
+
 use App\Models\TypeControle;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,7 +20,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('objectif');
             $table->string('descriptif');
-            $table->foreignIdFor(TypeControle::class)->constrained();
+            $table->foreignIdFor(TypeControle::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
