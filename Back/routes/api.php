@@ -8,6 +8,7 @@ use App\Http\Controllers\RisqueController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ActiviteController;
 use App\Http\Controllers\ControleController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\PilotageController;
 use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\DepartementController;
@@ -80,6 +81,13 @@ Route::delete('/controle/delete/{id}', [ControleController::class, 'destroy']);
 Route::get('/controle/restaurer/{id}', [ControleController::class, 'restaurer']);
 Route::get('/controle/validated/{id}', [ControleController::class, 'validated']);
 Route::get('/controle/invalidated/{id}', [ControleController::class, 'invalidated']);
+
+//routes for data//
+Route::get('/data/all', [DataController::class, 'index']);
+Route::post('/data/add', [DataController::class, 'store']);
+Route::post('/data/update/{id}', [DataController::class, 'update']);
+Route::delete('/data/delete/{id}', [DataController::class, 'destroy']);
+Route::get('/data/restaurer/{id}', [DataController::class, 'restaurer']);
 
 // routes for desarchivage//
 

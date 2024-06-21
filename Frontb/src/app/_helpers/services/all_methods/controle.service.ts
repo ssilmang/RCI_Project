@@ -11,7 +11,7 @@ import { apiUrlEnv, uri } from '../../environnements/api';
 export class ControleService {
 
   apiUrl = apiUrlEnv.apiUrl;
-  uri = uri.controle
+  uri = uri.data
 
   constructor(private http : HttpClient) { }
 
@@ -32,7 +32,7 @@ export class ControleService {
   }
 
   updateResources(id: number|null, data: any) {
-    return this.http.put(this.apiUrl + this.uri.update + id, data);
+    return this.http.post(this.apiUrl + this.uri.update + id, data);
   }
 
 }

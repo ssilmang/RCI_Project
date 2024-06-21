@@ -23,6 +23,7 @@ export const routes: Routes = [
       { path: 'parametrage2', component: Setting2Component },
       { path: 'controles', component: ControleComponent },
       { path: 'risques', component: RisqueComponent },
+      { path: 'controle', component: ControleComponent },
       { path: 'utilisateurs', component: UtilisateurComponent },
     ]
    },

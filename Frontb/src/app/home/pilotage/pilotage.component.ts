@@ -83,7 +83,7 @@ export class PilotageComponent {
   constructor(
     private data: DataService,
     private fb: FormBuilder,
-    // private ctrl: ControleService,
+    private ctrl: ControleService,
     private risk: RisqueService,
     private depart: DepartementService,
     private dirService: DirectionService,
@@ -93,15 +93,12 @@ export class PilotageComponent {
     private userService: UtilisateurService,
   ) {
     this.Data = this.fb.group({
-      nom: this.fb.control('Control 1'),
-      code: this.fb.control('Code 1'),
+      controle_id: this.fb.control(0),
       direction_id: this.fb.control(1),
       pole_id: this.fb.control(1),
       departement_id: this.fb.control(1),
       service_id: this.fb.control(1),
       activite_id: this.fb.control(1),
-      objectif: this.fb.control('O1'),
-      descriptif: this.fb.control('D1'),
       commentaire: this.fb.control('C1'),
       risque_id: this.fb.control(0),
       user_id: this.fb.control(1),
@@ -111,10 +108,10 @@ export class PilotageComponent {
       etat: this.fb.control('none')
     })
 
-    this.Data.get('controle_id')?.valueChanges.subscribe((d)=>{
-      let code = this.ctrls.filter((c:any) => c.id == d)[0]
-      this.Data.patchValue({code: code.code})
-    })
+    // this.Data.get('controle_id')?.valueChanges.subscribe((d)=>{
+    //   let code = this.ctrls.filter((c:any) => c.id == d)[0]
+    //   this.Data.patchValue({code: code.code})
+    // })
 
     this.select = this.fb.group({
       direction_id: this.fb.control(0),
@@ -130,11 +127,6 @@ export class PilotageComponent {
       statut: this.fb.control(0),
       validate: this.fb.control(0),
     });
-
-    this.select.get('nom')?.valueChanges.subscribe(res=>{
-      // console.log(res);
-      this.selectedCtrl = res
-    })
 
     this.select.get('direction_id')?.valueChanges.subscribe(res=>{
       // console.log(res);
@@ -194,19 +186,8 @@ export class PilotageComponent {
   }
 
   ngOnInit() {
-
-     this.getData()
-    // this.getControles()
-    // this.getDepart()
-    // this.getDirections()
-    // this.getPoles()
-    // this.getActivites()
-    // this.getServices()
-    // this.getUsers()
-    // this.getRisques()
-
     this.getData()
-    // this.getControles()
+    this.getControles()
     this.getDepart()
     this.getDirections()
     this.getPoles()
@@ -260,8 +241,6 @@ export class PilotageComponent {
         })
       })
     }
-
-
   }
 
   getUsers()
@@ -278,7 +257,7 @@ export class PilotageComponent {
       this.datas = signal(res.controles);
       this.archives = signal(res.archives);
       this.toExp = res.controles
-      // console.log(this.toExp);
+      console.log(this.toExp);
     })
   }
 
@@ -319,14 +298,14 @@ export class PilotageComponent {
     })
   }
 
-  // getControles()
-  // {
-  //   this.ctrl.listResources().subscribe((r:any) => {
-  //     this.controles = signal(r.controles)
-  //     this.ctrls = r.controles
-  //     // console.log(r.controles);
-  //   })
-  // }
+  getControles()
+  {
+    this.ctrl.listResources().subscribe((r:any) => {
+      this.controles = signal(r.data)
+      // this.ctrls = r.data
+      // console.log(r.data);
+    })
+  }
 
   getRisques()
   {
@@ -360,15 +339,12 @@ export class PilotageComponent {
   {
     // console.log(this.Data.value);
     if (this.btn == 'Ajouter') {
-      this.formData.append('code', this.Data.get('code')?.value);
-      this.formData.append('objectif', this.Data.get('objectif')?.value);
+      this.formData.append('controle_id', this.Data.get('controle_id')?.value);
       this.formData.append('periodicite', this.Data.get('periodicite')?.value);
       this.formData.append('exhaustivite', this.Data.get('exhaustivite')?.value);
       this.formData.append('preuve', this.Data.get('preuve')?.value);
       this.formData.append('etat', this.Data.get('etat')?.value);
-      this.formData.append('nom', this.Data.get('nom')?.value);
       this.formData.append('commentaire', this.Data.get('commentaire')?.value);
-      this.formData.append('descriptif', this.Data.get('descriptif')?.value);
       this.formData.append('risque_id', this.Data.get('risque_id')?.value);
       this.formData.append('direction_id', this.Data.get('direction_id')?.value);
       this.formData.append('service_id', this.Data.get('service_id')?.value);
@@ -398,15 +374,12 @@ export class PilotageComponent {
         }
       })
     }else if(this.btn == 'Modifier'){
-      this.formData.append('code', this.Data.get('code')?.value);
-      this.formData.append('objectif', this.Data.get('objectif')?.value);
+      this.formData.append('controle_id', this.Data.get('controle_id')?.value);
       this.formData.append('periodicite', this.Data.get('periodicite')?.value);
       this.formData.append('exhaustivite', this.Data.get('exhaustivite')?.value);
       this.formData.append('preuve', this.Data.get('preuve')?.value);
       this.formData.append('etat', this.Data.get('etat')?.value);
-      this.formData.append('nom', this.Data.get('nom')?.value);
       this.formData.append('commentaire', this.Data.get('commentaire')?.value);
-      this.formData.append('descriptif', this.Data.get('descriptif')?.value);
       this.formData.append('risque_id', this.Data.get('risque_id')?.value);
       this.formData.append('direction_id', this.Data.get('direction_id')?.value);
       this.formData.append('service_id', this.Data.get('service_id')?.value);
@@ -418,9 +391,9 @@ export class PilotageComponent {
         this.formData.append('fichier', this.selectedFile);
       }
 
-      this.formData.forEach((value, key) => {
-        console.log(key, value);
-      });
+      // this.formData.forEach((value, key) => {
+      //   console.log(key, value);
+      // });
 
       this.data.updateResources(this.id, this.formData).subscribe((d:any)=>{
         console.log(d);
@@ -465,16 +438,13 @@ export class PilotageComponent {
       modal.style.display = 'block';
       this.id = data.id
       this.Data.patchValue({
-        nom: data.nom,
+        controle_id: data.controle_id.id,
         direction_id: data.direction_id.id,
         pole_id: data.pole_id.id,
         departement_id: data.departement_id.id,
         service_id: data.service_id.id,
         activite_id: data.activite_id.id,
-        code: data.code,
         commentaire: data.commentaire,
-        descriptif: data.descriptif,
-        objectif: data.objectif,
         risque_id: data.risque_id.id,
         user_id: data.user_id.id,
         periodicite: data.periodicite,
@@ -495,16 +465,13 @@ export class PilotageComponent {
       this.btn = 'Fermer'
       this.file = 'http://localhost:8000/storage/'+data.fichier
       this.Data.patchValue({
-        nom: data.nom,
+        controle_id: data.controle_id.id,
         direction_id: data.direction_id.id,
         pole_id: data.pole_id.id,
         departement_id: data.departement_id.id,
         service_id: data.service_id.id,
         activite_id: data.activite_id.id,
-        code: data.code,
         commentaire: data.commentaire,
-        descriptif: data.descriptif,
-        objectif: data.objectif,
         risque_id: data.risque_id.id,
         user_id: data.user_id.id,
         periodicite: data.periodicite,
@@ -703,10 +670,10 @@ export class PilotageComponent {
         departement: data.departement_id.libelle,
         service: data.service_id.libelle,
         activite: data.activite_id.libelle,
-        code: data.code,
-        controle: data.nom,
-        objectif: data.objectif,
-        descriptif: data.descriptif,
+        code: data.controle_id.code,
+        controle: data.controle_id.nom_controle,
+        objectif: data.controle_id.objectif,
+        descriptif: data.controle_id.descriptif,
         risque: data.risque_id.libelle,
         porteur: data.user_id.nom_complet,
         periodicite: data.periodicite,
@@ -716,7 +683,6 @@ export class PilotageComponent {
         statut: data.validate,
         etat: data.etat,
         date_ajout: data.date_ajout,
-
       });
 
       row.eachCell((cell) => {

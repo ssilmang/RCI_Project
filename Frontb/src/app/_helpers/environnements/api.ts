@@ -11,7 +11,7 @@ const verbs = [
   'pole',
   'activite',
   'service',
-  'pilotage',
+  'data',
   'risque'
 ]
 

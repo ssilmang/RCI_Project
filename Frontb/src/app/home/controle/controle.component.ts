@@ -37,20 +37,11 @@ export class ControleComponent {
   constructor(private fb: FormBuilder, private ctrl: ControleService)
   {
     this.controle = this.fb.group({
-      controle_id: this.fb.control(0),
-      direction_id: this.fb.control(1),
-      pole_id: this.fb.control(1),
-      departement_id: this.fb.control(1),
-      service_id: this.fb.control(1),
-      activite_id: this.fb.control(1),
-      code: this.fb.control(''),
-      objectif: this.fb.control('O1'),
-      risque_couvert: this.fb.control('R1'),
-      user_id: this.fb.control(1),
-      periodicite: this.fb.control('saisir la périodicité'),
-      exhaustivite: this.fb.control(1),
-      preuve: this.fb.control('P1'),
-      fichier: this.fb.control('')
+      nom_controle: this.fb.control('saisir le nom du controle'),
+      code: this.fb.control('saisir le code du controle'),
+      objectif: this.fb.control('saisir l\'objectif du controle'),
+      descriptif: this.fb.control('saisir le descriptif du controle'),
+      type: this.fb.control(0)
     })
   }
 
@@ -62,9 +53,9 @@ export class ControleComponent {
   getControles()
   {
     this.ctrl.listResources().subscribe((r:any) => {
-      this.controles = signal(r.controles)
+      this.controles = signal(r.data)
       this.archives = signal(r.archives)
-      // console.log(r.archives);
+      console.log(r);
     })
   }
 
@@ -72,6 +63,7 @@ export class ControleComponent {
   {
     // console.log(this.controle.value);
     if (this.btn == 'Ajouter') {
+      // console.log(this.controle.value);
       this.ctrl.addResources(this.controle.value).subscribe((d:any)=>{
         // console.log(d);
         if (d.message) {
@@ -133,8 +125,11 @@ export class ControleComponent {
       this.titre = 'Information controle'
       this.btn = 'Fermer'
       this.controle.patchValue({
-        nom: ctrl.nom,
-        code: ctrl.code
+        nom_controle: ctrl.nom_controle,
+        code: ctrl.code,
+        objectif: ctrl.objectif,
+        descriptif: ctrl.descriptif,
+        type: ctrl.type
       })
       this.controle.disable()
       modal.style.display = 'block';
@@ -149,9 +144,13 @@ export class ControleComponent {
       this.btn = 'Modifier'
       this.id = ctrl.id
       this.controle.patchValue({
-        nom: ctrl.nom,
-        code: ctrl.code
+        nom_controle: ctrl.nom_controle,
+        code: ctrl.code,
+        objectif: ctrl.objectif,
+        descriptif: ctrl.descriptif,
+        type: ctrl.type
       })
+      this.controle.enable()
       modal.style.display = 'block';
     }
   }
@@ -224,6 +223,7 @@ export class ControleComponent {
     if (modal) {
       modal.style.display = 'none';
     }
+    this.controle.enable()
   }
 
   selectControle()
@@ -245,8 +245,11 @@ export class ControleComponent {
       this.titre = 'Information controle'
       this.btn = 'Fermer'
       this.controle.patchValue({
-        nom: ctrl.nom,
-        code: ctrl.code
+        nom_controle: ctrl.nom_controle,
+        code: ctrl.code,
+        objectif: ctrl.objectif,
+        descriptif: ctrl.descriptif,
+        type: ctrl.type
       })
       this.controle.disable()
       modal.style.display = 'block';
@@ -259,6 +262,7 @@ export class ControleComponent {
     if (modal) {
       modal.style.display = 'none';
     }
+    
   }
 
 }

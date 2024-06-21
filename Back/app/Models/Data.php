@@ -4,8 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Data extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $guarded = ['id'];
+
+    protected $hidden = [
+        'updated_at',
+        'created_at'
+    ];
+
+    public function controle()
+    {
+        return $this->hasMany(Controle::class);
+    }
+
 }
