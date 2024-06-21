@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Data;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreDataRequest;
 use App\Http\Requests\UpdateDataRequest;
-use Illuminate\Http\Request;
 
 
 class DataController extends Controller

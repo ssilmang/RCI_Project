@@ -1,9 +1,11 @@
 <?php
 
-use App\Models\Type_Controle;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Controle;
+
+use App\Models\TypeControle;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -14,16 +16,12 @@ return new class extends Migration
     {
         Schema::create('data', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('nom_controle');
             $table->string('code');
             $table->string('objectif');
             $table->string('descriptif');
-            $table->unsignedBigInteger('type')->nullable();
-            $table->foreign('type')
-                ->references('id')
-                ->on('type_controles')
-                ->onDelete('cascade');
+            $table->foreignIdFor(TypeControle::class)->constrained()->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

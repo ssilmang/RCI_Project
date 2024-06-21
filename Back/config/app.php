@@ -124,6 +124,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+
     'providers' => [
         // Maatwebsite\Excel\ExcelServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
@@ -163,6 +164,7 @@ return [
         'Password' => Illuminate\Support\Facades\Password::class,
         'Route' => Illuminate\Support\Facades\Route::class,
     ]
+
 
 
 ];

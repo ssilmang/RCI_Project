@@ -51,16 +51,27 @@
 
       <div class="w-full flex flex-col gap-4">
         <h1 class="text-[#FF7900] text-xl font-semibold">Administration</h1>
+        <div [routerLink]="['pays']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
+          <i class="fas fa-flag-usa" style="color: #FF7900;"></i>
+          <span>Pays</span>
+        </div>
+        <div [routerLink]="['typecontrole']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
+          <i class="material-icons" style="color: #FF7900;">touch_app</i>
+
+          <span>type de controle</span>
+        </div>
         <div [routerLink]="['parametrage1']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
-          <i class="material-icons text-[#FF7900]">layers</i>
+          <i class="material-icons" style="color: #FF7900;">home</i>
           <span>Directions & Poles</span>
         </div>
         <div [routerLink]="['parametrage2']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
-          <i class="material-icons text-[#FF7900]">layers</i>
+          <i class="material-icons" style="color: #FF7900;">apartment</i>
+
           <span>Départements & Services & Activités</span>
         </div>
         <div [routerLink]="['risques']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
-          <i class="material-icons text-[#FF7900]">layers</i>
+          <i class="material-icons" style="color: #FF7900;">warning</i>
+
           <span>Risques</span>
         </div>
         <div [routerLink]="['controle']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">

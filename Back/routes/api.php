@@ -106,6 +106,14 @@ Route::get('/departement/restaurer/{id}', [DepartementController::class, 'restau
 Route::get('/pole/restaurer/{id}', [PoleController::class, 'restaurer']);
 Route::get('/utilisateur/restaurer/{id}', [UtilisateurController::class, 'restaurer']);
 
+
+//importation excel//
+
+Route::get('/file-import',[ControleController::class,
+'importView'])->name('import-view'); 
+Route::post('/import',[ControleController::class,
+'import'])->name('import'); 
+
 //route type de controle
 Route::get('/typeControle/all', [TypeControleController::class, 'index']);
 Route::post('/typeControle/add', [TypeControleController::class, 'store']);
@@ -117,3 +125,4 @@ Route::get('/country/all', [ContryController::class, 'index']);
 Route::post('/country/add', [ContryController::class, 'store']);
 Route::put('/country/update/{id}', [ContryController::class, 'update']);
 Route::delete('/country/delete/{id}', [ContryController::class, 'destroy']);
+

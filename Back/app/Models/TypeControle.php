@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Type_Controle extends Model
+class TypeControle extends Model
 {
     use HasFactory;
 }
