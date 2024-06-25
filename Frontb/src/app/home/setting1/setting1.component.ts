@@ -149,7 +149,7 @@ export class Setting1Component {
   {
     this.poleService.listResources().subscribe(r => {
       this.poles = signal(r)
-      console.log(r);
+      // console.log(r);
     })
   }
 

@@ -23,6 +23,7 @@ class UtilisateurResource extends JsonResource
             'email' => $this->email,
             'direction_id' => new DirectionResource($this->direction),
             'service_id' => new ServiceResource($this->service),
+            'pays_id' => new ContryResource($this->pays),
             // 'photo' => $this->photo,
         ];
     }

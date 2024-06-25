@@ -8,28 +8,34 @@
       [ngClass]="{'one':archive}">Archives</h1>
     </div>
 
-    <form class="w-[9%] p-1">
-      @if (control) {
-        <span (click)="openModal()" class="p-2 h-9 bg-[#FF663E] cursor-pointer shadow-md shadow-[#242a30] text-[white] text-lg rounded-lg flex justify-center items-center font-bold">
-          <i class="fas fa-plus"></i>Controle
-        </span>
-        
-      }
-    </form>
+    <div class="flex justify-between w-[30%]">
+      <form [formGroup]="searchForm" class="p-1 flex">
+        <input type="search" formControlName="ctrl" placeholder="rechercher un controle"
+          class="p-2 h-9 border-2 border-[#FF663E] focus:outline-none shadow-sm shadow-[#242a30] rounded-lg flex-1" />
+        <i class="material-icons text-[#FF663E] mt-2 ml-2">search</i>
+      </form>
+      <form class="p-1">
+        @if (control) {
+          <span (click)="openModal()" class="p-2 h-9 bg-[#FF663E] cursor-pointer shadow-md shadow-[#242a30] text-[white] text-lg rounded-lg flex justify-center items-center font-bold">
+            <span class="text-xl">+</span>Controle
+          </span>
+        }
+      </form>
+    </div>
   </div>
 
   <div class="w-[99%] h-[90%] overflow-y-auto m-1">
 
     <div class="flex flex-col gap-5 p-1">
       @if (control) {
-        @for (ctrl of controles(); track ctrl.id) {
+        @for (ctrl of controles() |searchCtrl:ctrlToSearch; track ctrl.id) {
           <div class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
-            <h1 class="text-xl font-semibold">{{ctrl.nom}}</h1>
+            <h1 class="text-xl font-semibold">{{ctrl.nom_controle}}</h1>
             <div class="w-28 h-3 flex gap-3 justify-center items-center">
-              <i (click)="info(ctrl)" class="material-icons cursor-pointer text-yellow-400">visibility</i>
+              <i (click)="info(ctrl)" class="material-icons cursor-pointer text-gray-400">visibility</i>
               <i (click)="editModal(ctrl)"
-                class="material-icons cursor-pointer text-green-400">edit</i>
-              <i (click)="deleteCtrl(ctrl.id)" class="material-icons cursor-pointer text-red-600">archive</i>
+                class="material-icons cursor-pointer text-yellow-400">edit</i>
+              <i (click)="deleteCtrl(ctrl.id)" class="material-icons cursor-pointer text-green-600">archive</i>
             </div>
           </div>
         }
@@ -38,13 +44,13 @@
         }
       }
       @if (archive) {
-        @for (ctrl of archives(); track ctrl.id) {
+        @for (ctrl of archives() |searchCtrl:ctrlToSearch; track ctrl.id) {
           <div
             class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
-            <h1 class="text-xl font-semibold">{{ctrl.nom}}</h1>
+            <h1 class="text-xl font-semibold">{{ctrl.nom_controle}}</h1>
             <div class="w-28 h-3 flex gap-3 justify-center items-center">
               <i (click)="info2(ctrl)" class="material-icons cursor-pointer text-yellow-400">visibility</i>
-              <i (click)="restaureCtrl(ctrl.id)" class="material-icons cursor-pointer text-green-600">unarchive</i>
+              <i (click)="restaureCtrl(ctrl.id)" class="material-icons cursor-pointer text-red-600">unarchive</i>
             </div>
           </div>
         }
@@ -61,10 +67,9 @@
 
 
   <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
-      style="display: none;" id="controle">
-
+    style="display: none;" id="controle">
     <div class="mt-20 ml-[24rem] w-[60%] h-[100%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
-      <div class="relative bg-white h-[88%] rounded-lg shadow dark:bg-gray-700">
+      <div class="relative bg-white h-[80%] rounded-lg shadow dark:bg-gray-700">
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t bg-[#FF7900]">
           <h3 class="text-2xl font-semibold text-white">
             {{titre}}
@@ -79,17 +84,13 @@
             <span class="sr-only">Close modal</span>
           </button>
         </div>
-        <form [formGroup]="controle" class="p-4 md:p-5 overflow-y-auto h-[87%]">
+        <form [formGroup]="controle" class="p-4 flex flex-col gap-10 overflow-y-auto h-[87%]">
           <div class="grid gap-4 mb-4 grid-cols-2">
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom controle</label>
-              <select formControlName="controle_id"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value=0>choisir une controle</option>
-                @for (ctrl of controles(); track ctrl.id) {
-                <option [value]="ctrl.id">{{ctrl.nom}}</option>
-                }
-              </select>
+              <input type="text" formControlName="nom_controle"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="nom du controle">
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Code controle</label>
@@ -100,190 +101,96 @@
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Objectif</label>
               <textarea formControlName="objectif"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+                class="bg-gray-50 border h-40 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
             </div>
             <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Risque</label>
-              <textarea formControlName="risque_couvert"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descriptif</label>
+              <textarea formControlName="descriptif"
+                class="bg-gray-50 border h-40 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
             </div>
             <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Porteur</label>
-              <select formControlName="user_id"
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type Controle</label>
+              <select formControlName="type"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value=0>choisir un porteur</option>
-                @for (user of users(); track user.id) {
-                <option [value]="user.id">{{user.nom_complet}}</option>
+                <option value=0>choisir un type de controle</option>
+                @for (type of types(); track type.id) {
+                  <option [value]="type.id">{{type.libelle}}</option>
                 }
               </select>
-            </div>
-            <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direction</label>
-              <select formControlName="direction_id"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value=0>choisir une direction</option>
-                @for (direction of directions(); track direction.id) {
-                <option [value]="direction.id">{{direction.libelle}}</option>
-                }
-              </select>
-            </div>
-
-            <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pole</label>
-              <select formControlName="pole_id"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value=0>choisir une pole</option>
-                @for (pole of poles(); track pole.id) {
-                <option [value]="pole.id">{{pole.libelle}}</option>
-                }
-              </select>
-            </div>
-            <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Département</label>
-              <select formControlName="departement_id"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value=0>choisir un département</option>
-                @for (departement of departements(); track departement.id) {
-                <option [value]="departement.id">{{departement.libelle}}</option>
-                }
-              </select>
-            </div>
-            <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Service</label>
-              <select formControlName="service_id"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value=0>choisir une service</option>
-                @for (service of services(); track service.id) {
-                <option [value]="service.id">{{service.libelle}}</option>
-                }
-              </select>
-            </div>
-            <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Activité</label>
-              <select formControlName="activite_id"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value=0>choisir une activité</option>
-                @for (activite of activites(); track activite.id) {
-                <option [value]="activite.id">{{activite.libelle}}</option>
-                }
-              </select>
-            </div>
-            <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Périodicité</label>
-              <input type="text" formControlName="periodicite"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="entrer la periodicité">
-            </div>
-            <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Couverture</label>
-              <select formControlName="exhaustivite"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value=0>choisir une couverture</option>
-                <option value='Exhaustivité'>Exhaustivité</option>
-                <option value='Non exhaustivité'>Non exhaustivité</option>
-              </select>
-            </div>
-            <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preuves demandées</label>
-              <input type="text" formControlName="preuve"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="saisir la preuve demandée">
-            </div>
-            <div class="col-span-2 sm:col-span-1">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichiers preuves</label>
-              <input type="file" formControlName="fichier"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
             </div>
           </div>
           <button (click)="addOrUpCtrl()"
-            class="text-white bg-[#FF7900] inline-flex items-center font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:bg-orange-600 ">
+            class="text-white w-[10%] bg-[#FF7900] flex justify-center items-center font-medium rounded-lg text-lg px-5 py-2.5 dark:bg-orange-600 ">
             {{btn}}
           </button>
         </form>
       </div>
     </div>
-
-    <!-- <form [formGroup]="controle" class="bg-white mt-36 ml-[30rem] w-[50%] h-[58%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
-
-      <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
-        <h1 class="w-[35%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
-          {{titre}}
-        </h1>
-        <span (click)="closeModal()"
-          class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
-          X
-        </span>
-      </div>
-
-      <div class="flex flex-col gap-14 h-[80%]">
-
-        <div class="flex flex-col gap-6 p-3">
-          <div class="flex flex-col gap-2">
-            <label class="font-normal text-xl font-['Inter']">Nom controle</label>
-            <input formControlName="nom"
-              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
-              placeholder="saisir le nom du controle" type="text">
-          </div>
-          <div class="flex flex-col gap-2">
-            <label class="font-normal text-xl font-['Inter']">Code controle</label>
-            <input formControlName="code"
-              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
-              placeholder="saisir le code du controle" type="text">
-          </div>
-        </div>
-
-        <div (click)="addOrUpCtrl()"
-          class="cursor-pointer w-[15%] text-center bg-[#FF7900] rounded-[5px] ml-6 h-[12%] text-white text-[25px] font-normal">
-            {{btn}}
-        </div>
-      </div>
-
-    </form> -->
-
   </div>
 
   <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center" style="display: none;"
     id="archive">
-
-    <form [formGroup]="controle"
-      class="bg-white mt-36 ml-[30rem] w-[50%] h-[58%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
-
-      <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
-        <h1 class="w-[35%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
-          Information Controle
-        </h1>
-        <span (click)="closeModal2()"
-          class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
-          X
-        </span>
-      </div>
-
-      <div class="flex flex-col gap-14 h-[80%]">
-
-        <div class="flex flex-col gap-6 p-3">
-          <div class="flex flex-col gap-2">
-            <label class="font-normal text-xl font-['Inter']">Nom controle</label>
-            <input formControlName="nom" disable
-              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
-              placeholder="saisir le nom du controle" type="text">
-          </div>
-          <div class="flex flex-col gap-2">
-            <label class="font-normal text-xl font-['Inter']">Code controle</label>
-            <input formControlName="code" disable
-              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
-              placeholder="saisir le code du controle" type="text">
-          </div>
+    <div class="mt-20 ml-[24rem] w-[60%] h-[100%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
+      <div class="relative bg-white h-[80%] rounded-lg shadow dark:bg-gray-700">
+        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t bg-[#FF7900]">
+          <h3 class="text-2xl font-semibold text-white">
+            Information Controle
+          </h3>
+          <button (click)="closeModal2()"
+            class="text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+            data-modal-toggle="crud-modal">
+            <svg class="w-3 h-3" aria-hidden="true" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
         </div>
+        <form [formGroup]="controle" class="p-4 flex flex-col gap-10 overflow-y-auto h-[87%]">
+          <div class="grid gap-4 mb-4 grid-cols-2">
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom controle</label>
+              <input type="text" formControlName="nom_controle"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="nom du controle">
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Code controle</label>
+              <input type="text" formControlName="code"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="code du controle">
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Objectif</label>
+              <textarea formControlName="objectif"
+                class="bg-gray-50 border h-40 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descriptif</label>
+              <textarea formControlName="descriptif"
+                class="bg-gray-50 border h-40 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type Controle</label>
+              <select formControlName="type"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option value=0>choisir un type de controle</option>
+                <option value=1>Type 1</option>
+                <option value=2>Type 2</option>
 
-        <div (click)="closeModal2()"
-          class="cursor-pointer w-[15%] text-center bg-[#FF7900] rounded-[5px] ml-6 h-[12%] text-white text-[25px] font-normal">
-          Fermer
-        </div>
+                <!-- @for (user of users(); track user.id) {
+                  <option [value]="user.id">{{user.nom_complet}}</option>
+                  } -->
+              </select>
+            </div>
+          </div>
+          <button (click)="closeModal2()"
+            class="text-white w-[10%] bg-[#FF7900] flex justify-center items-center font-medium rounded-lg text-lg px-5 py-2.5 dark:bg-orange-600 ">
+            Fermer
+          </button>
+        </form>
       </div>
-
-    </form>
-
+    </div>
   </div>
-
 
 </div>

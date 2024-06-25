@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Controle } from '../../interfaces/data';
+import { Risque, TypeControle } from '../../interfaces/data';
 import { apiUrlEnv, uri } from '../../environnements/api';
-
 
 @Injectable({
   providedIn: 'root'
 })
-export class ControleService {
+export class TypeService {
 
   apiUrl = apiUrlEnv.apiUrl;
-  uri = uri.data
+  uri = uri.typecontrole
 
   constructor(private http : HttpClient) { }
 
-  listResources(): Observable<Controle[]> {
-    return this.http.get<Controle[]>(this.apiUrl + this.uri.list);
+  listResources(): Observable<TypeControle[]> {
+    return this.http.get<Risque[]>(this.apiUrl + this.uri.list);
   }
 
   addResources(data: any){
@@ -32,7 +31,7 @@ export class ControleService {
   }
 
   updateResources(id: number|null, data: any) {
-    return this.http.post(this.apiUrl + this.uri.update + id, data);
+    return this.http.put(this.apiUrl + this.uri.update + id, data);
   }
 
 }

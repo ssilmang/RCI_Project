@@ -1,6 +1,5 @@
 export interface Data {
   id: number | null,
-  objectif: string | null,
   user_id: Utilisateur,
   activite_id: Activite,
   service_id: Service,
@@ -9,10 +8,8 @@ export interface Data {
   periodicite: string | null,
   exhaustivite: string | null,
   preuve: string | null,
-  nom : string | null,
-  code: string | null,
+  controle_id : number | null,
   commentaire: string | null,
-  descriptif: string | null,
   date_ajout: Date | null,
   archived_at: Date | null,
   fichier: string | null
@@ -42,8 +39,11 @@ export interface Direction {
 
 export interface Controle {
   id: number | null,
-  nom: string,
+  nom_controle: string,
   code: string,
+  objectif: string,
+  descriptif: string,
+  type: string,
 }
 
 export interface Risque {
@@ -75,16 +75,27 @@ export interface Activite {
   libelle: string,
   service_id: number,
 }
+
 export interface Contry {
   id: number | null,
   libelle: string,
-  image: string,
+  image: string | null,
 }
+
 export interface TypeControle {
   id: number | null,
   libelle: string,
-
 }
 
 
+
+export interface Type {
+  id: number | null,
+  libelle: string
+}
+
+export interface Pays {
+  id: number | null,
+  libelle: string
+}
 

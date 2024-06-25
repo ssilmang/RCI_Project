@@ -1,90 +1,83 @@
 <div class="flex flex-col gap-2 w-full h-full">
-    <div class="flex justify-between p-3 w-full h-[12%]">
-      <h1 class="text-[2rem] ml-3 text-[#FF7900] font-bold">Pays</h1>
-  
-      <form >
-        <div class="flex gap-2">
-          <input formControlName="libelle"
-            class="focus:border-[#009081] text-center w-44 h-10 text-xl shadow-md shadow-[#242a30] outline-none p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#009081]"
-            placeholder="Saisir le nom du pays" type="text">
-  
-          <button 
-            class="bg-[#FF7900] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold w-28 h-10">
-            <i class="fas fa-plus"></i> Pays
-          </button>
-        </div>
-      </form>
-    </div>
-  
-    <div class="shadow-md shadow-[#242a30] rounded-sm w-full h-[88%] flex flex-col gap-8">
-      <div class="w-full flex flex-1 flex-wrap overflow-y-auto p-6 gap-6">
-        <ng-container >
-          <div  class="country-card flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%] p-4"style="cursor: pointer;">
-            <img style="width: 40px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAACWCAMAAAAfSh8xAAAAY1BMVEUAhT/jGyP970KHvUAFhz/G2EL67kJ2t0Hr50H160Ihk0CAu0Dg40E+n0A4nD/c4UG/1UFPpkAPiz+nykCZxUFXqUCgyEGPwUDU3kEvmD9ts0CuzkHO3EIjlD/W3kKy0EFgrUBsSdwhAAACFUlEQVR4nO3a2XKCQBCFYTIgazSKS8Ql8v5PGUREAjOEpLjprn9uOX3xFW0Np0rPm++Y+c7bfGdGIEKECBEiRIgQIUKECBEiRIgQIUKECBEiRIgQIUKECBEiRIgQIUKECBEiRIgQIUKECIfnol0YFqFy4dpbKxeevJNyYeqluoWLKrZQLYyqWKRaeK1iU9ZUrPBS5yZciWKFUZ2bsKZihdc6d9UrvDTBo1ph1gQztcKiCRZahV9t8kup0G+TvlJh0SZXGoThzu+drBPN+g93oTiheV/+YXT1Ie8dVm/RD6ZORv3iL0NYdaV00lw6rP1ShCbeTxjbxMNBMUJjDr9tavBpGxMkNMdidOZqr1KShCY5jYyUiX1IlNCYc+4YyLeuEWFC19XYvwQFC+1X4+ASlCw0ZvgWl2NxecJ4+A4DyzUoWHiwxA+qhBtLfKNJmNi+bMbWVJxwa807b0OBws4HeOf23+sRdpY0Sl5XY+D4ZBMoPD8TdRN8tcazGuFzSZsm2LZG95oKEyaP316nCTatMXeuqTDhrX76owk2rfGmRFjeH/aa4KM1ljqEYW5tgvfW6FxTWcKbowneW6PrzzWyhKWrCVat0bWmooRh4f4X1GLlaMGihPFYD3Q9FCX810GIECFChAgRIkSIECFChAgRIkSIECFChAgRIkSIECFChAgRIkSIECFChAgRIkSIECFChAjFCr8B6guH7FJcOu0AAAAASUVORK5CYII= " class="w-16 h-10 object-cover rounded-md">
-            <div class="text-lg text-[#009081] font-bold mt-2">
-              sénégal
-            </div>
-            <div class="w-28 h-7 flex gap-2 justify-center items-center">
-              <i  class="cursor-pointer material-icons text-green-600">edit</i>
-              <i  class="cursor-pointer material-icons text-red-600">delete</i>
-            </div>
-          </div>
-        </ng-container>
-        <ng-container >
-          <div  class="country-card flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%] p-4" style="cursor: pointer;">
-            <img style="width: 50px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAb1BMVEX////WACH/zgAAhEr/0QD/1ACKUVXaABnpaxabqy0AgUwAg0V0g3qBMDaWfTAwW0PZABAAg0OXhoeelYaGjol5ZWaBKjGKUDNmbTknWD2BhoPZAB3uaxD/2ACdriqISk7eAACinZ2ai4aRkoetr64zqRFBAAAA3UlEQVR4nO3c1w3CQBQAQcA2wSbY5Jz7r5EW7n0cEmKmg21gez0AAAAAAAAAAAAAAAAAAP7ZZjsL2M0j9ouAwzFT4bA9BZwvZbrqWjfpummuwlE/YFwN0pWTukjXKFSoUKFChQoVKlSoUKFChQoVKlSoUKFChQoVKlSoUKFChQoVKlSoUKFChQoVKlSoUKFChQoVKlSoUKFChQoVKlSoUKFChQoVKlSoUKFChQoVKlSoUKHC7xbe7m1A8LlXdAG5Ch/LiOcq4rWOeGcqBAAAAAAAAAAAAAAAAADgN3wAl7yUOh7h//0AAAAASUVORK5CYII=">
-            <div class="text-lg text-[#009081] font-bold mt-2">
-              Guinée Konakry
-            </div>
-            <div class="w-28 h-7 flex gap-2 justify-center items-center">
-              <i  class="cursor-pointer material-icons text-green-600">edit</i>
-              <i  class="cursor-pointer material-icons text-red-600">delete</i>
-            </div>
-          </div>
-        </ng-container>
-        <ng-container >
-          <div  class="country-card flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%] p-4" style="cursor: pointer;">
-            <img style="width: 40px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY4mvlidlXyglCDW0Mau4zaSuMJO-2X62sng&s">
-            <div class="text-lg text-[#009081] font-bold mt-2">
-             Guinée Bissau
-            </div>
-            <div class="w-28 h-7 flex gap-2 justify-center items-center">
-              <i  class="cursor-pointer material-icons text-green-600">edit</i>
-              <i  class="cursor-pointer material-icons text-red-600">delete</i>
-            </div>
-          </div>
-        </ng-container>
-        <ng-container >
-          <div  class="country-card flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%] p-4" style="cursor: pointer;">
-            <img style="width: 40px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-KsleUSX_Sot0Gs1JPwotEleuiIZWU94meQ&s">
-            <div class="text-lg text-[#009081] font-bold mt-2">
-             Mali
-            </div>
-            <div class="w-28 h-7 flex gap-2 justify-center items-center">
-              <i  class="cursor-pointer material-icons text-green-600">edit</i>
-              <i  class="cursor-pointer material-icons text-red-600">delete</i>
-            </div>
-          </div>
-        </ng-container>
-        <ng-container >
-          <div  class="country-card flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%] p-4" style="cursor: pointer;">
-            <img style="width: 40px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAIVBMVEX///8etToAcsbA5cQAsSgOszF8z4jB2e8AaMMAbsVsndXpMooFAAAAvUlEQVR4nO3axxHDAAzAMKWX/QfOFvZRATbgnzMAAAAAAAAAAIe5bTf37eayncI+hX0K+xT2KexT2KewT2Gfwj6FfQr7FPYp7FPYp7BPYZ/CPoV9CvsU9insU9insG8e281zu7MnbAAAAAAAAAAAAAA42Gu7eW831+0U9insU9insE9hn8I+hX0K+xT2KexT2KewT2Gfwj6FfQr7FPYp7FPYp7BPYZ/CPoV989luvtudPWEDAAAAAAAAAP/kBzoOqaJ9hnhlAAAAAElFTkSuQmCC">
-            <div class="text-lg text-[#009081] font-bold mt-2">
-              Sierra Leone 
-            </div>
-            <div class="w-28 h-7 flex gap-2 justify-center items-center">
-              <i  class="cursor-pointer material-icons text-green-600">edit</i>
-              <i  class="cursor-pointer material-icons text-red-600">delete</i>
-            </div>
-          </div>
-        </ng-container>
-        
-        <ng-template #emptyState>
-          <div class="flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%]">
-            <h1>Aucun pays n'a été ajouté</h1>
-          </div>
-        </ng-template>
-      </div>
-    </div>
-    
+
+  <div class="flex justify-between p-3 w-full h-[12%]">
+    <h1 class="text-[2rem] ml-3 text-[#FF7900] font-bold">Pays</h1>
+      <button (click)="openModal()"
+        class="bg-[#FF7900] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold w-28 h-10">
+        <span class="text-white text-2xl">+</span> Pays
+      </button>
   </div>
+
+  <div class="shadow-md shadow-[#242a30] rounded-sm w-full h-[88%] flex flex-col gap-8">
+    <div class="w-full flex flex-1 flex-wrap overflow-y-auto p-6 gap-20">
+      @for (contry of contries(); track contry.id) {
+        <div class="country-card flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] shadow-md shadow-[#242a30] rounded-md w-[24%] h-[32%] p-4">
+          @if (contry.libelle == "Guinée Bissau") {
+            <img style="width: 50px" src="/assets/flags/bisau.jpeg" class="w-20 h-10 object-cover rounded-md">
+          }
+          @if (contry.libelle == "Mali") {
+          <img style="width: 50px" src="/assets/flags/mali.jpeg" class="w-20 h-10 object-cover rounded-md">
+          }
+          @if (contry.libelle == "Guinée Conakry") {
+          <img style="width: 50px" src="/assets/flags/konakry.jpeg" class="w-20 h-10 object-cover rounded-md">
+          }
+          @if (contry.libelle == "Sierra Leone") {
+          <img style="width: 50px" src="/assets/flags/siera.png" class="w-20 h-10 object-cover rounded-md">
+          }
+          @if (contry.libelle == "Sénégal") {
+          <img style="width: 50px" src="/assets/flags/senegal.png" class="w-20 h-10 object-cover rounded-md">
+          }
+          <div class="text-xl text-[#009081] font-bold mt-2">
+            {{contry.libelle}}
+          </div>
+          <div class="w-28 h-7 flex gap-2 justify-center items-center">
+            <i (click)="edit(contry)" class="cursor-pointer material-icons text-yellow-600">edit</i>
+            <i (click)="deleted(contry.id)" class="cursor-pointer material-icons text-green-600">archive</i>
+          </div>
+        </div>
+      }
+      @empty {
+        <h1 class="text-2xl text-red-600">Aucun pays n'est disponible !!</h1>
+      }
+    </div>
+  </div>
+
+
+  <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
+    style="display: none;" id="land">
+
+    <form [formGroup]="countryForm"
+      class="bg-white mt-36 ml-[30rem] w-[50%] h-[45%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
+      <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
+        <h1 class="w-[35%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
+          {{titre}}
+        </h1>
+        <span (click)="closeModal()"
+          class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
+          <i class="fas fa-times"></i>
+        </span>
+
+      </div>
+
+      <div class="flex flex-col gap-14 h-[80%]">
+
+        <div class="flex flex-col gap-6 p-3">
+          <div class="flex flex-col gap-2">
+            <label class="font-normal text-xl font-['Inter']">Libellé</label>
+            <input formControlName="libelle"
+              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
+              placeholder="saisir le nom du risque" type="text">
+          </div>
+        </div>
+
+        <div (click)="addOrUpLand()"
+          class="cursor-pointer w-[15%] text-center bg-[#FF7900] rounded-[5px] ml-6 h-[13%] text-white text-[20px] font-normal">
+          {{btn}}
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

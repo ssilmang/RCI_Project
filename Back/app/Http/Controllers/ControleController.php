@@ -25,17 +25,14 @@ class ControleController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         try {
-            // if ($request->hasFile('fichiers')) {
-            //     $pdfContent = file_get_contents($request->file('fichiers')->getRealPath());
-            //     $validated['fichiers'] = $pdfContent;
-            // }
-            if (!$request->user_id || $request->user_id == null) {
+            if (!$request->user_id || $request->user_id == null|| $request->user_id == 0) {
                 return response()->json([
                   'error' => 'Veuillez choisir le porteur!'
                 ]);
             }
-            if (!$request->direction_id || $request->direction_id == null) {
+            if (!$request->direction_id || $request->direction_id ==null || $request->direction_id == 0) {
                 return response()->json([
                   'error' => 'Veuillez choisir la direction!'
                 ]);
@@ -45,31 +42,46 @@ class ControleController extends Controller
                     'error' => 'Veuillez renseigner la preuve demandée!'
                 ]);
             }
-            if (!$request->objectif || $request->objectif == null) {
+            if (!$request->controle_id || $request->controle_id == null || $request->controle_id == 0) {
                 return response()->json([
-                    'error' => "Veuillez renseigner l'objectif du controle!"
+                    'error' => 'Veuillez choisir le controle!'
                 ]);
             }
-            if (!$request->nom || $request->nom == null) {
+            if (!$request->etat || $request->etat == 0) {
                 return response()->json([
-                    'error' => "Veuillez renseigner le nom du controle!"
+                    'error' => 'Veuillez renseigner le statut!'
                 ]);
+            }
+            if (!$request->commentaire || empty($request->commentaire)) {
+                return response()->json(['error' => 'Veuillez renseigner un commentaire!']);
+            }
+            if (!$request->exhaustivite || $request->exhaustivite==0) {
+                return response()->json(['error' => 'Veuillez renseigner l\'exhaustivite!']);
             }
 
+            // if ($request->hasFile('fichier')) {
+            //     $filePath = $request->file('fichier')->store('fichiers', 'public');
+            // }
+            if ($request->etat == 'Fait') {
+                if (!$request->hasFile('fichier')) {
+                    return response()->json(['error' => 'Veuillez enregistrer le fichier de preuve!']);
+                }
+            }
+            $filePaths = [];
             if ($request->hasFile('fichier')) {
-                $filePath = $request->file('fichier')->store('fichiers', 'public');
+                foreach ($request->file('fichier') as $file) {
+                    $filePath = $file->store('fichiers', 'public');
+                    $filePaths[] = $filePath;
+                }
             }
 
             Controle::create([
-                'code' => $request->code,
-                'objectif' => $request->objectif,
+                'data_id' => $request->controle_id,
                 'periodicite' => $request->periodicite,
                 'exhaustivite' => $request->exhaustivite,
                 'preuve' => $request->preuve,
                 'etat' => $request->etat,
-                'nom' => $request->nom,
                 'commentaire' => $request->commentaire,
-                'descriptif' => $request->descriptif,
                 'date_ajout' => now(),
                 'risque_id' => $request->risque_id,
                 'direction_id' => $request->direction_id,
@@ -78,8 +90,9 @@ class ControleController extends Controller
                 'activite_id' => $request->activite_id,
                 'departement_id' => $request->departement_id,
                 'user_id' => $request->user_id,
-                'validate' => 'non validé',
-                'fichier' => $filePath
+                'validate' => 'Non validé',
+                // 'fichier' => $filePath
+                'fichier' => json_encode($filePaths)
             ]);
 
             return response()->json([
@@ -105,66 +118,42 @@ class ControleController extends Controller
         if (!$pilotage) {
             return response()->json(['error' => 'Controle non trouvé!'], 404);
         }
-        if (!$request->user_id || $request->user_id == null) {
-            return response()->json([
-            'error' => 'Veuillez choisir le porteur!'
-            ]);
-        }
-        if (!$request->direction_id || $request->direction_id == null) {
-            return response()->json([
-            'error' => 'Veuillez choisir la direction!'
-            ]);
-        }
-        if (!$request->preuve || $request->preuve == null) {
-            return response()->json([
-                'error' => 'Veuillez renseigner la preuve demandée!'
-            ]);
-        }
-        if (!$request->objectif || $request->objectif == null) {
-            return response()->json([
-                'error' => "Veuillez renseigner l'objectif du controle!"
-            ]);
-        }
-        if (!$request->nom || $request->nom == null) {
-            return response()->json([
-                'error' => "Veuillez renseigner le nom du controle!"
-            ]);
-        }
 
         if ($request->hasFile('fichier')) {
-            $filePath = $request->file('fichier')->store('fichiers', 'public');
-
-          $pilotage->update([
-              'code' => $request->code,
-              'objectif' => $request->objectif,
-              'periodicite' => $request->periodicite,
-              'exhaustivite' => $request->exhaustivite,
-              'preuve' => $request->preuve,
-              'etat' => $request->etat,
-              'fichier' => $filePath,
-              'nom' => $request->nom,
-              'commentaire' => $request->commentaire,
-              'descriptif' => $request->descriptif,
-              'archived_at' => $request->archived_at,
-              'risque_id' => $request->risque_id,
-              'direction_id' => $request->direction_id,
-              'service_id' => $request->service_id,
-              'pole_id' => $request->pole_id,
-              'activite_id' => $request->activite_id,
-              'departement_id' => $request->departement_id,
-              'user_id' => $request->user_id,
-          ]);
+                // $filePath = $request->file('fichier')->store('fichiers', 'public');
+            $filePaths = [];
+            if ($request->hasFile('fichier')) {
+                foreach ($request->file('fichier') as $file) {
+                    $filePath = $file->store('fichiers', 'public');
+                    $filePaths[] = $filePath;
+                }
+            }
+            $pilotage->update([
+                    'data_id' => $request->controle_id,
+                    'periodicite' => $request->periodicite,
+                    'exhaustivite' => $request->exhaustivite,
+                    'preuve' => $request->preuve,
+                    'etat' => $request->etat,
+                    // 'fichier' => $filePath,
+                    'fichier' => json_encode($filePaths),
+                    'commentaire' => $request->commentaire,
+                    'archived_at' => $request->archived_at,
+                    'risque_id' => $request->risque_id,
+                    'direction_id' => $request->direction_id,
+                    'service_id' => $request->service_id,
+                    'pole_id' => $request->pole_id,
+                    'activite_id' => $request->activite_id,
+                    'departement_id' => $request->departement_id,
+                    'user_id' => $request->user_id,
+            ]);
         }else{
             $pilotage->update([
-                'code' => $request->code,
-                'objectif' => $request->objectif,
+                'data_id' => $request->controle_id,
                 'periodicite' => $request->periodicite,
                 'exhaustivite' => $request->exhaustivite,
                 'preuve' => $request->preuve,
                 'etat' => $request->etat,
-                'nom' => $request->nom,
                 'commentaire' => $request->commentaire,
-                'descriptif' => $request->descriptif,
                 'archived_at' => $request->archived_at,
                 'risque_id' => $request->risque_id,
                 'direction_id' => $request->direction_id,

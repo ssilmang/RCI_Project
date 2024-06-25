@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('libelle');
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

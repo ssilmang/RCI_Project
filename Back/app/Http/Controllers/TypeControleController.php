@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Controle;
 use Illuminate\Http\Request;
-use App\Models\Type_Controle;
+use App\Models\TypeControle;
 
 class TypeControleController extends Controller
 {
@@ -14,7 +13,8 @@ class TypeControleController extends Controller
     public function index()
     {
         return response()->json([
-            'data' => Type_Controle::all()
+            'types' => TypeControle::all(),
+            'archives' => TypeControle::onlyTrashed()->get()
         ]);
     }
 
@@ -25,7 +25,7 @@ class TypeControleController extends Controller
     {
 
         try {
-            $p = Type_Controle::where('libelle', $request->libelle)->first();
+            $p = TypeControle::where('libelle', $request->libelle)->first();
             if ($p) {
                 return response()->json([
                     'error' => 'Cet type de controle existe déjà!',
@@ -38,7 +38,7 @@ class TypeControleController extends Controller
                 ]);
             }
 
-            Type_Controle::create([
+            TypeControle::create([
                 'libelle' => $request->libelle,
             ]);
 
@@ -59,14 +59,14 @@ class TypeControleController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $type_controle = Type_Controle::find($id);
+            $type_controle = TypeControle::find($id);
 
             if (!$type_controle) {
                 return response()->json(['error' => 'type de controle non trouvé!'], 404);
             }
 
             if ($type_controle->libelle != $request->libelle) {
-                $p = Type_Controle::where('libelle', $request->libelle)->first();
+                $p = TypeControle::where('libelle', $request->libelle)->first();
                 if ($p) {
                     return response()->json([
                         'error' => 'Ce type de controle existe déjà!',
@@ -101,7 +101,7 @@ class TypeControleController extends Controller
      */
     public function destroy($id)
     {
-        $type_controle = Type_Controle::find($id);
+        $type_controle = TypeControle::find($id);
         if (!$type_controle) {
             return response()->json(['error' => 'type_controle non trouvé!'], 404);
         }
@@ -111,7 +111,7 @@ class TypeControleController extends Controller
 
     public function restaurer($id)
     {
-        $type_controle = Type_Controle::onlyTrashed()->find($id);
+        $type_controle = TypeControle::onlyTrashed()->find($id);
 
         if ($type_controle ) {
             $type_controle->restore();

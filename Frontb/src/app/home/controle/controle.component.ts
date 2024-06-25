@@ -5,12 +5,15 @@ import { ControleService } from '../../_helpers/services/all_methods/controle.se
 import { Activite, Controle, Data, Departement, Direction, Pole, Service, Utilisateur } from '../../_helpers/interfaces/data';
 import Swal from 'sweetalert2'
 import { CommonModule } from '@angular/common';
+import { TypeControle } from '../../_helpers/interfaces/data';
+import { TypeService } from '../../_helpers/services/all_methods/type.service';
+import { SearchCtrlPipe } from '../../_helpers/pipes/search-ctrl.pipe';
 
 
 @Component({
   selector: 'app-controle',
   standalone: true,
-  imports: [ReactiveFormsModule, SweetAlert2Module, CommonModule],
+  imports: [ReactiveFormsModule, SweetAlert2Module, CommonModule, SearchCtrlPipe],
   templateUrl: './controle.component.html',
   styleUrl: './controle.component.css'
 })
@@ -21,7 +24,9 @@ export class ControleComponent {
   id!: number | null
   control: boolean = true
   archive: boolean = false
+  ctrlToSearch!: string
 
+  types: Signal<TypeControle[]> = signal([])
   controles: Signal<Controle[]> = signal([])
   archives: Signal<Controle[]> = signal([])
   directions: Signal<Direction[]> = signal([])
@@ -32,39 +37,49 @@ export class ControleComponent {
   users: Signal<Utilisateur[]> = signal([])
 
   controle!: FormGroup
+  searchForm!: FormGroup
 
-
-  constructor(private fb: FormBuilder, private ctrl: ControleService)
+  constructor(private fb: FormBuilder, private ctrl: ControleService, private type: TypeService)
   {
     this.controle = this.fb.group({
-      controle_id: this.fb.control(0),
-      direction_id: this.fb.control(1),
-      pole_id: this.fb.control(1),
-      departement_id: this.fb.control(1),
-      service_id: this.fb.control(1),
-      activite_id: this.fb.control(1),
+      nom_controle: this.fb.control(''),
       code: this.fb.control(''),
-      objectif: this.fb.control('O1'),
-      risque_couvert: this.fb.control('R1'),
-      user_id: this.fb.control(1),
-      periodicite: this.fb.control('saisir la périodicité'),
-      exhaustivite: this.fb.control(1),
-      preuve: this.fb.control('P1'),
-      fichier: this.fb.control('')
+      objectif: this.fb.control(''),
+      descriptif: this.fb.control(''),
+      type: this.fb.control(0)
     })
+
+    this.searchForm = this.fb.group({
+      ctrl: this.fb.control('')
+    })
+
+    this.searchForm.get('ctrl')?.valueChanges.subscribe(data =>
+      {
+        this.ctrlToSearch = data
+      }
+    )
   }
 
   ngOnInit()
   {
     this.getControles()
+    this.getTypes()
+  }
+
+  getTypes()
+  {
+    this.type.listResources().subscribe((r:any) => {
+      this.types = signal(r.types)
+      // console.log(r);
+    })
   }
 
   getControles()
   {
     this.ctrl.listResources().subscribe((r:any) => {
-      this.controles = signal(r.controles)
+      this.controles = signal(r.data)
       this.archives = signal(r.archives)
-      // console.log(r.archives);
+      // console.log(r);
     })
   }
 
@@ -72,6 +87,7 @@ export class ControleComponent {
   {
     // console.log(this.controle.value);
     if (this.btn == 'Ajouter') {
+      // console.log(this.controle.value);
       this.ctrl.addResources(this.controle.value).subscribe((d:any)=>{
         // console.log(d);
         if (d.message) {
@@ -133,8 +149,11 @@ export class ControleComponent {
       this.titre = 'Information controle'
       this.btn = 'Fermer'
       this.controle.patchValue({
-        nom: ctrl.nom,
-        code: ctrl.code
+        nom_controle: ctrl.nom_controle,
+        code: ctrl.code,
+        objectif: ctrl.objectif,
+        descriptif: ctrl.descriptif,
+        type: ctrl.type_controle_id
       })
       this.controle.disable()
       modal.style.display = 'block';
@@ -149,9 +168,13 @@ export class ControleComponent {
       this.btn = 'Modifier'
       this.id = ctrl.id
       this.controle.patchValue({
-        nom: ctrl.nom,
-        code: ctrl.code
+        nom_controle: ctrl.nom_controle,
+        code: ctrl.code,
+        objectif: ctrl.objectif,
+        descriptif: ctrl.descriptif,
+        type: ctrl.type_controle_id
       })
+      this.controle.enable()
       modal.style.display = 'block';
     }
   }
@@ -224,6 +247,7 @@ export class ControleComponent {
     if (modal) {
       modal.style.display = 'none';
     }
+    this.controle.enable()
   }
 
   selectControle()
@@ -245,8 +269,11 @@ export class ControleComponent {
       this.titre = 'Information controle'
       this.btn = 'Fermer'
       this.controle.patchValue({
-        nom: ctrl.nom,
-        code: ctrl.code
+        nom_controle: ctrl.nom_controle,
+        code: ctrl.code,
+        objectif: ctrl.objectif,
+        descriptif: ctrl.descriptif,
+        type: ctrl.type_controle_id
       })
       this.controle.disable()
       modal.style.display = 'block';
@@ -259,6 +286,7 @@ export class ControleComponent {
     if (modal) {
       modal.style.display = 'none';
     }
+
   }
 
 }

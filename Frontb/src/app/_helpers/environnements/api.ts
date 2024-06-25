@@ -11,10 +11,10 @@ const verbs = [
   'pole',
   'activite',
   'service',
-  'pilotage',
+  'data',
   'risque',
   'contry',
-  'typecontrole'
+  'typeControle'
 ]
 
 export const uri = {
@@ -92,19 +92,21 @@ export const uri = {
     delete : `${verbs[7]}/delete/`,
     restaurer : `${verbs[7]}/restaurer/`,
   },
+
   contry : {
-    list : `${verbs[8]}/all`,
-    add : `${verbs[8]}/add`,
-    update :`${verbs[8]}/update/`,
-    delete : `${verbs[8]}/delete/`,
-    restaurer : `${verbs[8]}/restaurer/`,
-  },
-  typecontrole: {
     list : `${verbs[9]}/all`,
     add : `${verbs[9]}/add`,
     update :`${verbs[9]}/update/`,
     delete : `${verbs[9]}/delete/`,
     restaurer : `${verbs[9]}/restaurer/`,
+  },
+
+  typecontrole: {
+    list : `${verbs[10]}/all`,
+    add : `${verbs[10]}/add`,
+    update :`${verbs[10]}/update/`,
+    delete : `${verbs[10]}/delete/`,
+    restaurer : `${verbs[10]}/restaurer/`,
   },
 
 

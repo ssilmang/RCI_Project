@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('contrys', function (Blueprint $table) {
-            $table->string('image')->nullable(); 
+        Schema::table('controles', function (Blueprint $table) {
+            $table->text('fichier')->nullable()->change();
         });
     }
 
@@ -21,10 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
-            Schema::dropIfExists('image');
-        
+        Schema::table('controles', function (Blueprint $table) {
+            //
+        });
     }
-
-    
 };

@@ -58,5 +58,10 @@ class Controle extends Model
         return $this->belongsTo(Risque::class);
     }
 
+    public function data()
+    {
+        return $this->belongsTo(Data::class);
+    }
+
 
 }

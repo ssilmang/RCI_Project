@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('typecontroles', function (Blueprint $table) {
+        Schema::create('type_controles', function (Blueprint $table) {
             $table->id();
             $table->string('libelle');
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
@@ -24,7 +25,5 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('typecontroles');
-        Schema::dropIfExists('deleted_at');
     }
 };
