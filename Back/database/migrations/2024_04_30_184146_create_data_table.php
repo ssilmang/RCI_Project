@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('code');
             $table->string('objectif');
             $table->string('descriptif');
-            $table->foreignIdFor(TypeControle::class)->constrained()->onDelete('cascade');
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignIdFor(TypeControle::class)->constrained();
             $table->timestamps();
         });
     }

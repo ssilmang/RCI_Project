@@ -1,7 +1,7 @@
 <div class="flex w-full h-screen relative">
 
   <div class="w-[18%] h-[100%] shadow-2xl shadow-[#242a30] ring-1 ring-[#242a30]
-              flex flex-col gap-6 p-1">
+              flex flex-col p-1">
 
     <div class="w-full h-[30%] flex justify-between p-2">
       <div class="flex flex-col gap-2 items-center">
@@ -31,7 +31,7 @@
 
     </div>
 
-    <div class="flex flex-col gap-12 w-full h-[100%] p-2">
+    <div class="flex flex-col gap-10 w-full h-[100%] p-2">
 
       <div class="w-full flex flex-col gap-4">
         <h1 class="text-[#FF7900] text-xl font-semibold">MENU PRINCIPAL</h1>
@@ -51,14 +51,14 @@
 
       <div class="w-full flex flex-col gap-4">
         <h1 class="text-[#FF7900] text-xl font-semibold">Administration</h1>
+
         <div [routerLink]="['pays']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
-          <i class="fas fa-flag-usa" style="color: #FF7900;"></i>
+          <i class="material-icons" style="color: #FF7900;">flag</i>
           <span>Pays</span>
         </div>
         <div [routerLink]="['typecontrole']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
           <i class="material-icons" style="color: #FF7900;">touch_app</i>
-
-          <span>type de controle</span>
+          <span>Type controle</span>
         </div>
         <div [routerLink]="['parametrage1']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
           <i class="material-icons" style="color: #FF7900;">home</i>

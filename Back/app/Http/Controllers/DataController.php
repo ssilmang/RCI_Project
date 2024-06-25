@@ -43,7 +43,7 @@ class DataController extends Controller
                 'code' => $request->code,
                 'objectif' => $request->objectif,
                 'descriptif' => $request->descriptif,
-                'type' => $request->type,
+                'type_controle_id' => $request->type,
             ]);
 
             return response()->json([
@@ -88,7 +88,7 @@ class DataController extends Controller
                 'code' => $request->code,
                 'objectif' => $request->objectif,
                 'descriptif' => $request->descriptif,
-                'type' => $request->type,
+                'type_controle_id' => $request->type,
             ]);
 
             return response()->json([

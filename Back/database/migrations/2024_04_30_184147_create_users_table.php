@@ -29,7 +29,6 @@ return new class extends Migration
                 ->references('id')
                 ->on('contrys')
                 ->onDelete('cascade');
-
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

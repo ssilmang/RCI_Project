@@ -13,7 +13,8 @@ class ContryController extends Controller
     public function index()
     {
         return response()->json([
-            'pays' => Contry::all(),
+            'data' => Contry::all(),
+            // 'archives' => Contry::onlyTrashed()->get()
         ]);
     }
 

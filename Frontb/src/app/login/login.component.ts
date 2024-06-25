@@ -3,11 +3,12 @@ import { Component, Signal, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { Direction, Service } from '../_helpers/interfaces/data';
+import { Contry, Direction, Service } from '../_helpers/interfaces/data';
 import { DirectionService } from '../_helpers/services/all_methods/direction.service';
 import { ServiceService } from '../_helpers/services/all_methods/service.service';
 import { UtilisateurService } from '../_helpers/services/all_methods/utilisateur.service';
 import Swal from 'sweetalert2';
+import { ContryService } from '../_helpers/services/all_methods/contry.service';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,8 @@ export class LoginComponent {
 
   services: Signal<Service[]> = signal([])
   directions: Signal<Direction[]> = signal([])
+  contries: Signal<Contry[]> = signal([])
+
 
   utilisateur!: FormGroup
   loginForm!: FormGroup;
@@ -31,7 +34,8 @@ export class LoginComponent {
     private router: Router,
     private userService: UtilisateurService,
     private servService: ServiceService,
-    private dirService: DirectionService
+    private dirService: DirectionService,
+    private contryService: ContryService
   )
   {
     this.loginForm = fb.group({
@@ -48,6 +52,7 @@ export class LoginComponent {
       password: this.fb.control("elzondao"),
       direction_id: this.fb.control(0),
       service_id: this.fb.control(0),
+      pays_id: this.fb.control(0),
     });
 
     // this.resetForm = fb.group({
@@ -59,6 +64,15 @@ export class LoginComponent {
   {
     this.getServices()
     this.getDirections()
+    this.getContries()
+  }
+
+  getContries()
+  {
+    this.contryService.listResources().subscribe((res:any) => {
+      this.contries = signal(res.data)
+      console.log(res);
+    })
   }
 
   getDirections()
@@ -141,6 +155,7 @@ export class LoginComponent {
     let modal = document.getElementById('register')
     if (modal) {
       modal.style.display = 'none'
+      this.utilisateur.reset()
     }
   }
 

@@ -45,6 +45,10 @@ class UtilisateurController extends Controller
                 return response()->json(['error' => 'Cet matricule a déjà été attribué!']);
             }
 
+            if (!$request->pays_id || $request->pays_id == null) {
+                return response()->json(['error' => 'Veuillez choisir un pays!']);
+            }
+
             $utilisateur = User::create([
                 'nom_complet' => $request->nom_complet,
                 'telephone' => $request->telephone,
@@ -54,6 +58,7 @@ class UtilisateurController extends Controller
                 'password' => bcrypt($request->password),
                 'direction_id' => $request->direction_id,
                 'service_id' => $request->service_id,
+                'pays_id' => $request->pays_id,
             ]);
 
             return response()->json([
@@ -97,6 +102,10 @@ class UtilisateurController extends Controller
                 return response()->json(['error' => 'Veuillez saisir un password par defaut!']);
             }
 
+            if (!$request->pays_id || $request->pays_id == null) {
+                return response()->json(['error' => 'Veuillez choisir un pays!']);
+            }
+
             $utilisateur->update([
                 'nom_complet' => $request->nom_complet,
                 'telephone' => $request->telephone,
@@ -106,6 +115,7 @@ class UtilisateurController extends Controller
                 'password' => bcrypt($request->password),
                 'direction_id' => $request->direction_id,
                 'service_id' => $request->service_id,
+                'pays_id' => $request->pays_id,
             ]);
 
             return response()->json(['message' => 'Utilisateur mis à jour avec succès!']);

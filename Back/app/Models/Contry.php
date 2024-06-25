@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Contry extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    protected $table = 'contrys';
+
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
+
 }

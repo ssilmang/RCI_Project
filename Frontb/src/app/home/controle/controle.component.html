@@ -9,11 +9,11 @@
     </div>
 
     <div class="flex justify-between w-[30%]">
-      <div class="p-1 flex">
-        <input type="search" placeholder="rechercher un controle"
+      <form [formGroup]="searchForm" class="p-1 flex">
+        <input type="search" formControlName="ctrl" placeholder="rechercher un controle"
           class="p-2 h-9 border-2 border-[#FF663E] focus:outline-none shadow-sm shadow-[#242a30] rounded-lg flex-1" />
-        <i class="material-icons text-[#FF663E] ml-2">search</i>
-      </div>
+        <i class="material-icons text-[#FF663E] mt-2 ml-2">search</i>
+      </form>
       <form class="p-1">
         @if (control) {
           <span (click)="openModal()" class="p-2 h-9 bg-[#FF663E] cursor-pointer shadow-md shadow-[#242a30] text-[white] text-lg rounded-lg flex justify-center items-center font-bold">
@@ -28,14 +28,14 @@
 
     <div class="flex flex-col gap-5 p-1">
       @if (control) {
-        @for (ctrl of controles(); track ctrl.id) {
+        @for (ctrl of controles() |searchCtrl:ctrlToSearch; track ctrl.id) {
           <div class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
             <h1 class="text-xl font-semibold">{{ctrl.nom_controle}}</h1>
             <div class="w-28 h-3 flex gap-3 justify-center items-center">
-              <i (click)="info(ctrl)" class="material-icons cursor-pointer text-yellow-400">visibility</i>
+              <i (click)="info(ctrl)" class="material-icons cursor-pointer text-gray-400">visibility</i>
               <i (click)="editModal(ctrl)"
-                class="material-icons cursor-pointer text-green-400">edit</i>
-              <i (click)="deleteCtrl(ctrl.id)" class="material-icons cursor-pointer text-red-600">archive</i>
+                class="material-icons cursor-pointer text-yellow-400">edit</i>
+              <i (click)="deleteCtrl(ctrl.id)" class="material-icons cursor-pointer text-green-600">archive</i>
             </div>
           </div>
         }
@@ -44,13 +44,13 @@
         }
       }
       @if (archive) {
-        @for (ctrl of archives(); track ctrl.id) {
+        @for (ctrl of archives() |searchCtrl:ctrlToSearch; track ctrl.id) {
           <div
             class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
             <h1 class="text-xl font-semibold">{{ctrl.nom_controle}}</h1>
             <div class="w-28 h-3 flex gap-3 justify-center items-center">
               <i (click)="info2(ctrl)" class="material-icons cursor-pointer text-yellow-400">visibility</i>
-              <i (click)="restaureCtrl(ctrl.id)" class="material-icons cursor-pointer text-green-600">unarchive</i>
+              <i (click)="restaureCtrl(ctrl.id)" class="material-icons cursor-pointer text-red-600">unarchive</i>
             </div>
           </div>
         }
@@ -113,12 +113,9 @@
               <select formControlName="type"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                 <option value=0>choisir un type de controle</option>
-                <option value=1>Type 1</option>
-                <option value=2>Type 2</option>
-
-                <!-- @for (user of users(); track user.id) {
-                <option [value]="user.id">{{user.nom_complet}}</option>
-                } -->
+                @for (type of types(); track type.id) {
+                  <option [value]="type.id">{{type.libelle}}</option>
+                }
               </select>
             </div>
           </div>
@@ -195,6 +192,5 @@
       </div>
     </div>
   </div>
-
 
 </div>

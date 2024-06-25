@@ -1,15 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'controle',
+  name: 'contry',
   standalone: true
 })
-export class ControlePipe implements PipeTransform {
+export class ContryPipe implements PipeTransform {
 
   transform(arrayData : any [], value : number|null ): any [] {
     if(value !=0 || value ==null){
       return arrayData =  arrayData.filter((data :any) =>
-        data.controle_id.id == value
+        data.pays_id.id == value
       )
     }else{
       return arrayData;

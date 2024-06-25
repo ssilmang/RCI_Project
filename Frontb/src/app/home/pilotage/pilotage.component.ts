@@ -3,7 +3,7 @@ import { Component, Signal, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { DataService } from '../../_helpers/services/all_methods/data.service';
-import { Activite, Controle, Data, Departement, Direction, Pole, Service, Utilisateur, Risque } from '../../_helpers/interfaces/data';
+import { Activite, Controle, Data, Departement, Direction, Pole, Service, Utilisateur, Risque, Contry } from '../../_helpers/interfaces/data';
 import { ControleService } from '../../_helpers/services/all_methods/controle.service';
 import { DepartementService } from '../../_helpers/services/all_methods/departement.service';
 import { DirectionService } from '../../_helpers/services/all_methods/direction.service';
@@ -27,12 +27,17 @@ import { RisquePipe } from '../../_helpers/pipes/risque.pipe';
 import { PeriodicitePipe } from '../../_helpers/pipes/periodicite.pipe';
 import { StatutPipe } from '../../_helpers/pipes/statut.pipe';
 import { ValidatePipe } from '../../_helpers/pipes/validate.pipe';
-
+import { ContryService } from '../../_helpers/services/all_methods/contry.service';
+import { Contry2Pipe } from '../../_helpers/pipes/contry2.pipe';
+import { TypeControle } from '../../_helpers/interfaces/data';
+import { TypeService } from '../../_helpers/services/all_methods/type.service';
+import { TypePipe } from '../../_helpers/pipes/type.pipe';
+import { AnneePipe } from '../../_helpers/pipes/annee.pipe';
 
 @Component({
   selector: 'app-pilotage',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SweetAlert2Module, StatutPipe, ValidatePipe, PeriodicitePipe, RisquePipe, ControlePipe, CommonModule, ActivitePipe, Direction2Pipe, Departement2Pipe, CouverturePipe, PorteurPipe, PolectrlPipe, Service2Pipe],
+  imports: [CommonModule, ReactiveFormsModule, AnneePipe, SweetAlert2Module, TypePipe, StatutPipe, ValidatePipe, PeriodicitePipe, RisquePipe, ControlePipe, CommonModule, ActivitePipe, Direction2Pipe, Departement2Pipe, CouverturePipe, PorteurPipe, PolectrlPipe, Service2Pipe, Contry2Pipe],
   templateUrl: './pilotage.component.html',
   styleUrl: './pilotage.component.css'
 })
@@ -54,11 +59,18 @@ export class PilotageComponent {
   selectedPrd: number = 0
   selectedStat: number = 0
   selectedVal: number = 0
+  selectedType: number = 0
+  selectedContry: number = 0
+  selectedYear: number = 0
 
   control: boolean = true
   archive: boolean = false
   hoveredIcon: { [id: number]: string | null } = {};
   selectedFile: any;
+  selectedFiles: File[] = [];
+  files: string[] = [];
+  fileCount: number = 0;
+
   display: boolean = false
   file: any
 
@@ -66,6 +78,8 @@ export class PilotageComponent {
   formData2: FormData = new FormData();
 
   toExp: any[] = [];
+
+  types: Signal<TypeControle[]> = signal([])
   datas: Signal<Data[]> = signal([])
   controles: Signal<Controle[]> = signal([])
   archives: Signal<Controle[]> = signal([])
@@ -76,6 +90,7 @@ export class PilotageComponent {
   activites: Signal<Activite[]> = signal([])
   users: Signal<Utilisateur[]> = signal([])
   risques: Signal<Risque[]> = signal([])
+  contries: Signal<Contry[]> = signal([])
 
   Data!: FormGroup
   select!: FormGroup
@@ -91,6 +106,8 @@ export class PilotageComponent {
     private servService: ServiceService,
     private actService: ActiviteService,
     private userService: UtilisateurService,
+    private contryService: ContryService,
+    private type: TypeService
   ) {
     this.Data = this.fb.group({
       controle_id: this.fb.control(0),
@@ -114,23 +131,31 @@ export class PilotageComponent {
     // })
 
     this.select = this.fb.group({
+      pays_id: this.fb.control(0),
+      type: this.fb.control(0),
       direction_id: this.fb.control(0),
       departement_id: this.fb.control(0),
       pole_id: this.fb.control(0),
       service_id: this.fb.control(0),
       activite_id: this.fb.control(0),
-      nom: this.fb.control(0),
+      controle_id: this.fb.control(0),
       risque_id: this.fb.control(0),
       user_id: this.fb.control(0),
       periodicite: this.fb.control(0),
       couverture: this.fb.control(0),
       statut: this.fb.control(0),
       validate: this.fb.control(0),
+      annee: this.fb.control(0),
     });
 
     this.select.get('direction_id')?.valueChanges.subscribe(res=>{
       // console.log(res);
       this.selectedDir = res
+    })
+
+    this.select.get('type')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedType = res
     })
 
     this.select.get('departement_id')?.valueChanges.subscribe(res=>{
@@ -158,6 +183,16 @@ export class PilotageComponent {
       this.selectedRisk = res
     })
 
+    this.select.get('pays_id')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedContry = res
+    })
+
+    this.select.get('controle_id')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedCtrl = res
+    })
+
     this.select.get('user_id')?.valueChanges.subscribe(res=>{
       // console.log(res);
       this.selectedUser = res
@@ -183,6 +218,11 @@ export class PilotageComponent {
       this.selectedVal = res
     })
 
+    this.select.get('annee')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedYear = res
+    })
+
   }
 
   ngOnInit() {
@@ -195,6 +235,8 @@ export class PilotageComponent {
     this.getServices()
     this.getUsers()
     this.getRisques()
+    this.getContries()
+    this.getTypes()
 
     let direct = localStorage.getItem('direction')
     let direction = JSON.parse(direct!)
@@ -243,6 +285,14 @@ export class PilotageComponent {
     }
   }
 
+  getContries()
+  {
+    this.contryService.listResources().subscribe((res:any) => {
+      this.contries = signal(res.data)
+      // console.log(res);
+    })
+  }
+
   getUsers()
   {
     this.userService.listResources().subscribe((res:any) => {
@@ -257,7 +307,7 @@ export class PilotageComponent {
       this.datas = signal(res.controles);
       this.archives = signal(res.archives);
       this.toExp = res.controles
-      console.log(this.toExp);
+      console.log(this.toExp[0].date_ajout);
     })
   }
 
@@ -307,6 +357,14 @@ export class PilotageComponent {
     })
   }
 
+  getTypes()
+  {
+    this.type.listResources().subscribe((r:any) => {
+      this.types = signal(r.types)
+      // console.log(r);
+    })
+  }
+
   getRisques()
   {
     this.risk.listResources().subscribe((r:any) => {
@@ -329,10 +387,17 @@ export class PilotageComponent {
   }
 
   onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
+    // const file: File = event.target.files[0];
+    // if (file) {
+    //   this.selectedFile = file;
+    // }
+    const files: FileList = event.target.files;
+    // console.log(files);
+    if (files.length > 0) {
+      this.selectedFiles = Array.from(files);
+      this.fileCount = this.selectedFiles.length;
     }
+    // console.log(this.selectedFiles);
   }
 
   addOrUp()
@@ -352,7 +417,12 @@ export class PilotageComponent {
       this.formData.append('activite_id', this.Data.get('activite_id')?.value);
       this.formData.append('departement_id', this.Data.get('departement_id')?.value);
       this.formData.append('user_id', this.Data.get('user_id')?.value);
-      this.formData.append('fichier', this.selectedFile);
+      // this.formData.append('fichier', this.selectedFile);
+      if (this.selectedFiles && this.selectedFiles.length > 0) {
+        this.selectedFiles.forEach((file: File, index: number) => {
+          this.formData.append(`fichier[${index}]`, file, file.name);
+        });
+      }
 
       this.data.addResources(this.formData).subscribe((d:any)=>{
         // console.log(d);
@@ -387,16 +457,17 @@ export class PilotageComponent {
       this.formData.append('activite_id', this.Data.get('activite_id')?.value);
       this.formData.append('departement_id', this.Data.get('departement_id')?.value);
       this.formData.append('user_id', this.Data.get('user_id')?.value);
-      if (this.selectedFile) {
-        this.formData.append('fichier', this.selectedFile);
+      // if (this.selectedFile) {
+      //   this.formData.append('fichier', this.selectedFile);
+      // }
+      if (this.selectedFiles && this.selectedFiles.length > 0) {
+        this.selectedFiles.forEach((file: File, index: number) => {
+          this.formData.append(`fichier[${index}]`, file, file.name);
+        });
       }
 
-      // this.formData.forEach((value, key) => {
-      //   console.log(key, value);
-      // });
-
       this.data.updateResources(this.id, this.formData).subscribe((d:any)=>{
-        console.log(d);
+        // console.log(d);
         if (d.message) {
           this.getData()
           this.Data.reset()
@@ -417,6 +488,7 @@ export class PilotageComponent {
     }else{
       this.closeModal()
     }
+    this.selectedFiles = [];
   }
 
   openModal()
@@ -463,7 +535,13 @@ export class PilotageComponent {
       this.display = true
       this.title = 'Information control'
       this.btn = 'Fermer'
-      this.file = 'http://localhost:8000/storage/'+data.fichier
+      // this.file = 'http://localhost:8000/storage/'+data.fichier
+      if (data.fichier) {
+        this.files = JSON.parse(data.fichier).map((filePath: string) => 'http://localhost:8000/storage/' + filePath);
+        this.fileCount = this.files.length;
+      } else {
+        this.files = [];
+      }
       this.Data.patchValue({
         controle_id: data.controle_id.id,
         direction_id: data.direction_id.id,
@@ -624,7 +702,9 @@ export class PilotageComponent {
       modal.style.display = 'none';
       this.Data.enable()
       this.display = false
-      this.selectedFile = undefined;
+      // this.selectedFile = undefined;
+      this.selectedFiles = [];
+      !this.fileCount
     }
   }
 

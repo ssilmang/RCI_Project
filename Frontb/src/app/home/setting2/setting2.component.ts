@@ -159,7 +159,7 @@ export class Setting2Component {
   {
     this.depart.listResources().subscribe(r => {
       this.departements = signal(r)
-      console.log(r);
+      // console.log(r);
     })
   }
 

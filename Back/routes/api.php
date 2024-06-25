@@ -31,6 +31,7 @@ Route::get('/utilisateur/all', [UtilisateurController::class, 'index']);
 Route::post('/utilisateur/add', [UtilisateurController::class, 'store']);
 Route::put('/utilisateur/update/{id}', [UtilisateurController::class, 'update']);
 Route::delete('/utilisateur/delete/{id}', [UtilisateurController::class, 'destroy']);
+Route::get('/utilisateur/restaurer/{id}', [UtilisateurController::class, 'restaurer']);
 
 //routers for risques//
 Route::get('/risque/all', [RisqueController::class, 'index']);
@@ -53,25 +54,28 @@ Route::get('/activite/all', [ActiviteController::class, 'index']);
 Route::post('/activite/add', [ActiviteController::class, 'store']);
 Route::put('/activite/update/{id}', [ActiviteController::class, 'update']);
 Route::delete('/activite/delete/{id}', [ActiviteController::class, 'destroy']);
+Route::get('/activites/restaurer/{id}', [ActiviteController::class, 'restaurer']);
 
 //route for Poles//
 Route::get('/pole/all', [PoleController::class, 'index']);
 Route::post('/pole/add', [PoleController::class, 'store']);
 Route::put('/pole/update/{id}', [PoleController::class, 'update']);
 Route::delete('/pole/delete/{id}', [PoleController::class, 'destroy']);
+Route::get('/pole/restaurer/{id}', [PoleController::class, 'restaurer']);
 
 //route for departement//
 Route::get('/departement/all', [DepartementController::class, 'index']);
 Route::post('/departement/add', [DepartementController::class, 'store']);
 Route::put('/departement/update/{id}', [DepartementController::class, 'update']);
 Route::delete('/departement/delete/{id}', [DepartementController::class, 'destroy']);
+Route::get('/departement/restaurer/{id}', [DepartementController::class, 'restaurer']);
 
 //routes for service//
 Route::get('/service/all', [ServiceController::class, 'index']);
 Route::post('/service/add', [ServiceController::class, 'store']);
 Route::put('/service/update/{id}', [ServiceController::class, 'update']);
 Route::delete('/sevice/delete/{id}', [ServiceController::class, 'destroy']);
-Route::delete('/service/delete/{id}', [ServiceController::class, 'destroy']);
+Route::get('/service/restaurer/{id}', [ServiceController::class, 'restaurer']);
 
 //routes for controle//
 Route::get('/controle/all', [ControleController::class, 'index']);
@@ -89,40 +93,24 @@ Route::post('/data/update/{id}', [DataController::class, 'update']);
 Route::delete('/data/delete/{id}', [DataController::class, 'destroy']);
 Route::get('/data/restaurer/{id}', [DataController::class, 'restaurer']);
 
-// routes for desarchivage//
-
 // Route::post('/controle/{id}/restaurer', [PilotageController::class, 'restaurer']);
 
-// routes for fichier telecharger et enregiosdtrer dans la base de donnee//
-Route::get('/view-pdf/{id}', [ControleController::class,'viewPdf']);
-Route::get('/export-pdf', [ControleController::class,'exportPDF']);
-
-Route::post('/controle/addFile', [ControleController::class, 'downloadFile']);
-
-Route::get('/activites/restaurer/{id}', [ActiviteController::class, 'restaurer']);
-// Route::get('/pilotage/restaurer/{id}', [PilotageController::class, 'restaurer']);
-Route::get('/service/restaurer/{id}', [ServiceController::class, 'restaurer']);
-Route::get('/departement/restaurer/{id}', [DepartementController::class, 'restaurer']);
-Route::get('/pole/restaurer/{id}', [PoleController::class, 'restaurer']);
-Route::get('/utilisateur/restaurer/{id}', [UtilisateurController::class, 'restaurer']);
-
-
 //importation excel//
-
-Route::get('/file-import',[ControleController::class,
-'importView'])->name('import-view'); 
-Route::post('/import',[ControleController::class,
-'import'])->name('import'); 
+Route::get('/file-import',[ControleController::class, 'importView'])
+        ->name('import-view');
+Route::post('/import',[ControleController::class, 'import'])
+        ->name('import');
 
 //route type de controle
 Route::get('/typeControle/all', [TypeControleController::class, 'index']);
 Route::post('/typeControle/add', [TypeControleController::class, 'store']);
 Route::put('/typeControle/update/{id}', [TypeControleController::class, 'update']);
 Route::delete('/typeControle/delete/{id}', [TypeControleController::class, 'destroy']);
+Route::get('/typeControle/restaurer/{id}', [TypeControleController::class, 'restaurer']);
 
 //routes for country//
-Route::get('/country/all', [ContryController::class, 'index']);
-Route::post('/country/add', [ContryController::class, 'store']);
-Route::put('/country/update/{id}', [ContryController::class, 'update']);
-Route::delete('/country/delete/{id}', [ContryController::class, 'destroy']);
-
+Route::get('/contry/all', [ContryController::class, 'index']);
+Route::post('/contry/add', [ContryController::class, 'store']);
+Route::put('/contry/update/{id}', [ContryController::class, 'update']);
+Route::delete('/contry/delete/{id}', [ContryController::class, 'destroy']);
+Route::get('/contry/restaurer/{id}', [ContryController::class, 'restaurer']);

@@ -28,12 +28,34 @@
     <div [formGroup]="select" class="w-full h-[15%] shadow-md  overflow-x-auto rounded gap-10 flex p-1">
 
       <div class="flex gap-4">
+        <label class="text-xl">Pays</label>
+        <select formControlName="pays_id"
+          class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30 flex text-center">
+          <option value=0>filtrer par pays</option>
+          @for (pays of contries(); track pays.id) {
+            <option [value]="pays.id">{{pays.libelle}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="flex gap-4">
+        <label class="text-xl">Type</label>
+        <select formControlName="type"
+          class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30 flex text-center">
+          <option value=0>filtrer par type</option>
+          @for (type of types(); track type.id) {
+            <option [value]="type.id">{{type.libelle}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="flex gap-4">
         <label class="text-xl">Direction</label>
         <select formControlName="direction_id"
           class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30 flex text-center">
           <option value=0>filtrer par direction</option>
           @for (direction of directions(); track direction.id) {
-            <option [value]="direction.id">{{direction.libelle}}</option>
+          <option [value]="direction.id">{{direction.libelle}}</option>
           }
         </select>
       </div>
@@ -84,16 +106,12 @@
 
       <div class="flex gap-4">
         <label class="text-xl">Controle</label>
-        <select formControlName="nom"
+        <select formControlName="controle_id"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
           <option value=0>filtrer par controle</option>
-          <option value="Control 1">Control 1</option>
-          <option value="Control 2">Control 2</option>
-          <option value="Control 3">Control 3</option>
-
-          <!-- @for (controle of controles(); track controle.id) {
-          <option [value]="controle.nom">{{controle.nom}}</option>
-          } -->
+          @for (controle of controles(); track controle.id) {
+          <option [value]="controle.id">{{controle.nom_controle}}</option>
+          }
         </select>
       </div>
 
@@ -159,6 +177,17 @@
           <option value=0>filtrer par etat</option>
           <option value="Validé">Validé</option>
           <option value="Non validé">Non validé</option>
+        </select>
+      </div>
+
+      <div class="flex gap-4">
+        <label class="text-xl">Année</label>
+        <select formControlName="annee"
+          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
+          <option value=0>filtrer par année</option>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
         </select>
       </div>
 
@@ -243,7 +272,7 @@
           </thead>
           <tbody>
             @if (control) {
-              @for (data of datas() | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id;) {
+              @for (data of datas() |annee:selectedYear |type:selectedType |contry2:selectedContry | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id;) {
                 <tr class="bg-white">
                   <td>
                     <div>type 1</div>
@@ -448,7 +477,7 @@
           </button>
         </div>
 
-        <form [formGroup]="Data" class="p-4 md:p-5 overflow-y-auto h-[87%]">
+        <form [formGroup]="Data" class="flex flex-col gap-16 p-4 md:p-5 overflow-y-auto h-[87%]">
           <div class="grid gap-4 mb-4 grid-cols-2">
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom controle</label>
@@ -554,12 +583,22 @@
             <div class="col-span-2 sm:col-span-1">
               @if (display==false) {
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichiers preuves</label>
-              <input type="file" (change)="onFileSelected($event)"
+              <input type="file" (change)="onFileSelected($event)" multiple
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
               }
               @if (display==true) {
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichier preuve</label>
-                <a target="_blank" [href]="file" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 cursor-pointer">afficher le fichier de preuve</a>
+                <div class="file-container">
+                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Fichiers preuves ({{ fileCount }})
+                  </label>
+                  <div class="file-grid">
+                    <div *ngFor="let file of files; let i = index" class="file-card">
+                      <a target="_blank" [href]="file" class="file-link">
+                        fichier {{ i + 1 }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
               }
             </div>
             <div class="col-span-2 sm:col-span-1">
@@ -578,10 +617,12 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
             </div>
           </div>
-          <button (click)="addOrUp()"
-            class="text-white bg-[#FF7900] inline-flex items-center font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:bg-orange-600 ">
-            {{btn}}
-          </button>
+          <div class="flex">
+            <button (click)="addOrUp()"
+              class="text-white bg-[#FF7900] inline-flex items-center font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:bg-orange-600 ">
+              {{btn}}
+            </button>
+          </div>
         </form>
       </div>
     </div>

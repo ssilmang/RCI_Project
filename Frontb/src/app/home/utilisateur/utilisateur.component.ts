@@ -3,19 +3,21 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule }
 import { UtilisateurService } from '../../_helpers/services/all_methods/utilisateur.service';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2'
-import { Direction, Service, Utilisateur } from '../../_helpers/interfaces/data';
+import { Contry, Direction, Service, Utilisateur } from '../../_helpers/interfaces/data';
 import { DirectionService } from '../../_helpers/services/all_methods/direction.service';
 import { ServiceService } from '../../_helpers/services/all_methods/service.service';
 import { DirectionPipe } from '../../_helpers/pipes/direction.pipe';
 import { ServicePipe } from '../../_helpers/pipes/service.pipe';
 import { Direction2Pipe } from '../../_helpers/pipes/direction2.pipe';
 import { Service2Pipe } from '../../_helpers/pipes/service2.pipe';
+import { ContryService } from '../../_helpers/services/all_methods/contry.service';
+import { ContryPipe } from '../../_helpers/pipes/contry.pipe';
 
 
 @Component({
   selector: 'app-utilisateur',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, SweetAlert2Module, Direction2Pipe, Service2Pipe],
+  imports: [FormsModule, ReactiveFormsModule, SweetAlert2Module, Direction2Pipe, Service2Pipe, ContryPipe],
   templateUrl: './utilisateur.component.html',
   styleUrl: './utilisateur.component.css'
 })
@@ -26,10 +28,12 @@ export class UtilisateurComponent {
   id!: number | null
   selectedDir: number = 0
   selectedServ: number = 0
+  selectedContry: number = 0
 
   users: Signal<Utilisateur[]> = signal([])
   services: Signal<Service[]> = signal([])
   directions: Signal<Direction[]> = signal([])
+  contries: Signal<Contry[]> = signal([])
 
   utilisateur!: FormGroup
   select!: FormGroup
@@ -39,7 +43,8 @@ export class UtilisateurComponent {
     private fb:FormBuilder,
     private userService: UtilisateurService,
     private servService: ServiceService,
-    private dirService: DirectionService
+    private dirService: DirectionService,
+    private contryService: ContryService
   ) {
     this.utilisateur = this.fb.group({
       nom_complet: this.fb.control("Elhadji Malick Ndao"),
@@ -52,25 +57,22 @@ export class UtilisateurComponent {
       service_id: this.fb.control(0),
       contry_id: this.fb.control(0),
     });
-
     this.select = this.fb.group({
       direction_id: this.fb.control(0),
       service_id: this.fb.control(0),
       contry_id: this.fb.control(0),
     });
-
     this.select.get('direction_id')?.valueChanges.subscribe(res=>{
       // console.log(res);
       this.selectedDir = res
     })
-    this.select.get('contry_id')?.valueChanges.subscribe(res=>{
-      // console.log(res);
-      this.selectedDir = res
-    })
-
     this.select.get('service_id')?.valueChanges.subscribe(res=>{
       // console.log(res);
       this.selectedServ = res
+    })
+    this.select.get('contry_id')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedContry = res
     })
   }
 
@@ -78,6 +80,15 @@ export class UtilisateurComponent {
     this.getUsers()
     this.getServices()
     this.getDirections()
+    this.getContries()
+  }
+
+  getContries()
+  {
+    this.contryService.listResources().subscribe((res:any) => {
+      this.contries = signal(res.data)
+      // console.log(res);
+    })
   }
 
   getUsers()
@@ -215,6 +226,8 @@ export class UtilisateurComponent {
 
   info(user: any)
   {
+    console.log(user);
+
     let modal = document.getElementById('userModal');
     if (modal) {
       this.title = 'Information utilisateur'
@@ -229,6 +242,7 @@ export class UtilisateurComponent {
         password: user.password,
         direction_id: user.direction_id.id,
         service_id: user.service_id.id,
+        contry_id: user.pays_id.id,
       }
       )
       this.utilisateur.disable()

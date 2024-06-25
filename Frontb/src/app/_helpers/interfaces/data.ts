@@ -75,15 +75,16 @@ export interface Activite {
   libelle: string,
   service_id: number,
 }
+
 export interface Contry {
   id: number | null,
   libelle: string,
-  image: string,
+  image: string | null,
 }
+
 export interface TypeControle {
   id: number | null,
   libelle: string,
-
 }
 
 

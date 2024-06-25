@@ -5,12 +5,15 @@ import { ControleService } from '../../_helpers/services/all_methods/controle.se
 import { Activite, Controle, Data, Departement, Direction, Pole, Service, Utilisateur } from '../../_helpers/interfaces/data';
 import Swal from 'sweetalert2'
 import { CommonModule } from '@angular/common';
+import { TypeControle } from '../../_helpers/interfaces/data';
+import { TypeService } from '../../_helpers/services/all_methods/type.service';
+import { SearchCtrlPipe } from '../../_helpers/pipes/search-ctrl.pipe';
 
 
 @Component({
   selector: 'app-controle',
   standalone: true,
-  imports: [ReactiveFormsModule, SweetAlert2Module, CommonModule],
+  imports: [ReactiveFormsModule, SweetAlert2Module, CommonModule, SearchCtrlPipe],
   templateUrl: './controle.component.html',
   styleUrl: './controle.component.css'
 })
@@ -21,7 +24,9 @@ export class ControleComponent {
   id!: number | null
   control: boolean = true
   archive: boolean = false
+  ctrlToSearch!: string
 
+  types: Signal<TypeControle[]> = signal([])
   controles: Signal<Controle[]> = signal([])
   archives: Signal<Controle[]> = signal([])
   directions: Signal<Direction[]> = signal([])
@@ -32,22 +37,41 @@ export class ControleComponent {
   users: Signal<Utilisateur[]> = signal([])
 
   controle!: FormGroup
+  searchForm!: FormGroup
 
-
-  constructor(private fb: FormBuilder, private ctrl: ControleService)
+  constructor(private fb: FormBuilder, private ctrl: ControleService, private type: TypeService)
   {
     this.controle = this.fb.group({
-      nom_controle: this.fb.control('saisir le nom du controle'),
-      code: this.fb.control('saisir le code du controle'),
-      objectif: this.fb.control('saisir l\'objectif du controle'),
-      descriptif: this.fb.control('saisir le descriptif du controle'),
+      nom_controle: this.fb.control(''),
+      code: this.fb.control(''),
+      objectif: this.fb.control(''),
+      descriptif: this.fb.control(''),
       type: this.fb.control(0)
     })
+
+    this.searchForm = this.fb.group({
+      ctrl: this.fb.control('')
+    })
+
+    this.searchForm.get('ctrl')?.valueChanges.subscribe(data =>
+      {
+        this.ctrlToSearch = data
+      }
+    )
   }
 
   ngOnInit()
   {
     this.getControles()
+    this.getTypes()
+  }
+
+  getTypes()
+  {
+    this.type.listResources().subscribe((r:any) => {
+      this.types = signal(r.types)
+      // console.log(r);
+    })
   }
 
   getControles()
@@ -55,7 +79,7 @@ export class ControleComponent {
     this.ctrl.listResources().subscribe((r:any) => {
       this.controles = signal(r.data)
       this.archives = signal(r.archives)
-      console.log(r);
+      // console.log(r);
     })
   }
 
@@ -129,7 +153,7 @@ export class ControleComponent {
         code: ctrl.code,
         objectif: ctrl.objectif,
         descriptif: ctrl.descriptif,
-        type: ctrl.type
+        type: ctrl.type_controle_id
       })
       this.controle.disable()
       modal.style.display = 'block';
@@ -148,7 +172,7 @@ export class ControleComponent {
         code: ctrl.code,
         objectif: ctrl.objectif,
         descriptif: ctrl.descriptif,
-        type: ctrl.type
+        type: ctrl.type_controle_id
       })
       this.controle.enable()
       modal.style.display = 'block';
@@ -249,7 +273,7 @@ export class ControleComponent {
         code: ctrl.code,
         objectif: ctrl.objectif,
         descriptif: ctrl.descriptif,
-        type: ctrl.type
+        type: ctrl.type_controle_id
       })
       this.controle.disable()
       modal.style.display = 'block';
@@ -262,7 +286,7 @@ export class ControleComponent {
     if (modal) {
       modal.style.display = 'none';
     }
-    
+
   }
 
 }
