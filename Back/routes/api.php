@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PoleController;
 use App\Http\Controllers\ContryController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\RisqueController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ActiviteController;
@@ -101,10 +102,7 @@ Route::get('/utilisateur/restaurer/{id}', [UtilisateurController::class, 'restau
 
 //importation excel//
 
-Route::get('/file-import',[ControleController::class,
-'importView'])->name('import-view'); 
-Route::post('/import',[ControleController::class,
-'import'])->name('import'); 
+Route::post('/import', [ImportController::class, 'import'])->name('import'); 
 
 //route type de controle
 Route::get('/typeControle/all', [TypeControleController::class, 'index']);

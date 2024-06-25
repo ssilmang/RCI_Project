@@ -4,6 +4,9 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { CommonModule } from '@angular/common';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { HttpClientModule } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
+// import { TranslateService } from '@ngx-translate/core';
+
 
 type UserType = {
   readonly id: number;
@@ -36,7 +39,10 @@ export class AppComponent {
 
   constructor(private router: Router)
   {
-
+    // translate.setDefaultLang('en');
   }
-
+  
+  switchLanguage(language: string) {
+    // this.translate.use(language);
+  }
 }
