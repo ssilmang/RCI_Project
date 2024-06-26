@@ -92,7 +92,7 @@ export class LoginComponent {
 
   login()
   {
-    this.router.navigateByUrl('/accueil/pilotage')
+    this.router.navigateByUrl('/accueil/controle')
     // const data = this.loginForm.value;
     // console.log(data);
     // let user = { 'name': 'Elzo Ndao', 'role': 'admin' }
