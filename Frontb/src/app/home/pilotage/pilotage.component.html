@@ -14,9 +14,19 @@
           class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
           exporter vers excel
         </button>
+        
+        <div class="file-upload-wrapper">
+          <input #fileInput type="file" (change)="handleFileInput($event)" class="file-input"/>
+          <button (click)="triggerFileInput()"
+                  class="upload-button bg-[#1FA055] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
+            importer excel
+          </button>
+        </div>
+        
+        
 
         <button (click)="openModal()"
-          class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
+          class="bg-[#FF7900] mr-6 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
           + controle
         </button>
       </div>

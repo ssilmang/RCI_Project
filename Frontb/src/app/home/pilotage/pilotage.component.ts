@@ -1,5 +1,5 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { Component, Signal, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Signal, ViewChild, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { DataService } from '../../_helpers/services/all_methods/data.service';
@@ -33,6 +33,7 @@ import { TypeControle } from '../../_helpers/interfaces/data';
 import { TypeService } from '../../_helpers/services/all_methods/type.service';
 import { TypePipe } from '../../_helpers/pipes/type.pipe';
 import { AnneePipe } from '../../_helpers/pipes/annee.pipe';
+import { ImportService } from '../../_helpers/import.service';
 
 @Component({
   selector: 'app-pilotage',
@@ -41,8 +42,14 @@ import { AnneePipe } from '../../_helpers/pipes/annee.pipe';
   templateUrl: './pilotage.component.html',
   styleUrl: './pilotage.component.css'
 })
-export class PilotageComponent {
-
+export class PilotageComponent implements AfterViewInit {
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  ngAfterViewInit() {
+    // Assurez-vous que fileInput est défini avant de l'utiliser
+    if (!this.fileInput) {
+      console.error('File input element is not defined.');
+    }
+  }
   title: string = 'Nouveau control'
   btn: string = 'Ajouter'
   ctrls: Controle[] = [];
@@ -107,7 +114,8 @@ export class PilotageComponent {
     private actService: ActiviteService,
     private userService: UtilisateurService,
     private contryService: ContryService,
-    private type: TypeService
+    private type: TypeService,
+    private importService: ImportService
   ) {
     this.Data = this.fb.group({
       controle_id: this.fb.control(0),
@@ -779,5 +787,31 @@ export class PilotageComponent {
       FileSaver.saveAs(blob, 'ExportedData.xlsx');
     });
   }
+  fileToUpload: File | null = null;
 
+  handleFileInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.uploadFile(file);
+    }
+  }
+
+  triggerFileInput() {
+    if (this.fileInput) {
+      this.fileInput.nativeElement.click();
+    }
+  }
+
+  uploadFile(file: File) {
+    this.importService.uploadFile(file).subscribe(data => {
+      console.log('File uploaded successfully', data);
+      // Traitez la réponse si nécessaire
+    }, error => {
+      console.error('Error uploading file', error);
+    });
+  }
+
+ 
+  
 }
