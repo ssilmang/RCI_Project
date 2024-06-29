@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +18,21 @@ export class ImportService {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
 
-    // Ajoutez un en-tête si nécessaire
     const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
 
-    return this.http.post(this.apiUrl, formData, { headers });
+    return this.http.post(this.apiUrl, formData, { headers }).pipe(
+      catchError((error: any) => {
+        let errorMessage = 'Erreur inconnue';
+        if (error.error instanceof ErrorEvent) {
+          // Erreur côté client
+          errorMessage = `Erreur : ${error.error.message}`;
+        } else {
+          // Erreur côté serveur
+          errorMessage = `Erreur HTTP : ${error.status}\nMessage : ${error.message}`;
+        }
+        console.error('Erreur lors de l\'envoi du fichier', error); // Journaliser les détails de l'erreur
+        return throwError(errorMessage);
+      })
+    );
   }
 }

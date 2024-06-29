@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 // use PDF;
-use App\Http\Resources\DataResource;
 use App\Models\Controle;
 use Illuminate\Http\Request;
+use App\Imports\ControleImport;
+use App\Http\Resources\DataResource;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ControleController extends Controller
 {
@@ -248,5 +250,14 @@ class ControleController extends Controller
             ], 404);
         }
     }
-
+    public function import(Request $request) 
+    {
+        try {
+            Excel::import(new ControleImport, $request->file('file'));
+            return response()->json(['success' => 'Les contrôles ont été importés avec succès.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Une erreur est survenue lors de l\'importation des contrôles.'], 500);
+        }
+        
+    }
 }

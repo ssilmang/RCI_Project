@@ -99,7 +99,7 @@ Route::get('/data/restaurer/{id}', [DataController::class, 'restaurer']);
 //importation excel//
 
 
-Route::post('/import', [ImportController::class, 'import'])->name('import'); 
+Route::post('/import', [ControleController::class, 'import'])->name('import'); 
 
 
 
