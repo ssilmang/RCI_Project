@@ -34,6 +34,8 @@ import { TypeService } from '../../_helpers/services/all_methods/type.service';
 import { TypePipe } from '../../_helpers/pipes/type.pipe';
 import { AnneePipe } from '../../_helpers/pipes/annee.pipe';
 import { ImportService } from '../../_helpers/import.service';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pilotage',
@@ -808,15 +810,30 @@ export class PilotageComponent implements AfterViewInit {
     }
   }
 
-  uploadFile(file: File) {
-    this.importService.uploadFile(file).subscribe(data => {
-      console.log('File uploaded successfully', data);
-      // Traitez la réponse si nécessaire
-    }, error => {
-      console.error('Error uploading file', error);
-    });
-  }
+ 
+uploadFile(file: File) {
+  this.importService.uploadFile(file).pipe(
+    catchError((error: any) => {
+      console.error('Erreur lors de l\'envoi du fichier', error); // Journaliser les détails de l'erreur
+      let errorMessage = 'Erreur inconnue';
+      if (error.error instanceof ErrorEvent) {
+        // Erreur côté client
+        errorMessage = `Erreur : ${error.error.message}`;
+      } else {
+        // Erreur côté serveur
+        errorMessage = `Erreur HTTP : ${error.status}\nMessage : ${error.message}`;
+      }
+      // Optionnel : gérer des cas d'erreur spécifiques ou relancer l'erreur
+      // Par exemple, pour propager l'erreur plus loin :
+      return throwError(errorMessage);
+      // Ou la traiter et retourner une réponse par défaut, comme un observable vide ou une valeur spécifique
+      // return of(result as T);
+    })
+  ).subscribe(data => {
+    console.log('Fichier envoyé avec succès', data);
+  });
 
 
 
+}
 }
