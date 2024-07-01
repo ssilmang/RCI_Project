@@ -5,8 +5,9 @@ namespace App\Imports;
 use App\Models\Controle;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class controleImport implements ToModel
+class controleImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -50,8 +51,7 @@ $controle = new Controle([
     'fichier' =>$fichier,
 ]);
 
-// Retourne l'objet Controle créé
-
+return $controle;
 
         
     }
