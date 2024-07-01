@@ -283,7 +283,7 @@
               @for (data of datas() |annee:selectedYear |type:selectedType |contry2:selectedContry | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id;) {
                 <tr class="bg-white">
                   <td>
-                    <div>{{data.controle_id.type_controle_id}}</div>
+                    <div>{{data.controle_id.type_controle_id.libelle}}</div>
                   </td>
                   <td>
                     <div>{{data.direction_id.libelle}}</div>

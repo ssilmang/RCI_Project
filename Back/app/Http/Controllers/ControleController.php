@@ -250,7 +250,7 @@ class ControleController extends Controller
             ], 404);
         }
     }
-    public function import(Request $request) 
+    public function import(Request $request)
     {
         try {
             Excel::import(new ControleImport, $request->file('file'));
@@ -258,6 +258,6 @@ class ControleController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Une erreur est survenue lors de l\'importation des contrôles.'], 500);
         }
-        
+
     }
 }
