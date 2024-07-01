@@ -70,6 +70,8 @@ export class PilotageComponent implements AfterViewInit {
   selectedContry: number = 0
   selectedYear: number = 0
 
+  fileToUpload: File | null = null;
+
   control: boolean = true
   archive: boolean = false
   hoveredIcon: { [id: number]: string | null } = {};
@@ -116,7 +118,8 @@ export class PilotageComponent implements AfterViewInit {
     private contryService: ContryService,
     private type: TypeService,
     private importService: ImportService
-  ) {
+  )
+  {
     this.Data = this.fb.group({
       controle_id: this.fb.control(0),
       direction_id: this.fb.control(1),
@@ -315,6 +318,7 @@ export class PilotageComponent implements AfterViewInit {
       this.datas = signal(res.controles);
       this.archives = signal(res.archives);
       this.toExp = res.controles
+      console.log(this.toExp)
       console.log(this.toExp[0].date_ajout);
     })
   }
@@ -721,6 +725,7 @@ export class PilotageComponent implements AfterViewInit {
     const worksheet = workbook.addWorksheet('Sheet 1');
 
     worksheet.columns = [
+      { header: 'Type controle', key: 'type', width: 20 },
       { header: 'Direction', key: 'direction', width: 20 },
       { header: 'Pôle', key: 'pole', width: 20 },
       { header: 'Département', key: 'departement', width: 20 },
@@ -753,6 +758,7 @@ export class PilotageComponent implements AfterViewInit {
 
     this.toExp.forEach((data: any) => {
       const row = worksheet.addRow({
+        type: data.controle_id.type_controle_id,
         direction: data.direction_id.libelle,
         pole: data.pole_id.libelle,
         departement: data.departement_id.libelle,
@@ -787,7 +793,6 @@ export class PilotageComponent implements AfterViewInit {
       FileSaver.saveAs(blob, 'ExportedData.xlsx');
     });
   }
-  fileToUpload: File | null = null;
 
   handleFileInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -812,6 +817,6 @@ export class PilotageComponent implements AfterViewInit {
     });
   }
 
- 
-  
+
+
 }

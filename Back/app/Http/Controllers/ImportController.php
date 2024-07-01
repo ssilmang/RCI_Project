@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Models\Controle;
 use Illuminate\Http\Request;
 use App\Imports\ControleImport;
-use Maatwebsite\Excel\Facades\Excel; 
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
 
 class ImportController extends Controller
 {
-    
+
     public function import(Request $request)
     {
         {
@@ -19,11 +17,11 @@ class ImportController extends Controller
                 $request->validate([
                     'file' => 'required|mimes:xlsx,xls',
                 ]);
-    
+
                 $file = $request->file('file');
-    
+
                 Excel::import(new ControleImport, $file);
-    
+
                 return response()->json(['message' => 'File imported successfully!']);
             } catch (\Exception $e) {
                 Log::error('Error importing file: ' . $e->getMessage());
@@ -31,4 +29,5 @@ class ImportController extends Controller
             }
         }
     }
+
 }
