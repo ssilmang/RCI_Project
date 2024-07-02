@@ -2,14 +2,15 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\PoleController;
 use App\Http\Controllers\ContryController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\RisqueController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ActiviteController;
 use App\Http\Controllers\ControleController;
-use App\Http\Controllers\DataController;
 use App\Http\Controllers\PilotageController;
 use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\DepartementController;
@@ -108,3 +109,9 @@ Route::post('/contry/add', [ContryController::class, 'store']);
 Route::put('/contry/update/{id}', [ContryController::class, 'update']);
 Route::delete('/contry/delete/{id}', [ContryController::class, 'destroy']);
 Route::get('/contry/restaurer/{id}', [ContryController::class, 'restaurer']);
+//routes for profil//
+Route::get('/profil/all', [ProfilController::class, 'index']);
+Route::post('/profil/add', [ProfilController::class, 'store']);
+Route::put('/profil/update/{id}', [ProfilController::class, 'update']);
+Route::delete('/profil/delete/{id}', [ProfilController::class, 'destroy']);
+Route::get('/profil/restaurer/{id}', [ProfilController::class, 'restaurer']);
