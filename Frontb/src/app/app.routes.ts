@@ -11,6 +11,7 @@ import { ControleComponent } from './home/controle/controle.component';
 import { RisqueComponent } from './home/risque/risque.component';
 import { PaysComponent } from './home/pays/pays.component';
 import { TypeControleComponent } from './home/type-controle/type-controle.component';
+import { ProfilComponent } from './home/profil/profil.component';
 
 
 export const routes: Routes = [
@@ -29,6 +30,8 @@ export const routes: Routes = [
       { path: 'utilisateurs', component: UtilisateurComponent },
       { path: 'pays', component: PaysComponent },
       { path: 'typecontrole', component: TypeControleComponent  },
+      { path: 'profils', component: ProfilComponent  },
+
 
 
     ]

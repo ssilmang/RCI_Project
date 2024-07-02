@@ -223,6 +223,16 @@
                 }
               </select>
             </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profil</label>
+              <select formControlName="pays_id"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option value=0>choisir un profil</option>
+                @for (pays of contries(); track pays.id) {
+                <option [value]="pays.id">{{pays.libelle}}</option>
+                }
+              </select>
+            </div>
           </div>
           <button type="submit"
             class="text-white bg-[#FF7900] inline-flex items-center font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:bg-orange-600 ">

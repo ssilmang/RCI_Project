@@ -79,7 +79,7 @@ export class ControleComponent {
     this.ctrl.listResources().subscribe((r:any) => {
       this.controles = signal(r.data)
       this.archives = signal(r.archives)
-      // console.log(r);
+      console.log(r.data);
     })
   }
 

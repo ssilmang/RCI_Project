@@ -20,14 +20,12 @@ use App\Http\Controllers\TypeControleController;
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('/user', function(Request $request) {
-        return $request->user(); // Retourne l'utilisateur connecté
+        return $request->user(); 
     });
-
-    // Route de déconnexion protégée
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
-// Définition de la route pour récupérer tous les utilisateurs
+
 Route::get('/utilisateur/all', [UtilisateurController::class, 'index']);
 Route::post('/utilisateur/add', [UtilisateurController::class, 'store']);
 Route::put('/utilisateur/update/{id}', [UtilisateurController::class, 'update']);
@@ -94,14 +92,8 @@ Route::post('/data/update/{id}', [DataController::class, 'update']);
 Route::delete('/data/delete/{id}', [DataController::class, 'destroy']);
 Route::get('/data/restaurer/{id}', [DataController::class, 'restaurer']);
 
-// Route::post('/controle/{id}/restaurer', [PilotageController::class, 'restaurer']);
-
 //importation excel//
-
-
-Route::post('/import', [ControleController::class, 'import'])->name('import'); 
-
-
+Route::post('/import', [ControleController::class, 'import']);
 
 //route type de controle
 Route::get('/typeControle/all', [TypeControleController::class, 'index']);

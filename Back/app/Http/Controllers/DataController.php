@@ -6,16 +6,18 @@ use App\Models\Data;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreDataRequest;
 use App\Http\Requests\UpdateDataRequest;
-
+use App\Http\Resources\ControleResource;
 
 class DataController extends Controller
 {
     public function index()
     {
-        // return Risque::all();
+        $controles = Data::with('type')->get();
+        $archives = Data::onlyTrashed()->with('type')->get();
+
         return response()->json([
-            'data' => Data::all(),
-            'archives' => Data::onlyTrashed()->get()
+            'data' => ControleResource::collection($controles),
+            'archives' => ControleResource::collection($archives)
         ]);
     }
 
@@ -128,6 +130,7 @@ class DataController extends Controller
                 'message' => 'Le controle a été restauré avec succès!',
                 'data' => $data
             ]);
+
         } else {
             return response()->json([
                 'error' => 'Le controle n\'a pas été trouvé!',

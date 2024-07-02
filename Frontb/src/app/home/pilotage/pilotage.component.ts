@@ -72,6 +72,8 @@ export class PilotageComponent implements AfterViewInit {
   selectedContry: number = 0
   selectedYear: number = 0
 
+  fileToUpload: File | null = null;
+
   control: boolean = true
   archive: boolean = false
   hoveredIcon: { [id: number]: string | null } = {};
@@ -118,7 +120,8 @@ export class PilotageComponent implements AfterViewInit {
     private contryService: ContryService,
     private type: TypeService,
     private importService: ImportService
-  ) {
+  )
+  {
     this.Data = this.fb.group({
       controle_id: this.fb.control(0),
       direction_id: this.fb.control(1),
@@ -317,7 +320,8 @@ export class PilotageComponent implements AfterViewInit {
       this.datas = signal(res.controles);
       this.archives = signal(res.archives);
       this.toExp = res.controles
-      console.log(this.toExp[0].date_ajout);
+      console.log(this.toExp)
+      // console.log(this.toExp[0].date_ajout);
     })
   }
 
@@ -723,6 +727,7 @@ export class PilotageComponent implements AfterViewInit {
     const worksheet = workbook.addWorksheet('Sheet 1');
 
     worksheet.columns = [
+      { header: 'Type controle', key: 'type', width: 20 },
       { header: 'Direction', key: 'direction', width: 20 },
       { header: 'Pôle', key: 'pole', width: 20 },
       { header: 'Département', key: 'departement', width: 20 },
@@ -755,6 +760,7 @@ export class PilotageComponent implements AfterViewInit {
 
     this.toExp.forEach((data: any) => {
       const row = worksheet.addRow({
+        type: data.controle_id.type_controle_id,
         direction: data.direction_id.libelle,
         pole: data.pole_id.libelle,
         departement: data.departement_id.libelle,
@@ -789,7 +795,7 @@ export class PilotageComponent implements AfterViewInit {
       FileSaver.saveAs(blob, 'ExportedData.xlsx');
     });
   }
-  fileToUpload: File | null = null;
+
 
   handleFileInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -805,30 +811,25 @@ export class PilotageComponent implements AfterViewInit {
     }
   }
 
- 
-uploadFile(file: File) {
-  this.importService.uploadFile(file).pipe(
-    catchError((error: any) => {
-      console.error('Erreur lors de l\'envoi du fichier', error); // Journaliser les détails de l'erreur
-      let errorMessage = 'Erreur inconnue';
-      if (error.error instanceof ErrorEvent) {
-        // Erreur côté client
-        errorMessage = `Erreur : ${error.error.message}`;
-      } else {
-        // Erreur côté serveur
-        errorMessage = `Erreur HTTP : ${error.status}\nMessage : ${error.message}`;
-      }
-      // Optionnel : gérer des cas d'erreur spécifiques ou relancer l'erreur
-      // Par exemple, pour propager l'erreur plus loin :
-      return throwError(errorMessage);
-      // Ou la traiter et retourner une réponse par défaut, comme un observable vide ou une valeur spécifique
-      // return of(result as T);
-    })
-  ).subscribe(data => {
-    console.log('Fichier envoyé avec succès', data);
-  });
+  uploadFile(file: File) {
+    this.importService.uploadFile(file).pipe(
+      catchError((error: any) => {
+        console.error('Erreur lors de l\'envoi du fichier', error); 
+        let errorMessage = 'Erreur inconnue';
+        if (error.error instanceof ErrorEvent) {
+          // Erreur côté client
+          errorMessage = `Erreur : ${error.error.message}`;
+        } else {
+          // Erreur côté serveur
+          errorMessage = `Erreur HTTP : ${error.status}\nMessage : ${error.message}`;
+        }
+        
+        return throwError(errorMessage);
+       
+      })
+    ).subscribe(data => {
+      console.log('Fichier envoyé avec succès', data);
+    });
+  }
 
- 
-  
-}
 }

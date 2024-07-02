@@ -9,24 +9,22 @@
     </div>
 
     @if (control) {
-      <div class="flex justify-between w-[25%] mt-4">
+      <div class="flex w-[30%] gap-4 mt-4">
         <button (click)="exportExcel()"
-          class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
+          class="bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
           exporter vers excel
         </button>
-        
-        <div class="file-upload-wrapper" >
+
+        <!-- <div class="file-upload-wrapper">
           <input #fileInput type="file" (change)="handleFileInput($event)" class="file-input"/>
           <button (click)="triggerFileInput()"
-                  class="upload-button bg-[#1FA055] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
-            importer excel
+                  class="upload-button bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
+            importer fichier excel
           </button>
-        </div>
-        
-        
+        </div> -->
 
         <button (click)="openModal()"
-          class="bg-[#FF7900] mr-6 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
+          class="bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
           + controle
         </button>
       </div>
@@ -285,7 +283,8 @@
               @for (data of datas() |annee:selectedYear |type:selectedType |contry2:selectedContry | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id;) {
                 <tr class="bg-white">
                   <td>
-                    <div>{{data.controle_id.type_controle_id}}</div>
+                    <div>{{data?.controle_id?.type_controle_id?.libelle}}</div>
+
                   </td>
                   <td>
                     <div>{{data.direction_id.libelle}}</div>

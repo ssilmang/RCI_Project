@@ -11,5 +11,10 @@ class TypeControle extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
-    
+
+    public function controle()
+    {
+        return $this->hasMany(Data::class);
+    }
+
 }

@@ -15,84 +15,93 @@
           }
         </select>
       </div>
-      <div class="flex gap-4">
-        <label class="text-xl">Type</label>
-        <select formControlName="type"
-          class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center">
-          <option value=0>filtrer par type</option>
-          @for (type of types(); track type.id) {
-          <option [value]="type.id">{{type.libelle}}</option>
-          }
-        </select>
-      </div>
-      <div class="flex gap-4">
-        <label class="text-xl">Direction</label>
-        <select formControlName="direction"
-          class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center">
-          <option value=0>filtrer par direction</option>
-          @for (direction of directions(); track direction.id;) {
-            <option [value]='direction.libelle'>{{direction.libelle}}</option>
-          }
-        </select>
-      </div>
+
+      @if (selectedContry!=0) {
+        <div class="flex gap-4">
+          <label class="text-xl">Type</label>
+          <select formControlName="type"
+            class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center">
+            <option value=0>filtrer par type</option>
+            @for (type of types(); track type.id) {
+            <option [value]="type.id">{{type.libelle}}</option>
+            }
+          </select>
+        </div>
+
+        @if (selectedType!=0) {
+          <div class="flex gap-4">
+            <label class="text-xl">Direction</label>
+            <select formControlName="direction"
+              class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center">
+              <option value=0>filtrer par direction</option>
+              @for (direction of directions(); track direction.id;) {
+                <option [value]='direction.libelle'>{{direction.libelle}}</option>
+              }
+            </select>
+          </div>
+        }
+      }
+
     </div>
   </div>
 
   <div class="w-[99%] h-[95%] shadow-md shadow-[#242a30] flex flex-col gap-3 overflow-y-auto m-1">
 
     <div class="w-full h-[32%] flex gap-4 p-2 overflow-x-auto shadow-xl">
-      <div class="card bg-blue-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+      <div class="card bg-blue-500 font-semibold p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
         [class.selected]="selectedCard === 'totalControls'" (click)="selectCard('totalControls')">
-        <h3 class="text-xl font-bold">Contrôles Totals</h3>
+        <h3 class="text-xl">Contrôles Totals</h3>
         <p class="text-2xl">{{ totalControls }}</p>
       </div>
-      <div class="card bg-yellow-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+      <div class="card bg-[#ffff00] font-semibold p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
         [class.selected]="selectedCard === 'totalDone'" (click)="selectCard('totalDone')">
-        <h3 class="text-xl font-bold">Contrôles Faits</h3>
+        <h3 class="text-xl">Contrôles Faits</h3>
         <p class="text-2xl">{{ totalDone }}</p>
       </div>
-      <div class="card bg-gray-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+      <div class="card bg-[#808080] font-semibold p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
         [class.selected]="selectedCard === 'totalNotDone'" (click)="selectCard('totalNotDone')">
-        <h3 class="text-xl font-bold">Contrôles Non Faits</h3>
+        <h3 class="text-xl">Contrôles Non Faits</h3>
         <p class="text-2xl">{{ totalNotDone }}</p>
       </div>
-      <div class="card bg-purple-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+      <div class="card bg-[#800080] font-semibold p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
         [class.selected]="selectedCard === 'totalApplicable'" (click)="selectCard('totalApplicable')">
-        <h3 class="text-xl font-bold">Contrôles Applicables</h3>
+        <h3 class="text-xl">Contrôles Applicables</h3>
         <p class="text-2xl">{{ totalApplicable }}</p>
       </div>
-      <div class="card bg-orange-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+      <div class="card bg-[#ffa500] font-semibold p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
         [class.selected]="selectedCard === 'totalNonApplicable'" (click)="selectCard('totalNonApplicable')">
-        <h3 class="text-xl font-bold">Contrôles Non Applicables</h3>
+        <h3 class="text-xl">Contrôles Non Applicables</h3>
         <p class="text-2xl">{{ totalNonApplicable }}</p>
       </div>
-      <div class="card bg-green-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+      <div class="card bg-[#008000] font-semibold p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
         [class.selected]="selectedCard === 'totalValidated'" (click)="selectCard('totalValidated')">
-        <h3 class="text-xl font-bold">Contrôles Validés</h3>
+        <h3 class="text-xl">Contrôles Validés</h3>
         <p class="text-2xl">{{ totalValidated }}</p>
       </div>
-      <div class="card bg-red-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+      <div class="card bg-[#ff0000] font-semibold p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
         [class.selected]="selectedCard === 'totalNonValidated'" (click)="selectCard('totalNonValidated')">
-        <h3 class="text-xl font-bold">Contrôles Non Validés</h3>
+        <h3 class="text-xl">Contrôles Non Validés</h3>
         <p class="text-2xl">{{ totalNonValidated }}</p>
       </div>
-      <div class="card bg-pink-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+      <div class="card bg-[#ffc0cb] font-semibold p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
         [class.selected]="selectedCard === 'totalExhaustivite'" (click)="selectCard('totalExhaustivite')">
-        <h3 class="text-xl font-bold">Contrôles Exhaustives</h3>
+        <h3 class="text-xl">Contrôles Exhaustives</h3>
         <p class="text-2xl">{{ totalExhaustivite }}</p>
       </div>
-      <div class="card bg-yel-100 p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
+      <div class="card bg-[#add8e6] p-1 rounded-lg shadow-md flex-1 min-w-[250px] cursor-pointer"
         [class.selected]="selectedCard === 'totalNoExhaustivite'" (click)="selectCard('totalNoExhaustivite')">
-        <h3 class="text-xl font-bold">Contrôles Non Exhaustives</h3>
+        <h3 class="text-xl">Contrôles Non Exhaustives</h3>
         <p class="text-2xl">{{ totalNoExhaustivite }}</p>
       </div>
     </div>
 
-    <!-- <div class="chart-container w-full h-[75%] flex gap-8 shadow-md">
-      <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
-        [legend]="barChartLegend" [plugins]="barChartPlugins" [type]="barChartType">
+    <div class="chart-container flex gap-8 shadow-md">
+      <canvas baseChart 
+              [data]="barChartData"
+              [options]="barChartOptions"
+              chartType="bar">
       </canvas>
-    </div> -->
+    </div>
 
   </div>
 
