@@ -3,6 +3,7 @@
     <div class="flex justify-between p-3 w-full h-[12%]">
       <h1 class="text-[2rem] ml-3 text-[#FF7900] font-bold">Profils</h1>
         <button 
+        (click)="openModal()"
           class="bg-[#FF7900] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold w-28 h-10">
           <span class="text-white text-2xl">+</span> Profils
         </button>
@@ -51,6 +52,42 @@
       </form>
   
     </div>
+    <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
+    style="display: none;" id="land">
+
+    <form 
+      class="bg-white mt-36 ml-[30rem] w-[50%] h-[45%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
+      <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
+        <h1 class="w-[35%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
+          {{titre}}
+        </h1>
+        <span (click)="closeModal()"
+          class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
+          <i class="fas fa-times"></i>
+        </span>
+
+      </div>
+
+      <div class="flex flex-col gap-14 h-[80%]">
+
+        <div class="flex flex-col gap-6 p-3">
+          <div class="flex flex-col gap-2">
+            <label class="font-normal text-xl font-['Inter']">Libellé</label>
+            <input formControlName="libelle"
+              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
+              placeholder="saisir le nom du risque" type="text">
+          </div>
+        </div>
+
+        <div 
+          class="cursor-pointer w-[15%] text-center bg-[#FF7900] rounded-[5px] ml-6 h-[13%] text-white text-[20px] font-normal">
+          {{btn}}
+        </div>
+      </div>
+
+    </form>
+
+  </div>
   
   </div>
   
