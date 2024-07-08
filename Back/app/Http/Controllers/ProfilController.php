@@ -43,7 +43,7 @@ class ProfilController extends Controller
                 ]);
             }
 
-            Pole::create([
+            Profil::create([
                 'libelle' => $request->libelle,
             ]);
 

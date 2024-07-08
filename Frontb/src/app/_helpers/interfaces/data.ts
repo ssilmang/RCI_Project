@@ -98,4 +98,7 @@ export interface Pays {
   id: number | null,
   libelle: string
 }
+export interface Profil extends Pays {
+  
+}
 

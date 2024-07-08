@@ -14,7 +14,8 @@ const verbs = [
   'data',
   'risque',
   'contry',
-  'typeControle'
+  'typeControle',
+  'profil'
 ]
 
 export const uri = {
@@ -108,6 +109,12 @@ export const uri = {
     delete : `${verbs[10]}/delete/`,
     restaurer : `${verbs[10]}/restaurer/`,
   },
-
+  profil: {
+    list : `${verbs[11]}/all`,
+    add : `${verbs[11]}/add`,
+    update :`${verbs[11]}/update/`,
+    delete : `${verbs[11]}/delete/`,
+    restaurer : `${verbs[11]}/restaurer/`,
+  },
 
 }
