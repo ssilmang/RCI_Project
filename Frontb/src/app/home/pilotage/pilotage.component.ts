@@ -816,6 +816,7 @@ export class PilotageComponent implements AfterViewInit {
     });
   }
 
+
   handleFileInput(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -833,7 +834,7 @@ export class PilotageComponent implements AfterViewInit {
   uploadFile(file: File) {
     this.importService.uploadFile(file).pipe(
       catchError((error: any) => {
-        console.error('Erreur lors de l\'envoi du fichier', error); // Journaliser les détails de l'erreur
+        console.error('Erreur lors de l\'envoi du fichier', error); 
         let errorMessage = 'Erreur inconnue';
         if (error.error instanceof ErrorEvent) {
           // Erreur côté client
@@ -842,11 +843,9 @@ export class PilotageComponent implements AfterViewInit {
           // Erreur côté serveur
           errorMessage = `Erreur HTTP : ${error.status}\nMessage : ${error.message}`;
         }
-        // Optionnel : gérer des cas d'erreur spécifiques ou relancer l'erreur
-        // Par exemple, pour propager l'erreur plus loin :
+        
         return throwError(errorMessage);
-        // Ou la traiter et retourner une réponse par défaut, comme un observable vide ou une valeur spécifique
-        // return of(result as T);
+       
       })
     ).subscribe(data => {
       console.log('Fichier envoyé avec succès', data);

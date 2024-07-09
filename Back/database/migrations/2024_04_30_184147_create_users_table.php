@@ -1,11 +1,12 @@
 <?php
 
 use App\Models\Contry;
-use App\Models\Direction;
+use App\Models\Profil;
 use App\Models\Service;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Direction;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->string('telephone')->nullable();
             $table->string('addresse')->nullable();
             $table->foreignIdFor(Direction::class)->constrained();
+            $table->foreignIdFor(Profil::class)->constrained();
             $table->foreignIdFor(Service::class)->constrained();
             $table->unsignedBigInteger('pays_id')->nullable();
             $table->foreign('pays_id')

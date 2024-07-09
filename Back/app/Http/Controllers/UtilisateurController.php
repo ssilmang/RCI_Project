@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UtilisateurResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UtilisateurResource;
 use Illuminate\Validation\ValidationException;
+
 class UtilisateurController extends Controller
 {
     /**
@@ -151,4 +153,35 @@ class UtilisateurController extends Controller
         }
     }
 
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (! $token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($token);
+    }
+
+   
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            // 'expires_in' => auth()->factory()->getTTL() * 60
+            //si vous voulez que le token expire dans quelques secondes//
+        ]);
+    }
+    
+    public function logout()
+{
+    auth()->logout();
+
+    return response()->json(['message' => 'Vous etes deconnecter']);
 }
+}
+
+
+

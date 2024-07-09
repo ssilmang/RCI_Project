@@ -46,6 +46,15 @@
           }
         </select>
       </div>
+      <div class="flex gap-4">
+        <label class="text-xl">Profil</label>
+        <select formControlName="profil_id"
+                class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-[96%] flex text-center">
+          <option value="0">Filtrer par profils</option>
+          <option *ngFor="let profil of profils; let i = index" [value]="profil.id">{{ profil.libelle }}</option>
+        </select>
+      </div>
+      
 
     </div>
 
@@ -72,12 +81,15 @@
                 Pays
               </th>
               <th class="px-6 py-3" style="text-align: center;">
+               Profil
+              </th>
+              <th class="px-6 py-3" style="text-align: center;">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
-            @for (user of users() | direction2:selectedDir | service2:selectedServ |contry:selectedContry; track user.id) {
+            @for (user of users() | direction2:selectedDir | service2:selectedServ |contry:selectedContry|profil:selectedProfil ; track user.id) {
               <tr class="bg-white">
                 <td class="px-6 py-4 text-center">
                   {{user.nom_complet}}
@@ -91,13 +103,18 @@
                 <td class="px-6 py-3 text-center">
                   {{user.service_id.libelle}}
                 </td>
-                <td class="px-6 py-3 text-center">
+                <td class="px-6 py-3 text-center" >
                   {{user.pays_id.libelle}}
+                </td>
+                <td class="px-6 py-3 text-center">
+                  <!-- {{user.profil_id.libelle}}
+                    -->
+                  admin
                 </td>
                 <td class="px-6 py-2" class="flex p-2 gap-3 justify-center items-center">
                   <i (click)="info(user)" class="material-icons cursor-pointer text-green-400">visibility</i>
-                  <!-- <i (click)="editModal(user)" class="material-icons cursor-pointer text-yellow-600">edit</i> -->
-                  <!-- <i (click)="deleteModal(user.id)" class="material-icons cursor-pointer text-red-600">delete</i> -->
+                  <i (click)="editModal(user)" class="material-icons cursor-pointer text-yellow-600">edit</i>
+                  <i (click)="deleteModal(user.id)" class="material-icons cursor-pointer text-red-600">delete</i>
                 </td>
               </tr>
             }
@@ -199,6 +216,15 @@
                 }
               </select>
             </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">profil</label>
+              <select formControlName="contry_id"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option value="0">Choisir un profil</option>
+                <option *ngFor="let profil of profils; let i = index" [value]="profil.id">{{ profil.libelle }}</option>
+              </select>
+            </div>
+            
           </div>
           <button type="submit"
             class="text-white bg-[#FF7900] inline-flex items-center font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:bg-orange-600 ">

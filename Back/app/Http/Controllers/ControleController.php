@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 // use PDF;
+use Exception;
 use App\Models\Controle;
 use Illuminate\Http\Request;
 use App\Imports\ControleImport;
+use Illuminate\Support\Facades\Log;
 use App\Http\Resources\DataResource;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -276,19 +278,40 @@ class ControleController extends Controller
         }
     }
 
-    public function import(Request $request)
-    {
-        try {
-            Excel::import(new ControleImport, $request->file('file'));
-            return response()->json([
-                'success' => 'Les contrôles ont été importés avec succès.'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Une erreur est survenue lors de l\'importation des contrôles.',
-                'message' => $e->getMessage()
-            ], 500);
-        }
+    // public function import(Request $request)
+    // {
+    //     try {
+    //         Excel::import(new ControleImport, $request->file('file'));
+    //         return response()->json([
+    //             'success' => 'Les contrôles ont été importés avec succès.'
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'error' => 'Une erreur est survenue lors de l\'importation des contrôles.',
+    //             'message' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
 
-    }
+    // public function import(Request $request)
+    // {
+    //     try {
+
+    //         $request->validate([
+
+    //             'file' => 'required|mimes:xlsx,csv,txt',
+    //         ]);
+
+    //         Excel::import(new ControleImport, $request->file('file'));
+
+    //         return response()->json(['success' => 'Importation réussie.']);
+
+    //     } catch (Exception $e) {
+
+    //         Log::error('Erreur lors de l\'importation : ' . $e->getMessage());
+
+    //         return response()->json(['error' => 'Une erreur est survenue lors de l\'importation des contrôles.'], 500);
+    //     }
+    // }
+
 }

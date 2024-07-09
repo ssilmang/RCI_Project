@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule }
 import { UtilisateurService } from '../../_helpers/services/all_methods/utilisateur.service';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2'
-import { Contry, Direction, Service, Utilisateur } from '../../_helpers/interfaces/data';
+import { Contry, Direction, Profil, Service, Utilisateur } from '../../_helpers/interfaces/data';
 import { DirectionService } from '../../_helpers/services/all_methods/direction.service';
 import { ServiceService } from '../../_helpers/services/all_methods/service.service';
 import { DirectionPipe } from '../../_helpers/pipes/direction.pipe';
@@ -12,14 +12,16 @@ import { Direction2Pipe } from '../../_helpers/pipes/direction2.pipe';
 import { Service2Pipe } from '../../_helpers/pipes/service2.pipe';
 import { ContryService } from '../../_helpers/services/all_methods/contry.service';
 import { ContryPipe } from '../../_helpers/pipes/contry.pipe';
-
+import { ProfilService } from '../../_helpers/services/profil.service';
+import { ProfilPipe } from "../../_helpers/pipes/profil.pipe";
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-utilisateur',
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, SweetAlert2Module, Direction2Pipe, Service2Pipe, ContryPipe],
-  templateUrl: './utilisateur.component.html',
-  styleUrl: './utilisateur.component.css'
+    selector: 'app-utilisateur',
+    standalone: true,
+    templateUrl: './utilisateur.component.html',
+    styleUrl: './utilisateur.component.css',
+    imports: [CommonModule,FormsModule, ReactiveFormsModule, SweetAlert2Module, Direction2Pipe, Service2Pipe, ContryPipe, ProfilPipe]
 })
 export class UtilisateurComponent {
 
@@ -29,11 +31,15 @@ export class UtilisateurComponent {
   selectedDir: number = 0
   selectedServ: number = 0
   selectedContry: number = 0
+  selectedProfil: number = 0
+
 
   users: Signal<Utilisateur[]> = signal([])
   services: Signal<Service[]> = signal([])
   directions: Signal<Direction[]> = signal([])
   contries: Signal<Contry[]> = signal([])
+  profils!: Profil[]
+
 
   utilisateur!: FormGroup
   select!: FormGroup
@@ -44,7 +50,9 @@ export class UtilisateurComponent {
     private userService: UtilisateurService,
     private servService: ServiceService,
     private dirService: DirectionService,
-    private contryService: ContryService
+    private contryService: ContryService,
+    private profilService: ProfilService
+
   ) {
     this.utilisateur = this.fb.group({
       nom_complet: this.fb.control("Elhadji Malick Ndao"),
@@ -56,11 +64,15 @@ export class UtilisateurComponent {
       direction_id: this.fb.control(0),
       service_id: this.fb.control(0),
       contry_id: this.fb.control(0),
+      profil_id: this.fb.control(0),
+
     });
     this.select = this.fb.group({
       direction_id: this.fb.control(0),
       service_id: this.fb.control(0),
       contry_id: this.fb.control(0),
+      profil_id: this.fb.control(0),
+
     });
     this.select.get('direction_id')?.valueChanges.subscribe(res=>{
       // console.log(res);
@@ -74,6 +86,10 @@ export class UtilisateurComponent {
       // console.log(res);
       this.selectedContry = res
     })
+    this.select.get('profil_id')?.valueChanges.subscribe(res=>{
+      // console.log(res);
+      this.selectedProfil = res
+    })
   }
 
   ngOnInit() {
@@ -81,6 +97,7 @@ export class UtilisateurComponent {
     this.getServices()
     this.getDirections()
     this.getContries()
+    this.getProfils()
   }
 
   getContries()
@@ -89,6 +106,17 @@ export class UtilisateurComponent {
       this.contries = signal(res.data)
       // console.log(res);
     })
+  }
+  getProfils() {
+    this.profilService.listResources().subscribe(
+      (res: any) => {
+        this.profils = res
+        console.log(this.profils);
+      },
+      (error: any) => {
+        console.error('Error fetching profils:', error);
+      }
+    );
   }
 
   getUsers()
@@ -218,6 +246,7 @@ export class UtilisateurComponent {
         password: user.password,
         direction_id: user.direction_id.id,
         service_id: user.service_id.id,
+        profil_id:user.profil_id.id
       }
       )
       modal.style.display = 'block';
@@ -243,6 +272,8 @@ export class UtilisateurComponent {
         direction_id: user.direction_id.id,
         service_id: user.service_id.id,
         contry_id: user.pays_id.id,
+        // profil_id:user.profil_id.id
+
       }
       )
       this.utilisateur.disable()

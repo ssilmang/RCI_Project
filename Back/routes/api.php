@@ -2,14 +2,15 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\PoleController;
 use App\Http\Controllers\ContryController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\RisqueController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ActiviteController;
 use App\Http\Controllers\ControleController;
-use App\Http\Controllers\DataController;
 use App\Http\Controllers\PilotageController;
 use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\DepartementController;
@@ -20,14 +21,12 @@ use App\Http\Controllers\TypeControleController;
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('/user', function(Request $request) {
-        return $request->user(); // Retourne l'utilisateur connecté
+        return $request->user(); 
     });
-
-    // Route de déconnexion protégée
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
-// Définition de la route pour récupérer tous les utilisateurs
+
 Route::get('/utilisateur/all', [UtilisateurController::class, 'index']);
 Route::post('/utilisateur/add', [UtilisateurController::class, 'store']);
 Route::put('/utilisateur/update/{id}', [UtilisateurController::class, 'update']);
@@ -94,12 +93,8 @@ Route::post('/data/update/{id}', [DataController::class, 'update']);
 Route::delete('/data/delete/{id}', [DataController::class, 'destroy']);
 Route::get('/data/restaurer/{id}', [DataController::class, 'restaurer']);
 
-// Route::post('/controle/{id}/restaurer', [PilotageController::class, 'restaurer']);
-
 //importation excel//
-
-Route::post('/import', [ControleController::class, 'import'])->name('import');
-
+Route::post('/import', [ControleController::class, 'import']);
 
 //route type de controle
 Route::get('/typeControle/all', [TypeControleController::class, 'index']);
@@ -114,3 +109,9 @@ Route::post('/contry/add', [ContryController::class, 'store']);
 Route::put('/contry/update/{id}', [ContryController::class, 'update']);
 Route::delete('/contry/delete/{id}', [ContryController::class, 'destroy']);
 Route::get('/contry/restaurer/{id}', [ContryController::class, 'restaurer']);
+//routes for profil//
+Route::get('/profil/all', [ProfilController::class, 'index']);
+Route::post('/profil/add', [ProfilController::class, 'store']);
+Route::put('/profil/update/{id}', [ProfilController::class, 'update']);
+Route::delete('/profil/delete/{id}', [ProfilController::class, 'destroy']);
+Route::get('/profil/restaurer/{id}', [ProfilController::class, 'restaurer']);

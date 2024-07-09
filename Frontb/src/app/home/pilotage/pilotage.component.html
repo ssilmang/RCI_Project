@@ -9,19 +9,19 @@
     </div>
 
     @if (control) {
-      <div class="flex w-[40%] gap-4 mt-4">
+      <div class="flex w-[30%] gap-4 mt-4">
         <button (click)="exportExcel()"
           class="bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
           exporter vers excel
         </button>
 
-        <div class="file-upload-wrapper">
+        <!-- <div class="file-upload-wrapper">
           <input #fileInput type="file" (change)="handleFileInput($event)" class="file-input"/>
           <button (click)="triggerFileInput()"
                   class="upload-button bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
             importer fichier excel
           </button>
-        </div>
+        </div> -->
 
         <button (click)="openModal()"
           class="bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
