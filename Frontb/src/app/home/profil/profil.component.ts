@@ -22,7 +22,8 @@ export class ProfilComponent {
   btn!: string
   id!: number | null
   profilForm!:FormGroup;
-  profils: Signal<Profil[]> = signal([])
+  // profils: Signal<Profil[]> = signal([])
+ profils: Profil[] = [];
   // archives: Signal<Contry[]> = signal([])
 
   constructor(
@@ -60,13 +61,19 @@ export class ProfilComponent {
     this.getProfil()
   }
 
-  getProfil()
-  {
-    this.profilService.listResources().subscribe((res:any) => {
-      this. profils = signal(res.data)
-      console.log(res);
-    })
+  getProfil() {
+    this.profilService.listResources().subscribe(
+      (res: any) => {
+        this.profils = res;
+        console.log(this.profils);
+      },
+      (error: any) => {
+        console.error('Error fetching profils:', error);
+      }
+    );
   }
+
+  
 
   
   addOrUpLand()
