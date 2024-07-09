@@ -9,6 +9,7 @@ use App\Imports\ControleImport;
 use App\Http\Resources\DataResource;
 use Maatwebsite\Excel\Facades\Excel;
 
+
 class ControleController extends Controller
 {
     /**
@@ -16,9 +17,16 @@ class ControleController extends Controller
      */
     public function index()
     {
+        // return response()->json([
+        //     'controles' => DataResource::collection(Controle::all()),
+        //     'archives' => DataResource::collection(Controle::onlyTrashed()->get())
+        // ]);
+        $controles = Controle::with('type')->get();
+        $archives = Controle::onlyTrashed()->with('type')->get();
+
         return response()->json([
-            'controles' => DataResource::collection(Controle::all()),
-            'archives' => DataResource::collection(Controle::onlyTrashed()->get())
+            'controles' => DataResource::collection($controles),
+            'archives' => DataResource::collection($archives)
         ]);
     }
 
@@ -44,9 +52,14 @@ class ControleController extends Controller
                     'error' => 'Veuillez renseigner la preuve demandée!'
                 ]);
             }
-            if (!$request->controle_id || $request->controle_id == null || $request->controle_id == 0) {
+            if (!$request->controle || empty($request->controle)) {
                 return response()->json([
-                    'error' => 'Veuillez choisir le controle!'
+                    'error' => 'Veuillez saisir le controle!'
+                ]);
+            }
+            if (!$request->code || empty($request->code)) {
+                return response()->json([
+                    'error' => 'Veuillez saisir le code du controle!'
                 ]);
             }
             if (!$request->etat || $request->etat == 0) {
@@ -78,7 +91,11 @@ class ControleController extends Controller
             }
 
             Controle::create([
-                'data_id' => $request->controle_id,
+                'controle' => $request->controle,
+                'code' => $request->code,
+                'descriptif' => $request->descriptif,
+                'objectif' => $request->objectif,
+                'type_controle_id' => $request->type,
                 'periodicite' => $request->periodicite,
                 'exhaustivite' => $request->exhaustivite,
                 'preuve' => $request->preuve,
@@ -131,7 +148,11 @@ class ControleController extends Controller
                 }
             }
             $pilotage->update([
-                    'data_id' => $request->controle_id,
+                    'controle' => $request->controle,
+                    'code' => $request->code,
+                    'descriptif' => $request->descriptif,
+                    'objectif' => $request->objectif,
+                    'type_controle_id' => $request->type,
                     'periodicite' => $request->periodicite,
                     'exhaustivite' => $request->exhaustivite,
                     'preuve' => $request->preuve,
@@ -150,7 +171,11 @@ class ControleController extends Controller
             ]);
         }else{
             $pilotage->update([
-                'data_id' => $request->controle_id,
+                'controle' => $request->controle,
+                'code' => $request->code,
+                'descriptif' => $request->descriptif,
+                'objectif' => $request->objectif,
+                'type_controle_id' => $request->type,
                 'periodicite' => $request->periodicite,
                 'exhaustivite' => $request->exhaustivite,
                 'preuve' => $request->preuve,
@@ -250,13 +275,19 @@ class ControleController extends Controller
             ], 404);
         }
     }
+
     public function import(Request $request)
     {
         try {
             Excel::import(new ControleImport, $request->file('file'));
-            return response()->json(['success' => 'Les contrôles ont été importés avec succès.']);
+            return response()->json([
+                'success' => 'Les contrôles ont été importés avec succès.'
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Une erreur est survenue lors de l\'importation des contrôles.'], 500);
+            return response()->json([
+                'error' => 'Une erreur est survenue lors de l\'importation des contrôles.',
+                'message' => $e->getMessage()
+            ], 500);
         }
 
     }

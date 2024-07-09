@@ -2,24 +2,14 @@
 
   <div class="flex justify-between p-2 w-full">
     <div class="flex gap-8 w-[30%]">
-      <h1 (click)="selectControle()" class="cursor-pointer text-[2rem] ml-4 font-bold"
-      [ngClass]="{'one':control}">Controles</h1>
-      <h1 (click)="selectArchive()" class="cursor-pointer text-[2rem] ml-4 font-bold"
-      [ngClass]="{'one':archive}">Archives</h1>
+      <h1  class="cursor-pointer text-[2rem] ml-4 font-bold">Controles</h1>
     </div>
 
-    <div class="flex justify-between w-[30%]">
+    <div class="flex w-[20%]">
       <form [formGroup]="searchForm" class="p-1 flex">
         <input type="search" formControlName="ctrl" placeholder="rechercher un controle"
           class="p-2 h-9 border-2 border-[#FF663E] focus:outline-none shadow-sm shadow-[#242a30] rounded-lg flex-1" />
         <i class="material-icons text-[#FF663E] mt-2 ml-2">search</i>
-      </form>
-      <form class="p-1">
-        @if (control) {
-          <span (click)="openModal()" class="p-2 h-9 bg-[#FF663E] cursor-pointer shadow-md shadow-[#242a30] text-[white] text-lg rounded-lg flex justify-center items-center font-bold">
-            <span class="text-xl">+</span>Controle
-          </span>
-        }
       </form>
     </div>
   </div>
@@ -28,34 +18,16 @@
 
     <div class="flex flex-col gap-5 p-1">
       @if (control) {
-        @for (ctrl of controles() |searchCtrl:ctrlToSearch; track ctrl.id) {
+        @for (ctrl of datas() |searchCtrl:ctrlToSearch; track ctrl.id) {
           <div class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
-            <h1 class="text-xl font-semibold">{{ctrl.nom_controle}}</h1>
+            <h1 class="text-xl font-semibold">{{ctrl.controle}}</h1>
             <div class="w-28 h-3 flex gap-3 justify-center items-center">
               <i (click)="info(ctrl)" class="material-icons cursor-pointer text-gray-400">visibility</i>
-              <i (click)="editModal(ctrl)"
-                class="material-icons cursor-pointer text-yellow-400">edit</i>
-              <i (click)="deleteCtrl(ctrl.id)" class="material-icons cursor-pointer text-green-600">archive</i>
             </div>
           </div>
         }
         @empty {
           <h1 class="text-2xl">Aucun controle trouvé</h1>
-        }
-      }
-      @if (archive) {
-        @for (ctrl of archives() |searchCtrl:ctrlToSearch; track ctrl.id) {
-          <div
-            class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
-            <h1 class="text-xl font-semibold">{{ctrl.nom_controle}}</h1>
-            <div class="w-28 h-3 flex gap-3 justify-center items-center">
-              <i (click)="info2(ctrl)" class="material-icons cursor-pointer text-yellow-400">visibility</i>
-              <i (click)="restaureCtrl(ctrl.id)" class="material-icons cursor-pointer text-red-600">unarchive</i>
-            </div>
-          </div>
-        }
-        @empty {
-          <h1 class="text-2xl">Aucune archive trouvée</h1>
         }
       }
     </div>
@@ -69,7 +41,7 @@
   <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
     style="display: none;" id="controle">
     <div class="mt-20 ml-[24rem] w-[60%] h-[100%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
-      <div class="relative bg-white h-[80%] rounded-lg shadow dark:bg-gray-700">
+      <div class="relative bg-white h-[85%] rounded-lg shadow dark:bg-gray-700">
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t bg-[#FF7900]">
           <h3 class="text-2xl font-semibold text-white">
             {{titre}}
@@ -84,7 +56,7 @@
             <span class="sr-only">Close modal</span>
           </button>
         </div>
-        <form [formGroup]="controle" class="p-4 flex flex-col gap-10 overflow-y-auto h-[87%]">
+        <form [formGroup]="controle" class="p-4 flex flex-col gap-10 overflow-y-auto h-[95%]">
           <div class="grid gap-4 mb-4 grid-cols-2">
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom controle</label>
@@ -100,13 +72,13 @@
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Objectif</label>
-              <textarea formControlName="objectif"
-                class="bg-gray-50 border h-40 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+              <textarea formControlName="objectif" placeholder="saisir l'objectif"
+                class="bg-gray-50 border h-28 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descriptif</label>
-              <textarea formControlName="descriptif"
-                class="bg-gray-50 border h-40 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+              <textarea formControlName="descriptif" placeholder="saisir le descriptif"
+                class="bg-gray-50 border h-28 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type Controle</label>
@@ -118,8 +90,34 @@
                 }
               </select>
             </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Periodicite</label>
+              <select formControlName="periodicite"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option value=0>filtrer par periodicite</option>
+                <option value="journalière">journalière</option>
+                <option value="mensuelle">mensuelle</option>
+                <option value="annuelle">annuelle</option>
+              </select>
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Porteur</label>
+              <select formControlName="user_id"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option value=0>filtrer par porteur</option>
+                @for (user of users(); track user.id) {
+                <option [value]="user.id">{{user.nom_complet}}</option>
+                }
+              </select>
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preuve</label>
+              <input type="text" formControlName="preuve"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="preuve du controle">
+            </div>
           </div>
-          <button (click)="addOrUpCtrl()"
+          <button
             class="text-white w-[10%] bg-[#FF7900] flex justify-center items-center font-medium rounded-lg text-lg px-5 py-2.5 dark:bg-orange-600 ">
             {{btn}}
           </button>

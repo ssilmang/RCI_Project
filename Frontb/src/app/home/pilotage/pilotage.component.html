@@ -179,7 +179,7 @@
       </div>
 
       <div class="flex gap-4">
-        <label class="text-xl">Validation</label>
+        <label class="text-xl">Etat</label>
         <select formControlName="validate"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center">
           <option value=0>filtrer par etat</option>
@@ -224,7 +224,7 @@
                 <div>Service concerné</div>
               </th>
               <th>
-                <div>Activité</div>
+                <div>Activité/Domaine</div>
               </th>
               <th>
                 <div>Nom du contrôle</div>
@@ -253,9 +253,9 @@
               <th>
                 <div>Preuve demandée</div>
               </th>
-              <th>
+              <!-- <th>
                 <div>Fichier preuve</div>
-              </th>
+              </th> -->
               <th>
                 <div>Commentaire</div>
               </th>
@@ -283,7 +283,7 @@
               @for (data of datas() |annee:selectedYear |type:selectedType |contry2:selectedContry | direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct |departement2:selectedDept |couverture:selectedCouv |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id;) {
                 <tr class="bg-white">
                   <td>
-                    <div>{{data.controle_id.type_controle_id.libelle}}</div>
+                    <div>{{data.type_controle_id.libelle}}</div>
                   </td>
                   <td>
                     <div>{{data.direction_id.libelle}}</div>
@@ -301,16 +301,16 @@
                     <div>{{data.activite_id.libelle}}</div>
                   </td>
                   <td>
-                    <div>{{data.controle_id.nom_controle}}</div>
+                    <div>{{data.controle}}</div>
                   </td>
                   <td>
-                    <div>{{data.controle_id.code}}</div>
+                    <div>{{data.code}}</div>
                   </td>
                   <td>
-                    <div>{{data.controle_id.descriptif}}</div>
+                    <div>{{data.descriptif}}</div>
                   </td>
                   <td>
-                    <div>{{data.controle_id.objectif}}</div>
+                    <div>{{data.objectif}}</div>
                   </td>
                   <td>
                     <div>{{data.risque_id.libelle}}</div>
@@ -327,9 +327,9 @@
                   <td>
                     <div><textarea readonly>{{data.preuve}}</textarea></div>
                   </td>
-                  <td>
+                  <!-- <td>
                     <div><a target="_blank" [href]="'http://localhost:8000/storage/'+data.fichier"><i class="material-icons">attach_file</i>Fichier Preuve</a></div>
-                  </td>
+                  </td> -->
                   <td>
                     <div><textarea readonly>{{data.commentaire}}</textarea></div>
                   </td>
@@ -380,6 +380,9 @@
               |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ ; track data.id) {
               <tr class="bg-white">
                 <td>
+                  <div>{{data.type_controle_id.libelle}}</div>
+                </td>
+                <td>
                   <div>{{data.direction_id.libelle}}</div>
                 </td>
                 <td>
@@ -395,16 +398,16 @@
                   <div>{{data.activite_id.libelle}}</div>
                 </td>
                 <td>
-                  <div>{{data.controle_id.nom_controle}}</div>
+                  <div>{{data.controle}}</div>
                 </td>
                 <td>
-                  <div>{{data.controle_id.code}}</div>
+                  <div>{{data.code}}</div>
                 </td>
                 <td>
-                  <div>{{data.controle_id.descriptif}}</div>
+                  <div>{{data.descriptif}}</div>
                 </td>
                 <td>
-                  <div>{{data.controle_id.objectif}}</div>
+                  <div>{{data.objectif}}</div>
                 </td>
                 <td>
                   <div>{{data.risque_id.libelle}}</div>
@@ -421,10 +424,9 @@
                 <td>
                   <div><textarea readonly>{{data.preuve}}</textarea></div>
                 </td>
-                <td>
-                  <div><a target="_blank" href="/assets/fichiers/preuve 1.pdf"><i class="material-icons">attach_file</i>Name of
-                      file</a></div>
-                </td>
+                <!-- <td>
+                                  <div><a target="_blank" [href]="'http://localhost:8000/storage/'+data.fichier"><i class="material-icons">attach_file</i>Fichier Preuve</a></div>
+                                </td> -->
                 <td>
                   <div><textarea readonly>{{data.commentaire}}</textarea></div>
                 </td>
@@ -437,11 +439,12 @@
                   </div>
                 </td>
                 <td>
-                  <div>{{data.archived_at}}</div>
+                  <div>{{data.date_ajout}}</div>
                 </td>
                 <td>
                   <div class="flex gap-2">
-                    <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'visibility')" (mouseleave)="clearHoveredIcon(data.id)">
+                    <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'visibility')"
+                      (mouseleave)="clearHoveredIcon(data.id)">
                       <i (click)="info(data)" class="material-icons cursor-pointer text-gray-600">visibility</i>
                       <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'visibility'">voir fiche control</div>
                     </div>
@@ -489,15 +492,44 @@
           <div class="grid gap-4 mb-4 grid-cols-2">
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom controle</label>
-              <select formControlName="controle_id"
+              <input type="text" formControlName="controle"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="entrer le nom du controle">
+              <!-- <select formControlName="controle_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                 <option value=0>choisir une controle</option>
                 @for (ctrl of controles(); track ctrl.id) {
                   <option [value]="ctrl.id">{{ctrl.nom_controle}}</option>
                 }
-              </select>
+              </select> -->
             </div>
             <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Code</label>
+              <input type="text" formControlName="code"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="entrer le code du controle">
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Objectif</label>
+              <textarea formControlName="objectif" placeholder="entrer l'objectif du controle"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descriptif</label>
+              <textarea formControlName="descriptif" placeholder="entrer le descriptif du controle"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+            </div>
+            <div class="col-span-2 mt-6 sm:col-span-1">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type Controle</label>
+              <select formControlName="type"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option value=0>choisir un type de controle</option>
+                @for (type of types(); track type.id) {
+                <option [value]="type.id">{{type.libelle}}</option>
+                }
+              </select>
+            </div>
+            <div class="col-span-2 mt-6 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Risque</label>
               <select formControlName="risque_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
@@ -507,7 +539,7 @@
                 }
               </select>
             </div>
-            <div class="col-span-2 mt-4 sm:col-span-1">
+            <div class="col-span-2 mt-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Porteur</label>
               <select formControlName="user_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
@@ -517,7 +549,7 @@
                 }
               </select>
             </div>
-            <div class="col-span-2 mt-4 sm:col-span-1">
+            <div class="col-span-2 mt-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direction</label>
               <select formControlName="direction_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">

@@ -47,6 +47,13 @@
   border-color: #000000;
 }
 
+.card-width {
+  width: 250px;
+  min-width: 250px;
+  max-width: 250px;
+  flex: 0 0 250px;
+}
+
 .chart-container {
   height: 70%;
   overflow: scroll;

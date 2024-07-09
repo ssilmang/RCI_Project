@@ -35,6 +35,13 @@ export class DashboardComponent {
   controls: any
   controlsByPays: any
   controlsByType: any
+  controlsByStatut: any
+  controlsByEtat: any
+  controlsByCouv: any
+
+  selectedEtat: boolean = false
+  selectedStatut: boolean = false
+  selectedCouv: boolean = false
 
   selectedType: number = 0
   selectedContry: number = 0
@@ -56,8 +63,8 @@ export class DashboardComponent {
   barChartData: ChartData<'bar'> = {
     labels: this.barChartLabels,
     datasets: [
-      { 
-        data: [], 
+      {
+        data: [],
         label: 'Total' ,
         backgroundColor: [
           '#008000', // Validé
@@ -95,7 +102,9 @@ export class DashboardComponent {
     this.selectForm = this.fb.group({
       pays_id: this.fb.control(0),
       type: this.fb.control(0),
-      direction: this.fb.control(0)
+      statut: this.fb.control(0),
+      etat: this.fb.control(0),
+      couverture: this.fb.control(0),
     })
 
     this.selectForm.get('pays_id')?.valueChanges.subscribe(res=>{
@@ -104,26 +113,124 @@ export class DashboardComponent {
       // console.log(this.selectedContry);
       this.controls = this.ctrls.filter((c:any) => c.user_id.pays_id.id == res)
       console.log(this.controls);
-      this.graph(this.controls)
+      this.graph(this.controls, 'nothing')
     })
 
     this.selectForm.get('type')?.valueChanges.subscribe(res=>{
       // console.log(res);
       this.selectedType = res
-      this.controlsByPays = this.controls.filter((c:any) => c.controle_id.type_controle_id.id == res)
-      console.log(this.controlsByPays);
-      this.graph(this.controlsByPays)
-    })
-
-    this.selectForm.get('direction')?.valueChanges.subscribe(res=>{
-      this.selectedDir = res
       if (res!=0) {
-        console.log(res);
-        this.controlsByType = this.controlsByPays.filter((c:any) => c.direction_id.libelle == res)
-        this.graph(this.controlsByType)
+        this.controlsByPays = this.controls.filter((c:any) => c.type_controle_id.id == res)
+        console.log(this.controlsByPays);
+        if (this.controlsByPays.length > 0) {
+          this.graph(this.controlsByPays, 'nothing')
+         }else{
+          Swal.fire({
+            title: "Error!",
+            text: 'Aucune donnée dans ce type',
+            icon: "error"
+          });
+          this.selectForm.patchValue({
+            type: 0
+          })
+        }
+      }else{
+        this.controlsByPays = this.ctrls.filter((c:any) => c.user_id.pays_id.id == this.selectedContry)
+        console.log(this.controlsByPays);
+        this.graph(this.controlsByPays, 'nothing')
       }
     })
 
+    this.selectForm.get('statut')?.valueChanges.subscribe(res => {
+      // console.log(this.controlsByPays);
+      if (res!=0) {
+        console.log(res);
+        this.controlsByStatut = this.controlsByPays.filter((c:any) => c.etat == res)
+        console.log(this.controlsByStatut);
+        this.selectedStatut = true
+        this.selectedEtat = false
+        this.selectedCouv = false
+        this.graph(this.controlsByStatut, 'statut')
+
+        this.selectForm.patchValue({
+          etat: 0,
+          couverture: 0
+        }, { emitEvent: false });
+      }
+    })
+
+    this.selectForm.get('etat')?.valueChanges.subscribe(res => {
+      // console.log(this.controlsByPays);
+      if (res!=0) {
+        console.log(res);
+        this.controlsByEtat = this.controlsByPays.filter((c:any) => c.validate == res)
+        console.log(this.controlsByEtat);
+        this.selectedEtat = true
+        this.selectedStatut = false
+        this.selectedCouv = false
+        this.graph(this.controlsByEtat, 'etat')
+
+        this.selectForm.patchValue({
+          statut: 0,
+          couverture: 0
+        }, { emitEvent: false });
+      }
+    })
+
+    this.selectForm.get('couverture')?.valueChanges.subscribe(res => {
+      // console.log(this.controlsByPays);
+      if (res!=0) {
+        console.log(res);
+        this.controlsByCouv = this.controlsByPays.filter((c:any) => c.exhaustivite == res)
+        console.log(this.controlsByCouv);
+        this.selectedCouv = true
+        this.selectedEtat = false
+        this.selectedStatut = false
+        this.graph(this.controlsByCouv, 'couv')
+
+        this.selectForm.patchValue({
+          etat: 0,
+          statut: 0
+        }, { emitEvent: false });
+      }
+    })
+
+    // this.selectForm.get('direction')?.valueChanges.subscribe(res=>{
+    //   // console.log(res);
+    //   // console.log(this.selectedType);
+    //   this.selectedDir = res
+    //   if (this.selectedType!=0) {
+    //     if (res!=0) {
+    //       console.log(res);
+    //       this.controlsByType = this.controlsByPays.filter((c:any) => c.direction_id.libelle == res)
+    //       if (this.controlsByType.length > 0){
+    //         this.graph(this.controlsByType)
+    //       }else{
+    //       Swal.fire({
+    //         title: "Error!",
+    //         text: 'Aucune donnée dans cette direction',
+    //         icon: "error"
+    //       });
+    //     }
+    //     }else{
+    //       // this.controlsByPays = this.controls.filter((c:any) => c.type_controle_id.id == this.selectedType)
+    //       console.log(this.controlsByPays);
+    //       this.graph(this.controlsByPays)
+    //     }
+    //   }else{
+    //     this.controlsByType = this.controls.filter((c:any) => c.direction_id.libelle == this.selectedDir)
+    //     console.log(this.controlsByType);
+    //     if (this.controlsByType.length > 0) {
+    //       this.graph(this.controlsByPays)
+    //     }else{
+    //       Swal.fire({
+    //         title: "Error!",
+    //         text: 'Aucune donnée dans cette direction',
+    //         icon: "error"
+    //       });
+    //     }
+    //   }
+    // })
   }
 
   ngOnInit()
@@ -137,23 +244,43 @@ export class DashboardComponent {
     localStorage.removeItem('etat')
   }
 
-  graph(data: any)
+  graph(data: any, display: string)
   {
-    this.totalControls = data.length
-    this.totalValidated = data.filter((d:any) => d.validate === 'Validé').length;
-    this.totalNonValidated = data.filter((d:any) => d.validate === 'Non validé').length;
-    this.totalDone = data.filter((d:any) => d.etat === 'Fait').length;
-    this.totalNotDone = data.filter((d:any) => d.etat === 'Non fait').length;
-    this.totalApplicable = data.filter((d:any) => d.etat === 'Applicable').length;
-    this.totalNonApplicable = data.filter((d:any) => d.etat === 'Non applicable').length;
-    this.totalExhaustivite = data.filter((d:any) => d.exhaustivite === 'Exhaustivité').length;
-    this.totalNoExhaustivite = data.filter((d:any) => d.exhaustivite === 'Non exhaustivité').length;
+    if (data) {
+      this.totalControls = data.length
+      this.totalValidated = data.filter((d:any) => d.validate === 'Validé').length;
+      this.totalNonValidated = data.filter((d:any) => d.validate === 'Non validé').length;
+      this.totalDone = data.filter((d:any) => d.etat === 'Fait').length;
+      this.totalNotDone = data.filter((d:any) => d.etat === 'Non fait').length;
+      this.totalApplicable = data.filter((d:any) => d.etat === 'Applicable').length;
+      this.totalNonApplicable = data.filter((d:any) => d.etat === 'Non applicable').length;
+      this.totalExhaustivite = data.filter((d:any) => d.exhaustivite === 'Exhaustivité').length;
+      this.totalNoExhaustivite = data.filter((d:any) => d.exhaustivite === 'Non exhaustivité').length;
 
-    this.barChartData.datasets[0].data = [
-      this.totalValidated, this.totalNonValidated, this.totalDone, this.totalNotDone, this.totalApplicable, this.totalNonApplicable, this.totalExhaustivite, this.totalNoExhaustivite
-    ];
+      if (display=='nothing') {
+        this.barChartData.datasets[0].data = [
+          this.totalValidated, this.totalNonValidated, this.totalDone, this.totalNotDone, this.totalApplicable, this.totalNonApplicable, this.totalExhaustivite, this.totalNoExhaustivite
+        ];
+      }
+      if (display=='statut') {
+        this.barChartData.datasets[0].data = [
+          this.totalDone, this.totalNotDone, this.totalApplicable, this.totalNonApplicable
+        ];
+      }
+      if (display=='etat') {
+        this.barChartData.datasets[0].data = [
+          this.totalValidated, this.totalNonValidated
+        ];
+      }
+      if (display=='couv') {
+        this.barChartData.datasets[0].data = [
+          this.totalExhaustivite, this.totalNoExhaustivite
+        ];
+      }
 
-    this.barChartData = { ...this.barChartData };
+      this.barChartData = { ...this.barChartData };
+    }
+
   }
 
   getData()

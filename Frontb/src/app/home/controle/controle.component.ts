@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { TypeControle } from '../../_helpers/interfaces/data';
 import { TypeService } from '../../_helpers/services/all_methods/type.service';
 import { SearchCtrlPipe } from '../../_helpers/pipes/search-ctrl.pipe';
+import { UtilisateurService } from '../../_helpers/services/all_methods/utilisateur.service';
+import { DataService } from '../../_helpers/services/all_methods/data.service';
 
 
 @Component({
@@ -35,18 +37,23 @@ export class ControleComponent {
   services: Signal<Service[]> = signal([])
   activites: Signal<Activite[]> = signal([])
   users: Signal<Utilisateur[]> = signal([])
+  datas: Signal<Data[]> = signal([])
+
 
   controle!: FormGroup
   searchForm!: FormGroup
 
-  constructor(private fb: FormBuilder, private ctrl: ControleService, private type: TypeService)
+  constructor(private fb: FormBuilder, private ctrl: ControleService, private type: TypeService, private userService: UtilisateurService, private data: DataService)
   {
     this.controle = this.fb.group({
       nom_controle: this.fb.control(''),
       code: this.fb.control(''),
       objectif: this.fb.control(''),
       descriptif: this.fb.control(''),
-      type: this.fb.control(0)
+      type: this.fb.control(0),
+      periodicite: this.fb.control(0),
+      user_id: this.fb.control(0),
+      preuve: this.fb.control('')
     })
 
     this.searchForm = this.fb.group({
@@ -62,8 +69,17 @@ export class ControleComponent {
 
   ngOnInit()
   {
-    this.getControles()
     this.getTypes()
+    this.getUsers()
+    this.getData()
+  }
+
+  getData()
+  {
+    this.data.listResources().subscribe((res:any)=>{
+      this.datas = signal(res.controles);
+      console.log(res.controles)
+    })
   }
 
   getTypes()
@@ -74,72 +90,21 @@ export class ControleComponent {
     })
   }
 
-  getControles()
+  getUsers()
   {
-    this.ctrl.listResources().subscribe((r:any) => {
-      this.controles = signal(r.data)
-      this.archives = signal(r.archives)
-      console.log(r.data);
+    this.userService.listResources().subscribe((res:any) => {
+      this.users = signal(res.data)
+      // console.log(res.data);
     })
   }
 
-  addOrUpCtrl()
+  getControles()
   {
-    // console.log(this.controle.value);
-    if (this.btn == 'Ajouter') {
-      // console.log(this.controle.value);
-      this.ctrl.addResources(this.controle.value).subscribe((d:any)=>{
-        // console.log(d);
-        if (d.message) {
-          this.getControles()
-          this.controle.reset()
-          this.closeModal()
-          Swal.fire({
-            title: "Succes!",
-            text: d.message,
-            icon: "success"
-          });
-        }else if(d.error){
-          Swal.fire({
-            title: "Error!",
-            text: d.error,
-            icon: "error"
-          });
-        }
-      })
-    }else if(this.btn == 'Modifier'){
-      this.ctrl.updateResources(this.id, this.controle.value).subscribe((d:any)=>{
-        // console.log(d);
-        if (d.message) {
-          this.getControles()
-          this.controle.reset()
-          this.closeModal()
-          Swal.fire({
-            title: "Succes!",
-            text: d.message,
-            icon: "success"
-          });
-        }else if(d.error){
-          Swal.fire({
-            title: "Error!",
-            text: d.error,
-            icon: "error"
-          });
-        }
-      })
-    }else{
-      this.closeModal()
-    }
-  }
-
-  openModal()
-  {
-    let modal = document.getElementById('controle');
-    if (modal) {
-      this.titre = 'Nouveau controle'
-      this.btn = 'Ajouter'
-      modal.style.display = 'block';
-    }
+    // this.ctrl.listResources().subscribe((r:any) => {
+    //   this.controles = signal(r.data)
+    //   this.archives = signal(r.archives)
+    //   console.log(r.data);
+    // })
   }
 
   info(ctrl: any)
@@ -149,65 +114,18 @@ export class ControleComponent {
       this.titre = 'Information controle'
       this.btn = 'Fermer'
       this.controle.patchValue({
-        nom_controle: ctrl.nom_controle,
+        nom_controle: ctrl.controle,
         code: ctrl.code,
         objectif: ctrl.objectif,
         descriptif: ctrl.descriptif,
-        type: ctrl.type_controle_id
+        type: ctrl.type_controle_id.id,
+        user_id: ctrl.user_id.id,
+        periodicite: ctrl.periodicite,
+        preuve: ctrl.preuve
       })
       this.controle.disable()
       modal.style.display = 'block';
     }
-  }
-
-  editModal(ctrl: any)
-  {
-    let modal = document.getElementById('controle');
-    if (modal) {
-      this.titre = 'Modification controle'
-      this.btn = 'Modifier'
-      this.id = ctrl.id
-      this.controle.patchValue({
-        nom_controle: ctrl.nom_controle,
-        code: ctrl.code,
-        objectif: ctrl.objectif,
-        descriptif: ctrl.descriptif,
-        type: ctrl.type_controle_id
-      })
-      this.controle.enable()
-      modal.style.display = 'block';
-    }
-  }
-
-  deleteCtrl(id: number | null)
-  {
-    Swal.fire({
-      title: "Voulez-vous confirmer l'archivage ?",
-      showDenyButton: true,
-      confirmButtonText: "Archiver",
-      denyButtonText: `Annuler`
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.ctrl.deleteResource(id).subscribe((d:any) => {
-          if (d.message) {
-            this.getControles()
-            Swal.fire({
-              title: "Succes!",
-              text: d.message,
-              icon: "success"
-            });
-          }else if(d.error){
-            Swal.fire({
-              title: "Error!",
-              text: d.error,
-              icon: "error"
-            });
-          }
-        });
-      }else if(result.isDenied) {
-        Swal.fire("L'archivage a été annulée", "", "info");
-      }
-    });
   }
 
   restaureCtrl(id: number | null)

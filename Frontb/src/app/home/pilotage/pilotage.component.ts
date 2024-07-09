@@ -123,7 +123,11 @@ export class PilotageComponent implements AfterViewInit {
   )
   {
     this.Data = this.fb.group({
-      controle_id: this.fb.control(0),
+      controle: this.fb.control(''),
+      code: this.fb.control(''),
+      objectif: this.fb.control(''),
+      descriptif: this.fb.control(''),
+      type: this.fb.control(0),
       direction_id: this.fb.control(1),
       pole_id: this.fb.control(1),
       departement_id: this.fb.control(1),
@@ -320,7 +324,7 @@ export class PilotageComponent implements AfterViewInit {
       this.datas = signal(res.controles);
       this.archives = signal(res.archives);
       this.toExp = res.controles
-      console.log(this.toExp)
+      // console.log(this.toExp)
       // console.log(this.toExp[0].date_ajout);
     })
   }
@@ -364,11 +368,11 @@ export class PilotageComponent implements AfterViewInit {
 
   getControles()
   {
-    this.ctrl.listResources().subscribe((r:any) => {
-      this.controles = signal(r.data)
-      // this.ctrls = r.data
-      // console.log(r.data);
-    })
+    // this.ctrl.listResources().subscribe((r:any) => {
+    //   this.controles = signal(r.data)
+    //   // this.ctrls = r.data
+    //   // console.log(r.data);
+    // })
   }
 
   getTypes()
@@ -418,7 +422,11 @@ export class PilotageComponent implements AfterViewInit {
   {
     // console.log(this.Data.value);
     if (this.btn == 'Ajouter') {
-      this.formData.append('controle_id', this.Data.get('controle_id')?.value);
+      this.formData.append('controle', this.Data.get('controle')?.value);
+      this.formData.append('code', this.Data.get('code')?.value);
+      this.formData.append('descriptif', this.Data.get('descriptif')?.value);
+      this.formData.append('objectif', this.Data.get('objectif')?.value);
+      this.formData.append('type', this.Data.get('type')?.value);
       this.formData.append('periodicite', this.Data.get('periodicite')?.value);
       this.formData.append('exhaustivite', this.Data.get('exhaustivite')?.value);
       this.formData.append('preuve', this.Data.get('preuve')?.value);
@@ -458,7 +466,11 @@ export class PilotageComponent implements AfterViewInit {
         }
       })
     }else if(this.btn == 'Modifier'){
-      this.formData.append('controle_id', this.Data.get('controle_id')?.value);
+      this.formData.append('controle', this.Data.get('controle')?.value);
+      this.formData.append('code', this.Data.get('code')?.value);
+      this.formData.append('descriptif', this.Data.get('descriptif')?.value);
+      this.formData.append('objectif', this.Data.get('objectif')?.value);
+      this.formData.append('type', this.Data.get('type')?.value);
       this.formData.append('periodicite', this.Data.get('periodicite')?.value);
       this.formData.append('exhaustivite', this.Data.get('exhaustivite')?.value);
       this.formData.append('preuve', this.Data.get('preuve')?.value);
@@ -524,7 +536,11 @@ export class PilotageComponent implements AfterViewInit {
       modal.style.display = 'block';
       this.id = data.id
       this.Data.patchValue({
-        controle_id: data.controle_id.id,
+        controle: data.controle,
+        code: data.code,
+        descriptif: data.descriptif,
+        objectif: data.objectif,
+        type: data.type_controle_id,
         direction_id: data.direction_id.id,
         pole_id: data.pole_id.id,
         departement_id: data.departement_id.id,
@@ -557,7 +573,11 @@ export class PilotageComponent implements AfterViewInit {
         this.files = [];
       }
       this.Data.patchValue({
-        controle_id: data.controle_id.id,
+        controle: data.controle,
+        code: data.code,
+        descriptif: data.descriptif,
+        objectif: data.objectif,
+        type: data.type,
         direction_id: data.direction_id.id,
         pole_id: data.pole_id.id,
         departement_id: data.departement_id.id,
@@ -732,7 +752,7 @@ export class PilotageComponent implements AfterViewInit {
       { header: 'Pôle', key: 'pole', width: 20 },
       { header: 'Département', key: 'departement', width: 20 },
       { header: 'Service', key: 'service', width: 20 },
-      { header: 'Activité', key: 'activite', width: 20 },
+      { header: 'Activité/Domaine', key: 'activite', width: 20 },
       { header: 'Code', key: 'code', width: 15 },
       { header: 'Contrôle', key: 'controle', width: 30 },
       { header: 'Objectif', key: 'objectif', width: 30 },

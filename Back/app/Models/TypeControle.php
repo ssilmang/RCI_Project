@@ -12,9 +12,9 @@ class TypeControle extends Model
 
     protected $guarded = ['id'];
 
-    public function controle()
+    public function data()
     {
-        return $this->hasMany(Data::class);
+        return $this->hasMany(Controle::class);
     }
 
 }

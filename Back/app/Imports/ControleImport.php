@@ -4,9 +4,9 @@ namespace App\Imports;
 
 use App\Models\Controle;
 use Illuminate\Support\Facades\Hash;
-use Maatwebsite\Excel\Concerns\ToModel;
+// use Maatwebsite\Excel\Concerns\ToModel;
 
-class controleImport implements ToModel
+class ControleImport
 {
     /**
      * @param array $row
