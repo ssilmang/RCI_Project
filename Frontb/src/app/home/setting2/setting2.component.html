@@ -41,10 +41,12 @@
               {{departement.libelle}}
             </div>
 
+            @if (display2) {
             <div class="w-28 h-7 flex gap-2 justify-center items-center">
               <i (click)="editModal(departement)" class="cursor-pointer material-icons text-green-600">edit</i>
               <i (click)="deleteDepart(departement.id)" class="cursor-pointer material-icons text-red-600">delete</i>
             </div>
+          }
           </div>
         }
         @empty {
@@ -53,10 +55,12 @@
 
       </div>
 
+      @if (display2) {
       <div class="flex justify-end">
         <span (click)="openModal()" class="cursor-pointer text-[3rem] mr-6 w-[7%] h-[60%] bg-[#FF7900] flex justify-center items-center rounded-full text-white">
           +</span>
       </div>
+    }
 
     </div>
 
@@ -85,10 +89,12 @@
               <option [value]="departement.id">{{departement.libelle}}</option>
             }
           </select>
+          @if (display2) {
           <button (click)="openModal2()"
             class="bg-[#FF7900] w-[15%] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold h-9">
             + service
           </button>
+        }
         </div>
 
       </div>
@@ -97,10 +103,12 @@
         @for (service of services() | departement:selectedDepart; track service.id) {
         <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[12%] rounded-xl">
           <h1 class="text-xl w-[90%] font-semibold">{{service.libelle}}</h1>
+          @if (display2) {
           <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
             <i (click)="editModal2(service)" class="material-icons cursor-pointer text-green-400">edit</i>
             <i (click)="deleteServ(service.id)" class="material-icons cursor-pointer text-red-600">delete</i>
           </div>
+        }
         </div>
         }
         @empty {
@@ -121,10 +129,12 @@
                 <option [value]="service.id">{{service.libelle}}</option>
               }
             </select>
+            @if (display2) {
             <button (click)="openModal3()"
               class="bg-[#FF7900] w-[15%] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold h-9">
               <i class="fas fa-plus"></i> activité
             </button>
+          }
           </div>
 
         </div>
@@ -133,10 +143,12 @@
           @for (activite of activites() | service:selectedServ; track activite.id) {
             <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[12%] rounded-xl">
               <h1 class="text-xl w-[90%] font-semibold">{{activite.libelle}}</h1>
+              @if (display2) {
               <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
                 <i (click)="editModal3(activite)" class="material-icons cursor-pointer text-green-400">edit</i>
                 <i (click)="deleteAct(activite.id)" class="material-icons cursor-pointer text-red-600">delete</i>
               </div>
+            }
             </div>
           }
           @empty {

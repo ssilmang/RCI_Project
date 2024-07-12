@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Imports\ControleImport;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\DataResource;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -38,10 +40,15 @@ class ControleController extends Controller
     public function store(Request $request)
     {
         // return $request;
+
         try {
-            if (!$request->user_id || $request->user_id == null|| $request->user_id == 0) {
+            $user = Auth::user();
+        // return $user->id;
+        // return $request->user_id;
+
+            if ($request->user_id != $user->id) {
                 return response()->json([
-                  'error' => 'Veuillez choisir le porteur!'
+                  'error' => 'Le porteur choisi n\'est pas celui qui s\'est connecté !'
                 ]);
             }
             if (!$request->direction_id || $request->direction_id ==null || $request->direction_id == 0) {
@@ -133,8 +140,27 @@ class ControleController extends Controller
      */
     public function update(Request $request, $id){
       try {
+        $user = Auth::user();
+        // return $user;
+        // return $user->profil_id;
+        // return $user->pays_id;
+
         $pilotage = Controle::find($id);
-        // return $request;
+        $use = $pilotage->user_id;
+        $pays = User::find($use);
+        // return $pilotage;
+
+        if ($user->profil_id == 3 && $user->pays_id != $pays->pays_id) {
+            return response()->json([
+                'error' => 'Vous ne pouvez editer que les controles de votre pays !'
+            ]);
+        }
+        // return $pilotage->user_id;
+        if ($user->profil_id == 1 && $user->id != $pilotage->user_id) {
+            return response()->json([
+               'error' => 'Vous ne pouvez editer que vos controles !'
+            ]);
+        }
 
         if (!$pilotage) {
             return response()->json(['error' => 'Controle non trouvé!'], 404);
@@ -210,7 +236,21 @@ class ControleController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user();
+        // return $user;
+        // return $user->profil_id;
+        // return $user->pays_id;
+
         $pilotage = Controle::find($id);
+        $use = $pilotage->user_id;
+        $pays = User::find($use);
+        // return $pilotage;
+
+        if ($user->profil_id == 3 && $user->pays_id != $pays->pays_id) {
+            return response()->json([
+                'error' => 'Vous ne pouvez editer que les controles de votre pays !'
+            ]);
+        }
 
         if (!$pilotage) {
             return response()->json(['error' => 'Controle not found!'], 404);
@@ -243,7 +283,22 @@ class ControleController extends Controller
 
     public function validated($id)
     {
-        $pilotage =Controle::find($id);
+        $user = Auth::user();
+        // return $user;
+        // return $user->profil_id;
+        // return $user->pays_id;
+
+        $pilotage = Controle::find($id);
+        $use = $pilotage->user_id;
+        $pays = User::find($use);
+        // return $pilotage;
+
+        if ($user->profil_id == 3 && $user->pays_id != $pays->pays_id) {
+            return response()->json([
+                'error' => 'Vous ne pouvez valider que les controles de votre pays !'
+            ]);
+        }
+
         if ($pilotage) {
             $pilotage->validate = 'Validé';
             $pilotage->save();
@@ -262,7 +317,22 @@ class ControleController extends Controller
 
     public function invalidated($id)
     {
+        $user = Auth::user();
+        // return $user;
+        // return $user->profil_id;
+        // return $user->pays_id;
+
         $pilotage = Controle::find($id);
+        $use = $pilotage->user_id;
+        $pays = User::find($use);
+        // return $pilotage;
+
+        if ($user->profil_id == 3 && $user->pays_id != $pays->pays_id) {
+            return response()->json([
+                'error' => 'Vous ne pouvez invalider que les controles de votre pays !'
+            ]);
+        }
+
         if ($pilotage) {
             $pilotage->validate = 'Non validé';
             $pilotage->save();

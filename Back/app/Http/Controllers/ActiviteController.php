@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Activite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ActiviteController extends Controller
 {
@@ -21,6 +22,12 @@ class ActiviteController extends Controller
     public function store(Request $request)
     {
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation d\'ajouter une activité !'
+                ]);
+            } else {
             $p = Activite::where('libelle', $request->libelle)->first();
             if ($p) {
                 return response()->json([
@@ -48,7 +55,7 @@ class ActiviteController extends Controller
             return response()->json([
                 'message' => "L'activité a été créée avec succès!",
             ], 201);
-
+        }
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
@@ -62,7 +69,12 @@ class ActiviteController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation de modifier !'
+                ]);
+            } else {
             $activite = Activite::find($id);
 
             if (!$activite) {
@@ -99,7 +111,7 @@ class ActiviteController extends Controller
                 'message' => 'Activité mise à jour avec succès!',
                 'data' => $activite,
             ]);
-
+        }
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
@@ -112,6 +124,12 @@ class ActiviteController extends Controller
      */
     public function destroy(string $id)
     {
+        $user = Auth::user();
+        if ($user->profil_id != 2) {
+            return response()->json([
+                'error' => 'Vous n\'avez pas l\'autorisation de supprimer !'
+            ]);
+        } else {
         $activite = Activite::find($id);
 
         if (!$activite) {
@@ -121,6 +139,7 @@ class ActiviteController extends Controller
         $activite->delete();
 
         return response()->json(['message' => 'Activite supprimé avec succes!']);
+    }
     }
 
      public function restaurer($id)

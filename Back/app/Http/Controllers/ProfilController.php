@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Profil;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 // use App\Http\Controllers\Profil;
 
 class ProfilController extends Controller
@@ -30,6 +32,12 @@ class ProfilController extends Controller
     public function store(Request $request)
     {
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation d\'ajouter !'
+                ]);
+            } else {
             $p = Profil::where('libelle', $request->libelle)->first();
             if ($p) {
                 return response()->json([
@@ -47,31 +55,15 @@ class ProfilController extends Controller
                 'libelle' => $request->libelle,
             ]);
 
-
             return response()->json([
                 'message' => 'Profil créé avec succès!',
             ], 201);
+        }
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => 'Une erreur est survenue : ' . $th->getMessage(),
+                'error' => 'Une erreur est survenue lors de la création : ' . $th->getMessage(),
             ], 500);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -80,20 +72,26 @@ class ProfilController extends Controller
     public function update(Request $request, string $id)
     {
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation de modifier !'
+                ]);
+            } else {
             $profil = Profil::find($id);
 
             if (!$profil) {
                 return response()->json(['error' => 'Profil non trouvé!'], 404);
             }
 
-            if ($profil->libelle != $request->libelle) {
-                $p = Profil::where('libelle', $request->libelle)->first();
-                if ($p) {
-                    return response()->json([
-                        'error' => 'Cet profil existe déjà!',
-                    ]);
-                }
-            }
+            // if ($profil->libelle != $request->libelle) {
+            //     $p = Profil::where('libelle', $request->libelle)->first();
+            //     if ($p) {
+            //         return response()->json([
+            //             'error' => 'Cet profil existe déjà!',
+            //         ]);
+            //     }
+            // }
 
             if ($request->libelle == null) {
                 return response()->json([
@@ -101,7 +99,7 @@ class ProfilController extends Controller
                 ]);
             }
 
-            $risque->update([
+            $profil->update([
                 'libelle' => $request->libelle,
 
             ]);
@@ -110,10 +108,10 @@ class ProfilController extends Controller
                 'message' => 'Le profil est mise à jour avec succès!',
                 'data' => $profil,
             ]);
-
+        }
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => 'Une erreur est survenue : ' . $th->getMessage(),
+                'error' => 'Une erreur est survenue lors de la mise à jour : ' . $th->getMessage(),
             ], 500);
         }
     }
@@ -123,7 +121,12 @@ class ProfilController extends Controller
      */
     public function destroy(string $id)
     {
-       
+        $user = Auth::user();
+        if ($user->profil_id != 2) {
+            return response()->json([
+                'error' => 'Vous n\'avez pas l\'autorisation de supprimer !'
+            ]);
+        } else {
         $profil = Profil::find($id);
 
         if (!$profil ) {
@@ -132,8 +135,10 @@ class ProfilController extends Controller
 
         $$profil->delete();
 
-        return response()->json(['message' => 'profil supprimé avec succes!']);
+        return response()->json(['message' => 'Profil supprimé avec succes!']);
     }
+    }
+
     public function restaurer($id)
     {
         $profil = Profil::withTrashed()->find($id);

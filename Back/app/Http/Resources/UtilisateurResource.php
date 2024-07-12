@@ -24,6 +24,7 @@ class UtilisateurResource extends JsonResource
             'direction_id' => new DirectionResource($this->direction),
             'service_id' => new ServiceResource($this->service),
             'pays_id' => new ContryResource($this->pays),
+            'profil_id' => new ProfilResource($this->profil),
             // 'photo' => $this->photo,
         ];
     }

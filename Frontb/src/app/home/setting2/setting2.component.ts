@@ -25,6 +25,7 @@ import { ServicePipe } from '../../_helpers/pipes/service.pipe';
 export class Setting2Component {
 
   display: boolean = true;
+  display2: boolean = false;
   service: boolean = true
   activite: boolean = false
   button!: string
@@ -124,6 +125,14 @@ export class Setting2Component {
     this.getPoles()
     this.getActivites()
     this.getServices()
+
+    const user = localStorage.getItem('user');
+    const userObj = JSON.parse(user!);
+    const profil = userObj.profil_id
+    // console.log(profil);
+    if (profil == 2) {
+      this.display2 = true
+    }
   }
 
   getPoles()

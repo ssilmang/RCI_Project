@@ -35,7 +35,8 @@
 
     <div [formGroup]="select" class="w-full h-[15%] shadow-md  overflow-x-auto rounded gap-10 flex p-1">
 
-      <div class="flex gap-4">
+      @if (display2) {
+       <div class="flex gap-4">
         <label class="text-xl">Pays</label>
         <select formControlName="pays_id"
           class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30 flex text-center">
@@ -44,7 +45,8 @@
             <option [value]="pays.id">{{pays.libelle}}</option>
           }
         </select>
-      </div>
+       </div>
+      }
 
       <div class="flex gap-4">
         <label class="text-xl">Type</label>
@@ -57,6 +59,7 @@
         </select>
       </div>
 
+      @if (display2) {
       <div class="flex gap-4">
         <label class="text-xl">Direction</label>
         <select formControlName="direction_id"
@@ -111,6 +114,7 @@
           }
         </select>
       </div>
+     }
 
       <div class="flex gap-4">
         <label class="text-xl">Controle</label>
@@ -144,6 +148,7 @@
         </select>
       </div>
 
+      @if (display2) {
       <div class="flex gap-4">
         <label class="text-xl">Porteur</label>
         <select formControlName="user_id"
@@ -154,6 +159,7 @@
           }
         </select>
       </div>
+     }
 
       <div class="flex gap-4">
         <label class="text-xl">Periodicite</label>
@@ -355,6 +361,7 @@
                         <i (click)="editModal(data)" class="material-icons cursor-pointer text-yellow-400">edit</i>
                         <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'edit'">editer le control</div>
                       </div>
+                      @if (display2) {
                       <div class="icon-wrapper" (mouseenter)="setHoveredIcon(data.id, 'archive')" (mouseleave)="clearHoveredIcon(data.id)">
                         <i (click)="deleteD(data.id)" class="material-icons cursor-pointer text-orange-600">archive</i>
                         <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'archive'">Archiver le control</div>
@@ -369,6 +376,7 @@
                         <i (click)="invalidate(data.id)" class="material-icons cursor-pointer text-red-600">cancel</i>
                         <div class="tooltip" *ngIf="hoveredIcon[data.id] === 'cancel'">dévalider le control</div>
                       </div>
+                    }
                     </div>
                   </td>
                 </tr>

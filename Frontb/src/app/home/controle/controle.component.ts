@@ -72,6 +72,7 @@ export class ControleComponent {
     this.getTypes()
     this.getUsers()
     this.getData()
+
   }
 
   getData()

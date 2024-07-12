@@ -21,9 +21,11 @@ export class ProfilComponent {
   titre!: string
   btn!: string
   id!: number | null
+  display: boolean = false
+
   profilForm!:FormGroup;
   // profils: Signal<Profil[]> = signal([])
- profils: Profil[] = [];
+  profils: Profil[] = [];
   // archives: Signal<Contry[]> = signal([])
 
   constructor(
@@ -44,7 +46,7 @@ export class ProfilComponent {
       modal.style.display = 'block';
     }
   }
-  
+
   closeModal()
   {
     let modal = document.getElementById('land');
@@ -54,11 +56,19 @@ export class ProfilComponent {
     }
   }
 
- 
+
 
   ngOnInit()
   {
     this.getProfil()
+
+    const user = localStorage.getItem('user');
+    const userObj = JSON.parse(user!);
+    const profil = userObj.profil_id
+    // console.log(profil);
+    if (profil == 2) {
+      this.display = true
+    }
   }
 
   getProfil() {
@@ -73,9 +83,6 @@ export class ProfilComponent {
     );
   }
 
-  
-
-  
   addOrUpLand()
   {
     if (this.btn == 'Ajouter') {
@@ -100,7 +107,7 @@ export class ProfilComponent {
       })
     }else if(this.btn == 'Modifier'){
       this.profilService.updateResources(this.id, this.profilForm.value).subscribe((d:any)=>{
-       
+
         if (d.message) {
           this.getProfil()
           this.profilForm.reset()
@@ -176,4 +183,4 @@ export class ProfilComponent {
 
 
 
-  
+

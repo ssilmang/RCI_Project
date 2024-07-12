@@ -3,12 +3,15 @@ import { Component, Signal, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { Contry, Direction, Service } from '../_helpers/interfaces/data';
+import { Contry, Direction, Profil, Service } from '../_helpers/interfaces/data';
 import { DirectionService } from '../_helpers/services/all_methods/direction.service';
 import { ServiceService } from '../_helpers/services/all_methods/service.service';
 import { UtilisateurService } from '../_helpers/services/all_methods/utilisateur.service';
 import Swal from 'sweetalert2';
 import { ContryService } from '../_helpers/services/all_methods/contry.service';
+import { ProfilService } from '../_helpers/services/profil.service';
+import { AuthService } from '../_helpers/services/auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -22,7 +25,7 @@ export class LoginComponent {
   services: Signal<Service[]> = signal([])
   directions: Signal<Direction[]> = signal([])
   contries: Signal<Contry[]> = signal([])
-
+  profils: Signal<Profil[]> = signal([])
 
   utilisateur!: FormGroup
   loginForm!: FormGroup;
@@ -35,11 +38,13 @@ export class LoginComponent {
     private userService: UtilisateurService,
     private servService: ServiceService,
     private dirService: DirectionService,
-    private contryService: ContryService
+    private contryService: ContryService,
+    private profilService: ProfilService,
+    private authService: AuthService
   )
   {
     this.loginForm = fb.group({
-      matricule: ['Stg_ndao80021'],
+      email: ['ndaoelhadji973@gmail.com'],
       password: ['elzondao']
     })
 
@@ -53,6 +58,7 @@ export class LoginComponent {
       direction_id: this.fb.control(0),
       service_id: this.fb.control(0),
       pays_id: this.fb.control(0),
+      profil_id: this.fb.control(0),
     });
 
     // this.resetForm = fb.group({
@@ -65,13 +71,26 @@ export class LoginComponent {
     this.getServices()
     this.getDirections()
     this.getContries()
+    this.getProfil()
+  }
+
+  getProfil() {
+    this.profilService.listResources().subscribe(
+      (res: any) => {
+        this.profils = signal(res)
+        // console.log(res);
+      },
+      (error: any) => {
+        console.error('Error fetching profils:', error);
+      }
+    );
   }
 
   getContries()
   {
     this.contryService.listResources().subscribe((res:any) => {
       this.contries = signal(res.data)
-      console.log(res);
+      // console.log(res);
     })
   }
 
@@ -92,33 +111,29 @@ export class LoginComponent {
 
   login()
   {
-    this.router.navigateByUrl('/accueil')
-    // const data = this.loginForm.value;
+    // this.router.navigateByUrl('/accueil')
+    const data = this.loginForm.value;
     // console.log(data);
-    // let user = { 'name': 'Elzo Ndao', 'role': 'admin' }
-    // localStorage.setItem('user', JSON.stringify(user));
-    // this.auth.setAccessToken('token');
-    // this.auth.login(data).subscribe((d:any) => {
-    //   // console.log(res);
-    //   if (d.message) {
-    //     this.router.navigateByUrl('/dashboard/accueil');
-    //     localStorage.setItem('user', JSON.stringify(d.user));
-    //     localStorage.setItem('token', JSON.stringify(d.token));
-    //     Swal.fire({
-    //       title: "Succes!",
-    //       text: d.message + d.user.nom_complet +' !',
-    //       icon: "success"
-    //     });
-    //   }else if(d.error){
-    //     // console.log(d.error);
-    //     this.router.navigateByUrl('/login');
-    //     Swal.fire({
-    //       title: "Error!",
-    //       text: d.error,
-    //       icon: "error"
-    //     });
-    //   }
-    // })
+    this.authService.login(data.email, data.password).subscribe(
+      data => {
+        // console.log('Login successful', data);
+        this.router.navigateByUrl('/accueil/pilotage');
+        Swal.fire({
+          title: "Succes!",
+          text: 'Bienvenue ' + data.user.nom_complet + ' !',
+          icon: "success"
+        });
+      },
+      error => {
+        console.error('Login failed', error);
+         Swal.fire({
+          title: "error!",
+          text: 'La connexion a échouée !',
+          icon: "error"
+        });
+      }
+    );
+
   }
 
   addUser()

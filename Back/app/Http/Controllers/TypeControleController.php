@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TypeControle;
+use Illuminate\Support\Facades\Auth;
 
 class TypeControleController extends Controller
 {
@@ -25,6 +26,12 @@ class TypeControleController extends Controller
     {
 
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation d\'ajouter !'
+                ]);
+            } else {
             $p = TypeControle::where('libelle', $request->libelle)->first();
             if ($p) {
                 return response()->json([
@@ -45,7 +52,7 @@ class TypeControleController extends Controller
             return response()->json([
                 'message' => "Le type de controle a été crée avec succès!",
             ], 201);
-
+        }
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
@@ -59,6 +66,12 @@ class TypeControleController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation de modifier !'
+                ]);
+            } else {
             $type_controle = TypeControle::find($id);
 
             if (!$type_controle) {
@@ -88,7 +101,7 @@ class TypeControleController extends Controller
                 'message' => 'Le type de controle est mise à jour avec succès!',
                 'data' => $type_controle,
             ]);
-
+        }
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
@@ -101,12 +114,19 @@ class TypeControleController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user();
+        if ($user->profil_id != 2) {
+            return response()->json([
+                'error' => 'Vous n\'avez pas l\'autorisation de supprimer !'
+            ]);
+        } else {
         $type_controle = TypeControle::find($id);
         if (!$type_controle) {
             return response()->json(['error' => 'type_controle non trouvé!'], 404);
         }
         $type_controle->delete();
         return response()->json(['message' => 'type_controle supprimé avec succes!']);
+    }
     }
 
     public function restaurer($id)

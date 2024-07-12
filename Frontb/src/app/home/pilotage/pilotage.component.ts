@@ -71,6 +71,7 @@ export class PilotageComponent implements AfterViewInit {
   selectedType: number = 0
   selectedContry: number = 0
   selectedYear: number = 0
+  display2: boolean = false
 
   fileToUpload: File | null = null;
 
@@ -240,10 +241,21 @@ export class PilotageComponent implements AfterViewInit {
       this.selectedYear = res
     })
 
+    // console.log(this.toExp)
+
   }
 
   ngOnInit() {
-    this.getData()
+    const user = localStorage.getItem('user');
+    const userObj = JSON.parse(user!);
+    const profil = userObj.profil_id
+    // console.log(profil);
+    if (profil != 1) {
+      this.display2 = true
+      this.getData()
+    }else{
+      this.getData2()
+    }
     this.getControles()
     this.getDepart()
     this.getDirections()
@@ -300,6 +312,7 @@ export class PilotageComponent implements AfterViewInit {
         })
       })
     }
+
   }
 
   getContries()
@@ -321,10 +334,23 @@ export class PilotageComponent implements AfterViewInit {
   getData()
   {
     this.data.listResources().subscribe((res:any)=>{
+      this.toExp = res.controles
       this.datas = signal(res.controles);
       this.archives = signal(res.archives);
-      this.toExp = res.controles
-      // console.log(this.toExp)
+      // console.log(this.toExp[0].date_ajout);
+    })
+  }
+
+  getData2()
+  {
+    this.data.listResources().subscribe((res:any)=>{
+      // console.log(res.controles);
+      this.toExp = res.controles.filter((res:any) => res.user_id.profil_id.id == 1)
+      // console.log(this.toExp);
+      const arch = res.archives.filter((res:any) => res.user_id.profil_id.id == 1)
+
+      this.datas = signal(this.toExp);
+      this.archives = signal(arch);
       // console.log(this.toExp[0].date_ajout);
     })
   }
@@ -540,7 +566,7 @@ export class PilotageComponent implements AfterViewInit {
         code: data.code,
         descriptif: data.descriptif,
         objectif: data.objectif,
-        type: data.type_controle_id,
+        type: data.type_controle_id.id,
         direction_id: data.direction_id.id,
         pole_id: data.pole_id.id,
         departement_id: data.departement_id.id,
@@ -834,7 +860,7 @@ export class PilotageComponent implements AfterViewInit {
   uploadFile(file: File) {
     this.importService.uploadFile(file).pipe(
       catchError((error: any) => {
-        console.error('Erreur lors de l\'envoi du fichier', error); 
+        console.error('Erreur lors de l\'envoi du fichier', error);
         let errorMessage = 'Erreur inconnue';
         if (error.error instanceof ErrorEvent) {
           // Erreur côté client
@@ -843,9 +869,9 @@ export class PilotageComponent implements AfterViewInit {
           // Erreur côté serveur
           errorMessage = `Erreur HTTP : ${error.status}\nMessage : ${error.message}`;
         }
-        
+
         return throwError(errorMessage);
-       
+
       })
     ).subscribe(data => {
       console.log('Fichier envoyé avec succès', data);

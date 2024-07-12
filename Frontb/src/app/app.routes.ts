@@ -12,25 +12,26 @@ import { RisqueComponent } from './home/risque/risque.component';
 import { PaysComponent } from './home/pays/pays.component';
 import { TypeControleComponent } from './home/type-controle/type-controle.component';
 import { ProfilComponent } from './home/profil/profil.component';
+import { logoutGuard } from './_helpers/guards/logout.guard';
+import { authGuard } from './_helpers/guards/auth.guard';
 
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'accueil', component: HomeComponent,
+  { path: '', component: LoginComponent, canActivate: [logoutGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [logoutGuard] },
+  { path: 'accueil', component: HomeComponent, canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'pilotage', component: PilotageComponent },
       { path: 'parametrage1', component: Setting1Component },
       { path: 'parametrage2', component: Setting2Component },
-      { path: 'controles', component: ControleComponent },
-      { path: 'risques', component: RisqueComponent },
       { path: 'controle', component: ControleComponent },
-      { path: 'utilisateurs', component: UtilisateurComponent },
+      { path: 'risque', component: RisqueComponent },
+      { path: 'utilisateur', component: UtilisateurComponent },
       { path: 'pays', component: PaysComponent },
       { path: 'typecontrole', component: TypeControleComponent  },
-      { path: 'profils', component: ProfilComponent  },
+      { path: 'profil', component: ProfilComponent  },
 
 
 

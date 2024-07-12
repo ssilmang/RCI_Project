@@ -30,5 +30,5 @@ export class ContryService {
   updateResources(id: number|null, data: any) {
     return this.http.put(this.apiUrl + this.uri.update + id, data);
   }
-  
+
 }

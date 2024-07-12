@@ -45,9 +45,9 @@
 
         <form [formGroup]="loginForm">
           <div class="mb-4 flex flex-col gap-2">
-            <label class="text-gray-800">Matricule : <span class="text-red-500">*</span></label>
-            <input type="text" formControlName="matricule"
-              class="form-input rounded-lg w-full h-10 p-1 ring-1 ring-gray-200 outline-none" placeholder="Identifiant">
+            <label class="text-gray-800">Email : <span class="text-red-500">*</span></label>
+            <input type="email" formControlName="email"
+              class="form-input rounded-lg w-full h-10 p-1 ring-1 ring-gray-200 outline-none" placeholder="email">
           </div>
           <div class="mb-4 flex flex-col gap-2">
             <div class="flex justify-between">
@@ -59,7 +59,7 @@
           <button (click)="login()"
             class="bg-[#FF7900] flex gap-2 justify-center items-center text-white font-semibold py-2 px-4 rounded w-full"
             type="submit">
-            <i class="material-icons cursor-pointe">logout</i> <span class="text-2xl">Connexion</span>
+            <i class="material-icons text-xl mt-1 cursor-pointe">logout</i> <span class="text-xl">Connexion</span>
           </button>
         </form>
 
@@ -225,11 +225,11 @@
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profil</label>
-              <select formControlName="pays_id"
+              <select formControlName="profil_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                 <option value=0>choisir un profil</option>
-                @for (pays of contries(); track pays.id) {
-                <option [value]="pays.id">{{pays.libelle}}</option>
+                @for (profil of profils(); track profil.id) {
+                <option [value]="profil.id">{{profil.libelle}}</option>
                 }
               </select>
             </div>

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AuthService } from '../_helpers/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -22,12 +23,18 @@ export class HomeComponent {
   name: string = ''
   img: string = ''
   hoveredIcon: string | null = null;
+  nomComplet!: string
+  profil!: string
 
   // image!: any
 
   // userForm!: FormGroup
 
-  constructor(private fb: FormBuilder, private router: Router){
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ){
 
     const currentDate = new Date();
     const dayOfMonth = currentDate.getDate();
@@ -52,13 +59,18 @@ export class HomeComponent {
 
   ngOnInit()
   {
-    // this.crud.getDatas().subscribe((d:any)=>{
-    //   this.data = d;
-    // })
-    // this.scheduleEmailSending();
-    // Définir un intervalle pour exécuter la fonction toutes les 24 heures
-    // setInterval(this.scheduleEmailSending, 24 * 60 * 60 * 1000);
-    // setInterval(() => this.scheduleEmailSending(), 5000);
+    const user = localStorage.getItem('user');
+    const userObj = JSON.parse(user!);
+    this.nomComplet = userObj.nom_complet;
+    const profil = userObj.profil_id
+    if (profil == 1) {
+      this.profil = 'Porteur'
+    }else if (profil == 2) {
+      this.profil = 'Super_admin'
+    }else if(profil == 3) {
+      this.profil = 'Admin_local'
+    }
+    // console.log(userObj);
   }
 
   recupUser()
@@ -142,13 +154,8 @@ export class HomeComponent {
 
   logout()
   {
+    this.authService.logout();
     this.router.navigateByUrl('/login')
-    // Swal.fire({
-    //   title: "Succes!",
-    //   text: "Vous avez été déconnecté. A bientot !",
-    //   icon: "success"
-    // });
-    localStorage.clear();
   }
 
 }

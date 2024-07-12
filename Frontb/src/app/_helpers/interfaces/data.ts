@@ -32,9 +32,9 @@ export interface Utilisateur {
   email: string,
   password: string,
   direction_id: number,
-  service_id: number
+  service_id: number,
+  profil_id: number | null
 }
-
 
 export interface Direction {
   id: number | null,
@@ -91,8 +91,6 @@ export interface TypeControle {
   libelle: string,
 }
 
-
-
 export interface Type {
   id: number | null,
   libelle: string
@@ -102,7 +100,7 @@ export interface Pays {
   id: number | null,
   libelle: string
 }
+
 export interface Profil extends Pays {
-  
 }
 

@@ -47,6 +47,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Contry::class);
     }
 
+    public function profil()
+    {
+        return $this->belongsTo(Profil::class);
+    }
+
     public function data()
     {
         return $this->hasMany(Controle::class);

@@ -9,7 +9,7 @@ export class ProfilPipe implements PipeTransform {
   transform(arrayData : any [], value : number|null): any [] {
     if(value !=0 || value ==null){
       return arrayData =  arrayData.filter((data :any) =>
-        data.user_id.profil_id.id == value
+        data.profil_id.id == value
       )
     }else{
       return arrayData;

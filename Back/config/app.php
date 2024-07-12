@@ -150,6 +150,7 @@ return [
         Illuminate\Filesystem\FilesystemServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
+        App\Providers\AuthServiceProvider::class
         // Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 

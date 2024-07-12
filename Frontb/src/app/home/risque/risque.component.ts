@@ -21,6 +21,7 @@ export class RisqueComponent {
   id!: number | null
   risk!: boolean
   archive!: boolean
+  display: boolean = false
 
   risque!: FormGroup
 
@@ -38,6 +39,14 @@ export class RisqueComponent {
   {
     this.selectRisk()
     this.getRisques()
+
+    const user = localStorage.getItem('user');
+    const userObj = JSON.parse(user!);
+    const profil = userObj.profil_id
+    // console.log(profil);
+    if (profil == 2) {
+      this.display = true
+    }
   }
 
   getRisques()

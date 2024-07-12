@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Direction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DirectionController extends Controller
 {
@@ -28,6 +29,12 @@ class DirectionController extends Controller
      */
     public function store(Request $request){
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation d\'ajouter !'
+                ]);
+            } else {
             $p = Direction::where('libelle', $request->libelle)->first();
             if ($p) {
                 return response()->json([
@@ -48,6 +55,7 @@ class DirectionController extends Controller
             return response()->json([
                 'message' => 'Direction créée avec succès!',
             ], 201);
+        }
         } catch (\Throwable $th) {
 
             return response()->json([
@@ -63,6 +71,12 @@ class DirectionController extends Controller
     {
 
     try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation de modifier !'
+                ]);
+            } else {
 
         $direction = Direction::find($id);
 
@@ -74,7 +88,7 @@ class DirectionController extends Controller
                 ]);
             }
         }
-        
+
         if (!$direction) {
             return response()->json(['error' => 'Direction non trouvée'], 404);
         }
@@ -92,6 +106,7 @@ class DirectionController extends Controller
         return response()->json([
             'message' => 'Direction mise à jour avec succès!',
         ], 200);
+    }
     } catch (\Throwable $th) {
 
         return response()->json([
@@ -105,6 +120,12 @@ class DirectionController extends Controller
      */
     public function destroy(string $id)
     {
+        $user = Auth::user();
+        if ($user->profil_id != 2) {
+            return response()->json([
+                'error' => 'Vous n\'avez pas l\'autorisation de supprimer !'
+            ]);
+        } else {
         $direction = Direction::find($id);
 
         if (!$direction) {
@@ -115,6 +136,7 @@ class DirectionController extends Controller
 
 
         return response()->json(['message' => 'Direction deleted successfully']);
+    }
     }
 
     public function restaurer($id)
@@ -138,9 +160,4 @@ class DirectionController extends Controller
         return response()->json(['message' => 'Direction supprimé avec success']);
     }
 
-        //xsrycvbn,lkmjlhkgfdsq<zsedrftgyhujiokplmkjhgfcx//
-
-    }
-
-
-
+}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Departement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DepartementController extends Controller
 {
@@ -21,6 +22,12 @@ class DepartementController extends Controller
     public function store(Request $request)
     {
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation d\'ajouter !'
+                ]);
+            } else {
             $p = Departement::where('libelle', $request->libelle)->first();
             if ($p) {
                 return response()->json([
@@ -56,6 +63,7 @@ class DepartementController extends Controller
             return response()->json([
                 'message' => 'Département créé avec succès!',
             ], 201);
+        }
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
@@ -69,7 +77,12 @@ class DepartementController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation de modifier !'
+                ]);
+            } else {
             $departement = Departement::find($id);
 
             if (!$departement) {
@@ -114,6 +127,7 @@ class DepartementController extends Controller
             return response()->json([
                 'message' => 'Département mis à jour avec succès!',
             ], 200);
+        }
         } catch (\Throwable $th) {
 
             return response()->json([
@@ -127,6 +141,12 @@ class DepartementController extends Controller
      */
     public function destroy(string $id)
     {
+        $user = Auth::user();
+        if ($user->profil_id != 2) {
+            return response()->json([
+                'error' => 'Vous n\'avez pas l\'autorisation de supprimer !'
+            ]);
+        } else {
         $departement = Departement::find($id);
 
         if (!$departement) {
@@ -137,6 +157,7 @@ class DepartementController extends Controller
 
 
         return response()->json(['message' => 'Departement supprimer avec succes']);
+    }
     }
 
     public function restaurer($id)

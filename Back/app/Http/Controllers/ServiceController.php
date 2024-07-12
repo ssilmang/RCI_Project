@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
@@ -21,6 +22,12 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation d\'ajouter !'
+                ]);
+            } else {
             $p = Service::where('libelle', $request->libelle)->first();
             if ($p) {
                 return response()->json([
@@ -48,6 +55,7 @@ class ServiceController extends Controller
             return response()->json([
                 'message' => 'Service créé avec succès!',
             ], 201);
+        }
         } catch (\Throwable $th) {
 
             return response()->json([
@@ -61,7 +69,12 @@ class ServiceController extends Controller
      */
     public function update(Request $request, string $id){
         try {
-
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation de modifier !'
+                ]);
+            } else {
             $service = Service::find($id);
 
             if (!$service) {
@@ -97,7 +110,7 @@ class ServiceController extends Controller
             return response()->json([
                 'message' => 'Service mis à jour avec succès!',
             ], 200);
-
+        }
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
@@ -110,6 +123,12 @@ class ServiceController extends Controller
      */
     public function destroy(string $id)
     {
+        $user = Auth::user();
+        if ($user->profil_id != 2) {
+            return response()->json([
+                'error' => 'Vous n\'avez pas l\'autorisation de supprimer !'
+            ]);
+        } else {
         $service = Service::find($id);
 
         if (!$service) {
@@ -119,6 +138,7 @@ class ServiceController extends Controller
         $service->delete();
 
         return response()->json(['message' => 'Service supprimé avec success!']);
+    }
     }
 
     public function restaurer($id)
@@ -140,4 +160,5 @@ class ServiceController extends Controller
             ], 404);
         }
     }
+
 }

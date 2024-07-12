@@ -8,5 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Profil extends Model
 {
     use HasFactory;
-    protected $fillable = ['libelle'];
+    protected $guarded = ['id'];
+
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
+    
 }

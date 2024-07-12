@@ -21,6 +21,7 @@ export class TypeControleComponent {
   id!: number | null
   typ!: boolean
   archive!: boolean
+  display: boolean = false
 
   typeform!: FormGroup
 
@@ -38,6 +39,14 @@ export class TypeControleComponent {
   {
     this.selectType()
     this.getTypes()
+
+    const user = localStorage.getItem('user');
+    const userObj = JSON.parse(user!);
+    const profil = userObj.profil_id
+    // console.log(profil);
+    if (profil == 2) {
+      this.display = true
+    }
   }
 
   getTypes()
@@ -45,7 +54,7 @@ export class TypeControleComponent {
     this.type.listResources().subscribe((r:any) => {
       this.types = signal(r.types)
       this.archives = signal(r.archives)
-      console.log(r);
+      // console.log(r);
     })
   }
 
