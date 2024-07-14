@@ -15,13 +15,13 @@
           exporter vers excel
         </button>
 
-        <!-- <div class="file-upload-wrapper">
-          <input #fileInput type="file" (change)="handleFileInput($event)" class="file-input"/>
-          <button (click)="triggerFileInput()"
-                  class="upload-button bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
-            importer fichier excel
-          </button>
-        </div> -->
+        <!-- import.component.html -->
+
+<button type="button" (click)="fileInput.click()"
+class="bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">
+ Import</button>
+<input #fileInput type="file" style="display: none" (change)="onFileSelected($event)">
+
 
         <button (click)="openModal()"
           class="bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10">

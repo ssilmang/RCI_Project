@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -9,8 +9,7 @@ import { catchError } from 'rxjs/operators';
 export class ImportService {
 
  
-  private apiUrl = 'http://127.0.0.1:8000/api/import';
-
+  private apiUrl = 'http://127.0.0.1:8000/api/import'; // URL de votre API Laravel pour l'importation
 
   constructor(private http: HttpClient) { }
 
@@ -18,10 +17,8 @@ export class ImportService {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
 
-    const headers = new HttpHeaders();
-
-    return this.http.post(this.apiUrl, formData, { headers }).pipe(
-      catchError((error: any) => {
+    return this.http.post(this.apiUrl, formData).pipe(
+      catchError((error: HttpErrorResponse) => {
         let errorMessage = 'Erreur inconnue';
         if (error.error instanceof ErrorEvent) {
           // Erreur côté client
@@ -35,4 +32,7 @@ export class ImportService {
       })
     );
   }
+
+
+  
 }

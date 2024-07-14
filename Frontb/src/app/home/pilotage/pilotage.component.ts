@@ -401,10 +401,10 @@ export class PilotageComponent implements AfterViewInit {
   }
 
   onFileSelected(event: any) {
-    // const file: File = event.target.files[0];
-    // if (file) {
-    //   this.selectedFile = file;
-    // }
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
     const files: FileList = event.target.files;
     // console.log(files);
     if (files.length > 0) {
@@ -797,39 +797,26 @@ export class PilotageComponent implements AfterViewInit {
   }
 
 
-  handleFileInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      this.uploadFile(file);
-    }
-  }
+  // onFileSelected(event: any): void {
+  //   this.selectedFile = event.target.files[0] as File;
+  // }
 
-  triggerFileInput() {
-    if (this.fileInput) {
-      this.fileInput.nativeElement.click();
+  onUpload(): void {
+    if (this.selectedFile) {
+      this.importService.uploadFile(this.selectedFile)
+        .subscribe(
+          response => {
+            console.log('Fichier importé avec succès :', response);
+            // Gérer la réponse de succès ici
+          },
+          error => {
+            console.error('Erreur lors de l\'importation du fichier :', error);
+            // Gérer l'erreur ici
+          }
+        );
+    } else {
+      console.error('Aucun fichier sélectionné.');
     }
-  }
-
-  uploadFile(file: File) {
-    this.importService.uploadFile(file).pipe(
-      catchError((error: any) => {
-        console.error('Erreur lors de l\'envoi du fichier', error); 
-        let errorMessage = 'Erreur inconnue';
-        if (error.error instanceof ErrorEvent) {
-          // Erreur côté client
-          errorMessage = `Erreur : ${error.error.message}`;
-        } else {
-          // Erreur côté serveur
-          errorMessage = `Erreur HTTP : ${error.status}\nMessage : ${error.message}`;
-        }
-        
-        return throwError(errorMessage);
-       
-      })
-    ).subscribe(data => {
-      console.log('Fichier envoyé avec succès', data);
-    });
   }
 
 }

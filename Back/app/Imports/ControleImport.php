@@ -29,11 +29,15 @@ class ControleImport implements ToModel,WithHeadingRow
             'user_id' => $row['Porteur'],
             'periodicite' => $row['Périodicité'],
             'couverture' => $row['Couverture'],
-            'preuve_demandee' => $row['Preuve demandée'],
-            'fichier' => $row['Fichier preuve'],
-            'commentaire' => $row['Commentaire'],
+            'preuve_demandee' => $row['Preuve'],
+             'Type_Controle' => $row['Type controle'],
             'statut' => $row['Statut'],
             'etat' => $row['Etat'],
+            'code' => $row['Code'],
+            'controle' => $row['Controle'],
+            'commentaire' => $row['Commentaire'],
+
+
             'date_ajout' => now()
         ]);
      
