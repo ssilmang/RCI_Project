@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 25 juin 2024 à 18:04
+-- Généré le : jeu. 18 juil. 2024 à 10:45
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -83,7 +83,6 @@ CREATE TABLE `controles` (
   `direction_id` bigint(20) UNSIGNED NOT NULL,
   `risque_id` bigint(20) UNSIGNED NOT NULL,
   `pole_id` bigint(20) UNSIGNED NOT NULL,
-  `data_id` bigint(20) UNSIGNED NOT NULL,
   `etat` varchar(255) DEFAULT NULL,
   `periodicite` varchar(255) NOT NULL,
   `exhaustivite` varchar(255) NOT NULL,
@@ -95,22 +94,23 @@ CREATE TABLE `controles` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `fichier` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `controle` varchar(255) DEFAULT NULL,
+  `code` varchar(255) DEFAULT NULL,
+  `objectif` varchar(255) DEFAULT NULL,
+  `descriptif` text DEFAULT NULL,
+  `type_controle_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `controles`
 --
 
-INSERT INTO `controles` (`id`, `user_id`, `activite_id`, `service_id`, `departement_id`, `direction_id`, `risque_id`, `pole_id`, `data_id`, `etat`, `periodicite`, `exhaustivite`, `preuve`, `commentaire`, `date_ajout`, `archived_at`, `validate`, `deleted_at`, `fichier`, `created_at`, `updated_at`) VALUES
-(4, 1, 1, 1, 1, 1, 1, 1, 1, 'Applicable', 'saisir la périodicité', 'Exhaustivité', 'P1', 'C1', '2025-06-25 11:43:37', NULL, 'Non validé', NULL, '[\"fichiers\\/9qwIDXCEr63Bt089ovR9AELWcgYobviPt5kG9Shu.jpg\",\"fichiers\\/7loYrVdIV5U0oygAYuFIolfthNkRqQTqPG0kLMux.xlsx\",\"fichiers\\/H9NS7kvPjc1kKr4J3QmKoT245z2hYarZFn1oe7al.xlsx\",\"fichiers\\/G4sZ5GKs6Wgcks9D75k2t88cuV6bHfZvjQbHCwfP.xlsx\"]', '2024-06-25 11:43:37', '2024-06-25 12:09:10'),
-(5, 2, 1, 1, 1, 1, 1, 1, 2, 'Applicable', 'annuelle', 'Exhaustivité', 'P1', 'C1', '2024-06-25 12:15:19', NULL, 'Non validé', NULL, '[\"fichiers\\/WYUz0PUMd7lmIOAqvoItaA9odgp6Ii9rYaDzriKJ.xlsx\",\"fichiers\\/3BtFSuuuD6da2POd3Pth98eDowP53y2CsXp0N8ZV.xlsx\"]', '2024-06-25 12:15:19', '2024-06-25 12:15:19'),
-(6, 2, 1, 1, 1, 1, 3, 1, 3, 'Non fait', 'mensuelle', 'Non exhaustivité', 'P1', 'C1', '2024-06-25 12:15:52', NULL, 'Non validé', NULL, '[\"fichiers\\/c4A2qLSkwRh7hzLlb3ee9stx2apSNLXrE7DRg96U.jpg\",\"fichiers\\/Um8ykvLp4Oa1socGaN8T7Kwso0R5EMSj8JTdnZMe.png\"]', '2024-06-25 12:15:52', '2024-06-25 12:15:52'),
-(7, 2, 1, 1, 1, 1, 3, 1, 3, 'Fait', 'mensuelle', 'Non exhaustivité', 'P1', 'C1', '2024-06-25 12:21:56', NULL, 'Non validé', NULL, '[\"fichiers\\/CeX9sYFePrg3WfEOvFNeCEHP5DcSjEQMoPeC7QqC.jpg\",\"fichiers\\/qZGxCUGYLIAhHayw889VGllqzz01s0D8H0PfA41D.png\"]', '2024-06-25 12:21:56', '2024-06-25 12:21:56'),
-(8, 1, 1, 1, 1, 1, 2, 1, 1, 'Fait', 'saisir la périodicité', 'Non exhaustivité', 'P1', 'C1', '2024-06-25 12:25:48', NULL, 'Non validé', NULL, '[\"fichiers\\/kNjdgvU49pxwhZlwBPUMnATxgjdA1sxLSJUtehE1.xlsx\"]', '2024-06-25 12:25:48', '2024-06-25 12:25:48'),
-(9, 1, 1, 1, 1, 1, 2, 1, 1, 'Applicable', 'saisir la périodicité', 'Exhaustivité', 'P1', 'wop', '2024-06-25 12:29:04', NULL, 'Non validé', NULL, '[\"fichiers\\/xX2cbbhULZP1CIaxKOIwjyQmWgc2U9a8Mr8wjYTC.xlsx\"]', '2024-06-25 12:29:04', '2024-06-25 12:29:04'),
-(10, 1, 1, 1, 1, 1, 2, 1, 1, 'Applicable', 'saisir la périodicité', 'Non exhaustivité', 'P1', 'wop', '2024-06-25 12:29:24', NULL, 'Non validé', NULL, '[\"fichiers\\/cgJhtpbJ2JAwR3kV7RUEGf4jmomOIQgEjh4fViZ6.xlsx\"]', '2024-06-25 12:29:24', '2024-06-25 12:29:24'),
-(11, 1, 1, 1, 1, 1, 2, 1, 2, 'Applicable', 'saisir la périodicité', 'Non exhaustivité', 'P1', 'C1', '2024-06-25 12:30:23', NULL, 'Non validé', NULL, '[]', '2024-06-25 12:30:24', '2024-06-25 12:30:24');
+INSERT INTO `controles` (`id`, `user_id`, `activite_id`, `service_id`, `departement_id`, `direction_id`, `risque_id`, `pole_id`, `etat`, `periodicite`, `exhaustivite`, `preuve`, `commentaire`, `date_ajout`, `archived_at`, `validate`, `deleted_at`, `fichier`, `created_at`, `updated_at`, `controle`, `code`, `objectif`, `descriptif`, `type_controle_id`) VALUES
+(12, 1, 1, 1, 1, 1, 1, 1, 'Applicable', 'annuelle', 'Exhaustivité', 'P1', 'C1', '2024-07-02 11:36:47', NULL, 'Non validé', NULL, '[\"fichiers\\/fwvdkYZISXvtKeFLc0Wa0NHotSjguucd0LUSDOgK.png\"]', '2024-07-02 11:36:47', '2024-07-12 09:04:39', 'C1', 'C1', 'O1', 'D1', 2),
+(13, 1, 1, 1, 1, 1, 2, 1, 'Applicable', 'mensuelle', 'Exhaustivité', 'P1', 'C1', '2024-07-02 12:18:16', NULL, 'Non validé', NULL, '[\"fichiers\\/iHbWBzpKME19ZzVtePY1CsPW5JP9s4FvQnic1OiC.png\"]', '2024-07-02 12:18:16', '2024-07-05 11:03:57', 'C2', 'C2', 'O2', 'D2', 2),
+(14, 2, 2, 2, 2, 2, 3, 2, 'Non fait', 'mensuelle', 'Non exhaustivité', 'p4', 'C4', '2024-07-02 12:19:04', '2024-07-12 09:15:56', 'Non validé', NULL, '[\"fichiers\\/eEtgQkL5HgEygW5sEEpn3DqGMt4J9foyhx4o5c6i.jpg\"]', '2024-07-02 12:19:04', '2024-07-12 09:16:13', 'C3', 'C3', 'O3', 'D3', 2),
+(15, 2, 1, 1, 1, 1, 3, 1, 'Non fait', 'annuelle', 'Exhaustivité', 'P16', 'C1', '2024-07-02 12:48:11', '2024-07-12 09:33:19', 'Validé', NULL, '[\"fichiers\\/hKJS4aZVEDkFXUvee8NIBFas8gZsF7N0tkM21cOW.jpg\"]', '2024-07-02 12:48:12', '2024-07-12 09:34:08', 'C1', 'C1', 'OP', 'DG', 1);
 
 -- --------------------------------------------------------
 
@@ -132,7 +132,7 @@ CREATE TABLE `contrys` (
 
 INSERT INTO `contrys` (`id`, `libelle`, `updated_at`, `created_at`, `deleted_at`) VALUES
 (1, 'Sénégal', '2024-06-24 15:43:06', '2024-06-24 15:43:06', NULL),
-(2, 'Mali', '2024-06-24 15:43:10', '2024-06-24 15:43:10', NULL),
+(2, 'Mali', '2024-07-10 12:25:10', '2024-06-24 15:43:10', NULL),
 (3, 'Guinée Conakry', '2024-06-24 15:43:17', '2024-06-24 15:43:17', NULL),
 (4, 'Guinée Bissau', '2024-06-24 15:43:21', '2024-06-24 15:43:21', NULL),
 (5, 'Sierra Leone', '2024-06-24 15:43:26', '2024-06-24 15:43:26', NULL);
@@ -163,7 +163,8 @@ INSERT INTO `data` (`id`, `nom_controle`, `code`, `objectif`, `descriptif`, `del
 (1, 'Controle 1', 'Code 1', 'Objectif 1', 'Descriptif 1', NULL, 1, '2024-06-24 15:53:21', '2024-06-24 15:53:21'),
 (2, 'Controle 2', 'Code 2', 'Objectif 2', 'Descriptif 2', NULL, 2, '2024-06-24 15:53:47', '2024-06-24 15:55:27'),
 (3, 'Controle 3', 'Code 3', 'Objectif 3', 'Descriptif 3', NULL, 3, '2024-06-24 15:55:53', '2024-06-25 11:16:00'),
-(4, 'Controle 4', 'Code 4', 'Objectif 4', 'Descriptif 4', NULL, 4, '2024-06-25 10:45:42', '2024-06-25 11:16:05');
+(4, 'Controle 4', 'Code 4', 'Objectif 4', 'Descriptif 4', NULL, 4, '2024-06-25 10:45:42', '2024-06-25 11:16:05'),
+(5, 'Controle 5', 'Code 5', 'Objectif 5', 'Descriptif 5', NULL, 5, '2024-07-01 09:04:20', '2024-07-01 09:04:20');
 
 -- --------------------------------------------------------
 
@@ -293,7 +294,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2024_04_30_184146_create_data_table', 1),
 (12, '2024_04_30_184147_create_users_table', 1),
 (13, '2024_04_30_184148_create_controle_table', 1),
-(14, '2024_06_25_121337_change_fichier_column_in_controles_table', 2);
+(14, '2024_06_25_121337_change_fichier_column_in_controles_table', 2),
+(16, '2024_04_30_183021_create_profils_table', 3),
+(18, '2024_07_09_090041_add_id_profil_in_profils', 4);
 
 -- --------------------------------------------------------
 
@@ -329,6 +332,28 @@ CREATE TABLE `poles` (
 INSERT INTO `poles` (`id`, `libelle`, `direction_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'Pole 1', 1, '2024-06-24 15:44:55', '2024-06-24 15:44:55', NULL),
 (2, 'Pole 2', 2, '2024-06-24 15:45:01', '2024-06-24 15:45:01', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `profils`
+--
+
+CREATE TABLE `profils` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `libelle` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `profils`
+--
+
+INSERT INTO `profils` (`id`, `libelle`, `created_at`, `updated_at`) VALUES
+(1, 'Porteur', '2024-07-09 08:50:45', '2024-07-09 08:51:52'),
+(2, 'Super_admin', '2024-07-09 08:51:08', '2024-07-09 08:51:08'),
+(3, 'Admin_local', '2024-07-09 08:51:22', '2024-07-09 08:51:22');
 
 -- --------------------------------------------------------
 
@@ -393,6 +418,14 @@ CREATE TABLE `sessions` (
   `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('brAkx8pAw55gXwmnc5OjipEs1dHJoG7VBzUWGvW2', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVDczbDFVSGhTVzhKVVFWakkwZEFLTzFpc3R3aEo1ZkRlZzIwUWpkSCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1719332134),
+('H1psMnHUx7AdC7negErKTf5xL33krwKDYPdrgQDB', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQWZWbTV3SjYzUzYzY3QxeFI5emowQ1JkMmZZRkRPVUJVMlZCWlhNbiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1720539029);
+
 -- --------------------------------------------------------
 
 --
@@ -414,7 +447,7 @@ CREATE TABLE `type_controles` (
 INSERT INTO `type_controles` (`id`, `libelle`, `updated_at`, `created_at`, `deleted_at`) VALUES
 (1, 'Type 1', '2024-06-24 15:44:08', '2024-06-24 15:43:36', NULL),
 (2, 'Type 2', '2024-06-24 15:43:40', '2024-06-24 15:43:40', NULL),
-(3, 'Type 3', '2024-06-24 15:43:45', '2024-06-24 15:43:45', NULL),
+(3, 'Type 3', '2024-07-02 11:20:53', '2024-06-24 15:43:45', '2024-07-02 11:20:53'),
 (4, 'Type 4', '2024-06-24 15:43:49', '2024-06-24 15:43:49', NULL),
 (5, 'Type 5', '2024-06-24 15:43:53', '2024-06-24 15:43:53', NULL);
 
@@ -440,16 +473,18 @@ CREATE TABLE `users` (
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `profil_id` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `nom_complet`, `email`, `matricule`, `photo`, `telephone`, `addresse`, `direction_id`, `service_id`, `pays_id`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Elhadji Malick Ndao', 'ndaoelhadji973@gmail.com', '17UUD', NULL, '783845870', 'Grand Yoff', 1, 1, 1, NULL, '$2y$12$gQR6HEE4FWjF3G3qv1Nu4eZym.RiAasmzyrO0IZ7OOj9.teMprUsO', NULL, '2024-06-24 16:08:59', '2024-06-24 16:08:59', NULL),
-(2, 'Sadio Faye', 'sadio@gmail.com', 'HUE78', NULL, '78399', 'Golf', 1, 2, 2, NULL, '$2y$12$zjJ48XVkhfwk.bSPlsb6TO3wxSzs5DxMz38jNrtCYcNiaIlPotMXe', NULL, '2024-06-24 16:09:36', '2024-06-24 16:09:36', NULL);
+INSERT INTO `users` (`id`, `nom_complet`, `email`, `matricule`, `photo`, `telephone`, `addresse`, `direction_id`, `service_id`, `pays_id`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `profil_id`) VALUES
+(1, 'Elhadji Malick Ndao', 'ndaoelhadji973@gmail.com', '17UUD', NULL, '783845870', 'Grand Yoff', 1, 1, 1, NULL, '$2y$12$y8YxoQSp47lCfHpQvv2yCeYV7g4lmBAFTc3rE9nVtNNKpDEtKYEJO', NULL, '2024-06-24 16:08:59', '2024-07-09 10:42:18', NULL, 2),
+(2, 'Sadio Faye', 'sadio@gmail.com', 'HUE78', NULL, '78399', 'Golf', 1, 2, 3, NULL, '$2y$12$rLrNDdyyhq0TmSbEcOo7AuM2q0tUaw7uF5LM3X2sR7OLNthws3nmK', NULL, '2024-06-24 16:09:36', '2024-07-12 08:56:35', NULL, 1),
+(3, 'Achirou Ndiaye', 'achirou@gmail.com', '28HJ', NULL, '704759933', 'Sud', 1, 1, 3, NULL, '$2y$12$O64inIB372FWD4M6tgLbee4shW57Q/TZRF1N82pHLCxrF7hcrd6oa', NULL, '2024-07-09 09:13:04', '2024-07-09 09:13:04', NULL, 3);
 
 --
 -- Index pour les tables déchargées
@@ -486,7 +521,7 @@ ALTER TABLE `controles`
   ADD KEY `controles_direction_id_foreign` (`direction_id`),
   ADD KEY `controles_risque_id_foreign` (`risque_id`),
   ADD KEY `controles_pole_id_foreign` (`pole_id`),
-  ADD KEY `controles_data_id_foreign` (`data_id`);
+  ADD KEY `type_controle_id` (`type_controle_id`);
 
 --
 -- Index pour la table `contrys`
@@ -555,6 +590,12 @@ ALTER TABLE `poles`
   ADD KEY `poles_direction_id_foreign` (`direction_id`);
 
 --
+-- Index pour la table `profils`
+--
+ALTER TABLE `profils`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `risques`
 --
 ALTER TABLE `risques`
@@ -590,7 +631,8 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_matricule_unique` (`matricule`),
   ADD KEY `users_direction_id_foreign` (`direction_id`),
   ADD KEY `users_service_id_foreign` (`service_id`),
-  ADD KEY `users_pays_id_foreign` (`pays_id`);
+  ADD KEY `users_pays_id_foreign` (`pays_id`),
+  ADD KEY `users_profil_id_foreign` (`profil_id`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -606,19 +648,19 @@ ALTER TABLE `activites`
 -- AUTO_INCREMENT pour la table `controles`
 --
 ALTER TABLE `controles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `contrys`
 --
 ALTER TABLE `contrys`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `data`
 --
 ALTER TABLE `data`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `departements`
@@ -648,13 +690,19 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT pour la table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT pour la table `poles`
 --
 ALTER TABLE `poles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `profils`
+--
+ALTER TABLE `profils`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `risques`
@@ -678,7 +726,7 @@ ALTER TABLE `type_controles`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Contraintes pour les tables déchargées
@@ -695,9 +743,9 @@ ALTER TABLE `activites`
 --
 ALTER TABLE `controles`
   ADD CONSTRAINT `controles_activite_id_foreign` FOREIGN KEY (`activite_id`) REFERENCES `activites` (`id`),
-  ADD CONSTRAINT `controles_data_id_foreign` FOREIGN KEY (`data_id`) REFERENCES `data` (`id`),
   ADD CONSTRAINT `controles_departement_id_foreign` FOREIGN KEY (`departement_id`) REFERENCES `departements` (`id`),
   ADD CONSTRAINT `controles_direction_id_foreign` FOREIGN KEY (`direction_id`) REFERENCES `directions` (`id`),
+  ADD CONSTRAINT `controles_ibfk_1` FOREIGN KEY (`type_controle_id`) REFERENCES `type_controles` (`id`),
   ADD CONSTRAINT `controles_pole_id_foreign` FOREIGN KEY (`pole_id`) REFERENCES `poles` (`id`),
   ADD CONSTRAINT `controles_risque_id_foreign` FOREIGN KEY (`risque_id`) REFERENCES `risques` (`id`),
   ADD CONSTRAINT `controles_service_id_foreign` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`),
@@ -734,6 +782,7 @@ ALTER TABLE `services`
 ALTER TABLE `users`
   ADD CONSTRAINT `users_direction_id_foreign` FOREIGN KEY (`direction_id`) REFERENCES `directions` (`id`),
   ADD CONSTRAINT `users_pays_id_foreign` FOREIGN KEY (`pays_id`) REFERENCES `contrys` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `users_profil_id_foreign` FOREIGN KEY (`profil_id`) REFERENCES `profils` (`id`),
   ADD CONSTRAINT `users_service_id_foreign` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`);
 COMMIT;
 
