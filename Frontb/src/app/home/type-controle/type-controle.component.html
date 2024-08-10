@@ -10,10 +10,12 @@
 
     <form class="w-[9%] p-1">
       @if (typ) {
+        @if (display) {
       <span (click)="openModal()"
         class="p-2 h-9 bg-[#FF663E] cursor-pointer shadow-md shadow-[#242a30] text-[white] text-xl rounded-lg flex justify-center items-center font-semibold">
         <span class="text-2xl mb-1">+</span>Type
       </span>
+    }
       }
     </form>
   </div>
@@ -26,10 +28,12 @@
       <div
         class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
         <h1 class="text-xl font-semibold">{{type.libelle}}</h1>
+        @if (display) {
         <div class="w-28 h-3 flex gap-3 justify-center items-center">
           <i (click)="editModal(type)" class="material-icons cursor-pointer text-yellow-400">edit</i>
           <i (click)="deleteRisk(type.id)" class="material-icons cursor-pointer text-green-600">archive</i>
         </div>
+      }
       </div>
       }
       @empty {
@@ -41,9 +45,11 @@
       <div
         class="shadow-md ring-1 ring-[#FF663E] p-2 shadow-[#242a30] flex justify-between items-center bg-white w-full rounded-xl">
         <h1 class="text-xl font-semibold">{{type.libelle}}</h1>
+        @if (display) {
         <div class="w-28 h-3 flex gap-3 justify-center items-center">
           <i (click)="unarchive(type.id)" class="material-icons cursor-pointer text-green-600">unarchive</i>
         </div>
+      }
       </div>
       }
       @empty {

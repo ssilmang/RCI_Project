@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DataResource;
 use App\Models\Risque;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RisqueController extends Controller
 {
@@ -26,6 +27,12 @@ class RisqueController extends Controller
     public function store(Request $request)
     {
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation d\'ajouter !'
+                ]);
+            } else {
             $p = Risque::where('libelle', $request->libelle)->first();
             if ($p) {
                 return response()->json([
@@ -46,7 +53,7 @@ class RisqueController extends Controller
             return response()->json([
                 'message' => "Le risque a été crée avec succès!",
             ], 201);
-
+        }
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
@@ -60,6 +67,12 @@ class RisqueController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation de modifier !'
+                ]);
+            } else {
             $risque = Risque::find($id);
 
             if (!$risque) {
@@ -90,7 +103,7 @@ class RisqueController extends Controller
                 'message' => 'Le risque est mise à jour avec succès!',
                 'data' => $risque,
             ]);
-
+        }
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
@@ -103,6 +116,12 @@ class RisqueController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user();
+        if ($user->profil_id != 2) {
+            return response()->json([
+                'error' => 'Vous n\'avez pas l\'autorisation de supprimer !'
+            ]);
+        } else {
         $risque = Risque::find($id);
 
         if (!$risque) {
@@ -112,6 +131,7 @@ class RisqueController extends Controller
         $risque->delete();
 
         return response()->json(['message' => 'Risque supprimé avec succes!']);
+    }
     }
 
     public function restaurer($id)

@@ -1,9 +1,27 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Signal, ViewChild, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Signal,
+  ViewChild,
+  signal,
+} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { DataService } from '../../_helpers/services/all_methods/data.service';
-import { Activite, Controle, Data, Departement, Direction, Pole, Service, Utilisateur, Risque, Contry } from '../../_helpers/interfaces/data';
+import {
+  Activite,
+  Controle,
+  Data,
+  Departement,
+  Direction,
+  Pole,
+  Service,
+  Utilisateur,
+  Risque,
+  Contry,
+} from '../../_helpers/interfaces/data';
 import { ControleService } from '../../_helpers/services/all_methods/controle.service';
 import { DepartementService } from '../../_helpers/services/all_methods/departement.service';
 import { DirectionService } from '../../_helpers/services/all_methods/direction.service';
@@ -12,7 +30,7 @@ import { ServiceService } from '../../_helpers/services/all_methods/service.serv
 import { ActiviteService } from '../../_helpers/services/all_methods/activite.service';
 import { RisqueService } from '../../_helpers/services/all_methods/risque.service';
 import { UtilisateurService } from '../../_helpers/services/all_methods/utilisateur.service';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import { Direction2Pipe } from '../../_helpers/pipes/direction2.pipe';
 import { Departement2Pipe } from '../../_helpers/pipes/departement2.pipe';
 import { CouverturePipe } from '../../_helpers/pipes/couverture.pipe';
@@ -36,13 +54,34 @@ import { AnneePipe } from '../../_helpers/pipes/annee.pipe';
 import { ImportService } from '../../_helpers/import.service';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { AuthService } from '../../_helpers/services/auth.service';
 
 @Component({
   selector: 'app-pilotage',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AnneePipe, SweetAlert2Module, TypePipe, StatutPipe, ValidatePipe, PeriodicitePipe, RisquePipe, ControlePipe, CommonModule, ActivitePipe, Direction2Pipe, Departement2Pipe, CouverturePipe, PorteurPipe, PolectrlPipe, Service2Pipe, Contry2Pipe],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    AnneePipe,
+    SweetAlert2Module,
+    TypePipe,
+    StatutPipe,
+    ValidatePipe,
+    PeriodicitePipe,
+    RisquePipe,
+    ControlePipe,
+    CommonModule,
+    ActivitePipe,
+    Direction2Pipe,
+    Departement2Pipe,
+    CouverturePipe,
+    PorteurPipe,
+    PolectrlPipe,
+    Service2Pipe,
+    Contry2Pipe,
+  ],
   templateUrl: './pilotage.component.html',
-  styleUrl: './pilotage.component.css'
+  styleUrl: './pilotage.component.css',
 })
 export class PilotageComponent implements AfterViewInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -52,59 +91,62 @@ export class PilotageComponent implements AfterViewInit {
       console.error('File input element is not defined.');
     }
   }
-  title: string = 'Nouveau control'
-  btn: string = 'Ajouter'
+  title: string = 'Nouveau control';
+  btn: string = 'Ajouter';
   ctrls: Controle[] = [];
-  id!: number | null
-  selectedDir: number = 0
-  selectedDept: number = 0
-  selectedCouv: number = 0
-  selectedUser: number = 0
-  selectedPole: number = 0
-  selectedServ: number = 0
-  selectedAct: number = 0
-  selectedCtrl: number = 0
-  selectedRisk: number = 0
-  selectedPrd: number = 0
-  selectedStat: number = 0
-  selectedVal: number = 0
-  selectedType: number = 0
-  selectedContry: number = 0
-  selectedYear: number = 0
+  id!: number | null;
+  selectedDir: number = 0;
+  selectedDept: number = 0;
+  selectedCouv: number = 0;
+  selectedUser: number = 0;
+  selectedPole: number = 0;
+  selectedServ: number = 0;
+  selectedAct: number = 0;
+  selectedCtrl: number = 0;
+  selectedRisk: number = 0;
+  selectedPrd: number = 0;
+  selectedStat: number = 0;
+  selectedVal: number = 0;
+  selectedType: number = 0;
+  selectedContry: number = 0;
+  selectedYear: number = 0;
+  display2: boolean = false;
 
   fileToUpload: File | null = null;
 
-  control: boolean = true
-  archive: boolean = false
+  control: boolean = true;
+  archive: boolean = false;
   hoveredIcon: { [id: number]: string | null } = {};
   selectedFile: any;
   selectedFiles: File[] = [];
   files: string[] = [];
   fileCount: number = 0;
 
-  display: boolean = false
-  file: any
+  display: boolean = false;
+  file: any;
 
   formData: FormData = new FormData();
   formData2: FormData = new FormData();
 
   toExp: any[] = [];
 
-  types: Signal<TypeControle[]> = signal([])
-  datas: Signal<Data[]> = signal([])
-  controles: Signal<Controle[]> = signal([])
-  archives: Signal<Controle[]> = signal([])
-  directions: Signal<Direction[]> = signal([])
-  poles: Signal<Pole[]> = signal([])
-  departements: Signal<Departement[]> = signal([])
-  services: Signal<Service[]> = signal([])
-  activites: Signal<Activite[]> = signal([])
-  users: Signal<Utilisateur[]> = signal([])
-  risques: Signal<Risque[]> = signal([])
-  contries: Signal<Contry[]> = signal([])
+  types: Signal<TypeControle[]> = signal([]);
+  datas: Signal<Data[]> = signal([]);
+  controles: Signal<Controle[]> = signal([]);
+  archives: Signal<Controle[]> = signal([]);
+  directions: Signal<Direction[]> = signal([]);
+  poles: Signal<Pole[]> = signal([]);
+  departements: Signal<Departement[]> = signal([]);
+  services: Signal<Service[]> = signal([]);
+  activites: Signal<Activite[]> = signal([]);
+  users: Signal<Utilisateur[]> = signal([]);
+  risques: Signal<Risque[]> = signal([]);
+  contries: Signal<Contry[]> = signal([]);
 
-  Data!: FormGroup
-  select!: FormGroup
+  Data!: FormGroup;
+  select!: FormGroup;
+  profileUser!:number;
+  pays_id!:number;
 
   constructor(
     private data: DataService,
@@ -119,11 +161,16 @@ export class PilotageComponent implements AfterViewInit {
     private userService: UtilisateurService,
     private contryService: ContryService,
     private type: TypeService,
-    private importService: ImportService
+    private importService: ImportService,
+    private authService: AuthService
   )
-  {
+   {
     this.Data = this.fb.group({
-      controle_id: this.fb.control(0),
+      controle: this.fb.control(''),
+      code: this.fb.control(''),
+      objectif: this.fb.control(''),
+      descriptif: this.fb.control(''),
+      type: this.fb.control(0),
       direction_id: this.fb.control(1),
       pole_id: this.fb.control(1),
       departement_id: this.fb.control(1),
@@ -135,8 +182,8 @@ export class PilotageComponent implements AfterViewInit {
       periodicite: this.fb.control('saisir la périodicité'),
       exhaustivite: this.fb.control(0),
       preuve: this.fb.control('P1'),
-      etat: this.fb.control('none')
-    })
+      etat: this.fb.control('none'),
+    });
 
     // this.Data.get('controle_id')?.valueChanges.subscribe((d)=>{
     //   let code = this.ctrls.filter((c:any) => c.id == d)[0]
@@ -161,243 +208,274 @@ export class PilotageComponent implements AfterViewInit {
       annee: this.fb.control(0),
     });
 
-    this.select.get('direction_id')?.valueChanges.subscribe(res=>{
+    this.select.get('direction_id')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedDir = res
-    })
+      this.selectedDir = res;
+    });
 
-    this.select.get('type')?.valueChanges.subscribe(res=>{
+    this.select.get('type')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedType = res
-    })
+      this.selectedType = res;
+    });
 
-    this.select.get('departement_id')?.valueChanges.subscribe(res=>{
+    this.select.get('departement_id')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedDept = res
-    })
+      this.selectedDept = res;
+    });
 
-    this.select.get('pole_id')?.valueChanges.subscribe(res=>{
+    this.select.get('pole_id')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedPole = res
-    })
+      this.selectedPole = res;
+    });
 
-    this.select.get('service_id')?.valueChanges.subscribe(res=>{
+    this.select.get('service_id')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedServ = res
-    })
+      this.selectedServ = res;
+    });
 
-    this.select.get('activite_id')?.valueChanges.subscribe(res=>{
+    this.select.get('activite_id')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedAct = res
-    })
+      this.selectedAct = res;
+    });
 
-    this.select.get('risque_id')?.valueChanges.subscribe(res=>{
+    this.select.get('risque_id')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedRisk = res
-    })
+      this.selectedRisk = res;
+    });
 
-    this.select.get('pays_id')?.valueChanges.subscribe(res=>{
+    this.select.get('pays_id')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedContry = res
-    })
+      this.selectedContry = res;
+    });
 
-    this.select.get('controle_id')?.valueChanges.subscribe(res=>{
+    this.select.get('controle_id')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedCtrl = res
-    })
+      this.selectedCtrl = res;
+    });
 
-    this.select.get('user_id')?.valueChanges.subscribe(res=>{
+    this.select.get('user_id')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedUser = res
-    })
+      this.selectedUser = res;
+    });
 
-    this.select.get('couverture')?.valueChanges.subscribe(res=>{
+    this.select.get('couverture')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedCouv = res
-    })
+      this.selectedCouv = res;
+    });
 
-    this.select.get('periodicite')?.valueChanges.subscribe(res=>{
+    this.select.get('periodicite')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedPrd = res
-    })
+      this.selectedPrd = res;
+    });
 
-    this.select.get('statut')?.valueChanges.subscribe(res=>{
+    this.select.get('statut')?.valueChanges.subscribe((res) => {
+       console.log(res);
+      this.selectedStat = res;
+    });
+
+    this.select.get('validate')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedStat = res
-    })
+      this.selectedVal = res;
+    });
 
-    this.select.get('validate')?.valueChanges.subscribe(res=>{
+    this.select.get('annee')?.valueChanges.subscribe((res) => {
       // console.log(res);
-      this.selectedVal = res
-    })
+      this.selectedYear = res;
+    });
 
-    this.select.get('annee')?.valueChanges.subscribe(res=>{
-      // console.log(res);
-      this.selectedYear = res
-    })
-
+    // console.log(this.toExp)
   }
 
   ngOnInit() {
-    this.getData()
-    this.getControles()
-    this.getDepart()
-    this.getDirections()
-    this.getPoles()
-    this.getActivites()
-    this.getServices()
-    this.getUsers()
-    this.getRisques()
-    this.getContries()
-    this.getTypes()
+    const user = localStorage.getItem('user');
+    const userObj = JSON.parse(user!);
+    console.log(userObj);
 
-    let direct = localStorage.getItem('direction')
-    let direction = JSON.parse(direct!)
+    const profil = userObj.profil_id;
+    this.profileUser=profil;
+    this.pays_id=userObj.pays_id;
+
+    console.log(profil);
+    if (profil != 1) {
+      this.display2 = true;
+      this.getData();
+      // console.log(this.getData());
+    } else {
+      this.getData2();
+      // this.Data.
+    }
+    this.getControles();
+    this.getDepart();
+    this.getDirections();
+    this.getPoles();
+    this.getActivites();
+    this.getServices();
+    this.getUsers();
+    this.getRisques();
+    this.getContries();
+    this.getTypes();
+
+    let direct = localStorage.getItem('direction');
+    let direction = JSON.parse(direct!);
     // console.log(direction);
 
-    let card = localStorage.getItem('etat')
-    let etat = JSON.parse(card!)
+    let card = localStorage.getItem('etat');
+    let etat = JSON.parse(card!);
     // console.log(etat);
 
     if (direction && etat) {
-      this.data.listResources().subscribe((res:any)=>{
+      this.data.listResources().subscribe((res: any) => {
         // this.toExp = res.controles
         // console.log(this.toExp);
-        let ctrls = res.controles.filter((c:any) => c.direction_id.libelle == direction)
-        let directId = ctrls[0].direction_id.id
+        let ctrls = res.controles.filter(
+          (c: any) => c.direction_id.libelle == direction
+        );
+        let directId = ctrls[0].direction_id.id;
         // console.log(directId);
-        let et: string | number = 0
-        let val: string | number = 0
+        let et: string | number = 0;
+        let val: string | number = 0;
 
-        if(etat == 'totalValidated')
-        {
-          val = 'Validé'
-        }else if(etat == 'totalNonValidated')
-        {
-          val = 'Non validé'
-        }else if(etat == 'totalDone')
-        {
-          et = 'Fait'
-        }else if(etat == 'totalNotDone')
-        {
-          et = 'Non fait'
-        }else if(etat == 'totalApplicable')
-        {
-          et = 'Applicable'
-        }else if(etat == 'totalNonApplicable')
-        {
-          et = 'Non applicable'
+        if (etat == 'totalValidated') {
+          val = 'Validé';
+        } else if (etat == 'totalNonValidated') {
+          val = 'Non validé';
+        } else if (etat == 'totalDone') {
+          et = 'Fait';
+        } else if (etat == 'totalNotDone') {
+          et = 'Non fait';
+        } else if (etat == 'totalApplicable') {
+          et = 'Applicable';
+        } else if (etat == 'totalNonApplicable') {
+          et = 'Non applicable';
+        }else if (etat == 'totalTransfer') {
+          et = 'Transferer';
         }
 
         this.select.patchValue({
           direction_id: directId,
           statut: et,
-          validate: val
-        })
-      })
+          validate: val,
+        });
+      });
     }
+    this.disableAllFields(profil);
   }
 
-  getContries()
-  {
-    this.contryService.listResources().subscribe((res:any) => {
-      this.contries = signal(res.data)
+  getContries() {
+    this.contryService.listResources().subscribe((res: any) => {
+      this.contries = signal(res.data);
       // console.log(res);
-    })
+    });
   }
 
-  getUsers()
-  {
-    this.userService.listResources().subscribe((res:any) => {
-      this.users = signal(res.data)
+  getUsers() {
+    this.userService.listResources().subscribe((res: any) => {
+      this.users = signal(res.data);
       // console.log(res.data);
-    })
+    });
   }
 
-  getData()
-  {
-    this.data.listResources().subscribe((res:any)=>{
+  getData() {
+    this.data.listResources().subscribe((res: any) => {
+      this.toExp = res.controles;
       this.datas = signal(res.controles);
+      console.log(this.datas())
       this.archives = signal(res.archives);
-      this.toExp = res.controles
-      console.log(this.toExp)
       // console.log(this.toExp[0].date_ajout);
-    })
+    });
   }
 
-  getPoles()
-  {
-    this.poleService.listResources().subscribe(r => {
-      this.poles = signal(r)
-    })
+  getData2() {
+    this.data.listResources().subscribe((res: any) => {
+      // console.log(res.controles);
+      this.toExp = res.controles.filter(
+        (res: any) => res.user_id.profil_id.id == 1
+      );
+      // console.log(this.toExp);
+      const arch = res.archives.filter(
+        (res: any) => res.user_id.profil_id.id == 1
+      );
+
+      this.datas = signal(this.toExp);
+      this.archives = signal(arch);
+      // console.log(this.toExp[0].date_ajout);
+    });
   }
 
-  getServices()
-  {
-    this.servService.listResources().subscribe(r => {
-      this.services = signal(r)
+  getPoles() {
+    this.poleService.listResources().subscribe((r) => {
+      this.poles = signal(r);
+    });
+  }
+
+  disableAllFields(profil:number) {
+    Object.keys(this.Data.controls).forEach(field => {
+      const control = this.Data.get(field);
+      if(field!=="preuve" &&  field!=="etat" && profil==1){
+
+        control?.disable();
+      }
+    });
+    
+
+  }
+  getServices() {
+    this.servService.listResources().subscribe((r) => {
+      this.services = signal(r);
       // console.log(r);
-    })
+    });
   }
 
-  getActivites()
-  {
-    this.actService.listResources().subscribe(r => {
-      this.activites = signal(r)
-    })
+  getActivites() {
+    this.actService.listResources().subscribe((r) => {
+      this.activites = signal(r);
+    });
   }
 
-  getDirections()
-  {
-    this.dirService.listResources().subscribe(r => {
-      this.directions = signal(r)
-    })
+  getDirections() {
+    this.dirService.listResources().subscribe((r) => {
+      this.directions = signal(r);
+    });
   }
 
-  getDepart()
-  {
-    this.depart.listResources().subscribe(r => {
-      this.departements = signal(r)
+  getDepart() {
+    this.depart.listResources().subscribe((r) => {
+      this.departements = signal(r);
       // console.log(r);
-    })
+    });
   }
 
-  getControles()
-  {
-    this.ctrl.listResources().subscribe((r:any) => {
-      this.controles = signal(r.data)
-      // this.ctrls = r.data
-      // console.log(r.data);
-    })
+  getControles() {
+    // this.ctrl.listResources().subscribe((r:any) => {
+    //   this.controles = signal(r.data)
+    //   // this.ctrls = r.data
+    //   // console.log(r.data);
+    // })
   }
 
-  getTypes()
-  {
-    this.type.listResources().subscribe((r:any) => {
-      this.types = signal(r.types)
+  getTypes() {
+    this.type.listResources().subscribe((r: any) => {
+      this.types = signal(r.types);
       // console.log(r);
-    })
+    });
   }
 
-  getRisques()
-  {
-    this.risk.listResources().subscribe((r:any) => {
-      this.risques = signal(r.risques)
+  getRisques() {
+    this.risk.listResources().subscribe((r: any) => {
+      this.risques = signal(r.risques);
       // this.ctrls = r.controles
       // console.log(r.controles);
-    })
+    });
   }
 
-  selectControle()
-  {
+  selectControle() {
     this.control = true;
-    this.archive = false
+    this.archive = false;
   }
 
-  selectArchive()
-  {
+  selectArchive() {
     this.control = false;
-    this.archive = true
+    this.archive = true;
   }
 
   onFileSelected(event: any) {
@@ -414,22 +492,34 @@ export class PilotageComponent implements AfterViewInit {
     // console.log(this.selectedFiles);
   }
 
-  addOrUp()
-  {
+  addOrUp() {
     // console.log(this.Data.value);
     if (this.btn == 'Ajouter') {
-      this.formData.append('controle_id', this.Data.get('controle_id')?.value);
+      this.formData.append('controle', this.Data.get('controle')?.value);
+      this.formData.append('code', this.Data.get('code')?.value);
+      this.formData.append('descriptif', this.Data.get('descriptif')?.value);
+      this.formData.append('objectif', this.Data.get('objectif')?.value);
+      this.formData.append('type', this.Data.get('type')?.value);
       this.formData.append('periodicite', this.Data.get('periodicite')?.value);
-      this.formData.append('exhaustivite', this.Data.get('exhaustivite')?.value);
+      this.formData.append(
+        'exhaustivite',
+        this.Data.get('exhaustivite')?.value
+      );
       this.formData.append('preuve', this.Data.get('preuve')?.value);
       this.formData.append('etat', this.Data.get('etat')?.value);
       this.formData.append('commentaire', this.Data.get('commentaire')?.value);
       this.formData.append('risque_id', this.Data.get('risque_id')?.value);
-      this.formData.append('direction_id', this.Data.get('direction_id')?.value);
+      this.formData.append(
+        'direction_id',
+        this.Data.get('direction_id')?.value
+      );
       this.formData.append('service_id', this.Data.get('service_id')?.value);
       this.formData.append('pole_id', this.Data.get('pole_id')?.value);
       this.formData.append('activite_id', this.Data.get('activite_id')?.value);
-      this.formData.append('departement_id', this.Data.get('departement_id')?.value);
+      this.formData.append(
+        'departement_id',
+        this.Data.get('departement_id')?.value
+      );
       this.formData.append('user_id', this.Data.get('user_id')?.value);
       // this.formData.append('fichier', this.selectedFile);
       if (this.selectedFiles && this.selectedFiles.length > 0) {
@@ -438,38 +528,51 @@ export class PilotageComponent implements AfterViewInit {
         });
       }
 
-      this.data.addResources(this.formData).subscribe((d:any)=>{
+      this.data.addResources(this.formData).subscribe((d: any) => {
         // console.log(d);
         if (d.message) {
-          this.getData()
-          this.Data.reset()
-          this.closeModal()
+          this.getData();
+          this.Data.reset();
+          this.closeModal();
           Swal.fire({
-            title: "Succes!",
+            title: 'Succes!',
             text: d.message,
-            icon: "success"
+            icon: 'success',
           });
-        }else if(d.error){
+        } else if (d.error) {
           Swal.fire({
-            title: "Error!",
+            title: 'Error!',
             text: d.error,
-            icon: "error"
+            icon: 'error',
           });
         }
-      })
-    }else if(this.btn == 'Modifier'){
-      this.formData.append('controle_id', this.Data.get('controle_id')?.value);
+      });
+    } else if (this.btn == 'Modifier') {
+      this.formData.append('controle', this.Data.get('controle')?.value);
+      this.formData.append('code', this.Data.get('code')?.value);
+      this.formData.append('descriptif', this.Data.get('descriptif')?.value);
+      this.formData.append('objectif', this.Data.get('objectif')?.value);
+      this.formData.append('type', this.Data.get('type')?.value);
       this.formData.append('periodicite', this.Data.get('periodicite')?.value);
-      this.formData.append('exhaustivite', this.Data.get('exhaustivite')?.value);
+      this.formData.append(
+        'exhaustivite',
+        this.Data.get('exhaustivite')?.value
+      );
       this.formData.append('preuve', this.Data.get('preuve')?.value);
       this.formData.append('etat', this.Data.get('etat')?.value);
       this.formData.append('commentaire', this.Data.get('commentaire')?.value);
       this.formData.append('risque_id', this.Data.get('risque_id')?.value);
-      this.formData.append('direction_id', this.Data.get('direction_id')?.value);
+      this.formData.append(
+        'direction_id',
+        this.Data.get('direction_id')?.value
+      );
       this.formData.append('service_id', this.Data.get('service_id')?.value);
       this.formData.append('pole_id', this.Data.get('pole_id')?.value);
       this.formData.append('activite_id', this.Data.get('activite_id')?.value);
-      this.formData.append('departement_id', this.Data.get('departement_id')?.value);
+      this.formData.append(
+        'departement_id',
+        this.Data.get('departement_id')?.value
+      );
       this.formData.append('user_id', this.Data.get('user_id')?.value);
       // if (this.selectedFile) {
       //   this.formData.append('fichier', this.selectedFile);
@@ -480,51 +583,53 @@ export class PilotageComponent implements AfterViewInit {
         });
       }
 
-      this.data.updateResources(this.id, this.formData).subscribe((d:any)=>{
+      this.data.updateResources(this.id, this.formData).subscribe((d: any) => {
         // console.log(d);
         if (d.message) {
-          this.getData()
-          this.Data.reset()
-          this.closeModal()
+          this.getData();
+          this.Data.reset();
+          this.closeModal();
           Swal.fire({
-            title: "Succes!",
+            title: 'Succes!',
             text: d.message,
-            icon: "success"
+            icon: 'success',
           });
-        }else if(d.error){
+        } else if (d.error) {
           Swal.fire({
-            title: "Error!",
+            title: 'Error!',
             text: d.error,
-            icon: "error"
+            icon: 'error',
           });
         }
-      })
-    }else{
-      this.closeModal()
+      });
+    } else {
+      this.closeModal();
     }
     this.selectedFiles = [];
   }
 
-  openModal()
-  {
+  openModal() {
     let modal = document.getElementById('modal');
     if (modal) {
-      this.title = 'Nouveau control'
-      this.btn = 'Ajouter'
+      this.title = 'Nouveau control';
+      this.btn = 'Ajouter';
       modal.style.display = 'block';
     }
   }
 
-  editModal(data: any)
-  {
+  editModal(data: any) {
     let modal = document.getElementById('modal');
     if (modal) {
-      this.title = 'Modification control'
-      this.btn = 'Modifier'
+      this.title = 'Modification control';
+      this.btn = 'Modifier';
       modal.style.display = 'block';
-      this.id = data.id
+      this.id = data.id;
       this.Data.patchValue({
-        controle_id: data.controle_id.id,
+        controle: data.controle,
+        code: data.code,
+        descriptif: data.descriptif,
+        objectif: data.objectif,
+        type: data.type_controle_id.id,
         direction_id: data.direction_id.id,
         pole_id: data.pole_id.id,
         departement_id: data.departement_id.id,
@@ -538,26 +643,31 @@ export class PilotageComponent implements AfterViewInit {
         preuve: data.preuve,
         // fichier: data.fichier,
         etat: data.etat,
-      })
+      });
     }
   }
 
-  info(data: any)
-  {
+  info(data: any) {
     let modal = document.getElementById('modal');
     if (modal) {
-      this.display = true
-      this.title = 'Information control'
-      this.btn = 'Fermer'
+      this.display = true;
+      this.title = 'Information control';
+      this.btn = 'Fermer';
       // this.file = 'http://localhost:8000/storage/'+data.fichier
       if (data.fichier) {
-        this.files = JSON.parse(data.fichier).map((filePath: string) => 'http://localhost:8000/storage/' + filePath);
+        this.files = JSON.parse(data.fichier).map(
+          (filePath: string) => 'http://localhost:8000/storage/' + filePath
+        );
         this.fileCount = this.files.length;
       } else {
         this.files = [];
       }
       this.Data.patchValue({
-        controle_id: data.controle_id.id,
+        controle: data.controle,
+        code: data.code,
+        descriptif: data.descriptif,
+        objectif: data.objectif,
+        type: data.type,
         direction_id: data.direction_id.id,
         pole_id: data.pole_id.id,
         departement_id: data.departement_id.id,
@@ -570,133 +680,129 @@ export class PilotageComponent implements AfterViewInit {
         exhaustivite: data.exhaustivite,
         preuve: data.preuve,
         etat: data.etat,
-      })
+      });
 
-      this.Data.disable()
+      this.Data.disable();
       modal.style.display = 'block';
     }
   }
 
-  deleteD(id: number | null)
-  {
+  deleteD(id: number | null) {
     Swal.fire({
       title: "Voulez-vous confirmer l'archivage ?",
       showDenyButton: true,
-      confirmButtonText: "Archiver",
-      denyButtonText: `Annuler`
+      confirmButtonText: 'Archiver',
+      denyButtonText: `Annuler`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.data.deleteResource(id).subscribe((d:any) => {
+        this.data.deleteResource(id).subscribe((d: any) => {
           if (d.message) {
-            this.getData()
+            this.getData();
             Swal.fire({
-              title: "Succes!",
+              title: 'Succes!',
               text: d.message,
-              icon: "success"
+              icon: 'success',
             });
-          }else if(d.error){
+          } else if (d.error) {
             Swal.fire({
-              title: "Error!",
+              title: 'Error!',
               text: d.error,
-              icon: "error"
+              icon: 'error',
             });
           }
         });
-      }else if(result.isDenied) {
-        Swal.fire("L'archivage a été annulée", "", "info");
+      } else if (result.isDenied) {
+        Swal.fire("L'archivage a été annulée", '', 'info');
       }
     });
   }
 
-  desarchiver(id: number | null)
-  {
+  desarchiver(id: number | null) {
     Swal.fire({
-      title: "Voulez-vous confirmer le désarchivage ?",
+      title: 'Voulez-vous confirmer le désarchivage ?',
       showDenyButton: true,
-      confirmButtonText: "Désarchiver",
-      denyButtonText: `Annuler`
+      confirmButtonText: 'Désarchiver',
+      denyButtonText: `Annuler`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.data.desarchiverResource(id).subscribe((d:any) => {
+        this.data.desarchiverResource(id).subscribe((d: any) => {
           if (d.message) {
-            this.getData()
+            this.getData();
             Swal.fire({
-              title: "Succes!",
+              title: 'Succes!',
               text: d.message,
-              icon: "success"
+              icon: 'success',
             });
-          }else if(d.error){
+          } else if (d.error) {
             Swal.fire({
-              title: "Error!",
+              title: 'Error!',
               text: d.error,
-              icon: "error"
+              icon: 'error',
             });
           }
         });
-      }else if(result.isDenied) {
-        Swal.fire("Le désarchivage a été annulée", "", "info");
+      } else if (result.isDenied) {
+        Swal.fire('Le désarchivage a été annulée', '', 'info');
       }
     });
   }
 
-  validate(id: number | null)
-  {
+  validate(id: number | null) {
     Swal.fire({
-      title: "Voulez-vous confirmer la validation?",
+      title: 'Voulez-vous confirmer la validation?',
       showDenyButton: true,
-      confirmButtonText: "Valider",
-      denyButtonText: `Annuler`
+      confirmButtonText: 'Valider',
+      denyButtonText: `Annuler`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.data.validateResource(id).subscribe((d:any) => {
+        this.data.validateResource(id).subscribe((d: any) => {
           if (d.message) {
-            this.getData()
+            this.getData();
             Swal.fire({
-              title: "Succes!",
+              title: 'Succes!',
               text: d.message,
-              icon: "success"
+              icon: 'success',
             });
-          }else if(d.error){
+          } else if (d.error) {
             Swal.fire({
-              title: "Error!",
+              title: 'Error!',
               text: d.error,
-              icon: "error"
+              icon: 'error',
             });
           }
         });
-      }else if(result.isDenied) {
-        Swal.fire("La validation a été annulée", "", "info");
+      } else if (result.isDenied) {
+        Swal.fire('La validation a été annulée', '', 'info');
       }
     });
   }
 
-  invalidate(id: number | null)
-  {
+  invalidate(id: number | null) {
     Swal.fire({
-      title: "Voulez-vous annuler la validation?",
+      title: 'Voulez-vous annuler la validation?',
       showDenyButton: true,
-      confirmButtonText: "Dévalider",
-      denyButtonText: `Annuler`
+      confirmButtonText: 'Dévalider',
+      denyButtonText: `Annuler`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.data.invalidateResource(id).subscribe((d:any) => {
+        this.data.invalidateResource(id).subscribe((d: any) => {
           if (d.message) {
-            this.getData()
+            this.getData();
             Swal.fire({
-              title: "Succes!",
+              title: 'Succes!',
               text: d.message,
-              icon: "success"
+              icon: 'success',
             });
-          }else if(d.error){
+          } else if (d.error) {
             Swal.fire({
-              title: "Error!",
+              title: 'Error!',
               text: d.error,
-              icon: "error"
+              icon: 'error',
             });
           }
         });
-      }else if(result.isDenied) {
-        Swal.fire("La dévalidation a été annulée", "", "info");
+      } else if (result.isDenied) {
+        Swal.fire('La dévalidation a été annulée', '', 'info');
       }
     });
   }
@@ -709,16 +815,15 @@ export class PilotageComponent implements AfterViewInit {
     this.hoveredIcon[id] = null;
   }
 
-  closeModal()
-  {
+  closeModal() {
     let modal = document.getElementById('modal');
     if (modal) {
       modal.style.display = 'none';
-      this.Data.enable()
-      this.display = false
+      this.Data.enable();
+      this.display = false;
       // this.selectedFile = undefined;
       this.selectedFiles = [];
-      !this.fileCount
+      !this.fileCount;
     }
   }
 
@@ -732,7 +837,7 @@ export class PilotageComponent implements AfterViewInit {
       { header: 'Pôle', key: 'pole', width: 20 },
       { header: 'Département', key: 'departement', width: 20 },
       { header: 'Service', key: 'service', width: 20 },
-      { header: 'Activité', key: 'activite', width: 20 },
+      { header: 'Activité/Domaine', key: 'activite', width: 20 },
       { header: 'Code', key: 'code', width: 15 },
       { header: 'Contrôle', key: 'controle', width: 30 },
       { header: 'Objectif', key: 'objectif', width: 30 },
@@ -749,27 +854,34 @@ export class PilotageComponent implements AfterViewInit {
     ];
 
     worksheet.getRow(1).eachCell((cell) => {
-      cell.font = { name: 'Arial', size: 12, bold: true, color: { argb: 'FFFFFF' } }; // Texte en blanc
+      cell.font = {
+        name: 'Arial',
+        size: 12,
+        bold: true,
+        color: { argb: 'FFFFFF' },
+      }; // Texte en blanc
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: 'FF7900' }
+        fgColor: { argb: 'FF7900' },
       };
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
     });
 
     this.toExp.forEach((data: any) => {
+      console.log(data);
+
       const row = worksheet.addRow({
-        type: data.controle_id.type_controle_id,
+        type: data.type_controle_id.libelle,
         direction: data.direction_id.libelle,
         pole: data.pole_id.libelle,
         departement: data.departement_id.libelle,
         service: data.service_id.libelle,
         activite: data.activite_id.libelle,
-        code: data.controle_id.code,
-        controle: data.controle_id.nom_controle,
-        objectif: data.controle_id.objectif,
-        descriptif: data.controle_id.descriptif,
+        code: data.code,
+        controle: data.controle,
+        objectif: data.objectif,
+        descriptif: data.descriptif,
         risque: data.risque_id.libelle,
         porteur: data.user_id.nom_complet,
         periodicite: data.periodicite,
@@ -782,20 +894,24 @@ export class PilotageComponent implements AfterViewInit {
       });
 
       row.eachCell((cell) => {
-        cell.alignment = { wrapText: true, vertical: 'middle', horizontal: 'left' };
+        cell.alignment = {
+          wrapText: true,
+          vertical: 'middle',
+          horizontal: 'left',
+        };
       });
 
       const lineHeight = 80;
       row.height = lineHeight;
     });
 
-
     workbook.xlsx.writeBuffer().then((buffer) => {
-      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
       FileSaver.saveAs(blob, 'ExportedData.xlsx');
     });
   }
-
 
   // onFileSelected(event: any): void {
   //   this.selectedFile = event.target.files[0] as File;
@@ -803,20 +919,41 @@ export class PilotageComponent implements AfterViewInit {
 
   onUpload(): void {
     if (this.selectedFile) {
-      this.importService.uploadFile(this.selectedFile)
-        .subscribe(
-          response => {
-            console.log('Fichier importé avec succès :', response);
-            // Gérer la réponse de succès ici
-          },
-          error => {
-            console.error('Erreur lors de l\'importation du fichier :', error);
-            // Gérer l'erreur ici
-          }
-        );
+      this.importService.uploadFile(this.selectedFile).subscribe(
+        (response) => {
+          console.log('Fichier importé avec succès :', response);
+          // Gérer la réponse de succès ici
+        },
+        (error) => {
+          console.error("Erreur lors de l'importation du fichier :", error);
+          // Gérer l'erreur ici
+        }
+      );
     } else {
       console.error('Aucun fichier sélectionné.');
     }
   }
 
+  uploadFile(file: File) {
+    this.importService
+      .uploadFile(file)
+      .pipe(
+        catchError((error: any) => {
+          console.error("Erreur lors de l'envoi du fichier", error);
+          let errorMessage = 'Erreur inconnue';
+          if (error.error instanceof ErrorEvent) {
+            // Erreur côté client
+            errorMessage = `Erreur : ${error.error.message}`;
+          } else {
+            // Erreur côté serveur
+            errorMessage = `Erreur HTTP : ${error.status}\nMessage : ${error.message}`;
+          }
+
+          return throwError(errorMessage);
+        })
+      )
+      .subscribe((data) => {
+        console.log('Fichier envoyé avec succès', data);
+      });
+  }
 }

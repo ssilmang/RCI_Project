@@ -24,5 +24,7 @@ export class CrudService {
   updateResources<T>(apiUrl: string, uri: string, id: number, data: T): Observable<T> {
     return this.http.put<T>(apiUrl + uri + id, data);
   }
-
+  getControlsGroupedByCountry(): Observable<any[]> {
+    return this.http.get<any[]>('http://127.0.0.1:8000/api/controlsgrouped-by-country');
+  }
 }

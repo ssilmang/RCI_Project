@@ -6,6 +6,7 @@
 
       <h1 class="text-[2rem] ml-3 text-[#FF7900] font-bold">Directions</h1>
 
+      @if (display) {
       <form [formGroup]="direction">
         <div class="flex gap-2">
           <input formControlName="libelle"
@@ -18,6 +19,7 @@
         </button>
       </div>
     </form>
+  }
 
     </div>
 
@@ -32,12 +34,14 @@
               {{direction.libelle}}
             </div>
 
+            @if (display) {
             <div class="w-28 h-7 flex gap-2 justify-center items-center">
               <i (click)="editDirec(direction)"
                 class="cursor-pointer material-icons text-green-600">edit</i>
               <i (click)="deleteDirec(direction.id)"
                 class="cursor-pointer material-icons text-red-600">delete</i>
             </div>
+          }
           </div>
         }
         @empty {
@@ -65,10 +69,12 @@
             <option [value]="direction.id">{{direction.libelle}}</option>
           }
         </select>
+        @if (display) {
         <button (click)="openModal()"
         class="bg-[#FF7900] w-[35%] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold h-8">
-  <i class="fas fa-plus"></i> pole
-</button>
+        <i class="fas fa-plus"></i> pole
+       </button>
+      }
 
       </div>
 
@@ -78,10 +84,12 @@
       @for (pole of poles()|direction:selectedDirect; track pole.id) {
         <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[12%] rounded-xl">
           <h1 class="text-xl w-[90%] font-semibold">{{pole.libelle}}</h1>
+          @if (display) {
           <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
             <i (click)="editModal(pole)" class="material-icons cursor-pointer text-green-400">edit</i>
             <i (click)="deletePole(pole.id)" class="material-icons cursor-pointer text-red-600">delete</i>
           </div>
+        }
         </div>
       }
       @empty {
@@ -110,7 +118,7 @@
         <span (click)="closeModal()" class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter'] flex items-center justify-center">
           <i class="fas fa-times" style="margin-top: 30px;"></i>
       </span>
-      
+
       </div>
 
       <div class="flex flex-col gap-12 m-2 h-[85%]">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PoleController extends Controller
 {
@@ -21,6 +22,12 @@ class PoleController extends Controller
     public function store(Request $request)
     {
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation d\'ajouter !'
+                ]);
+            } else {
             $p = Pole::where('libelle', $request->libelle)->first();
             if ($p) {
                 return response()->json([
@@ -43,6 +50,7 @@ class PoleController extends Controller
             return response()->json([
                 'message' => 'Pôle créé avec succès!',
             ], 201);
+        }
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
@@ -55,7 +63,12 @@ class PoleController extends Controller
      */
     public function update(Request $request, string $id){
         try {
-
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation de modifier !'
+                ]);
+            } else {
             $pole = Pole::find($id);
 
             if ($pole->libelle != $request->libelle) {
@@ -92,7 +105,7 @@ class PoleController extends Controller
             return response()->json([
                 'message' => 'Pôle mis à jour avec succès!',
             ], 200);
-
+        }
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
@@ -105,6 +118,12 @@ class PoleController extends Controller
      */
     public function destroy(string $id)
     {
+        $user = Auth::user();
+        if ($user->profil_id != 2) {
+            return response()->json([
+                'error' => 'Vous n\'avez pas l\'autorisation de supprimer !'
+            ]);
+        } else {
         $pole = Pole::find($id);
 
         if (!$pole) {
@@ -114,6 +133,7 @@ class PoleController extends Controller
         $pole->delete();
 
         return response()->json(['message' => 'Pole supprimé avec succes!']);
+    }
     }
 
     public function restaurer($id)

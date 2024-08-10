@@ -126,7 +126,6 @@ return [
 
 
     'providers' => [
-        // Maatwebsite\Excel\ExcelServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
@@ -151,18 +150,19 @@ return [
         Illuminate\Filesystem\FilesystemServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
+        App\Providers\AuthServiceProvider::class
+        // Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
 
     'aliases' => [
-
-        // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'DB' => Illuminate\Support\Facades\DB::class,
         'File' => Illuminate\Support\Facades\File::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'Password' => Illuminate\Support\Facades\Password::class,
         'Route' => Illuminate\Support\Facades\Route::class,
+        // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ]
 
 

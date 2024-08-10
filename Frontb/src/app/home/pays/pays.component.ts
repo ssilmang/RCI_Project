@@ -7,7 +7,6 @@ import Swal from 'sweetalert2'
 import { CommonModule } from '@angular/common';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
-
 @Component({
   selector: 'app-pays',
   standalone: true,
@@ -19,6 +18,7 @@ export class PaysComponent {
   titre!: string
   btn!: string
   id!: number | null
+  display: boolean = false
   // risk!: boolean
   // archive!: boolean
 
@@ -39,13 +39,21 @@ export class PaysComponent {
   ngOnInit()
   {
     this.getContries()
+
+    const user = localStorage.getItem('user');
+    const userObj = JSON.parse(user!);
+    const profil = userObj.profil_id
+    // console.log(profil);
+    if (profil == 2) {
+      this.display = true
+    }
   }
 
   getContries()
   {
     this.contryService.listResources().subscribe((res:any) => {
       this.contries = signal(res.data)
-      console.log(res);
+      // console.log(res);
     })
   }
 

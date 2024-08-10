@@ -8,7 +8,11 @@ export interface Data {
   periodicite: string | null,
   exhaustivite: string | null,
   preuve: string | null,
-  controle_id : number | null,
+  controle : string | null,
+  code : string | null,
+  descriptif : string | null,
+  objectif : string | null,
+  type_controle_id : number | null,
   commentaire: string | null,
   date_ajout: Date | null,
   archived_at: Date | null,
@@ -28,9 +32,9 @@ export interface Utilisateur {
   email: string,
   password: string,
   direction_id: number,
-  service_id: number
+  service_id: number,
+  profil_id: number | null
 }
-
 
 export interface Direction {
   id: number | null,
@@ -87,8 +91,6 @@ export interface TypeControle {
   libelle: string,
 }
 
-
-
 export interface Type {
   id: number | null,
   libelle: string
@@ -98,7 +100,7 @@ export interface Pays {
   id: number | null,
   libelle: string
 }
+
 export interface Profil extends Pays {
-  
 }
 

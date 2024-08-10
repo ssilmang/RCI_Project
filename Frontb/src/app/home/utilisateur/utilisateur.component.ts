@@ -32,13 +32,14 @@ export class UtilisateurComponent {
   selectedServ: number = 0
   selectedContry: number = 0
   selectedProfil: number = 0
+  display: boolean = false
 
 
   users: Signal<Utilisateur[]> = signal([])
   services: Signal<Service[]> = signal([])
   directions: Signal<Direction[]> = signal([])
   contries: Signal<Contry[]> = signal([])
-  profils!: Profil[]
+  profils: Signal<Profil[]> = signal([])
 
 
   utilisateur!: FormGroup
@@ -65,14 +66,13 @@ export class UtilisateurComponent {
       service_id: this.fb.control(0),
       contry_id: this.fb.control(0),
       profil_id: this.fb.control(0),
-
     });
+
     this.select = this.fb.group({
       direction_id: this.fb.control(0),
       service_id: this.fb.control(0),
       contry_id: this.fb.control(0),
       profil_id: this.fb.control(0),
-
     });
     this.select.get('direction_id')?.valueChanges.subscribe(res=>{
       // console.log(res);
@@ -87,7 +87,7 @@ export class UtilisateurComponent {
       this.selectedContry = res
     })
     this.select.get('profil_id')?.valueChanges.subscribe(res=>{
-      // console.log(res);
+      console.log(res);
       this.selectedProfil = res
     })
   }
@@ -98,6 +98,14 @@ export class UtilisateurComponent {
     this.getDirections()
     this.getContries()
     this.getProfils()
+
+    const user = localStorage.getItem('user');
+    const userObj = JSON.parse(user!);
+    const profil = userObj.profil_id
+    // console.log(profil);
+    if (profil == 2 || profil == 3) {
+      this.display = true
+    }
   }
 
   getContries()
@@ -107,11 +115,12 @@ export class UtilisateurComponent {
       // console.log(res);
     })
   }
-  getProfils() {
+
+   getProfils() {
     this.profilService.listResources().subscribe(
       (res: any) => {
-        this.profils = res
-        console.log(this.profils);
+        this.profils = signal(res)
+        // console.log(res);
       },
       (error: any) => {
         console.error('Error fetching profils:', error);
@@ -123,7 +132,7 @@ export class UtilisateurComponent {
   {
     this.userService.listResources().subscribe((res:any) => {
       this.users = signal(res.data)
-      console.log(res.data);
+      // console.log(res.data);
     })
   }
 
@@ -234,8 +243,9 @@ export class UtilisateurComponent {
 
     let modal = document.getElementById('userModal');
     if (modal) {
-      this.title = 'Modification utilisateur'
+      this.title = 'Modification profil'
       this.btn = 'Modifier'
+      this.id = user.id
       this.utilisateur.patchValue(
       {
         nom_complet: user.nom_complet,
@@ -243,10 +253,10 @@ export class UtilisateurComponent {
         addresse: user.addresse,
         matricule: user.matricule,
         email: user.email,
-        password: user.password,
         direction_id: user.direction_id.id,
         service_id: user.service_id.id,
-        profil_id:user.profil_id.id
+        contry_id: user.pays_id.id,
+        profil_id: user.profil_id.id
       }
       )
       modal.style.display = 'block';
@@ -255,8 +265,7 @@ export class UtilisateurComponent {
 
   info(user: any)
   {
-    console.log(user);
-
+    // console.log(user);
     let modal = document.getElementById('userModal');
     if (modal) {
       this.title = 'Information utilisateur'
@@ -268,12 +277,10 @@ export class UtilisateurComponent {
         addresse: user.addresse,
         matricule: user.matricule,
         email: user.email,
-        password: user.password,
         direction_id: user.direction_id.id,
         service_id: user.service_id.id,
         contry_id: user.pays_id.id,
-        // profil_id:user.profil_id.id
-
+        profil_id: user.profil_id.id
       }
       )
       this.utilisateur.disable()

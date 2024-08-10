@@ -17,14 +17,5 @@ class Data extends Model
         'created_at'
     ];
 
-    public function controle()
-    {
-        return $this->hasMany(Controle::class);
-    }
-
-    public function type()
-    {
-        return $this->belongsTo(TypeControle::class, 'type_controle_id');
-    }
 
 }

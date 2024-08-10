@@ -51,6 +51,10 @@ class UtilisateurController extends Controller
                 return response()->json(['error' => 'Veuillez choisir un pays!']);
             }
 
+            if (!$request->profil_id || $request->profil_id == null) {
+                return response()->json(['error' => 'Veuillez choisir un profil!']);
+            }
+
             $utilisateur = User::create([
                 'nom_complet' => $request->nom_complet,
                 'telephone' => $request->telephone,
@@ -61,6 +65,7 @@ class UtilisateurController extends Controller
                 'direction_id' => $request->direction_id,
                 'service_id' => $request->service_id,
                 'pays_id' => $request->pays_id,
+                'profil_id' => $request->profil_id,
             ]);
 
             return response()->json([
@@ -80,33 +85,49 @@ class UtilisateurController extends Controller
     {
         try
             {
+            $user = Auth::user();
+            // return $user->profil_id;
+
             $utilisateur = User::findOrFail($id);
+            // return $utilisateur->profil_id;
 
-            if ($utilisateur->email != $request->email) {
-                $user = User::where('email', $request->email)->first();
-                if ($user) {
-                    return response()->json(['error' => 'Cet email a déjà été attribué!']);
-                }
-            }
-            if (!$request->nom_complet || $request->nom_complet == null) {
-                return response()->json(['error' => 'Veuillez saisir le nom complet!']);
+            if ($user->profil_id == 3 && $utilisateur->profil_id == 2) {
+                return response()->json([
+                    'error' => 'Vous ne pouvez pas editer un super admin!'
+                ]);
             }
 
-            if (!$request->matricule || $request->matricule == null) {
-                return response()->json(['error' => 'Veuillez saisir la matricule!']);
+            if ($user->profil_id == 3 && $utilisateur->profil_id == 3) {
+                return response()->json([
+                    'error' => 'Vous ne pouvez pas editer un admin local!'
+                ]);
             }
 
-            if ($request->direction_id == 0 || $request->direction_id == null) {
-                return response()->json(['error' => 'Veuillez choisir une direction!']);
-            }
+            // if ($utilisateur->email != $request->email) {
+            //     $user = User::where('email', $request->email)->first();
+            //     if ($user) {
+            //         return response()->json(['error' => 'Cet email a déjà été attribué!']);
+            //     }
+            // }
+            // if (!$request->nom_complet || $request->nom_complet == null) {
+            //     return response()->json(['error' => 'Veuillez saisir le nom complet!']);
+            // }
 
-            if (!$request->password || $request->password == null) {
-                return response()->json(['error' => 'Veuillez saisir un password par defaut!']);
-            }
+            // if (!$request->matricule || $request->matricule == null) {
+            //     return response()->json(['error' => 'Veuillez saisir la matricule!']);
+            // }
 
-            if (!$request->pays_id || $request->pays_id == null) {
-                return response()->json(['error' => 'Veuillez choisir un pays!']);
-            }
+            // if ($request->direction_id == 0 || $request->direction_id == null) {
+            //     return response()->json(['error' => 'Veuillez choisir une direction!']);
+            // }
+
+            // if (!$request->password || $request->password == null) {
+            //     return response()->json(['error' => 'Veuillez saisir un password par defaut!']);
+            // }
+
+            // if (!$request->pays_id || $request->pays_id == null) {
+            //     return response()->json(['error' => 'Veuillez choisir un pays!']);
+            // }
 
             $utilisateur->update([
                 'nom_complet' => $request->nom_complet,
@@ -114,10 +135,11 @@ class UtilisateurController extends Controller
                 'addresse' => $request->addresse,
                 'matricule' => $request->matricule,
                 'email' => $request->email,
-                'password' => bcrypt($request->password),
+                // 'password' => bcrypt($request->password),
                 'direction_id' => $request->direction_id,
                 'service_id' => $request->service_id,
-                'pays_id' => $request->pays_id,
+                'pays_id' => $request->contry_id,
+                'profil_id' => $request->profil_id,
             ]);
 
             return response()->json(['message' => 'Utilisateur mis à jour avec succès!']);
@@ -164,7 +186,7 @@ class UtilisateurController extends Controller
         return $this->respondWithToken($token);
     }
 
-   
+
     protected function respondWithToken($token)
     {
         return response()->json([
@@ -174,7 +196,7 @@ class UtilisateurController extends Controller
             //si vous voulez que le token expire dans quelques secondes//
         ]);
     }
-    
+
     public function logout()
 {
     auth()->logout();

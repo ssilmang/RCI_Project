@@ -12,13 +12,13 @@ class DataController extends Controller
 {
     public function index()
     {
-        $controles = Data::with('type')->get();
-        $archives = Data::onlyTrashed()->with('type')->get();
+        // $controles = Data::with('type')->get();
+        // $archives = Data::onlyTrashed()->with('type')->get();
 
-        return response()->json([
-            'data' => ControleResource::collection($controles),
-            'archives' => ControleResource::collection($archives)
-        ]);
+        // return response()->json([
+        //     'data' => ControleResource::collection($controles),
+        //     'archives' => ControleResource::collection($archives)
+        // ]);
     }
 
     /**

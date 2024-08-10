@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Service;
 use App\Models\Activite;
 use App\Models\Direction;
+use App\Models\TypeControle;
 use App\Models\Departement;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -35,7 +36,7 @@ class Controle extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function departement()
@@ -58,9 +59,9 @@ class Controle extends Model
         return $this->belongsTo(Risque::class);
     }
 
-    public function data()
+    public function type()
     {
-        return $this->belongsTo(Data::class);
+        return $this->belongsTo(TypeControle::class, 'type_controle_id');
     }
 
 

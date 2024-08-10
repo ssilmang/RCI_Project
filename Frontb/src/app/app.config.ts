@@ -1,7 +1,9 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, InjectionToken } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { loggerInterceptor } from './_helpers/interceptors/logger.interceptor';
+
 // import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 // import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -14,7 +16,9 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([
+      loggerInterceptor
+    ]))
     // provideCharts(withDefaultRegisterables()),
     // {
     //   provide: TranslateLoader,

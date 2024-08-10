@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Controle;
 use Illuminate\Support\Facades\Hash;
+
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -40,6 +41,6 @@ class ControleImport implements ToModel,WithHeadingRow
 
             'date_ajout' => now()
         ]);
-     
+
     }
 }

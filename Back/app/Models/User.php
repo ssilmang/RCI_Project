@@ -3,12 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Controle;
 use Laravel\Sanctum\HasApiToken;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -44,7 +45,12 @@ class User extends Authenticatable implements JWTSubject
 
     public function pays()
     {
-        return $this->belongsTo(Contry::class);
+        return $this->belongsTo(Contry::class,'pays_id');
+    }
+
+    public function profil()
+    {
+        return $this->belongsTo(Profil::class);
     }
 
     public function data()
@@ -66,5 +72,9 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+    public function controles()
+    {
+        return $this->hasMany(Controle::class); // ou le nom correct du modèle si ce n'est pas `Controle`
     }
 }

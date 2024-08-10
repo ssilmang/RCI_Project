@@ -16,7 +16,10 @@ class DataResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'controle_id' => new ControleResource($this->data),
+            'controle' => $this->controle,
+            'code' => $this->code,
+            'descriptif' => $this->descriptif,
+            'objectif' => $this->objectif,
             'periodicite' => $this->periodicite,
             'exhaustivite' => $this->exhaustivite,
             'preuve' => $this->preuve,
@@ -26,6 +29,7 @@ class DataResource extends JsonResource
             'commentaire' => $this->commentaire,
             'date_ajout' => $this->date_ajout,
             'archived_at' => $this->archived_at,
+            'type_controle_id' => new TypeResource($this->type),
             'risque_id' => new RisqueResource($this->risque),
             'direction_id' => new DirectionResource($this->direction),
             'service_id' => new ServiceResource($this->service),

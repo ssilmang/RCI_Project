@@ -34,5 +34,16 @@ export class ControleService {
   updateResources(id: number|null, data: any) {
     return this.http.post(this.apiUrl + this.uri.update + id, data);
   }
+  getNotifications(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`);
+  }
+
+  markAsRead(notificationId: number): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/read/${notificationId}`, {});
+  }
+  updateControlStatus(controlId: number, newEta: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${controlId}/etat/${newEta}`, {});
+  }
+  
 
 }

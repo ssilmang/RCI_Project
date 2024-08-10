@@ -1,6 +1,6 @@
 <div class="flex w-full h-screen relative">
 
-  <div class="w-[18%] h-[100%] shadow-2xl shadow-[#242a30] ring-1 ring-[#242a30]
+  <div #sideBar class="w-[18%] h-[100%] shadow-2xl shadow-[#242a30] ring-1 ring-[#242a30]
               flex flex-col p-1">
 
     <div class="w-full h-[30%] flex justify-between p-2">
@@ -10,7 +10,10 @@
             alt="freelance">
         </div>
         <div class="flex flex-col gap-2 ">
-          <h1 class="font-semibold text-xl">Elhadji Malick Ndao</h1>
+          <div class="flex flex-col gap-1">
+            <h1 class="font-semibold text-xl">{{nomComplet }}</h1>
+            <h3 class="text-md">{{profil}}</h3>
+          </div>
           <h3>
             <span>{{role}} </span>
             <!-- <span *ngIf="entite">| {{entite}}</span> -->
@@ -19,6 +22,22 @@
       </div>
 
       <div class="flex gap-3 mt-6 h-6">
+
+        <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'notifications'" (mouseleave)="hoveredIcon = null">
+          <i (click)="toggleNotifications()" class="material-icons cursor-pointer text-[#FF7900] relative">notifications</i>
+          <span  class="notification-count">2</span>
+          <div class="tooltip" *ngIf="hoveredIcon === 'notifications'">Voir mes notifications</div>
+        </div>
+        
+        <!-- Liste des notifications affichée au clic -->
+        <div class="notification-list" >
+          <div *ngFor="let notification of notifications" class="notification-item">
+            <div class="notification-message">notification.message</div>
+            <button (click)="markAsRead(notification.id)" class="mark-as-read-button">Marquer comme lu</button>
+          </div>
+        </div>
+        
+        
         <div class="icon-wrapper" (mouseenter)="hoveredIcon = 'account_box'" (mouseleave)="hoveredIcon = null">
           <i (click)="infoUser()" class="material-icons cursor-pointer text-[#FF7900]">account_box</i>
           <div class="tooltip" *ngIf="hoveredIcon === 'account_box'">Voir mes informations personnelles</div>
@@ -69,7 +88,7 @@
 
           <span>Départements & Services & Activités</span>
         </div>
-        <div [routerLink]="['risques']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
+        <div [routerLink]="['risque']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
           <i class="material-icons" style="color: #FF7900;">warning</i>
 
           <span>Risques</span>
@@ -78,12 +97,12 @@
           <i class="material-icons text-[#FF7900]">layers</i>
           <span>Pilotage</span>
         </div>
-        <div [routerLink]="['profils']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
+        <div [routerLink]="['profil']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
           <i class="material-icons text-orange" style="color:#FF7900 ;">account_circle</i>
 
           <span>Profils</span>
         </div>
-        <div [routerLink]="['utilisateurs']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
+        <div [routerLink]="['utilisateur']" routerLinkActive="active-link" class=" cursor-pointer flex gap-2">
           <i class="material-icons text-[#FF7900]">people</i>
           <span>Utilisateurs</span>
         </div>
@@ -92,7 +111,7 @@
 
   </div>
 
-  <div class="w-[82%] h-[100%] ring-1 ring-[#242a30] flex flex-col gap-1">
+  <div #main class="w-[82%] h-[100%] ring-1 ring-[#242a30] flex flex-col gap-1">
 
     <div class="relative flex justify-between w-full h-[10%] bg-contain"
       style="background-image: url('./assets/img/omea2.png'); background-size: 48%;">

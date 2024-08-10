@@ -25,6 +25,8 @@ export class Setting1Component {
   directions: Signal<Direction[]> = signal([])
   poles: Signal<Pole[]> = signal([])
   selectedDirect: number | null = 0
+  display: boolean = false
+
 
   direction!: FormGroup
   Pole!: FormGroup
@@ -60,6 +62,14 @@ export class Setting1Component {
   {
     this.getDirections()
     this.getPoles()
+
+    const user = localStorage.getItem('user');
+    const userObj = JSON.parse(user!);
+    const profil = userObj.profil_id
+    // console.log(profil);
+    if (profil == 2) {
+      this.display = true
+    }
   }
 
   getDirections()

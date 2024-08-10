@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AuthService } from '../_helpers/services/auth.service';
+import { ControleService } from '../_helpers/services/all_methods/controle.service';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +16,7 @@ export class HomeComponent {
 
   role!: string;
   use!: any;
+  // notifications!:number[]
   user!: string;
   identifiant!: string
   entite: string='all'
@@ -22,12 +25,24 @@ export class HomeComponent {
   name: string = ''
   img: string = ''
   hoveredIcon: string | null = null;
+  nomComplet!: string
+  profil!: string
+  unreadCount: number = 0;
+  notifications: any[] = [];
+  showNotifications: boolean = false;
+  // hoveredIcon: string | null = null;
+  userId!: number;
 
   // image!: any
 
   // userForm!: FormGroup
 
-  constructor(private fb: FormBuilder, private router: Router){
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private ctrl:ControleService
+  ){
 
     const currentDate = new Date();
     const dayOfMonth = currentDate.getDate();
@@ -52,13 +67,19 @@ export class HomeComponent {
 
   ngOnInit()
   {
-    // this.crud.getDatas().subscribe((d:any)=>{
-    //   this.data = d;
-    // })
-    // this.scheduleEmailSending();
-    // Définir un intervalle pour exécuter la fonction toutes les 24 heures
-    // setInterval(this.scheduleEmailSending, 24 * 60 * 60 * 1000);
-    // setInterval(() => this.scheduleEmailSending(), 5000);
+    this.loadNotifications();
+    const user = localStorage.getItem('user');
+    const userObj = JSON.parse(user!);
+    this.nomComplet = userObj.nom_complet;
+    const profil = userObj.profil_id
+    if (profil == 1) {
+      this.profil = 'Porteur'
+    }else if (profil == 2) {
+      this.profil = 'Super_admin'
+    }else if(profil == 3) {
+      this.profil = 'Admin_local'
+    }
+    // console.log(userObj);
   }
 
   recupUser()
@@ -142,13 +163,42 @@ export class HomeComponent {
 
   logout()
   {
+    this.authService.logout();
     this.router.navigateByUrl('/login')
-    // Swal.fire({
-    //   title: "Succes!",
-    //   text: "Vous avez été déconnecté. A bientot !",
-    //   icon: "success"
-    // });
-    localStorage.clear();
   }
+  loadNotifications(): void {
+    this.ctrl.getNotifications(this.userId).subscribe(
+      data => {
+        this.notifications = data;
+        this.unreadCount = data.filter(n => !n.read).length;
+      },
+      error => console.error('Erreur lors du chargement des notifications', error)
+    );
+  }
+
+  toggleNotifications(): void {
+    this.showNotifications = !this.showNotifications;
+    if (this.showNotifications) {
+      this.loadNotifications(); // Recharger les notifications lorsque le menu est affiché
+    }
+}
+markAsRead(notificationId: number): void {
+  this.ctrl.markAsRead(notificationId).subscribe(
+    () => this.loadNotifications(), // Recharger les notifications après marquage comme lu
+    error => console.error('Erreur lors de la mise à jour de la notification', error)
+  );
+}
+dcjjd(controlId: number, newStatus: string): void {
+  this.ctrl.updateControlStatus(controlId, newStatus).subscribe(
+    () => {
+ 
+      this.loadNotifications();
+    },
+    error => {
+      // Gérer les erreurs lors de la mise à jour du statut
+      console.error('Erreur lors de la mise à jour du statut du contrôle', error);
+    }
+  );
+}
 
 }

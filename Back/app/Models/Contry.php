@@ -13,9 +13,9 @@ class Contry extends Model
 
     protected $table = 'contrys';
 
-    public function user()
+    public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class,'pays_id');
     }
 
 }

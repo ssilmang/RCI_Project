@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ContryController extends Controller
 {
@@ -12,8 +13,10 @@ class ContryController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
         return response()->json([
             'data' => Contry::all(),
+            'user' => $user
             // 'archives' => Contry::onlyTrashed()->get()
         ]);
     }
@@ -22,6 +25,13 @@ class ContryController extends Controller
     {
 
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation d\'ajouter un pays !'
+                ]);
+            } else {
+
             $p =Contry::where('libelle', $request->libelle)->first();
             if ($p) {
                 return response()->json([
@@ -43,6 +53,7 @@ class ContryController extends Controller
                 'message' => "Le pays a été crée avec succès!",
             ], 201);
 
+           }
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => 'Une erreur est survenue : ' . $th->getMessage(),
@@ -56,6 +67,13 @@ class ContryController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $user = Auth::user();
+            if ($user->profil_id != 2) {
+                return response()->json([
+                    'error' => 'Vous n\'avez pas l\'autorisation de modifier un pays !'
+                ]);
+
+            }else{
             $contry = Contry::find($id);
 
             if (!$contry) {
@@ -85,6 +103,7 @@ class ContryController extends Controller
                 'message' => 'Le pays est mise à jour avec succès!',
                 'data' => $contry,
             ]);
+            }
 
         } catch (\Throwable $th) {
             return response()->json([
@@ -98,16 +117,23 @@ class ContryController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user();
+        if ($user->profil_id != 2) {
+            return response()->json([
+                'error' => 'Vous n\'avez pas l\'autorisation de supprimer un pays !'
+            ]);
+        } else {
 
         $contry = Contry::find($id);
 
         if (!$contry) {
-            return response()->json(['error' => 'le pays non trouvé!'], 404);
+            return response()->json(['error' => 'le pays n\'a pas été trouvé !'], 404);
         }
 
         $contry->delete();
 
-        return response()->json(['message' => 'le pays supprimé avec succes!']);
+        return response()->json(['message' => 'le pays est supprimé avec succes !']);
+        }
     }
 
     public function restaurer($id)
