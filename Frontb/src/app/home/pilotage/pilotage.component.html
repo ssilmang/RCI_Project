@@ -1,4 +1,4 @@
-<div class="flex flex-col relative gap-4 w-full h-[100%]">
+<div class="flex flex-col relative gap-4 w-150 h-[100%]">
   <div class="flex justify-between">
     <div class="flex gap-8 w-[30%]">
       <h1
@@ -28,18 +28,20 @@
 
       <!-- import.component.html -->
 
-      <!-- <button
-        type="button"
+      <button
+        type="submit"
         (click)="fileInput.click()"
         class="bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10"
       >
         Import
-      </button> -->
+      </button>
       <input
         #fileInput
         type="file"
         style="display: none"
-        (change)="onFileSelected($event)"
+        (change)="onFileChange($event)"
+        accept=".xlsx"
+        required
       />
 
       <button
@@ -78,7 +80,7 @@
           formControlName="type"
           class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30 flex text-center"
         >
-          <option value="0">filtrer par type</option>
+          <option value="">filtrer par type</option>
           @for (type of types(); track type.id) {
           <option [value]="type.id">{{ type.libelle }}</option>
           }
@@ -118,9 +120,9 @@
           formControlName="pole_id"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center"
         >
-          <option value="0">filtrer par pole</option>
+          <option value="">filtrer par pole</option>
           @for (pole of poles(); track pole.id) {
-          <option [value]="pole.id">{{ pole.libelle }}</option>
+          <option [value]="pole.id">{{ pole?.libelle }}</option>
           }
         </select>
       </div>
@@ -224,12 +226,12 @@
           formControlName="statut"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center"
         >
-          <option value="0">filtrer par statut</option>
+          <option value="">filtrer par statut</option>
           <option value="Fait">Fait</option>
           <option value="Non fait">Non fait</option>
           <option value="Applicable">Applicable</option>
           <option value="Non applicable">Non applicable</option>
-          <option value="Transferer">Transferer</option>
+          <!-- <option value="Transferer">Transferer</option> -->
         </select>
       </div>
 
@@ -239,7 +241,7 @@
           formControlName="validate"
           class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center"
         >
-          <option value="0">filtrer par etat</option>
+          <option value="">filtrer par etat</option>
           <option value="Validé">Validé</option>
           <option value="Non validé">Non validé</option>
         </select>
@@ -259,13 +261,13 @@
       </div>
     </div>
 
-    <div class="container shadow-lg w-full overflow-y-auto h-[100%] p-1">
-      <div class="relative shadow-md w-full overflow-y-auto">
-        <table class="w-full shadow-lg">
-          <thead class="text-white bg-[#FF7900]">
+    <div class="container   w-[100%] h-[100%] p-1 ">
+      <div class=" w-[106%]  overflow-y-auto" >
+        <table class=" w-[100%]">
+          <thead class="text-white bg-[#FF7900] ">
             <tr class="text-lg font-semibold">
               <th>
-                <div>Type controle</div>
+                <div class="sticky left-0 z-20">Type controle</div>
               </th>
               <th>
                 <div>Direction</div>
@@ -309,9 +311,6 @@
               <th>
                 <div>Preuve demandée</div>
               </th>
-              <!-- <th>
-                <div>Fichier preuve</div>
-              </th> -->
               <th>
                 <div>Commentaire</div>
               </th>
@@ -329,11 +328,12 @@
                 }
               </th>
               <th>
-                <div>Action</div>
+                <div>Actions</div>
               </th>
             </tr>
           </thead>
           <tbody>
+            <!-- <div>dcvkzdnnnnnnvvnvkv,ed</div> -->
             @if (control) { @for (data of datas() |annee:selectedYear
             |type:selectedType |contry2:selectedContry | direction2:selectedDir
             |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal
@@ -341,53 +341,58 @@
             |departement2:selectedDept |couverture:selectedCouv
             |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ
             ; track data.id;) {
-            <!-- <pre>{{data|json}}</pre> -->
+             <!-- < <pre>{{data|json}}</pre>  -->
+              
             <tr class="bg-white">
-              <td>
-                <div>{{ data.type_controle_id.libelle }}</div>
+              <td class="sticky left-0 z-20">
+                <div class="sticky left-0 z-20" >{{ data?.type_controle_id?.libelle }}</div>
               </td>
               <td>
-                <div>{{ data.direction_id.libelle }}</div>
+                <div>{{ data?.direction_id.libelle }}</div>
               </td>
               <td>
-                <div>{{ data.pole_id.libelle }}</div>
+                <div>{{ data?.pole_id?.libelle }}</div>
               </td>
               <td>
-                <div>{{ data.departement_id.libelle }}</div>
+                <div>{{ data?.departement_id.libelle }}</div>
               </td>
               <td>
-                <div>{{ data.service_id.libelle }}</div>
+                <div>{{ data?.service_id.libelle }}</div>
               </td>
               <td>
-                <div>{{ data.activite_id.libelle }}</div>
+                <div>{{ data?.activite_id.libelle }}</div>
               </td>
               <td>
-                <div>{{ data.controle }}</div>
+                <div>{{ data?.controle }}</div>
               </td>
               <td>
-                <div>{{ data.code }}</div>
+                <div>{{ data?.code }}</div>
               </td>
               <td>
-                <div>{{ data.descriptif }}</div>
+                <div>{{ data?.descriptif }}</div>
               </td>
               <td>
-                <div>{{ data.objectif }}</div>
+                <div style="max-height: 80px; overflow: auto; word-wrap: break-word;">
+                  {{ data?.objectif }}
+                </div>
+              </td>
+              
+              
+              <td>
+                <div>{{ data?.risque_id?.libelle }}</div>
               </td>
               <td>
-                <div>{{ data.risque_id.libelle }}</div>
+                <div>{{ data?.user_id?.nom_complet }}</div>
               </td>
               <td>
-                <div>{{ data.user_id.nom_complet }}</div>
+                <div>{{ data?.periodicite }}</div>
               </td>
               <td>
-                <div>{{ data.periodicite }}</div>
-              </td>
-              <td>
-                <div>{{ data.exhaustivite }}</div>
+                <div>{{ data?.exhaustivite }}</div>
               </td>
               <td>
                 <div>
-                  <textarea readonly>{{ data.preuve }}</textarea>
+                  <textarea readonly>{{ data?.preuve }}</textarea>
                 </div>
               </td>
               <!-- <td>
@@ -395,11 +400,12 @@
                   </td> -->
               <td>
                 <div>
-                  <textarea readonly>{{ data.commentaire }}</textarea>
+                  <textarea readonly>{{ data?.commentaire }}</textarea>
                 </div>
               </td>
               <td>
-                <div>{{ data.etat }}</div>
+                
+                <div>{{data?.etat}}</div>
               </td>
               <td>
                 <div>
@@ -407,7 +413,8 @@
                 </div>
               </td>
               <td>
-                <div>{{ data.date_ajout }}</div>
+                
+                <div>{{data?.date_ajout}}</div>
               </td>
               <td>
                 <div class="flex gap-2">
@@ -516,13 +523,13 @@
             |polectrl:selectedPole |service2:selectedServ ; track data.id) {
             <tr class="bg-white">
               <td>
-                <div>{{ data.type_controle_id.libelle }}</div>
+                <div>{{ data.type_controle_id?.libelle }}</div>
               </td>
               <td>
                 <div>{{ data.direction_id.libelle }}</div>
               </td>
               <td>
-                <div>{{ data.pole_id.libelle }}</div>
+                <div>{{ data.pole_id?.libelle }}</div>
               </td>
               <td>
                 <div>{{ data.departement_id.libelle }}</div>
@@ -570,8 +577,16 @@
                   <textarea readonly>{{ data.commentaire }}</textarea>
                 </div>
               </td>
+               <!-- <td>
+                <div>
+                  <textarea readonly>{{ data.etat }}</textarea>
+                </div>
+              </td> -->
               <td>
-                <div>{{ data.etat }}</div>
+
+                <div>{{data.etat}}</div>
+                
+  
               </td>
               <td>
                 <div>
@@ -626,6 +641,8 @@
         </table>
       </div>
     </div>
+
+
   </div>
   
 
@@ -635,7 +652,7 @@
     id="modal"
   >
     <div
-      class="mt-20 ml-[24rem] w-[60%] h-[100%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]"
+      class="mt-20 ml-[24rem] w-[70%] h-[100%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]"
     >
       <div class="relative bg-white h-[88%] rounded-lg shadow dark:bg-gray-700">
         <div
@@ -734,7 +751,7 @@
                 formControlName="type"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
-                <option value="0">choisir un type de controle</option>
+                <option value="">choisir un type de controle</option>
                 @for (type of types(); track type.id) {
                 <option [value]="type.id">{{ type.libelle }}</option>
                 }
@@ -794,7 +811,7 @@
                 formControlName="pole_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
-                <option value="0">choisir une pole</option>
+                <option value="">choisir une pole</option>
                 @for (pole of poles(); track pole.id) {
                 <option [value]="pole.id">{{ pole.libelle }}</option>
                 }
@@ -885,49 +902,47 @@
                 placeholder="saisir la preuve demandée"
               />
             </div>
+
             <div class="col-span-2 sm:col-span-1">
-              @if (display==false) {
-              <label
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Fichiers preuves</label
-              >
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Fichiers preuves
+              </label>
               <input
                 type="file"
                 (change)="onFileSelected($event)"
                 multiple
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               />
-              } @if (display==true) {
-              <div class="file-container">
-                <label
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Fichiers preuves ({{ fileCount }})
+            
+              <div *ngIf="fileCount > 0" class="file-container mt-2">
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Fichiers sélectionnés ({{ fileCount }})
                 </label>
-                <div class="file-grid">
-                  <div
-                    *ngFor="let file of files; let i = index"
-                    class="file-card"
-                  >
-                    <a target="_blank" [href]="file" class="file-link">
-                      fichier {{ i + 1 }}
+                <ul class="file-list">
+                  <li *ngFor="let file of files" class="file-item">
+                    <a (click)="openFile(file)" class="file-link">
+                      {{ file.name }}
                     </a>
-                  </div>
-                </div>
+                  </li>
+                </ul>
               </div>
-              }
             </div>
+            
+            
+            
+
             <div class="col-span-2 sm:col-span-1">
               <label
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Etat</label
+                >statut</label
               >
               <select
                 formControlName="etat"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
-                <option value="none">choisir un etat</option>
+                <option value="">choisir un statut</option>
                 <option value="Applicable">Applicable</option>
+                <option value="Non Applicable">Nom Applicable</option>
                 <option value="Fait">Fait</option>
                 <option value="Non fait">Non fait</option>
               </select>
@@ -955,4 +970,5 @@
       </div>
     </div>
   </div>
+
 </div>

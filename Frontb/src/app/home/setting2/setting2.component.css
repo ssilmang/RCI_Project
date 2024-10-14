@@ -3,3 +3,11 @@
   text-decoration: underline;
 }
 
+.modal {
+/* Largeur maximale du modal */
+  margin: auto;
+  margin-top: 14rem;
+  margin-left: 29rem;
+ 
+   /* Centrer le modal */
+}

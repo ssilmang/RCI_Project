@@ -69,13 +69,16 @@ export class Setting2Component {
   {
     this.Departement=this.fb.group({
       libelle: this.fb.control(""),
+
       direction_id: this.fb.control(0),
-      pole_id: this.fb.control(0),
+
+      pole_id: this.fb.control(null),
+
     });
 
     this.Service=this.fb.group({
       libelle: this.fb.control(""),
-      departement_id: this.fb.control(0),
+      departement_id: this.fb.control(null),
     });
 
     this.Activite=this.fb.group({
@@ -85,7 +88,8 @@ export class Setting2Component {
 
     this.select=this.fb.group({
       direction_id: this.fb.control("0"),
-      pole_id: this.fb.control("0"),
+      pole_id: this.fb.control(null),
+
     });
 
     this.select2=this.fb.group({

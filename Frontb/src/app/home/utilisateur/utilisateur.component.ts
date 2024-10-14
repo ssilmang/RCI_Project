@@ -248,15 +248,15 @@ export class UtilisateurComponent {
       this.id = user.id
       this.utilisateur.patchValue(
       {
-        nom_complet: user.nom_complet,
-        telephone: user.telephone,
+        nom_complet: user?.nom_complet,
+        telephone: user?.telephone,
         addresse: user.addresse,
-        matricule: user.matricule,
-        email: user.email,
-        direction_id: user.direction_id.id,
-        service_id: user.service_id.id,
-        contry_id: user.pays_id.id,
-        profil_id: user.profil_id.id
+        matricule: user?.matricule,
+        email: user?.email,
+        direction_id: user?.direction_id?.id,
+        service_id: user?.service_id?.id,
+        contry_id: user?.pays_id?.id,
+        profil_id: user?.profil_id?.id
       }
       )
       modal.style.display = 'block';

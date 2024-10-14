@@ -1,0 +1,21 @@
+/* Ajoutez ceci à votre fichier CSS ou dans un style <style> */
+.modal {
+    max-width: 600px; /* Largeur maximale du modal */
+    margin: auto;
+    margin-top: 14rem;
+   
+     /* Centrer le modal */
+}
+
+.modal-header {
+    background-color: #FF7900; /* Couleur de fond du header */
+}
+
+.modal-close {
+    cursor: pointer;
+    transition: color 0.3s; /* Animation douce pour le changement de couleur */
+}
+
+.modal-close:hover {
+    color: #FFC107; /* Couleur lors du survol */
+}

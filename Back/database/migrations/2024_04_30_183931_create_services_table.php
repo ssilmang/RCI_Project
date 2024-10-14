@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->string('libelle');
-            $table->foreignIdFor(Departement::class)->constrained();
+            $table->foreignIdFor(Departement::class)->nullable()->constrained();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
 

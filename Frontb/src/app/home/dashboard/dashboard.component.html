@@ -1,34 +1,35 @@
 <div class="flex flex-col gap-1 w-full h-[100%]">
-
   <div class="flex gap-12 h-[15%] w-full shadow-md">
-    <h1 class="text-[2rem] text-[#FF663E] ml-2 font-bold">
-      Dashboard
-    </h1>
+    <h1 class="text-[1rem] text-[#FF663E] ml-2 font-bold">Dashboard</h1>
     <div [formGroup]="selectForm" class="flex mt-2 pr-1 gap-3 overflow-x-auto">
       <div class="flex gap-4">
         <label class="text-xl">Pays</label>
-        <select formControlName="pays_id"
-          class="bg-white w-44 outline-none p-1 h-7 mt-1 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center">
-          <option value=0>filtrer par pays</option>
+        <select
+          formControlName="pays_id"
+          class="bg-white w-44 outline-none p-1 h-7 mt-1 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center"
+        >
+          <option value="0">filtrer par pays</option>
           @for (pays of contries(); track pays.id) {
-          <option [value]="pays.id">{{pays.libelle}}</option>
+          <option [value]="pays.id">{{ pays.libelle }}</option>
           }
         </select>
       </div>
 
       @if (selectedContry!=0) {
-        <div class="flex gap-4">
-          <label class="text-xl">Type</label>
-          <select formControlName="type"
-            class="bg-white w-44 outline-none p-1 h-7 mt-1 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center">
-            <option value=0>filtrer par type</option>
-            @for (type of types(); track type.id) {
-            <option [value]="type.id">{{type.libelle}}</option>
-            }
-          </select>
-        </div>
+      <div class="flex gap-4">
+        <label class="text-xl">Type</label>
+        <select
+          formControlName="type"
+          class="bg-white w-44 outline-none p-1 h-7 mt-1 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center"
+        >
+          <option value="0">filtrer par type</option>
+          @for (type of types(); track type.id) {
+          <option [value]="type.id">{{ type.libelle }}</option>
+          }
+        </select>
+      </div>
 
-          <!-- <div class="flex gap-4">
+      <!-- <div class="flex gap-4">
             <label class="text-xl">Direction</label>
             <select formControlName="direction"
               class="bg-white w-44 outline-none p-1 h-7 mt-1 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center">
@@ -38,124 +39,158 @@
               }
             </select>
           </div> -->
-        @if (selectedType!=0) {
+      @if (selectedType!=0) {
 
-          <div class="flex gap-4">
-            <label class="text-xl">Statut</label>
-            <select formControlName="statut"
-              class="bg-white w-44 outline-none p-1 h-7 mt-1 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center">
-              <option value=0>filtrer par statut</option>
-              <option value="Fait">Fait</option>
-              <option value="Non fait">Non fait</option>
-              <option value="Applicable">Applicable</option>
-              <option value="Non applicable">Non applicable</option>
-              <option value="Transferer">Transferer</option>
-            </select>
-          </div>
+      <div class="flex gap-4">
+        <label class="text-xl">Statut</label>
+        <select
+          formControlName="statut"
+          (click)="selectstatus($event)"
+          class="bg-white w-44 outline-none p-1 h-7 mt-1 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center"
+        >
+          <option value="0">filtrer par statut</option>
+          <option value="Fait">Fait</option>
+          <option value="Non fait">Non fait</option>
+          <option value="Applicable">Applicable</option>
+          <option value="Non applicable">Non applicable</option>
+          <option value="Transferer">Transferer</option>
+        </select>
+      </div>
 
-          <div class="flex gap-4">
-            <label class="text-xl">Etat</label>
-            <select formControlName="etat"
-              class="bg-white w-44 outline-none p-1 h-7 mt-1 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center">
-              <option value=0>filtrer par etat</option>
-              <option value="Validé">Validé</option>
-              <option value="Non validé">Non validé</option>
-            </select>
-          </div>
+      <div class="flex gap-4">
+        <label class="text-xl">Etat</label>
+        <select
+          formControlName="etat"
+          (click)="selectEtat($event)"
+          class="bg-white w-44 outline-none p-1 h-7 mt-1 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center"
+        >
+          <option value="0">filtrer par etat</option>
+          <option value="Validé">Validé</option>
+          <option value="Non validé">Non validé</option>
+        </select>
+      </div>
 
-          <div class="flex gap-4">
-            <label class="text-xl">Couverture</label>
-            <select formControlName="couverture"
-              class="bg-white w-44 outline-none p-1 h-7 mt-1 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center">
-              <option value=0>filtrer par couverture</option>
-              <option value='Exhaustivité'>Exhaustivité</option>
-              <option value='Non exhaustivité'>Non exhaustivité</option>
-            </select>
-          </div>
-        }
-      }
-
+      <div class="flex gap-4">
+        <label class="text-xl">Couverture</label>
+        <select
+          formControlName="couverture"
+          class="bg-white w-44 outline-none p-1 h-7 mt-1 ring-1 ring-[#242a30] rounded-xl shadow-md shadow-[#242a30] flex text-center"
+        >
+          <option value="0">filtrer par couverture</option>
+          <option value="Exhaustivité">Exhaustivité</option>
+          <option value="Non exhaustivité">Non exhaustivité</option>
+        </select>
+      </div>
+      } }
     </div>
   </div>
 
-  <div class="w-[99%] h-[95%] shadow-md shadow-[#242a30] flex flex-col gap-3 overflow-y-auto m-1">
-
+  <div
+    class="w-[99%] h-[95%] shadow-md shadow-[#242a30] flex flex-col gap-3 overflow-y-auto m-1"
+  >
     <div class="w-full h-[15%] flex gap-4 p-2 overflow-x-auto shadow-xl">
-      <div class="badge-primary flex justify-between"
-        [class.selected]="selectedCard === 'totalControls'" (click)="selectCard('totalControls') ">
-        <h3 class="text-xl">Contrôles Totals</h3>
-        <p class="text-2xl">{{ totalControls }}</p>
+      <div
+        class="badge-primary flex justify-between"
+        [class.selected]="selectedCard === 'totalControls'"
+        (click)="selectCard('totalControls')"
+      >
+        <h3 class="text-0.5xl">Contrôles Totals</h3>
+        <p class="text-0.5px">{{ totalControls }}</p>
       </div>
       @if (selectedStatut) {
-      <div class="badge-primary"
-        [class.selected]="selectedCard === 'totalDone'" (click)="selectCard('totalDone')">
-        <h3 class="text-xl">Contrôles Faits</h3>
-        <p class="text-2xl">{{ totalDone }}</p>
+      <div
+        class="badge-primary"
+        [class.selected]="selectedCard === 'totalDone'"
+        (click)="selectCard('totalDone')"
+      >
+        <h3 class="text-1xl">Contrôles Faits</h3>
+        <p class="text-1xl">{{ totalDone }}</p>
       </div>
-      <div class="badge-primary"
-        [class.selected]="selectedCard === 'totalNotDone'" (click)="selectCard('totalNotDone')">
-        <h3 class="text-xl">Contrôles Non Faits</h3>
-        <p class="text-2xl">{{ totalNotDone }}</p>
+      <div
+        class="badge-primary"
+        [class.selected]="selectedCard === 'totalNotDone'"
+        (click)="selectCard('totalNotDone')"
+      >
+        <h3 class="text-1xl">Contrôles Non Faits</h3>
+        <p class="text-1xl">{{ totalNotDone }}</p>
       </div>
-      <div class="badge-primary"
-        [class.selected]="selectedCard === 'totalApplicable'" (click)="selectCard('totalApplicable')">
-        <h3 class="text-xl">Contrôles Applicables</h3>
-        <p class="text-2xl">{{ totalApplicable }}</p>
+      <div
+        class="badge-primary"
+        [class.selected]="selectedCard === 'totalApplicable'"
+        (click)="selectCard('totalApplicable')"
+      >
+        <h3 class="text-1xl">Contrôles Applicables</h3>
+        <p class="text-1xl">{{ totalApplicable }}</p>
       </div>
-      <div class="badge-primary"
-        [class.selected]="selectedCard === 'totalNonApplicable'" (click)="selectCard('totalNonApplicable')">
-        <h3 class="text-xl">Contrôles Non Applicables</h3>
-        <p class="text-2xl">{{ totalNonApplicable }}</p>
+      <div
+        class="badge-primary"
+        [class.selected]="selectedCard === 'totalNonApplicable'"
+        (click)="selectCard('totalNonApplicable')"
+      >
+        <h3 class="text-1xl">Contrôles Non Applicables</h3>
+        <p class="text-1xl">{{ totalNonApplicable }}</p>
       </div>
-      }
-      @if (selectedEtat) {
-      <div class="badge-primary"
-        [class.selected]="selectedCard === 'totalValidated'" (click)="selectCard('totalValidated')">
-        <h3 class="text-xl">Contrôles Validés</h3>
-        <p class="text-2xl">{{ totalValidated }}</p>
+      } @if (selectedEtat) {
+      <div
+        class="badge-primary"
+        [class.selected]="selectedCard === 'totalValidated'"
+        (click)="selectCard('totalValidated')"
+      >
+        <h3 class="text-1xl">Contrôles Validés</h3>
+        <p class="text-1xl">{{ totalValidated }}</p>
       </div>
-      <div class="badge-primary"
-        [class.selected]="selectedCard === 'totalNonValidated'" (click)="selectCard('totalNonValidated')">
-        <h3 class="text-xl">Contrôles Non Validés</h3>
-        <p class="text-2xl">{{ totalNonValidated }}</p>
+      <div
+        class="badge-primary"
+        [class.selected]="selectedCard === 'totalNonValidated'"
+        (click)="selectCard('totalNonValidated')"
+      >
+        <h3 class="text-1xl">Contrôles Non Validés</h3>
+        <p class="text-1xl">{{ totalNonValidated }}</p>
       </div>
-      }
-      @if (selectedCouv) {
-      <div class="badge-primary"
-        [class.selected]="selectedCard === 'totalExhaustivite'" (click)="selectCard('totalExhaustivite')">
-        <h3 class="text-xl">Contrôles Exhaustives</h3>
-        <p class="text-2xl">{{ totalExhaustivite }}</p>
+      } @if (selectedCouv) {
+      <div
+        class="badge-primary"
+        [class.selected]="selectedCard === 'totalExhaustivite'"
+        (click)="selectCard('totalExhaustivite')"
+      >
+        <h3 class="text-1xl">Contrôles Exhaustives</h3>
+        <p class="text-1xl">{{ totalExhaustivite }}</p>
       </div>
-      <div class="badge-primary"
-        [class.selected]="selectedCard === 'totalNoExhaustivite'" (click)="selectCard('totalNoExhaustivite')">
-        <h3 class="text-xl">Contrôles Non Exhaustives</h3>
-        <p class="text-2xl">{{ totalNoExhaustivite }}</p>
+      <div
+        class="badge-primary"
+        [class.selected]="selectedCard === 'totalNoExhaustivite'"
+        (click)="selectCard('totalNoExhaustivite')"
+      >
+        <h3 class="text-1xl">Contrôles Non Exhaustives</h3>
+        <p class="text-1xl">{{ totalNoExhaustivite }}</p>
       </div>
       }
     </div>
 
-    <div style="display: flex; justify-content: space-between;">
-
-    <div class="chart-container flex gap-4 shadow-md "style="width: 65%;">
-      <canvas baseChart
-              [data]="barChartData"
-              [options]="barChartOptions"
-              chartType="bar">
-      </canvas>
+    <div class="round-div" id="round-div">
+      <span class="number" id="number">....</span>
     </div>
+    <div style="display: flex; justify-content: space-between">
+      <div class="chart-container flex gap-4 shadow-md" style="width: 59%">
+        <canvas
+          baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          chartType="bar"
+        >
+        </canvas>
+      </div>
 
-    <div class="chart-container-pie flex gap-4 shadow-md " style="width: 30%; ">
-      <canvas baseChart
-              [data]="pieChartData"
-              [options]="pieChartOptions"
-              [type]="'pie'"
-              [plugins]="chartPlugins"
-              
-              >
-      </canvas>
+      <div class="chart-container-pie flex gap-4 shadow-md" style="width: 25%">
+        <canvas
+          baseChart
+          [data]="pieChartData"
+          [options]="pieChartOptions"
+          [type]="'pie'"
+          [plugins]="chartPlugins"
+        >
+        </canvas>
+      </div>
     </div>
   </div>
-
-  </div>
-
 </div>

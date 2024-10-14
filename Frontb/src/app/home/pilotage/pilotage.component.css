@@ -1,7 +1,16 @@
 
+  .sad {
+    position: fixed; /* Fixe l'élément par rapport à la fenêtre du navigateur */
+    left: 0;        /* Positionne l'élément à gauche de la fenêtre */
+    top: 50%;       /* (optionnel) positionne verticalement au centre */
+    ; /* (optionnel) pour centrer l'élément verticalement */
+  }
+  
+
 table {
-  border-collapse: collapse;
-  width: 100%;
+
+  width: 140%;
+  
 }
 
 th,
@@ -11,14 +20,14 @@ td {
 }
 
 th {
-  height: 3rem;
+  height: 5rem;
 }
 
 td>div {
-  height: 8rem;
-  width: 12rem;
+  height: 5rem;
+  width: 10rem;
   padding: 7px;
-  box-sizing: border-box;
+ 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -105,4 +114,18 @@ textarea {
 .upload-button {
   position: relative;
   z-index: 1;
+}
+.file-list {
+  list-style-type: none; /* Supprime les puces */
+  padding: 0;           /* Supprime le padding */
+}
+
+.file-item {
+  margin: 5px 0;        /* Ajoute un espace entre les fichiers */
+}
+
+.file-link {
+  color: #1d4ed8;       /* Couleur pour le lien */
+  text-decoration: underline;
+  cursor: pointer;      /* Curseur en forme de main sur le lien */
 }

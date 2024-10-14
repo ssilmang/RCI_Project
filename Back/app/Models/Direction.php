@@ -9,11 +9,12 @@ class Direction extends Model
 {
     use SoftDeletes;
     use HasFactory;
-    protected $fillable = [
-        'libelle',
-    ];
-
-    protected $guarded = ['id'];
+    // protected $fillable = [
+    //     'libelle',
+    //     // 'id'
+    // ];
+    // protected $primaryKey = 'id';
+     protected $guarded = ['id'];
 
     protected $hidden = [
         'updated_at',

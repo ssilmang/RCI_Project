@@ -47,11 +47,11 @@ class DepartementController extends Controller
                 ]);
             }
 
-            if ($request->pole_id == null) {
-                return response()->json([
-                    'error' => 'Veuillez choisir un pole!',
-                ]);
-            }
+            // if ($request->pole_id == null) {
+            //     return response()->json([
+            //         'error' => 'Veuillez choisir un pole!',
+            //     ]);
+            // }
 
             Departement::create([
                 'libelle' => $request->libelle,

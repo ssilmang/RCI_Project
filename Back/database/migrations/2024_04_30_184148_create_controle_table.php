@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreignIdFor(Departement::class)->constrained();
             $table->foreignIdFor(Direction::class)->constrained();
             $table->foreignIdFor(Risque::class)->constrained();
-            $table->foreignIdFor(Pole::class)->constrained();
+            $table->foreignIdFor(Pole::class)->nullable()->constrained();
             $table->foreignIdFor(TypeControle::class)->nullable()->constrained();
             $table->string('controle')->nullable();
             $table->string('code')->nullable();
@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('exhaustivite');
             $table->string('preuve');
             $table->string('commentaire');
+            $table->string('etat')->nullable();
             $table->timestamp('date_ajout')->nullable();
             $table->timestamp('archived_at')->nullable();
             $table->string('validate')->nullable();

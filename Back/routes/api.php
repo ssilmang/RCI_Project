@@ -21,7 +21,7 @@ Route::post('/utilisateur/add', [UtilisateurController::class, 'store']);
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::group(['middleware' => 'auth:api'], function() {
+ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::get('/user', function(Request $request) {
         return $request->user();
@@ -82,8 +82,8 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::put('/profil/update/{id}', [ProfilController::class, 'update']);
     Route::delete('/profil/delete/{id}', [ProfilController::class, 'destroy']);
     Route::get('/profil/restaurer/{id}', [ProfilController::class, 'restaurer']);
-
     Route::get('/controle/all', [ControleController::class, 'index']);
+
     Route::post('/controle/add', [ControleController::class, 'store']);
     Route::post('/controle/update/{id}', [ControleController::class, 'update']);
     Route::delete('/controle/delete/{id}', [ControleController::class, 'destroy']);
@@ -99,8 +99,10 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::delete('/data/delete/{id}', [DataController::class, 'destroy']);
     Route::get('/data/restaurer/{id}', [DataController::class, 'restaurer']);
 
-    Route::post('/import', [ControleController::class, 'import']);
+    Route::post('/importer', [ControleController::class, 'import']);
+    Route::post('/import', [ImportController::class, 'importer']);
 
+   
 });
 
 Route::get('/direction/all', [DirectionController::class, 'index']);
@@ -108,6 +110,13 @@ Route::get('/profil/all', [ProfilController::class, 'index']);
 Route::get('/service/all', [ServiceController::class, 'index']);
 Route::get('/contry/all', [ContryController::class, 'index']);
 
-Route::get('notifications/user/{userId}', [NotificationController::class, 'getUserNotifications']);
-Route::patch('notifications/read/{notificationId}', [NotificationController::class, 'markAsRead']);
-Route::put('/controle/{controlId}/etat/{newEta}', [ControleController::class, 'notif']);
+// Route::get('notifications/user/{userId}', [NotificationController::class, 'getUserNotifications']);
+// Route::patch('notifications/read/{notificationId}', [NotificationController::class, 'markAsRead']);
+ Route::put('/controle/{controlId}/etat/{newEta}', [ControleController::class, 'notif']);
+Route::controller(ImportController::class)->prefix('arq')->group(function(){
+    Route::post('/import/excel','import');
+
+});
+// Route::post('sert',[UtilisateurController,'orf']);
+// Route::post('/send-control-update-email', [ControleController::class, 'sendControlUpdateEmail']);
+   

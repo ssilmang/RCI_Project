@@ -12,28 +12,23 @@
 }
 
 .card.bg-blue-100.selected {
-  border-color: blue;
+  border-color: rgb(1, 0, 7);
 }
 
-.card.bg-green-100.selected {
-  border-color: #008000;
+.number {
+  display: inline-block;
+  animation: blink 1s step-start infinite;
 }
 
-.card.bg-red-100.selected {
-  border-color: #ff0000;
-}
-
-.card.bg-yellow-100.selected {
-  border-color: #ffff00;
-}
-
-.card.bg-gray-100.selected {
-  border-color: #808080;
-}
-
-.card.bg-purple-100.selected {
-  border-color: #800080;
-}
+/* @keyframes blink {
+  
+  0%, 100% {
+      opacity: 1;
+  }
+  50% {
+      opacity: 0;
+  }
+} */
 
 .card.bg-orange-100.selected {
   border-color: #ffa500;
@@ -68,16 +63,32 @@
 }
 
 .badge-primary {
-  background-color: #007bff; /* couleur de fond par défaut */
-  color: white; /* couleur du texte */
+  background-color: #000000; /* couleur de fond par défaut */
+  color: white;
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
   height: 40px;
   width: 200px;
+  font-size: 10px; /* Diminue la taille du texte */
 }
 
 .badge-primary.selected {
   background-color: #0056b3; /* couleur de fond lorsque sélectionné */
   /* Vous pouvez ajouter d'autres styles spécifiques pour l'état sélectionné */
+}
+.round-div {
+  background-color: #0e0e0d; 
+  border-radius: 50%; 
+  width: 100px; 
+  height: 100px; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+}
+
+.number {
+  color: white; /* Couleur du texte */
+  font-size: 24px; /* Taille du texte */
+  font-weight: bold; /* Texte en gras */
 }

@@ -49,12 +49,12 @@ export class LoginComponent {
     })
 
     this.utilisateur = this.fb.group({
-      nom_complet: this.fb.control("Elhadji Malick Ndao"),
-      telephone: this.fb.control("783845870"),
-      addresse: this.fb.control("Grand Yoff"),
-      matricule: this.fb.control("17UUD"),
-      email: this.fb.control("ndaoelhadji973@gmail.com"),
-      password: this.fb.control("elzondao"),
+      nom_complet: this.fb.control(""),
+      telephone: this.fb.control(""),
+      addresse: this.fb.control(""),
+      matricule: this.fb.control(""),
+      email: this.fb.control(""),
+      password: this.fb.control(""),
       direction_id: this.fb.control(0),
       service_id: this.fb.control(0),
       pays_id: this.fb.control(0),

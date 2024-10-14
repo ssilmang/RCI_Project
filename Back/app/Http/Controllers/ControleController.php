@@ -13,25 +13,25 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Resources\DataResource;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Services\NotificationService;
+use Tymon\JWTAuth\Contracts\Providers\Auth as provider;
+// use App\Services\NotificationService;
 
 
 class ControleController extends Controller
 {
-    protected $notificationService;
-    public function __construct(NotificationService $notificationService)
-    {
-        $this->notificationService = $notificationService;
-    }
+    // protected $notificationService;
+    // public function __construct(NotificationService $notificationService)
+    // {
+    //     // $this->notificationService = $notificationService;
+    // }
     /**
      * Display a listing of the resource.
      */
     public function index()
 {
     // Obtenir l'utilisateur authentifié
-    $user = auth()->user();
-
-    // Vérifier le profil de l'utilisateur
+    $user = Auth::user();
+   
     if ($user->profil_id == 1) {
         // Si le profil_id de l'utilisateur est 1, retourner uniquement les contrôles associés à l'utilisateur
         $controles = Controle::where('user_id', $user->id)->with('type')->get();
@@ -93,11 +93,11 @@ class ControleController extends Controller
                     'error' => 'Veuillez saisir le code du controle!'
                 ]);
             }
-            if (!$request->etat || $request->etat == 0) {
-                return response()->json([
-                    'error' => 'Veuillez renseigner le statut!'
-                ]);
-            }
+            // if (!$request->etat || $request->etat == 0) {
+            //     return response()->json([
+            //         'error' => 'Veuillez renseigner le statut!'
+            //     ]);
+            // }
             if (!$request->commentaire || empty($request->commentaire)) {
                 return response()->json(['error' => 'Veuillez renseigner un commentaire!']);
             }
@@ -160,98 +160,170 @@ class ControleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id){
-      try {
+    // public function update(Request $request, $id){
+    //   try {
+    //     $user = Auth::user();
+       
+
+    //     $pilotage = Controle::find($id);
+    //     $use = $pilotage->user_id;
+    //     $pays = User::find($use);
+    //     // return $pilotage;
+
+    //     if ($user->profil_id == 3 && $user->pays_id != $pays->pays_id) {
+    //         return response()->json([
+    //             'error' => 'Vous ne pouvez editer que les controles de votre pays !'
+    //         ]);
+    //     }
+    //     // return $pilotage->user_id;
+    //     if ($user->profil_id == 1 && $user->id != $pilotage->user_id) {
+    //         return response()->json([
+    //            'error' => 'Vous ne pouvez editer que vos controles !'
+    //         ]);
+    //     }
+
+    //     if (!$pilotage) {
+    //         return response()->json(['error' => 'Controle non trouvé!'], 404);
+    //     }
+
+    //     if ($request->hasFile('fichier')) {
+    //             // $filePath = $request->file('fichier')->store('fichiers', 'public');
+    //         $filePaths = [];
+    //         if ($request->hasFile('fichier')) {
+    //             foreach ($request->file('fichier') as $file) {
+    //                 $filePath = $file->store('fichiers', 'public');
+    //                 $filePaths[] = $filePath;
+    //             }
+    //         }
+    //         $pilotage->update([
+    //                 'controle' => $request->controle,
+    //                 'code' => $request->code,
+    //                 'descriptif' => $request->descriptif,
+    //                 'objectif' => $request->objectif,
+    //                 'type_controle_id' => $request->type,
+    //                 'periodicite' => $request->periodicite,
+    //                 'exhaustivite' => $request->exhaustivite,
+    //                 'preuve' => $request->preuve,
+    //                 'etat' => $request->etat,
+    //                 // 'fichier' => $filePath,
+    //                 'fichier' => json_encode($filePaths),
+    //                 'commentaire' => $request->commentaire,
+    //                 'archived_at' => $request->archived_at,
+    //                 'risque_id' => $request->risque_id,
+    //                 'direction_id' => $request->direction_id,
+    //                 'service_id' => $request->service_id,
+    //                 'pole_id' => $request->pole_id,
+    //                 'activite_id' => $request->activite_id,
+    //                 'departement_id' => $request->departement_id,
+    //                 'user_id' => $request->user_id,
+    //         ]);
+    //     }else{
+    //         $pilotage->update([
+    //             'controle' => $request->controle,
+    //             'code' => $request->code,
+    //             'descriptif' => $request->descriptif,
+    //             'objectif' => $request->objectif,
+    //             'type_controle_id' => $request->type,
+    //             'periodicite' => $request->periodicite,
+    //             'exhaustivite' => $request->exhaustivite,
+    //             'preuve' => $request->preuve,
+    //             'etat' => $request->etat,
+    //             'commentaire' => $request->commentaire,
+    //             'archived_at' => $request->archived_at,
+    //             'risque_id' => $request->risque_id,
+    //             'direction_id' => $request->direction_id,
+    //             'service_id' => $request->service_id,
+    //             'pole_id' => $request->pole_id,
+    //             'activite_id' => $request->activite_id,
+    //             'departement_id' => $request->departement_id,
+    //             'user_id' => $request->user_id,
+    //         ]);
+    //     }
+
+    //     return response()->json([
+    //         'message' => 'Controle mise à jour avec succès!',
+    //     ], 200);
+
+    //   } catch (\Throwable $th) {
+    //       return response()->json([
+    //           'error' => 'Une erreur est survenue : ' . $th->getMessage(),
+    //       ], 500);
+    //   }
+    // }
+    public function update(Request $request, $id)
+{
+    try {
         $user = Auth::user();
-        // return $user;
-        // return $user->profil_id;
-        // return $user->pays_id;
 
         $pilotage = Controle::find($id);
         $use = $pilotage->user_id;
         $pays = User::find($use);
-        // return $pilotage;
 
         if ($user->profil_id == 3 && $user->pays_id != $pays->pays_id) {
             return response()->json([
-                'error' => 'Vous ne pouvez editer que les controles de votre pays !'
+                'error' => 'Vous ne pouvez éditer que les contrôles de votre pays !'
             ]);
         }
-        // return $pilotage->user_id;
+
         if ($user->profil_id == 1 && $user->id != $pilotage->user_id) {
             return response()->json([
-               'error' => 'Vous ne pouvez editer que vos controles !'
+                'error' => 'Vous ne pouvez éditer que vos contrôles !'
             ]);
         }
 
         if (!$pilotage) {
-            return response()->json(['error' => 'Controle non trouvé!'], 404);
+            return response()->json(['error' => 'Contrôle non trouvé!'], 404);
         }
 
+        $filePaths = [];
         if ($request->hasFile('fichier')) {
-                // $filePath = $request->file('fichier')->store('fichiers', 'public');
-            $filePaths = [];
-            if ($request->hasFile('fichier')) {
-                foreach ($request->file('fichier') as $file) {
-                    $filePath = $file->store('fichiers', 'public');
-                    $filePaths[] = $filePath;
-                }
+            foreach ($request->file('fichier') as $file) {
+                $filePath = $file->store('fichiers', 'public');
+                $filePaths[] = $filePath;
             }
-            $pilotage->update([
-                    'controle' => $request->controle,
-                    'code' => $request->code,
-                    'descriptif' => $request->descriptif,
-                    'objectif' => $request->objectif,
-                    'type_controle_id' => $request->type,
-                    'periodicite' => $request->periodicite,
-                    'exhaustivite' => $request->exhaustivite,
-                    'preuve' => $request->preuve,
-                    'etat' => $request->etat,
-                    // 'fichier' => $filePath,
-                    'fichier' => json_encode($filePaths),
-                    'commentaire' => $request->commentaire,
-                    'archived_at' => $request->archived_at,
-                    'risque_id' => $request->risque_id,
-                    'direction_id' => $request->direction_id,
-                    'service_id' => $request->service_id,
-                    'pole_id' => $request->pole_id,
-                    'activite_id' => $request->activite_id,
-                    'departement_id' => $request->departement_id,
-                    'user_id' => $request->user_id,
-            ]);
-        }else{
-            $pilotage->update([
-                'controle' => $request->controle,
-                'code' => $request->code,
-                'descriptif' => $request->descriptif,
-                'objectif' => $request->objectif,
-                'type_controle_id' => $request->type,
-                'periodicite' => $request->periodicite,
-                'exhaustivite' => $request->exhaustivite,
-                'preuve' => $request->preuve,
-                'etat' => $request->etat,
-                'commentaire' => $request->commentaire,
-                'archived_at' => $request->archived_at,
-                'risque_id' => $request->risque_id,
-                'direction_id' => $request->direction_id,
-                'service_id' => $request->service_id,
-                'pole_id' => $request->pole_id,
-                'activite_id' => $request->activite_id,
-                'departement_id' => $request->departement_id,
-                'user_id' => $request->user_id,
-            ]);
+        }
+
+        $pilotage->update([
+            'controle' => $request->controle,
+            'code' => $request->code,
+            'descriptif' => $request->descriptif,
+            'objectif' => $request->objectif,
+            'type_controle_id' => $request->type,
+            'periodicite' => $request->periodicite,
+            'exhaustivite' => $request->exhaustivite,
+            'preuve' => $request->preuve,
+            'etat' => $request->etat,
+            'fichier' => json_encode($filePaths),
+            'commentaire' => $request->commentaire,
+            'archived_at' => $request->archived_at,
+            'risque_id' => $request->risque_id,
+            'direction_id' => $request->direction_id,
+            'service_id' => $request->service_id,
+            'pole_id' => $request->pole_id,
+            'activite_id' => $request->activite_id,
+            'departement_id' => $request->departement_id,
+            'user_id' => $request->user_id,
+        ]);
+
+        // Envoi des emails en fonction du type d'utilisateur
+        if ($user->profil_id == 1) {
+           return $this->notifyLocalAdmins($pilotage);
+        } elseif ($user->profil_id == 3) {
+           $this->notifySuperAdmins();
         }
 
         return response()->json([
-            'message' => 'Controle mise à jour avec succès!',
+            'message' => 'Contrôle mis à jour avec succès!',
+            $this->notifySuperAdmins()
         ], 200);
 
-      } catch (\Throwable $th) {
-          return response()->json([
-              'error' => 'Une erreur est survenue : ' . $th->getMessage(),
-          ], 500);
-      }
+    } catch (\Throwable $th) {
+        return response()->json([
+            'error' => 'Une erreur est survenue : ' . $th->getMessage(),
+        ], 500);
     }
+}
+
 
     /**
      * Remove the specified resource from storage.
@@ -303,39 +375,97 @@ class ControleController extends Controller
         }
     }
 
+    // public function validated($id)
+    // {
+    //     $user = Auth::user();
+    //     // return $user;
+    //     // return $user->profil_id;
+    //     // return $user->pays_id;
+
+    //     $pilotage = Controle::find($id);
+    //     $use = $pilotage->user_id;
+    //     $pays = User::find($use);
+    //     // return $pilotage;
+
+    //     if ($user->profil_id == 3 && $user->pays_id != $pays->pays_id) {
+    //         return response()->json([
+    //             'error' => 'Vous ne pouvez valider que les controles de votre pays !'
+    //         ]);
+    //     }
+
+    //     if ($pilotage) {
+    //         $pilotage->validate = 'Validé';
+    //         $pilotage->save();
+
+    //         return response()->json([
+    //             'message' => 'Le controle a été validé avec succès!',
+    //             'controle' => $pilotage
+    //         ]);
+
+    //     } else {
+    //         return response()->json([
+    //             'error' => 'Le controle n\'a pas été trouvé!',
+    //         ], 404);
+    //     }
+    // }
     public function validated($id)
-    {
-        $user = Auth::user();
-        // return $user;
-        // return $user->profil_id;
-        // return $user->pays_id;
+{
+    $user = Auth::user();
 
-        $pilotage = Controle::find($id);
-        $use = $pilotage->user_id;
-        $pays = User::find($use);
-        // return $pilotage;
+    $pilotage = Controle::find($id);
+    $use = $pilotage->user_id;
+    $pays = User::find($use);
 
-        if ($user->profil_id == 3 && $user->pays_id != $pays->pays_id) {
-            return response()->json([
-                'error' => 'Vous ne pouvez valider que les controles de votre pays !'
-            ]);
-        }
-
-        if ($pilotage) {
-            $pilotage->validate = 'Validé';
-            $pilotage->save();
-
-            return response()->json([
-                'message' => 'Le controle a été validé avec succès!',
-                'controle' => $pilotage
-            ]);
-
-        } else {
-            return response()->json([
-                'error' => 'Le controle n\'a pas été trouvé!',
-            ], 404);
-        }
+    if ($user->profil_id == 3 && $user->pays_id != $pays->pays_id) {
+        return response()->json([
+            'error' => 'Vous ne pouvez valider que les controles de votre pays !'
+        ]);
     }
+
+    if ($pilotage) {
+        $pilotage->validate = 'Validé';
+        $pilotage->save();
+
+        // Envoi de mails aux super_admins
+        $this->notifySuperAdmins($pilotage);
+
+        return response()->json([
+            'message' => 'Le controle a été validé avec succès!',
+            'controle' => $pilotage,
+           'email'=> $this->notifySuperAdmins($pilotage)
+        ]);
+
+    } else {
+        return response()->json([
+            'error' => 'Le controle n\'a pas été trouvé!',
+        ], 404);
+    }
+}
+protected function notifyLocalAdmins($controle)
+{
+    // Récupérer l'id du pays du contrôle
+    $paysId = User::find($controle->user_id)->pays_id;
+
+    // Trouver tous les admins locaux du même pays
+    $localAdmins = User::where('profil_id', 3)
+                       ->where('pays_id', $paysId)
+                       ->get();
+
+    foreach ($localAdmins as $admin) {
+        Mail::to($admin->email)->send(new ControlUpdatedByPorteurMail($controle, $admin));
+    }
+}
+
+protected function notifySuperAdmins($controle)
+{
+    $superAdmins = User::where('profil_id', 2)->get(); 
+
+    foreach ($superAdmins as $superAdmin) {
+      
+        Mail::to($superAdmin->email)->send(new ControlValidatedMail($controle, $superAdmin));
+    }
+}
+
 
     public function invalidated($id)
     {
@@ -395,39 +525,33 @@ class ControleController extends Controller
 
     public function getControlsGroupedByCountry()
 {
-    // Récupérer tous les pays avec leurs utilisateurs et contrôles
+   
     $controlsGroupedByCountry = Contry::with(['users.controles'])->get()->map(function($country) {
-        // Récupérer tous les contrôles pour le pays donné
+      
         $allControls = $country->users->flatMap(function($user) {
             return $user->controles;
         });
 
-        // Nombre total de contrôles pour le pays
         $totalControls = $allControls->count();
         
-        // Calcul des pourcentages par état
-        $controlsByStatus = $allControls->groupBy('etat')->mapWithKeys(function($controls, $status) use ($totalControls) {
+        $controlsByStatus = $allControls->groupBy('etat')->map(function($controls, $status) use ($totalControls) {
             return [
-                $status => [
-                    'statut' => $status,
-                    'count' => $controls->count(),
-                    'percentage' => $totalControls > 0 ? ($controls->count() / $totalControls) * 100 : 0
-                ]
+                'statut' => $status,
+                'count' => $controls->count(),
+                'percentage' => $totalControls > 0 ? number_format(($controls->count() / $totalControls) * 100, 2) : 0
             ];
-        });
+        })->values(); // Utiliser ->values() pour réinitialiser les clés numériques
 
-        // Calcul des pourcentages par état de validation
-        $controlsByEtat = $allControls->groupBy('validate')->mapWithKeys(function($controls, $etat) use ($totalControls) {
+        $controlsByEtat = $allControls->groupBy('validate')->map(function($controls, $etat) use ($totalControls) {
             return [
-                $etat => [
-                    'etat' => $etat,
-                    'count' => $controls->count(),
-                    'percentage' => $totalControls > 0 ? ($controls->count() / $totalControls) * 100 : 0
-                ]
+                'etat' => $etat,
+                'count' => $controls->count(),
+                'percentage' => $totalControls > 0 ? number_format(($controls->count() / $totalControls) * 100, 2) : 0
             ];
-        });
-
+        })->values();
+        // Calcul des pourcentages par état de validation       
         return [
+            'id'=>$country->id,
             'country' => $country->libelle,
             'control_count' => $totalControls,
             'controls_by_etat' => $controlsByEtat,
@@ -449,94 +573,94 @@ class ControleController extends Controller
     
 
     
-    public function markAsRead($notificationId)
-    {
-        $notification = Notification::findOrFail($notificationId);
-        $notification->read = true;
-        $notification->save();
-        return response()->json(['message' => 'Notification marquée comme lue']);
-    }
+    // public function markAsRead($notificationId)
+    // {
+    //     $notification = Notification::findOrFail($notificationId);
+    //     $notification->read = true;
+    //     $notification->save();
+    //     return response()->json(['message' => 'Notification marquée comme lue']);
+    // }
 
     
     
     
 
 
-    public function notif(Request $request, $controlId, $newEta, $newStatus)
-{
-    // Trouver le contrôle
-    $control = Controle::find($controlId);
-// dd($control);
-    if (!$control) {
-        throw new \Illuminate\Database\Eloquent\ModelNotFoundException("Contrôle non trouvé.");
-    }
+//     public function notif(Request $request, $controlId, $newEta, $newStatus)
+// {
+//     // Trouver le contrôle
+//     $control = Controle::find($controlId);
+// // dd($control);
+//     if (!$control) {
+//         throw new \Illuminate\Database\Eloquent\ModelNotFoundException("Contrôle non trouvé.");
+//     }
 
-    // Trouver l'utilisateur associé au contrôle
-    $user = $control->user;
+//     // Trouver l'utilisateur associé au contrôle
+//     $user = $control->user;
 
-    if (!$user) {
-        throw new \Illuminate\Database\Eloquent\ModelNotFoundException("Utilisateur non trouvé.");
-    }
+//     if (!$user) {
+//         throw new \Illuminate\Database\Eloquent\ModelNotFoundException("Utilisateur non trouvé.");
+//     }
 
-    $paysId = $user->pays_id;
-    $modifierId = $request->input('modifier_id'); // Assurez-vous que modifier_id est envoyé avec la requête
+//     $paysId = $user->pays_id;
+//     $modifierId = $request->input('modifier_id'); // Assurez-vous que modifier_id est envoyé avec la requête
 
-    $admin = User::where('profil_id', 3)
-        ->where('pays_id', $paysId)
-        ->get();
+//     $admin = User::where('profil_id', 3)
+//         ->where('pays_id', $paysId)
+//         ->get();
 
-    $superAdmin = User::where('profil_id', 2)->get();
+//     $superAdmin = User::where('profil_id', 2)->get();
 
-    // Mise à jour du contrôle
-    $control->status = $newStatus;
+//     // Mise à jour du contrôle
+//     $control->status = $newStatus;
 
-    if ($newEta !== null) {
-        $control->etat = $newEta;
-    }
+//     if ($newEta !== null) {
+//         $control->etat = $newEta;
+//     }
 
-    $control->save();
+//     $control->save();
 
-    $notificationService = new NotificationService();
-    $modifier = User::find($modifierId);
+//     $notificationService = new NotificationService();
+//     $modifier = User::find($modifierId);
 
-    // Notifier les administrateurs locaux et super administrateurs si le porteur change le statut
-    if ($modifier && $modifier->profil_id == 4) { // Porteur
-        foreach ($admin as $ad) {
-            $notificationService->sendNotification($ad, "Le statut du contrôle #{$controlId} a été modifié par le porteur.");
-        }
+//     // Notifier les administrateurs locaux et super administrateurs si le porteur change le statut
+//     if ($modifier && $modifier->profil_id == 4) { // Porteur
+//         foreach ($admin as $ad) {
+//             $notificationService->sendNotification($ad, "Le statut du contrôle #{$controlId} a été modifié par le porteur.");
+//         }
 
-        foreach ($superAdmin as $supad) {
-            $notificationService->sendNotification($supad, "Le statut du contrôle #{$controlId} a été modifié par le porteur.");
-        }
-    }
+//         foreach ($superAdmin as $supad) {
+//             $notificationService->sendNotification($supad, "Le statut du contrôle #{$controlId} a été modifié par le porteur.");
+//         }
+//     }
 
-    // Notifier le porteur si un administrateur local valide le contrôle
-    if ($modifier && $modifier->profil_id == 3) { // Administrateur local
-        $porteur = $control->porteur; // Assurez-vous que cette relation est définie dans votre modèle
-        if ($porteur) {
-            $notificationService->sendNotification($porteur, "Votre contrôle #{$controlId} a été validé avec un nouvel état : {$newEta}.");
-        }
-    }
+//     // Notifier le porteur si un administrateur local valide le contrôle
+//     if ($modifier && $modifier->profil_id == 3) { // Administrateur local
+//         $porteur = $control->porteur; // Assurez-vous que cette relation est définie dans votre modèle
+//         if ($porteur) {
+//             $notificationService->sendNotification($porteur, "Votre contrôle #{$controlId} a été validé avec un nouvel état : {$newEta}.");
+//         }
+//     }
 
-    // Notifier les administrateurs locaux et super administrateurs si validé par super administrateur
-    if ($modifier && $modifier->profil_id == 2) { // Super administrateur
-        foreach ($admin as $ad) {
-            $notificationService->sendNotification($ad, "Le super administrateur a validé le contrôle #{$controlId} avec un nouvel état : {$newEta}.");
-        }
+//     // Notifier les administrateurs locaux et super administrateurs si validé par super administrateur
+//     if ($modifier && $modifier->profil_id == 2) { // Super administrateur
+//         foreach ($admin as $ad) {
+//             $notificationService->sendNotification($ad, "Le super administrateur a validé le contrôle #{$controlId} avec un nouvel état : {$newEta}.");
+//         }
 
-        foreach ($superAdmin as $supad) {
-            $notificationService->sendNotification($supad, "Le contrôle #{$controlId} a été validé avec un nouvel état : {$newEta} par un super administrateur.");
-        }
-    }
+//         foreach ($superAdmin as $supad) {
+//             $notificationService->sendNotification($supad, "Le contrôle #{$controlId} a été validé avec un nouvel état : {$newEta} par un super administrateur.");
+//         }
+//     }
 
-    return response()->json(['message' => 'Notifications envoyées et état du contrôle mis à jour.']);
-}
+//     return response()->json(['message' => 'Notifications envoyées et état du contrôle mis à jour.']);
+// }
 
-public function getUserNotifications($userId)
-    {
-        $notifications = Notification::where('user_id', $userId)->get();
-        return response()->json($notifications);
-    }
+// public function getUserNotifications($userId)
+//     {
+//         $notifications = Notification::where('user_id', $userId)->get();
+//         return response()->json($notifications);
+//     }
     
     
 

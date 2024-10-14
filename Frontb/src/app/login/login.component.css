@@ -1,0 +1,7 @@
+.register-link {
+    transition: color 0.3s; /* Animation douce pour le changement de couleur */
+}
+
+.register-link:hover {
+    color: #FF7900; /* Changez cette couleur selon vos préférences */
+}

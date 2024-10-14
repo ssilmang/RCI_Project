@@ -1,15 +1,15 @@
-<div class="w-full h-[38.5rem] p-1 flex gap-1 relative">
+<div class="w-full h-[51.5rem] p-1 flex gap-1 relative">
 
-  <div class="flex flex-col gap-2 w-[55%] h-[102.6%]">
+  <div class="flex flex-col gap-2 w-[55%] h-full">
 
-    <div class="flex justify-between gap-8 p-3 w-full h-[12%]">
+    <div class="flex justify-between gap-8 p-3 w-full ">
 
       <h1 class="text-[2rem] ml-1 text-[#FF7900] font-bold">Départements</h1>
 
       <div [formGroup]="select" class="flex gap-2 w-full mt-4">
         <div>
           <select formControlName="direction_id"
-            class="bg-white outline-none p-1 h-8 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] flex text-center">
+            class="bg-white outline-none p-1 h-8 ring-1 ring-[#FF7900] rounded-xl  flex text-center">
             <option value="0">filtrer par direction</option>
             @for (direction of directions(); track direction.id) {
               <option [value]="direction.id">{{direction.libelle}}</option>
@@ -19,7 +19,7 @@
 
         <div>
           <select formControlName="pole_id"
-            class="bg-white outline-none p-1 h-8 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] flex text-center">
+            class="bg-white outline-none p-1 h-8 ring-1 ring-[#FF7900] rounded-xl flex text-center">
             <option value="0">filtrer par pole</option>
             @for (pole of poles(); track pole.id) {
               <option [value]="pole.id">{{pole.libelle}}</option>
@@ -30,7 +30,7 @@
 
     </div>
 
-    <div class="shadow-md shadow-[#242a30] flex flex-col gap-2 rounded-sm w-full h-[90%]">
+    <div class="flex flex-col gap-2 rounded-sm w-full h-[90%]">
 
       <div class="w-[99%] flex flex-1 flex-wrap overflow-y-auto p-6 gap-6">
         @for (departement of departements() | direction:selectedDirect | pole:selectedPole; track departement.id) {
@@ -101,7 +101,7 @@
 
       <div class="shadow-md shadow-[#242a30] rounded-sm flex flex-col h-[90%] w-full overflow-y-auto gap-5 p-1">
         @for (service of services() | departement:selectedDepart; track service.id) {
-        <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[12%] rounded-xl">
+        <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[6%] rounded-xl">
           <h1 class="text-xl w-[90%] font-semibold">{{service.libelle}}</h1>
           @if (display2) {
           <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
@@ -141,7 +141,7 @@
 
         <div class="shadow-md shadow-[#242a30] rounded-sm flex flex-col h-[90%] w-full overflow-y-auto gap-5 p-1">
           @for (activite of activites() | service:selectedServ; track activite.id) {
-            <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[12%] rounded-xl">
+            <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[8%] rounded-xl">
               <h1 class="text-xl w-[90%] font-semibold">{{activite.libelle}}</h1>
               @if (display2) {
               <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
@@ -163,171 +163,162 @@
   <!--------------------------------------Modal---------------------------------------->
 
 
-  <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
-      style="display: none;" id="departement">
+  <div class=" z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center" id="departement" style="display: none;">
 
-    <form [formGroup]="Departement" class="mt-32 bg-white ml-[30rem] w-[45%] h-[65%] flex flex-col gap-2 rounded-[6px] ring-1 ring-[#242a30]">
-
-      <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
-        <h1 class="w-[42%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
-          {{title}}
-        </h1>
-        <span (click)="closeModal()"
-      class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
-      <i class="fas fa-times"></i>
-</span>
+    <form [formGroup]="Departement" class="mt-32 bg-white w-[90%] max-w-[600px] h-auto flex flex-col gap-4 rounded-lg ring-1 ring-[#242a30] p-4 modal" >
+  
+      <div class="flex justify-between w-full rounded-lg h-16 bg-[#FF7900] p-4">
+        <h1 class="text-2xl font-semibold text-white">{{title}}</h1>
+        <span (click)="closeModal()" class="cursor-pointer text-white text-2xl">
+          <i class="fas fa-times"></i>
+        </span>
       </div>
-
-      <div class="flex flex-col gap-6 h-[85%]">
-
+  
+      <div class="flex flex-col gap-6 h-auto">
+  
         <div class="flex flex-col gap-6 p-2">
-
+  
           <div class="flex flex-col gap-1">
-            <label class="font-normal text-xl font-['Inter']">Libellé Département</label>
+            <label class="font-normal text-xl">Libellé Département</label>
             <input formControlName="libelle"
-              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
+              class="focus:border-[#FF7900] outline-none w-full p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
               placeholder="saisir le nom du département" type="text">
           </div>
-
+  
           <div class="flex flex-col gap-2">
-            <label class="font-normal text-xl font-['Inter']">Direction</label>
+            <label class="font-normal text-xl">Direction</label>
             <select formControlName="direction_id"
-              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option value=0>choisir une direction</option>
+              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg w-full p-2.5">
+              <option value="0">choisir une direction</option>
               @for (direction of directions(); track direction.id) {
                 <option [value]="direction.id">{{direction.libelle}}</option>
               }
             </select>
           </div>
-
+  
           <div class="flex flex-col gap-2">
-            <label class="font-normal text-xl font-['Inter']">Pole</label>
+            <label class="font-normal text-xl">Pôle</label>
             <select formControlName="pole_id"
-              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option value=0>choisir une pole</option>
+              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg w-full p-2.5">
+              <option value="">choisir un pôle</option>
               @for (pole of poles(); track pole.id) {
-              <option [value]="pole.id">{{pole.libelle}}</option>
+                <option [value]="pole.id">{{pole.libelle}}</option>
               }
             </select>
           </div>
-
+  
         </div>
-
-        <div class="flex">
+  
+        <div class="flex justify-center">
           <div (click)="addOrUpDept()"
-            class="cursor-pointer ml-6 w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
+            class="cursor-pointer w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
             {{button}}
           </div>
         </div>
-
+  
       </div>
-
+  
     </form>
-
+  
   </div>
+  
 
-  <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
-      style="display: none;" id="service">
+  <div class="  fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center" id="service" style="display: none;">
 
-    <form [formGroup]="Service" class="bg-white mt-32 ml-[30rem] w-[45%] h-[60%] flex flex-col gap-4 rounded-[6px] ring-1 ring-[#242a30]">
-
-      <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
-        <h1 class="w-[33%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
-          {{title2}}
-        </h1>
-        <span (click)="closeModal2()"
-          class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
+    <form [formGroup]="Service" class="bg-white w-[90%] max-w-[600px] h-auto flex flex-col gap-4 rounded-lg ring-1 ring-[#242a30] p-4 modal">
+  
+      <div class="flex justify-between w-full rounded-lg h-16 bg-[#FF7900] p-4">
+        <h1 class="text-2xl font-semibold text-white">{{title2}}</h1>
+        <span (click)="closeModal2()" class="cursor-pointer text-white text-2xl">
           X
         </span>
       </div>
-
-      <div class="flex flex-col gap-12 m-2 h-[85%]">
-
-        <div class="flex flex-col gap-8 p-4">
-
-          <div class="flex flex-col gap-2">
-            <label class="font-normal text-xl font-['Inter']">Libellé Service</label>
+  
+      <div class="flex flex-col gap-6 h-auto">
+  
+        <div class="flex flex-col gap-6 p-2">
+  
+          <div class="flex flex-col gap-1">
+            <label class="font-normal text-xl">Libellé Service</label>
             <input formControlName="libelle"
-              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
+              class="focus:border-[#FF7900] outline-none w-full p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
               placeholder="saisir le nom du service" type="text">
           </div>
-
+  
           <div class="flex flex-col gap-2">
-            <label class="font-normal text-xl font-['Inter']">Département</label>
+            <label class="font-normal text-xl">Département</label>
             <select formControlName="departement_id"
-              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option value=0>choisir un departement</option>
+              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg w-full p-2.5">
+              <option value="">choisir un département</option>
               @for (departement of departements(); track departement.id) {
                 <option [value]="departement.id">{{departement.libelle}}</option>
               }
             </select>
           </div>
-
+  
         </div>
-
-        <div class="flex">
+  
+        <div class="flex justify-center">
           <div (click)="addOrUpServ()"
-            class="cursor-pointer ml-6 w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
+            class="cursor-pointer w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
             {{button2}}
           </div>
         </div>
-
+  
       </div>
-
+  
     </form>
-
+  
   </div>
+  
 
-  <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center" style="display: none;"
-    id="activite">
+  <div class="  fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center z-50" style="display: none ;" id="activite">
 
-    <form [formGroup]="Activite" class="bg-white mt-32 ml-[30rem] w-[45%] h-[60%] flex flex-col gap-4 rounded-[6px] ring-1 ring-[#242a30]">
-
-      <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
-        <h1 class="w-[33%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
-          {{title3}}
-        </h1>
-        <span (click)="closeModal3()"
-          class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter']">
+    <form [formGroup]="Activite" class="bg-white w-[90%] max-w-[600px] h-auto flex flex-col gap-4 rounded-lg ring-1 ring-[#242a30] p-4 mt-32 modal ">
+  
+      <div class="flex justify-between w-full rounded-lg h-16 bg-[#FF7900] p-4">
+        <h1 class="text-2xl font-semibold text-white">{{title3}}</h1>
+        <span (click)="closeModal3()" class="cursor-pointer text-white text-2xl">
           X
         </span>
       </div>
-
-      <div class="flex flex-col gap-12 m-2 h-[85%]">
-
-        <div class="flex flex-col gap-8 p-4">
-
+  
+      <div class="flex flex-col gap-6 h-auto">
+  
+        <div class="flex flex-col gap-6 p-2">
+  
           <div class="flex flex-col gap-2">
-            <label class="font-normal text-xl font-['Inter']">Libellé activité</label>
+            <label class="font-normal text-xl">Libellé activité</label>
             <input formControlName="libelle"
-              class="focus:border-[#FF7900] outline-none w-[100%] p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
+              class="focus:border-[#FF7900] outline-none w-full p-2 bg-white rounded-[10px] border-2 border-[#FF7900]"
               placeholder="saisir le nom de l'activité" type="text">
           </div>
-
+  
           <div class="flex flex-col gap-2">
-            <label class="font-normal text-xl font-['Inter']">Service</label>
+            <label class="font-normal text-xl">Service</label>
             <select formControlName="service_id"
-              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg w-full p-2.5">
               <option value="0">choisir un service</option>
               @for (service of services(); track service.id) {
                 <option [value]="service.id">{{service.libelle}}</option>
               }
             </select>
           </div>
-
+  
         </div>
-
-        <div class="flex">
+  
+        <div class="flex justify-center">
           <div (click)="addOrUpAct()"
-            class="cursor-pointer ml-6 w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
+            class="cursor-pointer w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
             {{button3}}
           </div>
         </div>
-
+  
       </div>
-
+  
     </form>
-
+  
   </div>
+  
 
 </div>

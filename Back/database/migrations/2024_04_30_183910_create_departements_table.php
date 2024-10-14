@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('libelle');
             $table->foreignIdFor(Direction::class)->constrained();
-            $table->foreignIdFor(Pole::class)->constrained();
+            $table->foreignIdFor(Pole::class)->nullable()->constrained();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
 

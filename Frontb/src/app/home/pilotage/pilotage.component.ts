@@ -55,6 +55,7 @@ import { ImportService } from '../../_helpers/import.service';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '../../_helpers/services/auth.service';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-pilotage',
@@ -94,12 +95,14 @@ export class PilotageComponent implements AfterViewInit {
   title: string = 'Nouveau control';
   btn: string = 'Ajouter';
   ctrls: Controle[] = [];
+  uploading = false;
+  uploadStatus: string | null = null;
   id!: number | null;
   selectedDir: number = 0;
   selectedDept: number = 0;
   selectedCouv: number = 0;
   selectedUser: number = 0;
-  selectedPole: number = 0;
+  selectedPole!: number|null ;
   selectedServ: number = 0;
   selectedAct: number = 0;
   selectedCtrl: number = 0;
@@ -119,12 +122,13 @@ export class PilotageComponent implements AfterViewInit {
   hoveredIcon: { [id: number]: string | null } = {};
   selectedFile: any;
   selectedFiles: File[] = [];
-  files: string[] = [];
+  files: File[] = [];
   fileCount: number = 0;
 
   display: boolean = false;
   file: any;
-
+ 
+    fileNames: string = '';
   formData: FormData = new FormData();
   formData2: FormData = new FormData();
 
@@ -170,19 +174,19 @@ export class PilotageComponent implements AfterViewInit {
       code: this.fb.control(''),
       objectif: this.fb.control(''),
       descriptif: this.fb.control(''),
-      type: this.fb.control(0),
+      type: this.fb.control(''),
       direction_id: this.fb.control(1),
-      pole_id: this.fb.control(1),
+      pole_id: this.fb.control(''),
       departement_id: this.fb.control(1),
       service_id: this.fb.control(1),
       activite_id: this.fb.control(1),
-      commentaire: this.fb.control('C1'),
+      commentaire: this.fb.control(''),
       risque_id: this.fb.control(0),
       user_id: this.fb.control(1),
       periodicite: this.fb.control('saisir la périodicité'),
       exhaustivite: this.fb.control(0),
       preuve: this.fb.control('P1'),
-      etat: this.fb.control('none'),
+      etat: this.fb.control(''),
     });
 
     // this.Data.get('controle_id')?.valueChanges.subscribe((d)=>{
@@ -192,10 +196,10 @@ export class PilotageComponent implements AfterViewInit {
 
     this.select = this.fb.group({
       pays_id: this.fb.control(0),
-      type: this.fb.control(0),
+      type: this.fb.control(''),
       direction_id: this.fb.control(0),
       departement_id: this.fb.control(0),
-      pole_id: this.fb.control(0),
+      pole_id: this.fb.control(null),
       service_id: this.fb.control(0),
       activite_id: this.fb.control(0),
       controle_id: this.fb.control(0),
@@ -203,7 +207,7 @@ export class PilotageComponent implements AfterViewInit {
       user_id: this.fb.control(0),
       periodicite: this.fb.control(0),
       couverture: this.fb.control(0),
-      statut: this.fb.control(0),
+      statut: this.fb.control(''),
       validate: this.fb.control(0),
       annee: this.fb.control(0),
     });
@@ -289,17 +293,17 @@ export class PilotageComponent implements AfterViewInit {
   ngOnInit() {
     const user = localStorage.getItem('user');
     const userObj = JSON.parse(user!);
-    console.log(userObj);
+    //  console.log(userObj);
 
     const profil = userObj.profil_id;
     this.profileUser=profil;
     this.pays_id=userObj.pays_id;
 
-    console.log(profil);
+    //  console.log(profil);
     if (profil != 1) {
       this.display2 = true;
       this.getData();
-      // console.log(this.getData());
+      //  console.log(this.getData());
     } else {
       this.getData2();
       // this.Data.
@@ -379,7 +383,7 @@ export class PilotageComponent implements AfterViewInit {
     this.data.listResources().subscribe((res: any) => {
       this.toExp = res.controles;
       this.datas = signal(res.controles);
-      console.log(this.datas())
+      // console.log(this.datas())
       this.archives = signal(res.archives);
       // console.log(this.toExp[0].date_ajout);
     });
@@ -411,7 +415,7 @@ export class PilotageComponent implements AfterViewInit {
   disableAllFields(profil:number) {
     Object.keys(this.Data.controls).forEach(field => {
       const control = this.Data.get(field);
-      if(field!=="preuve" &&  field!=="etat" && profil==1){
+      if(field!=="preuve" && field!=="commentaire" &&   field!=="etat" && profil==1){
 
         control?.disable();
       }
@@ -446,11 +450,13 @@ export class PilotageComponent implements AfterViewInit {
   }
 
   getControles() {
-    // this.ctrl.listResources().subscribe((r:any) => {
-    //   this.controles = signal(r.data)
-    //   // this.ctrls = r.data
-    //   // console.log(r.data);
-    // })
+    this.ctrl.listResources().subscribe((r:any) => {
+      console.log(r);
+      
+      this.controles = signal(r?.data)
+      this.ctrls = r?.data
+       console.log(r?.data);
+    })
   }
 
   getTypes() {
@@ -477,20 +483,41 @@ export class PilotageComponent implements AfterViewInit {
     this.control = false;
     this.archive = true;
   }
+  
+  // onFileSelected(event: Event) {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files) {
+  //     this.files = Array.from(input.files); // Convertit les fichiers en tableau
+  //     this.fileCount = this.files.length;   // Met à jour le compteur
+  //     this.fileNames = this.files.map(file => file.name).join(', ');
+  //    console.log(this.fileNames);
+     
+  //     // Noms des fichiers
+  //   }
+  // }
 
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
+      // Tableau pour stocker les fichiers sélectionnés
+     // Compteur de fichiers
+
+     onFileSelected(event: Event) {
+      const input = event.target as HTMLInputElement;
+      if (input.files) {
+        const selectedFiles = Array.from(input.files); // Convertit les fichiers en tableau
+        this.files.push(...selectedFiles); // Ajoute les nouveaux fichiers au tableau existant
+        this.fileCount = this.files.length;   // Met à jour le compteur
+      }
     }
-    const files: FileList = event.target.files;
-    // console.log(files);
-    if (files.length > 0) {
-      this.selectedFiles = Array.from(files);
-      this.fileCount = this.selectedFiles.length;
-    }
-    // console.log(this.selectedFiles);
+
+  openFile(file: File) {
+    const fileURL = URL.createObjectURL(file); // Crée une URL pour le fichier
+    window.open(fileURL, '_blank'); // Ouvre l'URL dans un nouvel onglet
   }
+
+  // openFile(file: File) {
+  //   const fileURL = URL.createObjectURL(file);
+  //   window.open(fileURL); // Ouvre le fichier dans un nouvel onglet
+  // }
+  
 
   addOrUp() {
     // console.log(this.Data.value);
@@ -514,7 +541,13 @@ export class PilotageComponent implements AfterViewInit {
         this.Data.get('direction_id')?.value
       );
       this.formData.append('service_id', this.Data.get('service_id')?.value);
-      this.formData.append('pole_id', this.Data.get('pole_id')?.value);
+      const poleIdValue    = this.formData.append('pole_id', this.Data.get('pole_id')?.value);
+      if (poleIdValue !== null && poleIdValue !== undefined) {
+        this.formData.append('pole_id', poleIdValue);
+    } else {
+        // Vous pouvez décider d'ajouter 'null' en tant que chaîne ou simplement ignorer l'ajout
+        this.formData.append('pole_id', ''); // ou ne rien ajouter si votre backend préfère ne pas recevoir ce champ du tout
+    }
       this.formData.append('activite_id', this.Data.get('activite_id')?.value);
       this.formData.append(
         'departement_id',
@@ -548,12 +581,12 @@ export class PilotageComponent implements AfterViewInit {
         }
       });
     } else if (this.btn == 'Modifier') {
-      this.formData.append('controle', this.Data.get('controle')?.value);
-      this.formData.append('code', this.Data.get('code')?.value);
-      this.formData.append('descriptif', this.Data.get('descriptif')?.value);
-      this.formData.append('objectif', this.Data.get('objectif')?.value);
-      this.formData.append('type', this.Data.get('type')?.value);
-      this.formData.append('periodicite', this.Data.get('periodicite')?.value);
+      this.formData.append('controle', this.Data?.get('controle')?.value);
+      this.formData.append('code', this.Data?.get('code')?.value);
+      this.formData.append('descriptif', this.Data?.get('descriptif')?.value);
+      this.formData.append('objectif', this.Data?.get('objectif')?.value);
+      this.formData.append('type', this.Data?.get('type')?.value);
+      this.formData.append('periodicite', this.Data?.get('periodicite')?.value);
       this.formData.append(
         'exhaustivite',
         this.Data.get('exhaustivite')?.value
@@ -650,42 +683,44 @@ export class PilotageComponent implements AfterViewInit {
   info(data: any) {
     let modal = document.getElementById('modal');
     if (modal) {
-      this.display = true;
-      this.title = 'Information control';
-      this.btn = 'Fermer';
-      // this.file = 'http://localhost:8000/storage/'+data.fichier
-      if (data.fichier) {
-        this.files = JSON.parse(data.fichier).map(
-          (filePath: string) => 'http://localhost:8000/storage/' + filePath
-        );
-        this.fileCount = this.files.length;
-      } else {
-        this.files = [];
-      }
-      this.Data.patchValue({
-        controle: data.controle,
-        code: data.code,
-        descriptif: data.descriptif,
-        objectif: data.objectif,
-        type: data.type,
-        direction_id: data.direction_id.id,
-        pole_id: data.pole_id.id,
-        departement_id: data.departement_id.id,
-        service_id: data.service_id.id,
-        activite_id: data.activite_id.id,
-        commentaire: data.commentaire,
-        risque_id: data.risque_id.id,
-        user_id: data.user_id.id,
-        periodicite: data.periodicite,
-        exhaustivite: data.exhaustivite,
-        preuve: data.preuve,
-        etat: data.etat,
-      });
+        this.display = true;
+        this.title = 'Information control';
+        this.btn = 'Fermer';
 
-      this.Data.disable();
-      modal.style.display = 'block';
+        if (data.fichier) {
+            this.files = JSON.parse(data.fichier).map(
+                (filePath: string) => 'http://localhost:8000/storage/' + filePath
+            );
+            this.fileCount = this.files.length;
+        } else {
+            this.files = [];
+        }
+
+        this.Data.patchValue({
+            controle: data.controle,
+            code: data.code,
+            descriptif: data.descriptif,
+            objectif: data.objectif,
+            type: data.type ?? null,
+            direction_id: data.direction_id?.id ?? null,
+            pole_id: data.pole_id?.id ?? null,
+            departement_id: data.departement_id?.id ?? null,
+            service_id: data.service_id?.id ?? null,
+            activite_id: data.activite_id?.id ?? null,
+            commentaire: data.commentaire,
+            risque_id: data.risque_id?.id ?? null,
+            user_id: data.user_id?.id ?? null,
+            periodicite: data.periodicite,
+            exhaustivite: data.exhaustivite,
+            preuve: data.preuve,
+            etat: data.etat,
+        });
+
+        this.Data.disable();
+        modal.style.display = 'block';
     }
-  }
+}
+
 
   deleteD(id: number | null) {
     Swal.fire({
@@ -872,9 +907,9 @@ export class PilotageComponent implements AfterViewInit {
       console.log(data);
 
       const row = worksheet.addRow({
-        type: data.type_controle_id.libelle,
+        type: data.type_controle_id.libelle ? data.type_controle_id.libelle :'Non défini',
         direction: data.direction_id.libelle,
-        pole: data.pole_id.libelle,
+        pole: data.pole_id && data.pole_id.libelle ? data.pole_id.libelle : 'Non défini',
         departement: data.departement_id.libelle,
         service: data.service_id.libelle,
         activite: data.activite_id.libelle,
@@ -888,8 +923,8 @@ export class PilotageComponent implements AfterViewInit {
         exhaustivite: data.exhaustivite,
         preuve: data.preuve,
         commentaire: data.commentaire,
-        statut: data.validate,
-        etat: data.etat,
+        statut: data.validate ? data.validate:'Non defini',
+        etat: data.etat?data.etat:'Non défini',
         date_ajout: data.date_ajout,
       });
 
@@ -916,6 +951,30 @@ export class PilotageComponent implements AfterViewInit {
   // onFileSelected(event: any): void {
   //   this.selectedFile = event.target.files[0] as File;
   // }
+
+  onFileChange(event: any) {
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+      this.onSubmit();
+    }
+  }
+  onSubmit() {
+    if (this.selectedFile) {
+      this.importService.uploadFile(this.selectedFile).subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.uploading = true;
+        } else if (event.type === HttpEventType.Response) {
+          this.uploading = false;
+          this.uploadStatus = 'Importation réussie !';
+        }
+      }, error => {
+        this.uploading = false;
+        this.uploadStatus = 'Erreur lors de l\'importation.';
+        console.error(error);
+      });
+    }
+  }
+
 
   onUpload(): void {
     if (this.selectedFile) {
@@ -956,4 +1015,14 @@ export class PilotageComponent implements AfterViewInit {
         console.log('Fichier envoyé avec succès', data);
       });
   }
+  // openFile(file: File) {
+  //   if (file) {
+  //     const fileURL = URL.createObjectURL(file); // Crée une URL pour le fichier
+  //     window.open(fileURL, '_blank'); // Ouvre l'URL dans un nouvel onglet
+  //   } else {
+  //     console.error('Le fichier est introuvable ou l\'URL est incorrecte.');
+  //   }
+  // }
+  
+  
 }

@@ -18,22 +18,23 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('nom_complet');
-            $table->string('email')->unique();
-            $table->string('matricule')->unique();
+            $table->string('email')->unique()->nullable();
+            $table->string('matricule')->unique()->nullable();
             $table->string('photo')->nullable();
             $table->string('telephone')->nullable();
             $table->string('addresse')->nullable();
             $table->foreignIdFor(Direction::class)->constrained();
             $table->foreignIdFor(Profil::class)->constrained();
-            $table->foreignIdFor(Service::class)->constrained();
+            $table->foreignIdFor(Service::class)->nullable()->constrained();
             $table->unsignedBigInteger('pays_id')->nullable();
             $table->foreign('pays_id')
                 ->references('id')
                 ->on('contrys')
+                ->nullable()
                 ->onDelete('cascade');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->rememberToken()->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

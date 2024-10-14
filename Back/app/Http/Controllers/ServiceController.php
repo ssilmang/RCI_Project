@@ -41,11 +41,11 @@ class ServiceController extends Controller
                 ]);
             }
 
-            if ($request->departement_id == null) {
-                return response()->json([
-                    'error' => 'Veuillez choisir un departement!',
-                ]);
-            }
+            // if ($request->departement_id == null) {
+            //     return response()->json([
+            //         'error' => 'Veuillez choisir un departement!',
+            //     ]);
+            // }
 
             Service::create([
                 'libelle' => $request->libelle,

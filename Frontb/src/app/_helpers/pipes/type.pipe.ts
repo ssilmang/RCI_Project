@@ -9,7 +9,7 @@ export class TypePipe implements PipeTransform {
   transform(arrayData : any [], value : number|null ): any [] {
     if(value !=0 || value ==null){
       return arrayData =  arrayData.filter((data :any) =>
-        data.type_controle_id.id == value
+        data?.type_controle_id?.id == value
       )
     }else{
       return arrayData;

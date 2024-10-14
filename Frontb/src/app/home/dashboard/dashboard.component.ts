@@ -16,6 +16,7 @@ import { TypePipe } from '../../_helpers/pipes/type.pipe';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartData, ChartOptions } from 'chart.js';
 import { CrudService } from '../../_helpers/services/crud.service';
+// import { CanvasJSAngularChartModule } from "@canvasjs/angular-charts";
 
 
 interface ControlGroup {
@@ -57,7 +58,7 @@ export class DashboardComponent implements OnInit {
   totalValidated: number = 0;
   totalNonValidated: number = 0;
   totalDone: number = 0;
-
+   percentage = 0;
   pieChartLabels: string[] = [];
   pieChartDataValues: number[] = [];
   // pieChartDataValues: number[] = [];
@@ -90,6 +91,10 @@ export class DashboardComponent implements OnInit {
   datas: Signal<Data[]> = signal([])
   types: Signal<TypeControle[]> = signal([])
   contries: Signal<Contry[]> = signal([])
+  pays!:number
+  status?:string
+  etat?:string
+
 
 
 
@@ -101,7 +106,7 @@ export class DashboardComponent implements OnInit {
     
     
   };
-  barChartLabels: string[] = ['Validé', 'Non validé', 'Fait', 'Non fait', 'Applicable', 'Non applicable', 'Exhaustivité', 'Non exhaustivité'];
+  barChartLabels: string[] = ['Validé', 'Non validé', 'Fait', 'Non fait','Approuvé', 'Non applicable'];
   barChartData: ChartData<'bar'> = {
     labels: this.barChartLabels,
     datasets: [
@@ -118,17 +123,7 @@ export class DashboardComponent implements OnInit {
           '#ffc0cb', // Exhaustivité
           '#add8e6'  // Non exhaustivité
         ],
-        // borderColor: [
-        //   '#155724', // Validé - Vert foncé
-        //   '#721c24', // Non validé - Rouge foncé
-        //   '#856404', // Fait - Jaune foncé
-        //   '#0c5460', // Non fait - Bleu foncé
-        //   '#383d41', // Applicable - Gris foncé
-        //   '#818182', // Non applicable - Gris clair
-        //   '#004085', // Exhaustivité - Bleu foncé
-        //   '#c82333'  // Non exhaustivité - Rouge foncé
-        // ],
-        // borderWidth: 1
+        
       }
     ]
   };
@@ -157,7 +152,7 @@ export class DashboardComponent implements OnInit {
     datasets: [
       {
         data:this.pieChartDataValues, // Données pour chaque segment
-        label: 'Total', // Label du dataset
+        // label: 'Total', // Label du dataset
         backgroundColor: [
           '#008000', '#ff0000', '#ffff00', '#808080', '#add8e6'
         ], // Couleurs des segments
@@ -190,16 +185,18 @@ export class DashboardComponent implements OnInit {
       // console.log(res);
       this.selectedContry = res
       // console.log(this.selectedContry);
-      this.controls = this.ctrls.filter((c:any) => c.user_id.pays_id.id == res)
+      // this.displayPercentage(this.controles,res, this.controlsByStatut,this.controlsByEtat)
+      this.controls = this.ctrls.filter((c:any) => c.user_id?.pays_id?.id == res)
       console.log(this.controls);
       this.graph(this.controls, 'nothing')
+      
     })
 
     this.selectForm.get('type')?.valueChanges.subscribe(res=>{
       // console.log(res);
       this.selectedType = res
       if (res!=0) {
-        this.controlsByPays = this.controls.filter((c:any) => c.type_controle_id.id == res)
+        this.controlsByPays = this.controls.filter((c:any) => c.type_controle_id?.id == res)
         console.log(this.controlsByPays);
         if (this.controlsByPays.length > 0) {
           this.graph(this.controlsByPays, 'nothing')
@@ -215,7 +212,7 @@ export class DashboardComponent implements OnInit {
           })
         }
       }else{
-        this.controlsByPays = this.ctrls.filter((c:any) => c.user_id.pays_id.id == this.selectedContry)
+        this.controlsByPays = this.ctrls.filter((c:any) => c?.user_id?.pays_id?.id == this.selectedContry)
         console.log(this.controlsByPays);
         this.graph(this.controlsByPays, 'nothing')
         // this.updatePieChart('type');
@@ -227,19 +224,19 @@ export class DashboardComponent implements OnInit {
       if (res!=0) {
         console.log(res);
         this.controlsByStatut = this.controlsByPays.filter((c:any) => c.etat == res)
-        console.log(this.controlsByStatut);
+        // console.log(this.controlsByStatut);
+        // this.displayPercentage(this.controles,this.selectedContry,res, this.controlsByEtat)
         this.selectedStatut = true
         this.selectedEtat = false
         this.selectedCouv = false
         this.graph(this.controlsByStatut, 'statut')
-        this.updatePieChart('statut',res); // Mettre à jour le pie chart pour le statut
-        this.selectForm.patchValue({ etat: 0, couverture: 0 }, { emitEvent: false });
-        // this.updatePieChart('statut');
+        this.updatePieChart('statut',res); 
+        //  this.displayPercentage()
 
-        this.selectForm.patchValue({
-          etat: 0,
-          couverture: 0
-        }, { emitEvent: false });
+        // this.selectForm.patchValue({
+        //   etat: 0,
+        //   couverture: 0
+        // }, { emitEvent: false });
       }
     })
 
@@ -247,6 +244,7 @@ export class DashboardComponent implements OnInit {
       // console.log(this.controlsByPays);
       if (res!=0) {
         console.log(res);
+        // this.displayPercentage(this.controles,this.selectedContry, res, this.controlsByStatut)
         this.controlsByEtat = this.controlsByPays.filter((c:any) => c.validate == res)
         console.log(this.controlsByEtat);
         this.selectedEtat = true
@@ -254,13 +252,20 @@ export class DashboardComponent implements OnInit {
         this.selectedCouv = false
         this.graph(this.controlsByEtat, 'etat')
         this.updatePieChart('etat',res); // Mettre à jour le pie chart pour l'état
-        this.selectForm.patchValue({ statut: 0, couverture: 0 }, { emitEvent: false });
+        // this.selectForm.patchValue({ statut: 0, couverture: 0 }, { emitEvent: false });
 
-        this.selectForm.patchValue({
-          statut: 0,
-          couverture: 0
-        }, { emitEvent: false });
+        // this.selectForm.patchValue({
+        //   statut: 0,
+        //   couverture: 0
+        // }, { emitEvent: false });
+
       }
+      const filteredData = this.controlsByEtat.find((c: any) => c.etat === res);
+    if (filteredData) {
+      this.percentage = filteredData.percentage;
+      console.log(this.percentage);
+      
+    }
     })
 
     this.selectForm.get('couverture')?.valueChanges.subscribe(res => {
@@ -282,6 +287,10 @@ export class DashboardComponent implements OnInit {
         }, { emitEvent: false });
       }
     })
+    
+      
+     
+    
 
     // this.selectForm.get('direction')?.valueChanges.subscribe(res=>{
     //   // console.log(res);
@@ -413,7 +422,7 @@ export class DashboardComponent implements OnInit {
       datasets: [
         {
           data: this.pieChartDataValues,
-          label: 'Total controle',
+          // label: 'Total controle',
           backgroundColor: ['#008000', '#ff0000', '#ffff00', '#808080', '#add8e6'],
         }
       ]
@@ -497,18 +506,17 @@ export class DashboardComponent implements OnInit {
   {
     this.dirService.listResources().subscribe(r => {
       this.directions = signal(r)
-      // console.log(this.directions);
+      
     })
   }
 
   selectCard(card: string) {
     this.selectedCard = card;
     if (this.direction != 'Direction' && this.totalControls > 0) {
-      // console.log(card, this.direction);
       localStorage.setItem('direction', JSON.stringify(this.direction))
       localStorage.setItem('etat', JSON.stringify(card))
       this.router.navigate(['accueil/pilotage']);
-      // Swal.fire({
+     
       //   title: "Voulez-vous voir les contrôles associés ?",
       //   showDenyButton: true,
       //   confirmButtonText: "Oui",
@@ -526,40 +534,11 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  // updatePieChart() {
-  //   // Met à jour les labels et les données du graphique
-  //   this.pieChartLabels = this.controlsByCountry.map(c => c.country);
-  //   this.pieChartData.datasets[0].data = this.controlsByCountry.map(c => c.count);
-
-  //   this.pieChartData = { ...this.pieChartData }; // Force la mise à jour du graphique
-  // }
-
- 
-//   initializeChart(controls:any): void {
-//       this.pieChartLabels = controls.map((item:any) => item.country);
-//    console.log('Labels:', this.pieChartLabels);
-
-//     this.pieChartDataValues = controls.map((item:any) => item.control_count);
-//     console.log('Data Values:', this.pieChartDataValues);
-
-//     this.pieChartData = {
-//       labels: ['Senegal','Mali','Guinne Bissau','Guinee Konacry','Sierra Leone'],
-//       datasets: [
-//         {
-//           data: [12,12,12,12,12],
-//           label: 'Total',
-//           backgroundColor: ['#008000', '#ff0000', '#ffff00', '#808080', '#add8e6'],
-//         }
-//       ]
-//     };
-  
-
-
-// }
 
 
 
-updatePieChart(criteria: string,res:string) {
+
+updatePieChart(criteria: string, res: string) {
   console.log(this.controles);
 
   if (this.controles && this.controles.length > 0) {
@@ -567,37 +546,31 @@ updatePieChart(criteria: string,res:string) {
     let pieChartLabels: string[] = [];
 
     // Map des critères de filtrage
-    const filterMap: { [key: string]: keyof ControlItem } = {
+    const filterMap: { [key: string]: string } = {
       'statut': 'controls_by_status',
       'etat': 'controls_by_etat'
     };
 
-    
-    const filterField = filterMap[criteria as keyof typeof filterMap];
+    const filterField = filterMap[criteria];
     console.log(filterField);
-    
-    const filterValue = res; 
 
     if (filterField) {
-      console.log(this.controles);
-      
+      // console.log(this.controles);
+
       this.controles.forEach(item => {
-       
-        console.log(item);
-        
-        const controlGroup = item[filterField] as ControlGroup;
-        // console.log(controlGroup);
-        
-console.log(Object.values(controlGroup));
+        // console.log(item.controls_by_etat);
+
+        const controlGroup = item[filterField] as Array<{ etat?: string, statut?: string, count: number }>;
+        console.log(controlGroup);
 
         // Trouver un contrôle qui correspond au critère de filtrage
-        const filteredControl = Object.values(controlGroup).find(control => control.statut === filterValue || control.etat === filterValue);
-console.log(filteredControl);
-console.log(filterValue);
+        const filteredControl = controlGroup.find(control => control.statut === res || control.etat === res);
+        console.log(filteredControl);
+        // console.log(res);
 
         if (filteredControl) {
           pieChartLabels.push(item.country); // Ajouter le nom du pays
-          pieChartDataValues.push(filteredControl.controls); // Ajouter le nombre de contrôles
+          pieChartDataValues.push(filteredControl.count); // Ajouter le nombre de contrôles
         }
       });
     } else {
@@ -622,7 +595,70 @@ console.log(filterValue);
 
 
 
+displayPercentage(data: any[], selectpays: number, filterType?: string, etat?: string) {
+  // console.log(data);
+  // console.log(selectpays);
+  // console.log(filterType);
+  // console.log(etat);
+
+  // Trouver les données correspondant au pays sélectionné
+  let donnees = data.find((elem: any) => { 
+    return (
+      elem.id === selectpays && 
+      (etat ? elem.controls_by_etat.some((etatObj: any) => etatObj.etat === etat) : true) ||
+      (filterType ? elem.controls_by_status.some((statusObj: any) => statusObj.statut === filterType) : true)
+    );
+  });
+
+  const percentageElement = document.getElementById('number');
+  
+  if (percentageElement) {
+    if (donnees) {
+      let percentage = 0;
+
+      // Si un état est fourni, trouver le pourcentage correspondant
+      if (etat) {
+        const etatObj = donnees.controls_by_etat.find((etatObj: any) => etatObj.etat === etat);
+        percentage = etatObj ? etatObj?.percentage : 0;
+      } 
+      // Si un type de filtre est fourni, trouver le pourcentage correspondant
+      else if (filterType) {
+        const statusObj = donnees.controls_by_status.find((statusObj: any) => statusObj.statut === filterType);
+        percentage = statusObj ? statusObj?.percentage : 0;
+      }
+
+      // Mettre à jour le texte du champ de pourcentage
+      percentageElement.textContent = percentage ? `${percentage}%` : '....';
+    } else {
+      // Si aucune donnée correspondante n'est trouvée, ne rien afficher
+      percentageElement.textContent = '....';
+    }
+  } else {
+    console.error("Élément de pourcentage introuvable.");
+  }
+}
 
 
 
+selectEtat(event:Event){
+  let option= (event.target as HTMLSelectElement).value
+  console.log(option);
+  let statut = this.selectForm.get('statut')?.value
+  console.log(this.selectedContry);
+  console.log(statut);
+  
+  
+  this.displayPercentage(this.controles,this.selectedContry,statut,option)
+}
+
+selectstatus(event:Event){
+  let option= (event.target as HTMLSelectElement).value
+  console.log(option);
+  let statut = this.selectForm.get('statut')?.value
+  console.log(this.selectedContry);
+  console.log(statut);
+  this.displayPercentage(this.controles,this.selectedContry,statut,option)
+}
+// selectstatus(event:Event){
+// }
 }

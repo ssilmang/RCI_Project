@@ -16,6 +16,7 @@ export class HomeComponent {
 
   role!: string;
   use!: any;
+  showIcons: boolean = false
   // notifications!:number[]
   user!: string;
   identifiant!: string
@@ -67,7 +68,7 @@ export class HomeComponent {
 
   ngOnInit()
   {
-    this.loadNotifications();
+    // this.loadNotifications();
     const user = localStorage.getItem('user');
     const userObj = JSON.parse(user!);
     this.nomComplet = userObj.nom_complet;
@@ -99,11 +100,11 @@ export class HomeComponent {
 
   infoUser()
   {
-    // const modal = document.getElementById("entite");
-    // if (modal) {
-    //   modal.style.display = "block";
-    //   this.title = "NOUVELLE ENTITE"
-    // }
+    const modal = document.getElementById("entite");
+    if (modal) {
+      modal.style.display = "block";
+      this.title = "NOUVELLE ENTITE"
+    }
   }
 
   onFileSelected(event: Event): void {
@@ -166,39 +167,39 @@ export class HomeComponent {
     this.authService.logout();
     this.router.navigateByUrl('/login')
   }
-  loadNotifications(): void {
-    this.ctrl.getNotifications(this.userId).subscribe(
-      data => {
-        this.notifications = data;
-        this.unreadCount = data.filter(n => !n.read).length;
-      },
-      error => console.error('Erreur lors du chargement des notifications', error)
-    );
-  }
+  // loadNotifications(): void {
+  //   this.ctrl.getNotifications(this.userId).subscribe(
+  //     data => {
+  //       this.notifications = data;
+  //       this.unreadCount = data.filter(n => !n.read).length;
+  //     },
+  //     error => console.error('Erreur lors du chargement des notifications', error)
+  //   );
+  // }
 
-  toggleNotifications(): void {
-    this.showNotifications = !this.showNotifications;
-    if (this.showNotifications) {
-      this.loadNotifications(); // Recharger les notifications lorsque le menu est affiché
-    }
-}
-markAsRead(notificationId: number): void {
-  this.ctrl.markAsRead(notificationId).subscribe(
-    () => this.loadNotifications(), // Recharger les notifications après marquage comme lu
-    error => console.error('Erreur lors de la mise à jour de la notification', error)
-  );
-}
-dcjjd(controlId: number, newStatus: string): void {
-  this.ctrl.updateControlStatus(controlId, newStatus).subscribe(
-    () => {
+//   toggleNotifications(): void {
+//     this.showNotifications = !this.showNotifications;
+//     if (this.showNotifications) {
+//       this.loadNotifications(); // Recharger les notifications lorsque le menu est affiché
+//     }
+// }
+// markAsRead(notificationId: number): void {
+//   this.ctrl.markAsRead(notificationId).subscribe(
+//     () => this.loadNotifications(), // Recharger les notifications après marquage comme lu
+//     error => console.error('Erreur lors de la mise à jour de la notification', error)
+//   );
+// }
+// dcjjd(controlId: number, newStatus: string): void {
+//   this.ctrl.updateControlStatus(controlId, newStatus).subscribe(
+//     () => {
  
-      this.loadNotifications();
-    },
-    error => {
-      // Gérer les erreurs lors de la mise à jour du statut
-      console.error('Erreur lors de la mise à jour du statut du contrôle', error);
-    }
-  );
-}
+//       this.loadNotifications();
+//     },
+//     error => {
+//       // Gérer les erreurs lors de la mise à jour du statut
+//       console.error('Erreur lors de la mise à jour du statut du contrôle', error);
+//     }
+//   );
+ }
 
-}
+

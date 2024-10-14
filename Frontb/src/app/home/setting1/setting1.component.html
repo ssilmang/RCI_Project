@@ -1,4 +1,4 @@
-<div class="w-full h-[38.5rem] p-1 flex gap-1 relative">
+<div class="w-full h-[49.5rem] p-1 flex gap-1 relative">
 
   <div class="flex flex-col gap-2 w-[55%] h-[100%]">
 
@@ -23,12 +23,12 @@
 
     </div>
 
-    <div class="shadow-md shadow-[#242a30] rounded-sm w-full h-[90%] flex flex-col gap-8">
+    <div class=" rounded-sm w-full h-full flex flex-col gap-8">
 
       <div class="w-[99%] flex flex-1 flex-wrap overflow-y-auto p-6 gap-6">
 
         @for (direction of directions(); track direction.id;) {
-          <div class="flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] ml-4 shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%]">
+          <div class="flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] ml-4 shadow-md shadow-[#242a30] rounded-md w-[26%] h-[20%]">
 
             <div class="text-lg text-[#009081] font-bold">
               {{direction.libelle}}
@@ -45,8 +45,8 @@
           </div>
         }
         @empty {
-          <div class="flex flex-col gap-4 justify-center items-center ring-1 ring-[#242a30] ml-4 shadow-md shadow-[#242a30] rounded-md w-[26%] h-[27%]">
-            <h1>Aucune direction n'a été ajoutée</h1>
+          <div class="flex flex-col gap-3 justify-center items-center ring-1 ring-[#242a30] ml-4 shadow-md shadow-[#242a30] rounded-md w-[26%] h-[18%]">
+            <h1 class="text-2xl">Aucune direction n'a été ajoutée</h1>
           </div>
         }
       </div>
@@ -63,7 +63,7 @@
 
       <div [formGroup]="select" class="flex justify-between w-[45%] mt-4">
         <select formControlName="direction_id"
-          class="bg-white w-[55%] outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] flex text-center">
+          class="bg-white w-[55%] outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl  flex text-center">
           <option value=0>filtrer par direction</option>
           @for (direction of directions(); track direction.id) {
             <option [value]="direction.id">{{direction.libelle}}</option>
@@ -71,8 +71,8 @@
         </select>
         @if (display) {
         <button (click)="openModal()"
-        class="bg-[#FF7900] w-[35%] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold h-8">
-        <i class="fas fa-plus"></i> pole
+        class="bg-[#FF7900] w-[26%] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-1 font-bold h-8">
+        <i class="fas fa-plus"></i> Pole
        </button>
       }
 
@@ -80,9 +80,9 @@
 
     </div>
 
-    <div class="shadow-md shadow-[#242a30] rounded-sm flex flex-col h-[90%] w-full overflow-y-auto gap-5 p-1">
+    <div class=" rounded-sm flex flex-col h-[90%] w-full overflow-y-auto gap-5 p-1">
       @for (pole of poles()|direction:selectedDirect; track pole.id) {
-        <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[12%] rounded-xl">
+        <div class="shadow-md ring-1 ring-[#242a30] p-2 shadow-[#242a30] flex gap-2 bg-white w-[100%] h-[6%] rounded-xl">
           <h1 class="text-xl w-[90%] font-semibold">{{pole.libelle}}</h1>
           @if (display) {
           <div class="w-[10%] h-7 flex mt-1 justify-center items-center">
@@ -105,58 +105,45 @@
   <!--------------------------------------Modal---------------------------------------->
 
 
-  <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
-      style="display: none;" id="pole">
+  <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center " id="pole" style="display: none;">
 
-    <form [formGroup]="Pole"
-      class="bg-white mt-32 ml-[30rem] w-[45%] h-[60%] flex flex-col gap-4 rounded-[6px] ring-1 ring-[#242a30]">
+    <form [formGroup]="Pole" class="modal bg-white w-full max-w-md h-auto flex flex-col gap-4 rounded-lg ring-1 ring-[#242a30]">
 
-      <div class="flex justify-between w-full rounded-[6px] h-[15%] bg-[#FF7900]">
-        <h1 class="w-[33%] flex justify-center items-center h-12 text-2xl font-semibold text-white">
-          {{title}}
-        </h1>
-        <span (click)="closeModal()" class="cursor-pointer w-[5%] h-[10px] text-white text-[22px] font-normal font-['Inter'] flex items-center justify-center">
-          <i class="fas fa-times" style="margin-top: 30px;"></i>
-      </span>
+        <div class="modal-header flex justify-between items-center p-4 rounded-t-lg">
+            <h1 class="text-2xl font-semibold text-white">{{title}}</h1>
+            <span (click)="closeModal()" class="modal-close text-white text-2xl">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
 
-      </div>
+        <div class="flex flex-col gap-6 p-4">
 
-      <div class="flex flex-col gap-12 m-2 h-[85%]">
+            <div class="flex flex-col gap-4">
+                <label class="font-normal text-xl">Libellé Pole</label>
+                <input formControlName="libelle" class="focus:border-[#009081] outline-none w-full p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-lg border-2 border-[#FF7900]" placeholder="saisir le nom du pole" type="text">
+            </div>
 
-        <div class="flex flex-col gap-8 p-4">
-
-          <div class="flex flex-col gap-2">
-            <label class=" font-normal text-xl font-['Inter']">Libellé Pole</label>
-            <input formControlName="libelle"
-              class="focus:border-[#009081] outline-none w-[100%] p-2 focus:ring-1 focus:ring-[#242a30] bg-white rounded-[10px] border-2 border-[#FF7900]"
-              placeholder="saisir le nom du pole" type="text">
-          </div>
-
-          <div class="flex flex-col gap-2">
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direction</label>
-            <select formControlName="direction_id"
-              class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option value="0">choisir une direction</option>
-              @for (direction of directions(); track direction.id) {
-                <option [value]='direction.id'>{{direction.libelle}}</option>
-              }
-            </select>
-          </div>
+            <div class="flex flex-col gap-4">
+                <label class="block mb-2 text-sm font-medium text-gray-900">Direction</label>
+                <select formControlName="direction_id" class="bg-gray-50 border-2 border-[#FF7900] text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                    <option value="0">choisir une direction</option>
+                    @for (direction of directions(); track direction.id) {
+                        <option [value]='direction.id'>{{direction.libelle}}</option>
+                    }
+                </select>
+            </div>
 
         </div>
 
-        <div class="flex">
-          <div (click)="addOrUpPole()"
-            class="cursor-pointer ml-6 w-[124px] h-[40px] bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-xl font-semibold">
-            {{button}}
-          </div>
+        <div class="flex justify-end p-4">
+            <div (click)="addOrUpPole()" class="cursor-pointer w-32 h-10 bg-[#FF7900] rounded-lg flex justify-center items-center text-white text-lg font-semibold">
+                {{button}}
+            </div>
         </div>
-
-      </div>
 
     </form>
+</div>
 
-  </div>
 
 
 </div>

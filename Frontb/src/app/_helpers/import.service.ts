@@ -1,7 +1,7 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse,HttpEvent, HttpHeaders, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,24 +13,35 @@ export class ImportService {
 
   constructor(private http: HttpClient) { }
 
-  uploadFile(file: File): Observable<any> {
-    const formData: FormData = new FormData();
-    formData.append('file', file, file.name);
+  uploadFile(file: File): Observable<HttpEvent<any>> {
+    const formData = new FormData();
+    formData.append('file', file);
 
-    return this.http.post(this.apiUrl, formData).pipe(
-      catchError((error: HttpErrorResponse) => {
-        let errorMessage = 'Erreur inconnue';
-        if (error.error instanceof ErrorEvent) {
-          // Erreur côté client
-          errorMessage = `Erreur : ${error.error.message}`;
-        } else {
-          // Erreur côté serveur
-          errorMessage = `Erreur HTTP : ${error.status}\nMessage : ${error.message}`;
-        }
-        console.error('Erreur lors de l\'envoi du fichier', error); // Journaliser les détails de l'erreur
-        return throwError(errorMessage);
+    return this.http.post(this.apiUrl, formData, {
+      reportProgress: true,
+      observe: 'events',
+      headers: new HttpHeaders({
+        'Accept': 'application/json'
       })
+    }).pipe(
+      map(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+         
+          return event; 
+        } else if (event.type === HttpEventType.Response) {
+          
+          return event;
+        }
+        return event; 
+      }),
+      catchError(this.handleError)
     );
+  }
+
+
+  private handleError(error: any): Observable<never> {
+    console.error('Une erreur est survenue lors de l\'importation:', error);
+    throw error;
   }
 
 

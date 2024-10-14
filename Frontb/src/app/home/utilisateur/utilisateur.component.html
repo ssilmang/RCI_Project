@@ -3,12 +3,7 @@
   <div class="flex justify-between">
     <h1 class="text-[2rem] ml-7 text-[#FF7900] font-bold">Utilisateurs</h1>
 
-    <!-- <div class="flex justify-center items-center mt-4">
-      <button (click)="openModal()"
-        class="bg-[#FF7900] mr-5 cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold w-full h-10">
-        + Utilisateur
-      </button>
-    </div> -->
+  
 
   </div>
 
@@ -60,9 +55,9 @@
 
     </div>
 
-    <div class="shadow-sm shadow-[#FF7900] container w-full h-[100%] overflow-x-auto p-1">
+    <div class=" container w-[110rem] h-[100%] overflow-x-auto p-1 ">
 
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div class="relative overflow-x-auto  sm:rounded-lg w-full  ">
 
         <table class="w-full">
           <thead class="text-white bg-[#FF7900]">
@@ -94,22 +89,22 @@
             @for (user of users() | direction2:selectedDir | service2:selectedServ |contry:selectedContry | profil:selectedProfil ; track user.id) {
               <tr class="bg-white">
                 <td class="px-6 py-4 text-center">
-                  {{user.nom_complet}}
+                  {{user?.nom_complet}}
                 </td>
                 <td class="px-6 py-3 text-center">
-                  {{user.email}}
+                  {{user?.email}}
                 </td>
                 <td class="px-6 py-3 text-center">
-                  {{user.direction_id.libelle}}
+                  {{user?.direction_id?.libelle}}
                 </td>
                 <td class="px-6 py-3 text-center">
-                  {{user.service_id.libelle}}
+                  {{user?.service_id?.libelle}}
                 </td>
                 <td class="px-6 py-3 text-center" >
-                  {{user.pays_id.libelle}}
+                  {{user?.pays_id?.libelle}}
                 </td>
                 <td class="px-6 py-3 text-center">
-                  {{user.profil_id.libelle}}
+                  {{user?.profil_id?.libelle}}
                 </td>
                 <td class="px-6 py-3" class="flex p-2 gap-3 justify-center items-center">
                   <i (click)="info(user)" class="mt-2 material-icons cursor-pointer text-green-400">visibility</i>
@@ -133,8 +128,8 @@
 
   <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
     style="display: none;" id="userModal">
-    <div class="bg-black mt-24 ml-[28rem] w-[50%] h-[71%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+    <div class=" mt-24 ml-[28rem] w-[50%] h-[71%] flex flex-col gap-4">
+      <div class="relative bg-white rounded-lg  dark:bg-gray-700">
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t bg-[#FF7900]">
           <h3 class="text-2xl font-semibold text-white">
             {{title}}

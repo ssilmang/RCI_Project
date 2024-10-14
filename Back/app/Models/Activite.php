@@ -11,7 +11,7 @@ class Activite extends Model
     use SoftDeletes;
     use HasFactory;
 
-    protected $fillable = ['libelle','service_id'];
+    // protected $fillable = ['libelle','service_id'];
 
     protected $guarded = ['id'];
 

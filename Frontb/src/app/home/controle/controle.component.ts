@@ -211,17 +211,17 @@ export class ControleComponent {
     }
   }
 
-  loadNotifications(): void {
-    this.ctrl.getNotifications(this.userId).subscribe(
-      data => this.notifications = data,
-      error => console.error('Erreur lors du chargement des notifications', error)
-    );
-  }
+  // loadNotifications(): void {
+  //   this.ctrl.getNotifications(this.userId).subscribe(
+  //     data => this.notifications = data,
+  //     error => console.error('Erreur lors du chargement des notifications', error)
+  //   );
+  // }
 
-  markAsRead(notificationId: number): void {
-    this.ctrl.markAsRead(notificationId).subscribe(
-      () => this.loadNotifications(), // Recharger les notifications après marquage comme lu
-      error => console.error('Erreur lors de la mise à jour de la notification', error)
-    );
-  }
+  // markAsRead(notificationId: number): void {
+  //   this.ctrl.markAsRead(notificationId).subscribe(
+  //     () => this.loadNotifications(), // Recharger les notifications après marquage comme lu
+  //     error => console.error('Erreur lors de la mise à jour de la notification', error)
+  //   );
+  // }
 }

@@ -4,12 +4,12 @@
   <div class="flex flex-col w-[50%] h-[80%] gap-6">
 
     <div class="w-full h-[95%]">
-      <img src="/assets/img/pcci.png" class="w-full h-[100%]" alt="">
+      <img src="/assets/img/error-img.png" class="w-full h-[100%]" alt="">
     </div>
 
     <div class="flex gap-2">
       <img src="/assets/img/Small_Logo.png" width="20" height="20" />
-      <span class="b-0 l-0 tx-12 tx-center">&nbsp;Outil de pilotage des controles -
+      <span class="b-0 l-0 tx-12 tx-center">&nbsp;Outil de pilotage des controles -SAAYTU-
         <span class="text-[#FF7900]">SONATEL/ARQ/RCI/PACI &copy; 2024.</span></span>
     </div>
 
@@ -32,16 +32,11 @@
       </h3>
 
       <p class="text-gray-700 text-base">
-        Saisissez votre nom d'utilisateur et le mot de passe correspondant pour accéder à l'application.
+        Saisissez votre email et le mot de passe  pour accéder à l'application.
       </p>
     </div>
 
       <div class="flex flex-col gap-6">
-
-        <!-- <div class="bg-yellow-200 text-yellow-700 border border-yellow-700 rounded-md p-4 flex items-center"
-          role="alert">
-          <i class="material-icons cursor-pointer text-black opacity-70">info</i>&nbsp;message erreur Authentification
-        </div> -->
 
         <form [formGroup]="loginForm">
           <div class="mb-4 flex flex-col gap-2">
@@ -65,15 +60,11 @@
 
       <div class="font-semibold flex justify-center items-center">
         <div class="">Vous n'avez pas de compte ?</div>
-        <div (click)="register()" class="mx-2 text-[#FF7900] text-xl underline cursor-pointer">Créer un compte</div>
+        <div (click)="register()" class="register-link mx-2 text-[#00D0FFFF] text-xl underline cursor-pointer">Créer un compte</div>
+
       </div>
 
-      <!-- <div class="flex justify-center items-center">
-        <span class="b-0 l-0 tx-12 tx-center">&nbsp;Cliquer pour
-          <span (click)="newPassword()" class="text-[#FF7900] cursor-pointer">Réinitialiser
-          </span>
-        </span>
-      </div> -->
+     
 
       </div>
 
@@ -138,8 +129,8 @@
 
   <div class="z-50 fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
     style="display: none;" id="register">
-    <div class="bg-black mt-16 ml-[28rem] w-[50%] h-[71%] flex flex-col gap-4 rounded-[6px] ring-2 ring-[#242a30]">
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+    <div class=" mt-16 ml-[28rem] w-[50%] h-[71%] flex flex-col gap-4 ">
+      <div class="relative bg-white rounded-lg ">
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t bg-[#FF7900]">
           <h3 class="text-2xl font-semibold text-white">
             Nouveau compte
