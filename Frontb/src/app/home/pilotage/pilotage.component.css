@@ -41,8 +41,9 @@ textarea {
 }
 
 .one {
-  color: #FF7900;
-  text-decoration: underline;
+  color: white;
+  background-color:#FF7900 ;
+  /* text-decoration: underline; */
 }
 
 .icon-wrapper {

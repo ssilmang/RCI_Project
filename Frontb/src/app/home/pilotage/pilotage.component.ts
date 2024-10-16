@@ -7,7 +7,7 @@ import {
   ViewChild,
   signal,
 } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { DataService } from '../../_helpers/services/all_methods/data.service';
 import {
@@ -84,8 +84,14 @@ import { HttpEventType } from '@angular/common/http';
   templateUrl: './pilotage.component.html',
   styleUrl: './pilotage.component.css',
 })
-export class PilotageComponent implements AfterViewInit {
+export class PilotageComponent implements AfterViewInit 
+{
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  autreType: boolean =false;
+  autreRisque: boolean =false;
+  autreEtat: boolean = false;
+  autrePeriodicite: boolean =false;
+  autreExhaustivite: boolean =false;
   ngAfterViewInit() {
     // Assurez-vous que fileInput est défini avant de l'utiliser
     if (!this.fileInput) {
@@ -93,7 +99,7 @@ export class PilotageComponent implements AfterViewInit {
     }
   }
   title: string = 'Nouveau control';
-  btn: string = 'Ajouter';
+  btn: string = 'Enregistrer';
   ctrls: Controle[] = [];
   uploading = false;
   uploadStatus: string | null = null;
@@ -102,7 +108,7 @@ export class PilotageComponent implements AfterViewInit {
   selectedDept: number = 0;
   selectedCouv: number = 0;
   selectedUser: number = 0;
-  selectedPole!: number|null ;
+  selectedPole: number = 0 ;
   selectedServ: number = 0;
   selectedAct: number = 0;
   selectedCtrl: number = 0;
@@ -114,6 +120,19 @@ export class PilotageComponent implements AfterViewInit {
   selectedContry: number = 0;
   selectedYear: number = 0;
   display2: boolean = false;
+ 
+  options: { [key: string]: boolean } = {
+    periodicite: false,
+    departement : false,
+    direction:  false,
+    service:false,
+    pole: false,
+    activite: false,
+    risque: false,
+    typePar: false,
+};
+
+  
 
   fileToUpload: File | null = null;
 
@@ -128,12 +147,12 @@ export class PilotageComponent implements AfterViewInit {
   display: boolean = false;
   file: any;
  
-    fileNames: string = '';
+  fileNames: string = '';
   formData: FormData = new FormData();
   formData2: FormData = new FormData();
 
   toExp: any[] = [];
-
+  donners:Data[]=[];
   types: Signal<TypeControle[]> = signal([]);
   datas: Signal<Data[]> = signal([]);
   controles: Signal<Controle[]> = signal([]);
@@ -151,6 +170,7 @@ export class PilotageComponent implements AfterViewInit {
   select!: FormGroup;
   profileUser!:number;
   pays_id!:number;
+  user ?:Utilisateur
 
   constructor(
     private data: DataService,
@@ -170,23 +190,23 @@ export class PilotageComponent implements AfterViewInit {
   )
    {
     this.Data = this.fb.group({
-      controle: this.fb.control(''),
-      code: this.fb.control(''),
-      objectif: this.fb.control(''),
-      descriptif: this.fb.control(''),
+      controle: this.fb.control('',[Validators.required,Validators.pattern("^[A-Za-z\\sèé^']*$")]),
+      code: this.fb.control('',[Validators.required,Validators.pattern("^[A-Za-z\\séè^]*$")]),
+      objectif: this.fb.control('',[Validators.required,Validators.pattern("^[A-Za-z\\séè^]*$")]),
+      descriptif: this.fb.control('',[Validators.required,Validators.pattern("^[A-Za-z\\séè^]*$")]),
       type: this.fb.control(''),
-      direction_id: this.fb.control(1),
-      pole_id: this.fb.control(''),
-      departement_id: this.fb.control(1),
-      service_id: this.fb.control(1),
-      activite_id: this.fb.control(1),
+      direction_id: this.fb.control('',[Validators.required]),
+      pole_id: this.fb.control('',[Validators.required]),
+      departement_id: this.fb.control('',[Validators.required]),
+      service_id: this.fb.control('',[Validators.required]),
+      activite_id: this.fb.control('',[Validators.required]),
       commentaire: this.fb.control(''),
-      risque_id: this.fb.control(0),
-      user_id: this.fb.control(1),
-      periodicite: this.fb.control('saisir la périodicité'),
-      exhaustivite: this.fb.control(0),
-      preuve: this.fb.control('P1'),
-      etat: this.fb.control(''),
+      risque_id: this.fb.control('',[Validators.required]),
+      user_id: this.fb.control('',[Validators.required]),
+      periodicite: this.fb.control('',[Validators.required]),
+      exhaustivite: this.fb.control('',[Validators.required]),
+      preuve: this.fb.control('',[Validators.required]),
+      etat: this.fb.control('',[Validators.required]),
     });
 
     // this.Data.get('controle_id')?.valueChanges.subscribe((d)=>{
@@ -207,7 +227,7 @@ export class PilotageComponent implements AfterViewInit {
       user_id: this.fb.control(0),
       periodicite: this.fb.control(0),
       couverture: this.fb.control(0),
-      statut: this.fb.control(''),
+      statut: this.fb.control(0),
       validate: this.fb.control(0),
       annee: this.fb.control(0),
     });
@@ -293,12 +313,13 @@ export class PilotageComponent implements AfterViewInit {
   ngOnInit() {
     const user = localStorage.getItem('user');
     const userObj = JSON.parse(user!);
-    //  console.log(userObj);
+     console.log(userObj);
+     this.user = userObj;
 
     const profil = userObj.profil_id;
     this.profileUser=profil;
     this.pays_id=userObj.pays_id;
-
+    this.Data.get('user_id')?.setValue(userObj.nom_complet);
     //  console.log(profil);
     if (profil != 1) {
       this.display2 = true;
@@ -383,10 +404,16 @@ export class PilotageComponent implements AfterViewInit {
     this.data.listResources().subscribe((res: any) => {
       this.toExp = res.controles;
       this.datas = signal(res.controles);
+      this.donners = res;
+      console.log(res);
+      
       // console.log(this.datas())
       this.archives = signal(res.archives);
       // console.log(this.toExp[0].date_ajout);
     });
+  }
+  isObject(value: any): value is { libelle: string } {
+    return value && typeof value === 'object';  
   }
 
   getData2() {
@@ -521,7 +548,7 @@ export class PilotageComponent implements AfterViewInit {
 
   addOrUp() {
     // console.log(this.Data.value);
-    if (this.btn == 'Ajouter') {
+    if (this.btn == 'Enregistrer') {
       this.formData.append('controle', this.Data.get('controle')?.value);
       this.formData.append('code', this.Data.get('code')?.value);
       this.formData.append('descriptif', this.Data.get('descriptif')?.value);
@@ -536,23 +563,22 @@ export class PilotageComponent implements AfterViewInit {
       this.formData.append('etat', this.Data.get('etat')?.value);
       this.formData.append('commentaire', this.Data.get('commentaire')?.value);
       this.formData.append('risque_id', this.Data.get('risque_id')?.value);
-      this.formData.append(
-        'direction_id',
-        this.Data.get('direction_id')?.value
-      );
+      this.formData.append('direction_id', this.Data.get('direction_id')?.value);
       this.formData.append('service_id', this.Data.get('service_id')?.value);
-      const poleIdValue    = this.formData.append('pole_id', this.Data.get('pole_id')?.value);
-      if (poleIdValue !== null && poleIdValue !== undefined) {
-        this.formData.append('pole_id', poleIdValue);
-    } else {
-        // Vous pouvez décider d'ajouter 'null' en tant que chaîne ou simplement ignorer l'ajout
-        this.formData.append('pole_id', ''); // ou ne rien ajouter si votre backend préfère ne pas recevoir ce champ du tout
-    }
+      this.formData.append('pole_id', this.Data.get('pole_id')?.value);
+    //   const poleIdValue    = this.formData.append('pole_id', this.Data.get('pole_id')?.value);
+    //   if (poleIdValue !== null && poleIdValue !== undefined) {
+    //     this.formData.append('pole_id', poleIdValue);
+    // } else {
+    //     // Vous pouvez décider d'ajouter 'null' en tant que chaîne ou simplement ignorer l'ajout
+    //     this.formData.append('pole_id', ''); // ou ne rien ajouter si votre backend préfère ne pas recevoir ce champ du tout
+    // }
       this.formData.append('activite_id', this.Data.get('activite_id')?.value);
       this.formData.append(
         'departement_id',
         this.Data.get('departement_id')?.value
       );
+      this.Data.get('user_id')?.setValue(this.user?.id);
       this.formData.append('user_id', this.Data.get('user_id')?.value);
       // this.formData.append('fichier', this.selectedFile);
       if (this.selectedFiles && this.selectedFiles.length > 0) {
@@ -645,7 +671,7 @@ export class PilotageComponent implements AfterViewInit {
     let modal = document.getElementById('modal');
     if (modal) {
       this.title = 'Nouveau control';
-      this.btn = 'Ajouter';
+      this.btn = 'Enregistrer';
       modal.style.display = 'block';
     }
   }
@@ -842,11 +868,11 @@ export class PilotageComponent implements AfterViewInit {
     });
   }
 
-  setHoveredIcon(id: number, icon: string) {
+  setHoveredIcon(id: any, icon: string) {
     this.hoveredIcon[id] = icon;
   }
 
-  clearHoveredIcon(id: number) {
+  clearHoveredIcon(id: any) {
     this.hoveredIcon[id] = null;
   }
 
@@ -1023,6 +1049,45 @@ export class PilotageComponent implements AfterViewInit {
   //     console.error('Le fichier est introuvable ou l\'URL est incorrecte.');
   //   }
   // }
+  autre(event:Event){
+    let select = (event.target as HTMLSelectElement).value;
+    if(select=="autre"){
+      return true;
+    }
+    return false;
+  }
+  selectType(event:Event){
+    this.autreType = this.autre(event);
+    let val = (event.target as HTMLSelectElement).value;
+    if(val==="autre"){
+      this.Data.get('type')?.setValue('');
+    }
+  }
+  selectedRisque(event:Event){
+    this.autreRisque = this.autre(event);
+  }
+  selectedEtat(event:Event){
+    this.autreEtat = this.autre(event);
+  }
+  selectedPeriodicite(event:Event){
+    this.autrePeriodicite = this.autre(event);
+  }
+  selectedExhaustivite(event:Event){
+    this.autreExhaustivite = this.autre(event);
+  }
+  filtrerPar(event:Event){
+    let selected = (event.target as HTMLSelectElement).value;
+    for(let key in this.options){
+      if(this.options.hasOwnProperty(key)){
+        this.options[key] = false;
+      }
+    }
+    this.options[selected] = true;
+  }
+  exacte(select:string){
   
-  
+  }
+
+
+
 }

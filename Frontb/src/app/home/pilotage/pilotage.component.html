@@ -1,29 +1,29 @@
 <div class="flex flex-col relative gap-4 w-150 h-[100%]">
   <div class="flex justify-between">
-    <div class="flex gap-8 w-[30%]">
-      <h1
+    <div class="flex gap-8 w-[30%] mt-4">
+      <button
         (click)="selectControle()"
-        class="cursor-pointer text-[2rem] ml-4 font-bold"
+        class="cursor-pointer text-lg text-center  rounded-lg p-2 font-bold border-2 "
         [ngClass]="{ one: control }"
       >
         Controles
-      </h1>
-      <h1
+      </button>
+      <button
         (click)="selectArchive()"
-        class="cursor-pointer text-[2rem] ml-4 font-bold"
+        class=" cursor-pointer text-lg text-center  rounded-lg p-2  border-2 font-bold "
         [ngClass]="{ one: archive }"
       >
         Archives
-      </h1>
+    </button>
     </div>
 
     @if (control) {
-    <div class="flex w-[30%] gap-4 mt-4">
+    <div class="flex w-[30%] gap-4 mt-4 justify-end mr-3">
       <button
       (click)="exportExcel()"
-        class="bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10"
+        class="bg-[#1FA055] cursor-pointer text-lg text-center  text-white rounded-lg p-2 font-bold"
       >
-        exporter vers excel
+        Exporter vers excel
       </button>
 
       <!-- import.component.html -->
@@ -31,7 +31,7 @@
       <button
         type="submit"
         (click)="fileInput.click()"
-        class="bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10"
+        class="bg-[#1FA055] cursor-pointer text-lg text-center  text-white rounded-lg p-2 font-bold "
       >
         Import
       </button>
@@ -46,115 +46,203 @@
 
       <button
         (click)="openModal()"
-        class="bg-[#1FA055] cursor-pointer text-lg text-center shadow-md shadow-[#242a30] text-white rounded-lg p-2 font-bold h-10"
+        class="bg-[#1FA055] cursor-pointer text-lg text-center  text-white rounded-lg p-2 font-bold"
       >
-        + controle
+        + Controle
       </button>
     </div>
     }
   </div>
 
-  <div class="flex flex-col shadow-sm gap-2 overflow-x-auto h-[91%] p-1">
+  <div class="flex flex-col  shadow-sm  gap-2 overflow-x-auto h-[91%] p-1">
     <div
       [formGroup]="select"
-      class="w-full h-[15%] shadow-md overflow-x-auto rounded gap-10 flex p-1"
+      class="w-full shadow-md overflow-x-auto rounded gap-5 items-center h-16 flex justify-between p-1"
     >
       @if (display2) {
       <div class="flex gap-4">
-        <label class="text-xl">Pays</label>
+        <!-- <label class="text-xl">Pays</label> -->
         <select
           formControlName="pays_id"
-          class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30 flex text-center"
+          class="bg-gray-50 border border-gray-400 w-60 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
         >
-          <option value="0">filtrer par pays</option>
+          <option value="0" disabled selected>filtrer par pays</option>
           @for (pays of contries(); track pays.id) {
           <option [value]="pays.id">{{ pays.libelle }}</option>
           }
         </select>
       </div>
       }
-
-      <div class="flex gap-4">
-        <label class="text-xl">Type</label>
+       <div class="flex gap-4">
+        <!-- <label class="text-xl">Couverture</label> -->
         <select
-          formControlName="type"
-          class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30 flex text-center"
+          formControlName="couverture"
+          class="bg-gray-50 border border-gray-400 w-44 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
         >
-          <option value="">filtrer par type</option>
-          @for (type of types(); track type.id) {
-          <option [value]="type.id">{{ type.libelle }}</option>
-          }
+          <option value="0" disabled selected>filtrer par couverture</option>
+          <option value="Exhaustivité">Exhaustivité</option>
+          <option value="Non exhaustivité">Non exhaustivité</option>
         </select>
       </div>
-
-      @if (display2) {
+      
       <div class="flex gap-4">
-        <label class="text-xl">Direction</label>
+        <!-- <label class="text-xl">Statut</label> -->
         <select
-          formControlName="direction_id"
-          class="bg-white w-44 outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30 flex text-center"
+          formControlName="statut"
+          class="bg-gray-50 border border-gray-400 w-64 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
         >
-          <option value="0">filtrer par direction</option>
-          @for (direction of directions(); track direction.id) {
-          <option [value]="direction.id">{{ direction.libelle }}</option>
-          }
+          <option value="0" selected disabled>filtrer par statut</option>
+          <option value="Fait">Fait</option>
+          <option value="Non fait">Non fait</option>
+          <option value="Applicable">Applicable</option>
+          <option value="Non Applicable">Non applicable</option>
+        
         </select>
       </div>
-
-      <div class="flex gap-4">
-        <label class="text-xl">Département</label>
+        <div class="flex gap-4">
+        <!-- <label class="text-xl">Etat</label> -->
         <select
-          formControlName="departement_id"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center"
+          formControlName="validate"
+          class="bg-gray-50 border border-gray-400 w-32 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
         >
-          <option value="0">filtrer par département</option>
-          @for (departement of departements(); track departement.id) {
-          <option [value]="departement.id">{{ departement.libelle }}</option>
-          }
+          <option value="0" selected disabled>filtrer par etat</option>
+          <option value="Validé">Validé</option>
+          <option value="Non validé">Non validé</option>
         </select>
       </div>
-
-      <div class="flex gap-4">
-        <label class="text-xl">Pole</label>
+       <div class="flex gap-4">
+       
         <select
-          formControlName="pole_id"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center"
+          (click)="filtrerPar($event)"
+          class="bg-gray-50 border border-gray-400 w-64 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
         >
-          <option value="">filtrer par pole</option>
-          @for (pole of poles(); track pole.id) {
-          <option [value]="pole.id">{{ pole?.libelle }}</option>
-          }
+          <option value="0" disabled selected>filtrer par</option>
+          <option value="periodicite">Periodicité</option>
+          <option value="typePar">Type</option>
+          <option value="direction">Direction</option>
+          <option value="pole">Pole</option>
+          <option value="departement">Département</option>
+          <option value="service">Service</option>
+          <option value="risque">Risque</option>
+          <option value="anne">Année</option>
         </select>
       </div>
-
-      <div class="flex gap-4">
-        <label class="text-xl">Service</label>
-        <select
-          formControlName="service_id"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center"
-        >
-          <option value="0">filtrer par service</option>
-          @for (service of services(); track service.id) {
-          <option [value]="service.id">{{ service.libelle }}</option>
-          }
-        </select>
-      </div>
-
-      <div class="flex gap-4">
-        <label class="text-xl">Activite</label>
-        <select
-          formControlName="activite_id"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center"
-        >
-          <option value="0">filtrer par activité</option>
-          @for (activite of activites(); track activite.id) {
-          <option [value]="activite.id">{{ activite.libelle }}</option>
-          }
-        </select>
-      </div>
+      @if(options['periodicite']){
+        <div class="flex gap-4">
+         <select
+           formControlName="periodicite"
+           class="bg-gray-50 border border-gray-400 w-64 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+         >
+           <option value="0" disabled selected>filtrer par periodicite</option>
+           <option value="journalière">journalière</option>
+           <option value="mensuelle">mensuelle</option>
+           <option value="annuelle">annuelle</option>
+         </select>
+       </div>
+      }
+      @if(options['typePar']){
+        <div class="flex gap-4">
+          <!-- <label class="text-xl">Type</label> -->
+          <select
+            formControlName="type"
+            class="bg-gray-50 border border-gray-400 w-64 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          >
+            <option value="">filtrer par type</option>
+            @for (type of types(); track type.id) {
+            <option [value]="type.id">{{ type.libelle }}</option>
+            }
+          </select>
+        </div>
       }
 
-      <div class="flex gap-4">
+      @if (display2) {
+        @if(options['direction']){
+        <div class="flex gap-4">
+          <!-- <label class="text-xl">Direction</label> -->
+          <select
+            formControlName="direction_id"
+            class="bg-gray-50 border border-gray-400 w-64 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          >
+            <option value="0">filtrer par direction</option>
+            @for (direction of directions(); track direction.id) {
+            <option [value]="direction.id">{{ direction.libelle }}</option>
+            }
+          </select>
+        </div>
+        }
+        @if(options['departement']){
+          <div class="flex gap-4">
+            <!-- <label class="text-xl">Département</label> -->
+            <select
+              formControlName="departement_id"
+              class="bg-gray-50 border border-gray-400 w-64 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            >
+              <option value="0">filtrer par département</option>
+              @for (departement of departements(); track departement.id) {
+              <option [value]="departement.id">{{ departement.libelle }}</option>
+              }
+            </select>
+          </div>
+        }
+        @if(options['pole']){
+
+          <div class="flex gap-4">
+            <!-- <label class="text-xl">Pole</label> -->
+            <select
+              formControlName="pole_id"
+              class="bg-gray-50 border border-gray-400 w-64 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            >
+              <option value="">filtrer par pole</option>
+              @for (pole of poles(); track pole.id) {
+              <option [value]="pole.id">{{ pole?.libelle }}</option>
+              }
+            </select>
+          </div>
+        }
+        @if(options['service']){
+          <div class="flex gap-4">
+            <!-- <label class="text-xl">Service</label> -->
+            <select
+              formControlName="service_id"
+              class="bg-gray-50 border border-gray-400 w-64 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            >
+              <option value="0">filtrer par service</option>
+              @for (service of services(); track service.id) {
+              <option [value]="service.id">{{ service.libelle }}</option>
+              }
+            </select>
+          </div>
+        }
+        @if(options['activite']){
+          <div class="flex gap-4">
+            <!-- <label class="text-xl">Activite</label> -->
+            <select
+              formControlName="activite_id"
+              class="bg-gray-50 border border-gray-400 w-64 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            >
+              <option value="0">filtrer par activité</option>
+              @for (activite of activites(); track activite.id) {
+              <option [value]="activite.id">{{ activite.libelle }}</option>
+              }
+            </select>
+          </div>
+        }
+      }
+      @if(options['risque']){
+        <div class="flex gap-4">
+          <!-- <label class="text-xl">Risque</label> -->
+          <select
+            formControlName="risque_id"
+            class="bg-gray-50 border border-gray-400 w-64 h-12  form-control border-2  text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          >
+            <option value="0">filtrer par risque</option>
+            @for (risque of risques(); track risque.id) {
+            <option [value]="risque.id">{{ risque.libelle }}</option>
+            }
+          </select>
+        </div>
+      }
+      <!-- <div class="flex gap-4">
         <label class="text-xl">Controle</label>
         <select
           formControlName="controle_id"
@@ -165,34 +253,13 @@
           <option [value]="controle.id">{{ controle.nom_controle }}</option>
           }
         </select>
-      </div>
+      </div> -->
 
-      <div class="flex gap-4">
-        <label class="text-xl">Risque</label>
-        <select
-          formControlName="risque_id"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center"
-        >
-          <option value="0">filtrer par risque</option>
-          @for (risque of risques(); track risque.id) {
-          <option [value]="risque.id">{{ risque.libelle }}</option>
-          }
-        </select>
-      </div>
+     
 
-      <div class="flex gap-4">
-        <label class="text-xl">Couverture</label>
-        <select
-          formControlName="couverture"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center"
-        >
-          <option value="0">filtrer par couverture</option>
-          <option value="Exhaustivité">Exhaustivité</option>
-          <option value="Non exhaustivité">Non exhaustivité</option>
-        </select>
-      </div>
+     
 
-      @if (display2) {
+      <!-- @if (display2) {
       <div class="flex gap-4">
         <label class="text-xl">Porteur</label>
         <select
@@ -205,48 +272,14 @@
           }
         </select>
       </div>
-      }
+      } -->
 
-      <div class="flex gap-4">
-        <label class="text-xl">Periodicite</label>
-        <select
-          formControlName="periodicite"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center"
-        >
-          <option value="0">filtrer par periodicite</option>
-          <option value="journalière">journalière</option>
-          <option value="mensuelle">mensuelle</option>
-          <option value="annuelle">annuelle</option>
-        </select>
-      </div>
+     
 
-      <div class="flex gap-4">
-        <label class="text-xl">Statut</label>
-        <select
-          formControlName="statut"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center"
-        >
-          <option value="">filtrer par statut</option>
-          <option value="Fait">Fait</option>
-          <option value="Non fait">Non fait</option>
-          <option value="Applicable">Applicable</option>
-          <option value="Non applicable">Non applicable</option>
-          <!-- <option value="Transferer">Transferer</option> -->
-        </select>
-      </div>
+    
 
-      <div class="flex gap-4">
-        <label class="text-xl">Etat</label>
-        <select
-          formControlName="validate"
-          class="bg-white outline-none p-1 h-7 ring-1 ring-[#FF7900] rounded-xl shadow-md shadow-[#242a30] w-44 flex text-center"
-        >
-          <option value="">filtrer par etat</option>
-          <option value="Validé">Validé</option>
-          <option value="Non validé">Non validé</option>
-        </select>
-      </div>
-
+    
+<!-- 
       <div class="flex gap-4">
         <label class="text-xl">Année</label>
         <select
@@ -258,16 +291,16 @@
           <option value="2024">2024</option>
           <option value="2025">2025</option>
         </select>
-      </div>
+      </div> -->
     </div>
 
-    <div class="container   w-[100%] h-[100%] p-1 ">
+    <div class="container   w-[100%] h-[100%] p-1 mt-2">
       <div class=" w-[106%]  overflow-y-auto" >
         <table class=" w-[100%]">
-          <thead class="text-white bg-[#FF7900] ">
-            <tr class="text-lg font-semibold">
+          <thead class="text-white bg-[#FF7900]  sticky left-0 z-20">
+            <tr class="text-lg font-semibold ">
               <th>
-                <div class="sticky left-0 z-20">Type controle</div>
+                <div class="">Type controle</div>
               </th>
               <th>
                 <div>Direction</div>
@@ -334,33 +367,43 @@
           </thead>
           <tbody>
             <!-- <div>dcvkzdnnnnnnvvnvkv,ed</div> -->
-            @if (control) { @for (data of datas() |annee:selectedYear
-            |type:selectedType |contry2:selectedContry | direction2:selectedDir
-            |periodicite:selectedPrd |statut:selectedStat |validate:selectedVal
-            |risque:selectedRisk |controle:selectedCtrl |activite:selectedAct
-            |departement2:selectedDept |couverture:selectedCouv
-            |porteur:selectedUser |polectrl:selectedPole |service2:selectedServ
+            @if (control) {
+               @for (data of datas()  |
+               direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat 
+               |validate:selectedVal |risque:selectedRisk 
+               |activite:selectedAct |departement2:selectedDept
+               |couverture:selectedCouv |porteur:selectedUser |service2:selectedServ
+               |polectrl:selectedPole |annee:selectedYear
+               
             ; track data.id;) {
              <!-- < <pre>{{data|json}}</pre>  -->
-              
+             <!-- sticky left-0 z-20 -->
             <tr class="bg-white">
-              <td class="sticky left-0 z-20">
-                <div class="sticky left-0 z-20" >{{ data?.type_controle_id?.libelle }}</div>
+              <td class="">
+               @if(data?.type_controle_id && isObject(data.type_controle_id)){
+                <div class="" >{{ data?.type_controle_id?.libelle }}</div>
+               }@else{
+                <div class="" >N/A</div>
+               }
               </td>
               <td>
-                <div>{{ data?.direction_id.libelle }}</div>
+                <div>{{ data?.direction_id?.libelle }}</div>
               </td>
               <td>
+               @if(data?.pole_id && isObject(data?.pole_id)){
                 <div>{{ data?.pole_id?.libelle }}</div>
+               }@else{
+                <div>N/A</div>
+               }
               </td>
               <td>
-                <div>{{ data?.departement_id.libelle }}</div>
+                <div>{{ data?.departement_id?.libelle }}</div>
               </td>
               <td>
-                <div>{{ data?.service_id.libelle }}</div>
+                <div>{{ data?.service_id?.libelle }}</div>
               </td>
               <td>
-                <div>{{ data?.activite_id.libelle }}</div>
+                <div>{{ data?.activite_id?.libelle }}</div>
               </td>
               <td>
                 <div>{{ data?.controle }}</div>
@@ -379,7 +422,13 @@
               
               
               <td>
-                <div>{{ data?.risque_id?.libelle }}</div>
+                <div *ngIf="data?.risque_id && isObject(data.risque_id); else noRisque">
+                  <div>{{ data.risque_id.libelle }}</div>
+              </div>
+              <ng-template #noRisque>
+                  <div>N/A</div>
+              </ng-template>
+              
               </td>
               <td>
                 <div>{{ data?.user_id?.nom_complet }}</div>
@@ -430,7 +479,7 @@
                     >
                     <div
                       class="tooltip"
-                      *ngIf="hoveredIcon[data.id] === 'visibility'"
+                     *ngIf="hoveredIcon[data.id]==='invisibility'"
                     >
                       voir fiche control
                     </div>
@@ -447,7 +496,7 @@
                     >
                     <div
                       class="tooltip"
-                      *ngIf="hoveredIcon[data.id] === 'edit'"
+                      *ngIf="hoveredIcon[data.id]==='edit'"
                     >
                       editer le control
                     </div>
@@ -465,7 +514,7 @@
                     >
                     <div
                       class="tooltip"
-                      *ngIf="hoveredIcon[data.id] === 'archive'"
+                      *ngIf="hoveredIcon[data.id]==='archive'"
                     >
                       Archiver le control
                     </div>
@@ -486,7 +535,7 @@
                       >
                       <div
                         class="tooltip"
-                        *ngIf="hoveredIcon[data.id] === 'check_circle'"
+                        *ngIf="hoveredIcon[data.id]==='check_circle'"
                       >
                         valider le control
                       </div>
@@ -506,7 +555,7 @@
                     >
                     <div
                       class="tooltip"
-                      *ngIf="hoveredIcon[data.id] === 'cancel'"
+                      *ngIf="hoveredIcon[data.id]==='cancel'"
                     >
                       dévalider le control
                     </div>
@@ -515,7 +564,9 @@
                 </div>
               </td>
             </tr>
-            } } @if (archive) { @for (data of archives() |
+
+            } 
+          } @if (archive) { @for (data of archives() |
             direction2:selectedDir |periodicite:selectedPrd |statut:selectedStat
             |validate:selectedVal |risque:selectedRisk |controle:selectedCtrl
             |activite:selectedAct |departement2:selectedDept
@@ -690,16 +741,24 @@
         >
           <div class="grid gap-4 mb-4 grid-cols-2">
             <div class="col-span-2 sm:col-span-1">
-              <label
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              <label for="nom_controle"
+                class="block mb-2 form-label required text-sm font-medium text-gray-900 dark:text-white"
                 >Nom controle</label
               >
               <input
                 type="text"
+                id="nom_controle"
                 formControlName="controle"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="entrer le nom du controle"
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('controle')?.invalid &&(Data.get('controle')?.touched || Data.get('controle')?.dirty),
+                           'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('controle')?.valid &&(Data.get('controle')?.touched || Data.get('controle')?.dirty)}"
               />
+              @if(Data.get('controle')?.invalid && Data.get('controle')?.touched){
+                @if(Data.get('controle')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
               <!-- <select formControlName="controle_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                 <option value=0>choisir une controle</option>
@@ -718,7 +777,14 @@
                 formControlName="code"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="entrer le code du controle"
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('code')?.invalid &&(Data.get('code')?.touched || Data.get('code')?.dirty),
+                'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('code')?.valid &&(Data.get('code')?.touched || Data.get('code')?.dirty)}"
               />
+              @if(Data.get('code')?.invalid && Data.get('code')?.touched){
+                @if(Data.get('code')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label
@@ -729,7 +795,15 @@
                 formControlName="objectif"
                 placeholder="entrer l'objectif du controle"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              
+              [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('objectif')?.invalid &&(Data.get('objectif')?.touched || Data.get('objectif')?.dirty),
+                           'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('objectif')?.valid &&(Data.get('objectif')?.touched || Data.get('objectif')?.dirty)}"
               ></textarea>
+              @if(Data.get('objectif')?.invalid && Data.get('objectif')?.touched){
+                @if(Data.get('objectif')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label
@@ -740,52 +814,110 @@
                 formControlName="descriptif"
                 placeholder="entrer le descriptif du controle"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('descriptif')?.invalid &&(Data.get('descriptif')?.touched || Data.get('descriptif')?.dirty),
+                'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('descriptif')?.valid &&(Data.get('descriptif')?.touched || Data.get('descriptif')?.dirty)}"
               ></textarea>
+              @if(Data.get('descriptif')?.invalid && Data.get('descriptif')?.touched){
+                @if(Data.get('descriptif')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
+            
             </div>
-            <div class="col-span-2 mt-6 sm:col-span-1">
+            <div class="col-span-2 mt-8 sm:col-span-1">
               <label
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Type Controle</label
               >
-              <select
+              @if(!autreType){
+                <select
+                  formControlName="type" (click)="selectType($event)"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                >
+                  <option value="" selected disabled>choisir un type de controle</option>
+                  @for (type of types(); track type.id) {
+                  <option [value]="type.id">{{ type.libelle }}</option>
+                  }
+                  <option  value="autre">Autre</option>
+                </select>
+              }@else{
+                <input
+                type="text"
+                id="nom_controle"
                 formControlName="type"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              >
-                <option value="">choisir un type de controle</option>
-                @for (type of types(); track type.id) {
-                <option [value]="type.id">{{ type.libelle }}</option>
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="entrer le type de controle"
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('type')?.invalid &&(Data.get('type')?.touched || Data.get('type')?.dirty),
+                           'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('type')?.valid &&(Data.get('type')?.touched || Data.get('type')?.dirty)}"
+              />
+              @if(Data.get('type')?.invalid && Data.get('type')?.touched){
+                @if(Data.get('type')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
                 }
-              </select>
+              }
+              }
+              <!-- @if(Data.get('type')?.invalid && Data.get('type')?.touched){
+                @if(Data.get('type')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              } -->
             </div>
-            <div class="col-span-2 mt-6 sm:col-span-1">
+            <div class="col-span-2 mt-8  sm:col-span-1">
               <label
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Risque</label
               >
+              @if(!autreRisque){
               <select
                 formControlName="risque_id"
+                (click)="selectedRisque($event)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              >
-                <option value="0">choisir un risque</option>
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('risque_id')?.invalid &&(Data.get('risque_id')?.touched || Data.get('risque_id')?.dirty),
+                'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('risque_id')?.valid &&(Data.get('risque_id')?.touched || Data.get('risque_id')?.dirty)}"
+                >
+                <option value="" disabled selected>choisir un risque</option>
                 @for (risque of risques(); track risque.id) {
                 <option [value]="risque.id">{{ risque.libelle }}</option>
                 }
+                <option value="autre">Autre</option>
               </select>
+            }@else{
+              <input
+              type="text"
+              
+              formControlName="risque_id"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="entrez le libelle"
+              [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('risque_id')?.invalid &&(Data.get('risque_id')?.touched || Data.get('risque_id')?.dirty),
+                         'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('risque_id')?.valid &&(Data.get('risque_id')?.touched || Data.get('risque_id')?.dirty)}"
+            />
+            }
+              @if(Data.get('risque_id')?.invalid && Data.get('risque_id')?.touched){
+                @if(Data.get('risque_id')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
             </div>
             <div class="col-span-2 mt-2 sm:col-span-1">
               <label
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Porteur</label
               >
-              <select
+              <input
+              type="text"
+              formControlName="user_id" readonly
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="entrer le code du controle"
+            />
+              <!-- <select [disabled]="true"
                 formControlName="user_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
-                <option value="0">choisir un porteur</option>
+                <option value="" disabled selected>choisir un porteur</option>
                 @for (user of users(); track user.id) {
                 <option [value]="user.id">{{ user.nom_complet }}</option>
                 }
-              </select>
+              </select> -->
             </div>
             <div class="col-span-2 mt-2 sm:col-span-1">
               <label
@@ -795,12 +927,19 @@
               <select
                 formControlName="direction_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              >
-                <option value="0">choisir une direction</option>
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('direction_id')?.invalid &&(Data.get('direction_id')?.touched || Data.get('direction_id')?.dirty),
+                'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('direction_id')?.valid &&(Data.get('direction_id')?.touched || Data.get('direction_id')?.dirty)}"
+                >
+                <option value="" selected disabled>choisir une direction</option>
                 @for (direction of directions(); track direction.id) {
                 <option [value]="direction.id">{{ direction.libelle }}</option>
                 }
               </select>
+              @if(Data.get('direction_id')?.invalid && Data.get('direction_id')?.touched){
+                @if(Data.get('direction_id')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label
@@ -810,12 +949,19 @@
               <select
                 formControlName="pole_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              >
-                <option value="">choisir une pole</option>
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('pole_id')?.invalid &&(Data.get('pole_id')?.touched || Data.get('pole_id')?.dirty),
+                'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('pole_id')?.valid &&(Data.get('pole_id')?.touched || Data.get('pole_id')?.dirty)}"
+                >
+                <option value="" selected disabled>choisir une pole</option>
                 @for (pole of poles(); track pole.id) {
                 <option [value]="pole.id">{{ pole.libelle }}</option>
                 }
               </select>
+              @if(Data.get('pole_id')?.invalid && Data.get('pole_id')?.touched){
+                @if(Data.get('pole_id')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label
@@ -825,14 +971,21 @@
               <select
                 formControlName="departement_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              >
-                <option value="0">choisir un département</option>
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('departement_id')?.invalid &&(Data.get('departement_id')?.touched || Data.get('departement_id')?.dirty),
+                'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('departement_id')?.valid &&(Data.get('departement_id')?.touched || Data.get('departement_id')?.dirty)}"
+                >
+                <option value="" selected disabled>choisir un département</option>
                 @for (departement of departements(); track departement.id) {
                 <option [value]="departement.id">
                   {{ departement.libelle }}
                 </option>
                 }
               </select>
+              @if(Data.get('departement_id')?.invalid && Data.get('departement_id')?.touched){
+                @if(Data.get('departement_id')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label
@@ -842,12 +995,19 @@
               <select
                 formControlName="service_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('service_id')?.invalid &&(Data.get('service_id')?.touched || Data.get('service_id')?.dirty),
+                'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('service_id')?.valid &&(Data.get('service_id')?.touched || Data.get('service_id')?.dirty)}"
               >
-                <option value="0">choisir une service</option>
+                <option value="" selected disabled>choisir une service</option>
                 @for (service of services(); track service.id) {
                 <option [value]="service.id">{{ service.libelle }}</option>
                 }
               </select>
+              @if(Data.get('service_id')?.invalid && Data.get('service_id')?.touched){
+                @if(Data.get('service_id')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label
@@ -857,38 +1017,96 @@
               <select
                 formControlName="activite_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              >
-                <option value="0">choisir une activité</option>
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('activite_id')?.invalid &&(Data.get('activite_id')?.touched || Data.get('activite_id')?.dirty),
+                'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('activite_id')?.valid &&(Data.get('activite_id')?.touched || Data.get('activite_id')?.dirty)}"
+                >
+                <option value="" selected disabled>choisir une activité</option>
                 @for (activite of activites(); track activite.id) {
                 <option [value]="activite.id">{{ activite.libelle }}</option>
                 }
               </select>
+              @if(Data.get('activite_id')?.invalid && Data.get('activite_id')?.touched){
+                @if(Data.get('activite_id')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Périodicité</label
               >
+              @if(!autrePeriodicite){
+              <select
+                    formControlName="periodicite"
+                    (click)="selectedPeriodicite($event)"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('periodicite')?.invalid &&(Data.get('periodicite')?.touched || Data.get('periodicite')?.dirty),
+                'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('periodicite')?.valid &&(Data.get('periodicite')?.touched || Data.get('periodicite')?.dirty)}"
+                    >
+                    <option value="" selected disabled>filtrer par periodicite</option>
+                    <option value="journalière">journalière</option>
+                    <option value="mensuelle">mensuelle</option>
+                    <option value="annuelle">annuelle</option>
+                    <option value="autre">Autre</option>
+              </select>
+            }@else{
               <input
+              type="text"
+              id=""
+              formControlName="periodicite"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="entrez le libelle"
+              [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('periodicite')?.invalid &&(Data.get('periodicite')?.touched || Data.get('periodicite')?.dirty),
+                         'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('periodicite')?.valid &&(Data.get('periodicite')?.touched || Data.get('periodicite')?.dirty)}"
+            />
+            }
+              @if(Data.get('periodicite')?.invalid && Data.get('periodicite')?.touched){
+                @if(Data.get('periodicite')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
+              <!-- <input
                 type="text"
                 formControlName="periodicite"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="entrer la periodicité"
-              />
+              /> -->
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Couverture</label
               >
+              @if(!autreExhaustivite){
               <select
                 formControlName="exhaustivite"
+                (click)="selectedExhaustivite($event)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              >
-                <option value="0">choisir une couverture</option>
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('exhaustivite')?.invalid &&(Data.get('exhaustivite')?.touched || Data.get('exhaustivite')?.dirty),
+                'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('exhaustivite')?.valid &&(Data.get('exhaustivite')?.touched || Data.get('exhaustivite')?.dirty)}"
+                >
+                <option value="" selected disabled>choisir une couverture</option>
                 <option value="Exhaustivité">Exhaustivité</option>
                 <option value="Non exhaustivité">Non exhaustivité</option>
+                <option value="autre">Autre</option>
               </select>
+            }@else{
+              <input
+              type="text"
+              
+              formControlName="exhaustivite"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="entrer le libelle "
+              [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('exhaustivite')?.invalid &&(Data.get('exhaustivite')?.touched || Data.get('exhaustivite')?.dirty),
+                         'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('exhaustivite')?.valid &&(Data.get('exhaustivite')?.touched || Data.get('exhaustivite')?.dirty)}"
+            />
+            }
+              @if(Data.get('exhaustivite')?.invalid && Data.get('exhaustivite')?.touched){
+                @if(Data.get('exhaustivite')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label
@@ -900,7 +1118,14 @@
                 formControlName="preuve"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="saisir la preuve demandée"
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('preuve')?.invalid &&(Data.get('preuve')?.touched || Data.get('preuve')?.dirty),
+                'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('preuve')?.valid &&(Data.get('preuve')?.touched || Data.get('preuve')?.dirty)}"
               />
+              @if(Data.get('preuve')?.invalid && Data.get('preuve')?.touched){
+                @if(Data.get('preuve')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
             </div>
 
             <div class="col-span-2 sm:col-span-1">
@@ -927,25 +1152,42 @@
                 </ul>
               </div>
             </div>
-            
-            
-            
 
             <div class="col-span-2 sm:col-span-1">
               <label
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >statut</label
+                >Statut</label
               >
+              @if(!autreEtat){
               <select
                 formControlName="etat"
+                (click)="selectedEtat($event)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              >
-                <option value="">choisir un statut</option>
+                [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('etat')?.invalid &&(Data.get('etat')?.touched || Data.get('etat')?.dirty),
+                'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('etat')?.valid &&(Data.get('etat')?.touched || Data.get('etat')?.dirty)}"
+                >
+                <option value="" selected disabled>choisir un statut</option>
                 <option value="Applicable">Applicable</option>
                 <option value="Non Applicable">Nom Applicable</option>
                 <option value="Fait">Fait</option>
                 <option value="Non fait">Non fait</option>
+                <option value="autre">Autre</option>
               </select>
+            }@else{
+              <input
+              type="text"
+              formControlName="etat"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="entrer un statut"
+              [ngClass]="{'floating_outlined_error  dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600':Data.get('etat')?.invalid &&(Data.get('etat')?.touched || Data.get('etat')?.dirty),
+                         'floating_outlined_success  dark:border-green-500 border-green-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600':Data.get('etat')?.valid &&(Data.get('etat')?.touched || Data.get('etat')?.dirty)}"
+            />
+            }
+              @if(Data.get('etat')?.invalid && Data.get('etat')?.touched){
+                @if(Data.get('etat')?.hasError('required')){
+                  <div class="text-red-600 text-ms">Ce champs est obligatoire</div>
+                }
+              }
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label
@@ -956,11 +1198,13 @@
                 formControlName="commentaire"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               ></textarea>
+
             </div>
           </div>
           <div class="flex">
             <button
               (click)="addOrUp()"
+              [disabled]="Data.invalid"
               class="text-white bg-[#FF7900] inline-flex items-center font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:bg-orange-600"
             >
               {{ btn }}
